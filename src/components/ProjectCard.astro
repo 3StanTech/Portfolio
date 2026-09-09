@@ -13,6 +13,7 @@ const { project, headingLevel = 3, compact = false } = Astro.props;
 const Heading = `h${headingLevel}`;
 const d = project.data;
 const titleLinkLabel = `${d.title}: view details`;
+const visitLabel = d.liveLabel ?? 'View site';
 ---
 <article class:list={[
   'card panel',
@@ -44,9 +45,9 @@ const titleLinkLabel = `${d.title}: view details`;
           href={d.liveUrl}
           target="_blank"
           rel="noopener"
-          aria-label={`Visit the ${d.title} site (opens in new tab)`}
+          aria-label={`${visitLabel} — ${d.title} (opens in new tab)`}
         >
-          View site
+          {visitLabel}
           <Icon name="external" />
         </a>
       )}

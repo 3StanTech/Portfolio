@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import CTA from '../components/CTA.astro';
 import Constellation from '../components/Constellation.astro';
 import Icon from '../components/Icon.astro';
-import logoNight from '../assets/logo-night-studio.png';
+import profilePhoto from '../assets/tristan-profile.jpg';
 
 const principles = [
   {
@@ -44,13 +44,12 @@ const stackGroups = [
           <h1 class="page-title">A practical partner for <span class="hero-mark">small-business</span> sites.</h1>
         </header>
         <div class="about-profile" data-reveal>
-          <div class="about-monogram">
+          <div class="about-monogram about-monogram-photo">
             <Image
-              src={logoNight}
-              alt="Tristan Dolfo monogram: silver TD with amber swoosh on navy"
-              width={960}
-              height={960}
-              format="png"
+              src={profilePhoto}
+              alt="Portrait of Tristan Dolfo, smiling, in a navy coat and grey scarf"
+              width={600}
+              height={600}
               loading="eager"
               fetchpriority="high"
               decoding="async"
@@ -84,8 +83,8 @@ const stackGroups = [
       </div>
       <div class="about-intro" data-reveal>
         <div class="about-bio">
-          <p class="about-lede">I’m Tristan, a software developer from the Philippines. I build polished, and reliable websites and systems for various businesses.</p>
-          <p>My working style is honest: Work scope and offers are made clear. I help bring your vision to light. Then, I materialize your desired product through code. Also, I build small interactive systems with serverless APIs, meticulous frontend behavior, and reliable backend work.</p>
+          <p class="about-lede">I’m Tristan, a software developer from the Philippines. I build polished and reliable websites and systems for various businesses.</p>
+          <p>I research before assuming and stay close to the problem. Form and function stay together. I treat failure as part of the work, I am careful about how digital mediums change meaning, and the work is better when we build it together.</p>
           <CTA showPhone subject="Portfolio inquiry" class="about-cta" />
         </div>
       </div>

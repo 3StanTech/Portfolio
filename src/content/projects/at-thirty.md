@@ -10,6 +10,7 @@ stack:
   - JavaScript
   - Netlify Blobs
 liveUrl: https://bday-public.netlify.app/
+liveLabel: Visit interactive demo version
 repoUrl: https://github.com/dolfonator/Birthday-Website-Demo
 year: 2026
 summary: A privacy-safe full-stack birthday keepsake with an editable story, shared letters, gallery uploads, and interactive reveal controls.

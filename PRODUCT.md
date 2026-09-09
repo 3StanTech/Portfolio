@@ -8,19 +8,19 @@ web
 
 ## Users
 
-Owners and decision-makers of Philippine local businesses — restaurants, cafés,
-clinics, and small service teams, mostly in and around Quezon City. They are
-non-technical, usually evaluating on a phone over metered mobile data, and
-deciding one thing: *"Is this developer legit and worth emailing?"* Their job to
-be done is to judge credibility fast, then reach out with the least friction.
+Owners and decision-makers of small businesses worldwide — restaurants, cafés,
+clinics, and small service teams. They are non-technical, usually evaluating on a
+phone over metered mobile data, and deciding one thing: *"Is this developer legit
+and worth emailing?"* Their job to be done is to judge credibility fast, then
+reach out with the least friction.
 
 A secondary audience is peers and recruiters spot-checking the craft — the build
 quality of the portfolio itself is part of what they're judging.
 
 ## Product Purpose
 
-A freelance web-developer portfolio that converts local-business owners into
-inbound inquiries (email and phone). It exists to prove, by demonstration, that
+A freelance web-developer portfolio that converts small-business owners and
+decision-makers worldwide into inbound inquiries (email and phone). It exists to prove, by demonstration, that
 Tristan ships fast, polished, practical websites — the site itself is the
 strongest sample of the work. Success is a qualified inquiry landing in the
 inbox; the credibility signal to peers is a supporting outcome. This is a v1 on a
@@ -78,5 +78,5 @@ pricing, or live-client claims beyond what these sources support.
 - Full keyboard operability with visible `:focus-visible` states, a skip link, and
   semantic landmarks.
 - `prefers-reduced-motion` is honored for every animation (reveal, hover, theme).
-- Mobile-first and fast on low-end devices over metered connections — the primary
-  audience is on phones.
+- Mobile-first and fast on low-end devices over metered connections — phones are
+  the primary device.

@@ -638,6 +638,8 @@ li + li { margin-top: .35rem; }
 .card-visit {
   position: relative;
   z-index: 3;
+  white-space: normal;
+  text-align: center;
 }
 
 .split {
@@ -671,12 +673,6 @@ li + li { margin-top: .35rem; }
   content: counter(step, decimal-leading-zero);
   font-weight: 850;
   color: var(--accent-ink);
-}
-.process-time {
-  margin-top: .35rem;
-  color: var(--ink-soft);
-  font-size: .86rem;
-  line-height: 1.35;
 }
 .cta-band {
   display: grid;
@@ -1102,6 +1098,9 @@ li + li { margin-top: .35rem; }
   object-fit: cover;
   object-position: center;
   display: block;
+}
+.about-monogram-photo img {
+  object-position: center 18%;
 }
 .about-profile-notes { display: grid; gap: var(--space-4); }
 .about-profile blockquote {

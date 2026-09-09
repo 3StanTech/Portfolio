@@ -10,7 +10,7 @@ summary: A pearl-anniversary album with story chapters, gallery, letters, and ci
 blurb: Pearl-anniversary keepsake album with story, gallery, and letters.
 outcome: Public demo with isolated Blob storage and automatic sanitized reset.
 liveUrl: https://publicdemo-anniv-celebration.netlify.app
-liveLabel: Visit the public-demo version
+liveLabel: Visit interactive demo version
 demoNote: Demo only — fictional couple; guest edits may reset daily.
 repoUrl: https://github.com/dolfonator/PublicDemo-Anniv-Celebration
 coverAlt: Couple embracing outdoors in warm golden light at sunset
