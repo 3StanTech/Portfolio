@@ -34,6 +34,15 @@ const stackGroups = [
   { label: 'Agentic Tools', items: ['Claude Code', 'OpenAI Codex', 'Grok Build', 'Ollama', 'OpenRouter'] },
   { label: 'Embedded', items: ['ESP32', 'Arduino', 'Raspberry Pi', 'C++'] },
 ];
+
+const values = [
+  'Look into it before I decide.',
+  'How it looks and how it works stay one job.',
+  'Misses stay in the process.',
+  'The format changes what a message means.',
+  'I keep the real need in view.',
+  'Better work happens with you in it.',
+];
 ---
 <Base title="About | Tristan" description="About Tristan, a software developer building reliable sites and systems for businesses and specific needs." canonical="/about/">
   <section class="section band-mist">
@@ -84,10 +93,15 @@ const stackGroups = [
       <div class="about-intro" data-reveal>
         <div class="about-bio">
           <p class="about-lede">I’m Tristan, a software developer from the Philippines. I build polished and reliable websites and systems for various businesses.</p>
-          <p>I research before assuming and stay close to the problem. Form and function stay together. I treat failure as part of the work, I am careful about how digital mediums change meaning, and the work is better when we build it together.</p>
           <CTA showPhone subject="Portfolio inquiry" class="about-cta" />
         </div>
       </div>
+    </div>
+    <div class="container about-values" data-reveal>
+      <h2 class="about-values-label">What I bring to a build</h2>
+      <ul class="about-values-list">
+        {values.map((value) => <li>{value}</li>)}
+      </ul>
     </div>
   </section>
 

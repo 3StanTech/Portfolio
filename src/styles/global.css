@@ -1175,12 +1175,62 @@ li + li { margin-top: .35rem; }
   max-width: 46ch;
   text-wrap: pretty;
 }
-.about-bio p:not(.about-lede) {
-  color: var(--ink-soft);
-  max-width: 52ch;
-  text-wrap: pretty;
-}
 .about-cta { margin-top: var(--space-3); }
+
+.about-values {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--poly-divider);
+}
+.about-values-label {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(1.15rem, 1rem + .4vw, 1.35rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+}
+.about-values-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem .75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.about-values-list li {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: .7rem 1.2rem;
+  min-height: 2.5rem;
+  max-width: 100%;
+  border: 2px solid var(--value-line, var(--line-strong));
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: break-word;
+}
+.about-values-list li:nth-child(1) { --value-line: var(--link); }
+.about-values-list li:nth-child(2) { --value-line: var(--brand); }
+.about-values-list li:nth-child(3) { --value-line: var(--accent-ink); }
+.about-values-list li:nth-child(4) { --value-line: var(--ink); }
+.about-values-list li:nth-child(5) { --value-line: var(--ink-soft); }
+.about-values-list li:nth-child(6) { --value-line: color-mix(in srgb, var(--link) 55%, var(--accent-ink)); }
+
+@media (max-width: 520px) {
+  .about-values-list {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .about-values-list li { width: 100%; }
+}
 
 /* Quiet zone over constellation fields — opaque panel over the star field.
    Used by the About tech-stack rows; the closers instead fade the field
