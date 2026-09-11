@@ -34,6 +34,7 @@ master.md
 CHANGELOG.md
 AGENTS.md
 .claude/
+.netlify/
 .impeccable/
 portfolio-progress-after-continue.md
 cleanup-public-repos.sh
