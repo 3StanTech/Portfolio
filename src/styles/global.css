@@ -951,8 +951,16 @@ li + li { margin-top: .35rem; }
 }
 .about-masthead .page-head { margin-bottom: 0; }
 .about-intro {
-  padding-top: var(--space-5);
-  border-top: 1px solid var(--poly-divider);
+  padding: clamp(1.25rem, 1rem + 1.2vw, 2rem);
+  border: 2px solid color-mix(in srgb, var(--steel) 58%, transparent);
+  border-radius: var(--radius);
+}
+.about-intro .button-row {
+  flex-wrap: nowrap;
+  gap: .55rem;
+}
+.about-intro .button {
+  padding-inline: .9rem;
 }
 
 /* Services: flat tier cards with one clearly recommended option */
@@ -1106,7 +1114,7 @@ li + li { margin-top: .35rem; }
 .about-profile blockquote {
   margin: 0;
   padding-left: var(--space-3);
-  border-left: 3px solid var(--accent-ink);
+  border-left: 3px solid var(--amber);
   color: var(--ink);
   font-family: var(--font-display);
   font-size: clamp(1.1rem, 1rem + .5vw, 1.35rem);
@@ -1195,21 +1203,24 @@ li + li { margin-top: .35rem; }
   color: var(--ink);
 }
 .about-values-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, max-content));
+  justify-content: start;
   gap: .65rem .75rem;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 .about-values-list li {
+  --value-line: var(--amber);
   display: inline-flex;
   align-items: center;
   margin: 0;
   padding: .7rem 1.2rem;
+  min-width: 0;
   min-height: 2.5rem;
   max-width: 100%;
-  border: 2px solid var(--value-line, var(--line-strong));
+  border: 2px solid var(--value-line);
   border-radius: 999px;
   background: var(--panel);
   color: var(--ink);
@@ -1217,17 +1228,11 @@ li + li { margin-top: .35rem; }
   line-height: 1.3;
   overflow-wrap: break-word;
 }
-.about-values-list li:nth-child(1) { --value-line: var(--link); }
-.about-values-list li:nth-child(2) { --value-line: var(--brand); }
-.about-values-list li:nth-child(3) { --value-line: var(--accent-ink); }
-.about-values-list li:nth-child(4) { --value-line: var(--ink); }
-.about-values-list li:nth-child(5) { --value-line: var(--ink-soft); }
-.about-values-list li:nth-child(6) { --value-line: color-mix(in srgb, var(--link) 55%, var(--accent-ink)); }
 
 @media (max-width: 520px) {
+  .about-intro .button-row { flex-wrap: wrap; }
   .about-values-list {
-    flex-direction: column;
-    align-items: stretch;
+    grid-template-columns: 1fr;
   }
   .about-values-list li { width: 100%; }
 }
