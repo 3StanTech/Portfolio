@@ -12,7 +12,7 @@ outcome: Public demo with isolated Blob storage and automatic sanitized reset.
 liveUrl: https://publicdemo-anniv-celebration.netlify.app
 liveLabel: Visit interactive demo version
 demoNote: Demo only — fictional couple; guest edits may reset daily.
-repoUrl: https://github.com/dolfonator/PublicDemo-Anniv-Celebration
+repoUrl: https://github.com/3StanTech/PublicDemo-Anniv-Celebration
 coverAlt: Couple embracing outdoors in warm golden light at sunset
 cover: ../../assets/pearl-anniversary-hero.webp
 ---

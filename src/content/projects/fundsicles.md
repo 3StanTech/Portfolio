@@ -12,7 +12,7 @@ outcome: Browser-only public demo with IndexedDB persistence and one-click reset
 liveUrl: https://publicdemo-expense-tracker.netlify.app
 liveLabel: Visit interactive demo version
 demoNote: Demo only — sample data stays in your browser. PIN 123456.
-repoUrl: https://github.com/dolfonator/PublicDemo-Expense-Tracker
+repoUrl: https://github.com/3StanTech/PublicDemo-Expense-Tracker
 coverAlt: Fundsicles home dashboard with sample balances, budget progress, and recent transactions
 cover: ../../assets/fundsicles-home.webp
 ---

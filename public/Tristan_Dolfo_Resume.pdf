@@ -15,7 +15,7 @@ endobj
 endobj
 3 0 obj
 <<
-/Contents 4 0 R
+/Contents 14 0 R
 /MediaBox [ 0 0 612 792 ]
 /Resources <<
 /Font 5 0 R
@@ -26,6 +26,7 @@ endobj
 >>
 /Type /Page
 /Parent 2 0 R
+/Annots [ 15 0 R ]
 >>
 endobj
 4 0 obj
@@ -619,28 +620,212 @@ endobj
 /Trapped (\057False)
 >>
 endobj
+14 0 obj
+<<
+/Length 7497
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+BT /F2 27 Tf 32.4 TL ET
+0 .560784 .541176 rg
+BT 1 0 0 1 54 746 Tm (John Tristan R. Dolfo) Tj T* ET
+BT /F2 14 Tf 16.8 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 54 717 Tm (FULL-STACK DEVELOPER) Tj T* ET
+BT /F1 9.4 Tf 11.28 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 54 700 Tm (Quezon City, Philippines | tristandolfo@gmail.com | +63 999 882 7004) Tj T* ET
+BT /F1 9.4 Tf 11.28 TL ET
+0 .560784 .541176 rg
+BT 1 0 0 1 54 688 Tm (tristandolfo.netlify.app | github.com/3StanTech) Tj T* ET
+BT /F2 9.4 Tf 11.28 TL ET
+0 .560784 .541176 rg
+BT 1 0 0 1 54 664 Tm (PROFESSIONAL SUMMARY) Tj T* ET
+.835294 .866667 .905882 RG
+.5 w
+n 54 657 m 558 657 l S
+BT /F1 9.6 Tf 11.52 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 54 644 Tm (Full-stack developer delivering paid client websites and internal tools from requirements through deployment. Built and) Tj T* ET
+BT 1 0 0 1 54 631.4 Tm (maintain production systems now used by a Metro Manila cafe, a personal-finance client, and a family anniversary) Tj T* ET
+BT 1 0 0 1 54 618.8 Tm (project. Prioritizes responsive, accessible, reliable products and efficient workflows.) Tj T* ET
+BT /F2 9.4 Tf 11.28 TL ET
+0 .560784 .541176 rg
+BT 1 0 0 1 54 592.2 Tm (WORK EXPERIENCE) Tj T* ET
+.835294 .866667 .905882 RG
+.5 w
+n 54 585.2 m 558 585.2 l S
+BT /F2 11.4 Tf 13.68 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 54 572.2 Tm (Freelance Software Developer) Tj T* ET
+BT /F2 9.8 Tf 11.76 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 465.9486 572.2 Tm (June 2026 - Present) Tj T* ET
+BT /F1 9.2 Tf 11.04 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 54 558.2 Tm (Quezon City, Philippines | Client websites and business systems) Tj T* ET
+BT /F1 9.5 Tf 11.4 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 58 544.2 Tm (-) Tj T* ET
+BT 1 0 0 1 66 544.2 Tm (Delivered a paid Cafe Order & CRM Dashboard, a mobile-first PWA now used by a Metro Manila cafe for order) Tj T* ET
+BT 1 0 0 1 66 532 Tm (intake, customer records, data import, and administrative settings.) Tj T* ET
+BT /F1 9.5 Tf 11.4 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 58 517.8 Tm (-) Tj T* ET
+BT 1 0 0 1 66 517.8 Tm (Built and launched Fundsicles, a paid full-stack personal-finance system with Supabase authentication, Row Level) Tj T* ET
+BT 1 0 0 1 66 505.6 Tm (Security, transactions, budgets, reports, goals, and debts; it is live and in active use.) Tj T* ET
+BT /F1 9.5 Tf 11.4 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 58 491.4 Tm (-) Tj T* ET
+BT 1 0 0 1 66 491.4 Tm (Built and launched a paid full-stack 30th anniversary keepsake with passcode access, a private gallery, editable) Tj T* ET
+BT 1 0 0 1 66 479.2 Tm (letters, and cinematic playback; it is live and in active family use.) Tj T* ET
+BT /F1 9.5 Tf 11.4 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 58 465 Tm (-) Tj T* ET
+BT 1 0 0 1 66 465 Tm (Built additional client work for Justdiz Preproductions, Herminia's Food, and The Big Thirty using React, TypeScript,) Tj T* ET
+BT 1 0 0 1 66 452.8 Tm (Astro, Supabase, Netlify, Vercel, responsive design, and accessibility practices.) Tj T* ET
+BT /F2 11.4 Tf 13.68 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 54 433.6 Tm (IT Intern, Research and Standards Development Department) Tj T* ET
+BT /F2 9.8 Tf 11.76 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 457.7656 433.6 Tm (June 3 - July 16, 2026) Tj T* ET
+BT /F1 9.2 Tf 11.04 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 54 419.6 Tm (Metropolitan Waterworks and Sewerage System - Corporate Office \(MWSS\) | Quezon City, PH) Tj T* ET
+BT /F1 9.5 Tf 11.4 TL ET
+.086275 .12549 .168627 rg
+BT /F1 9.5 Tf 11.4 TL ET
+.086275 .12549 .168627 rg
+q 1 0 0 1 0 14 cm
+BT 1 0 0 1 58 391.4 Tm (-) Tj T* ET
+BT 1 0 0 1 66 391.4 Tm (Supported daily IT operations by assisting with operational systems, installing Wi-Fi access points, configuring basic) Tj T* ET
+BT 1 0 0 1 66 379.2 Tm (networks, and troubleshooting hardware issues.) Tj T* ET
+BT /F1 9.5 Tf 11.4 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 58 365 Tm (-) Tj T* ET
+BT 1 0 0 1 66 365 Tm (Helped develop a document management system that transformed a static spreadsheet of documents into a) Tj T* ET
+BT 1 0 0 1 66 352.8 Tm (searchable records system with structured categories and filters, making document retrieval more efficient for staff.) Tj T* ET
+BT /F2 9.4 Tf 11.28 TL ET
+0 .560784 .541176 rg
+BT 1 0 0 1 54 319.6 Tm (EDUCATION) Tj T* ET
+.835294 .866667 .905882 RG
+.5 w
+n 54 312.6 m 558 312.6 l S
+BT /F2 10.3 Tf 12.36 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 54 299.6 Tm (BS Electronics Engineering, Ateneo de Davao University) Tj T* ET
+BT /F1 9.5 Tf 11.4 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 507.2985 299.6 Tm (2021 - 2026) Tj T* ET
+BT 1 0 0 1 54 284.6 Tm (BS Life Sciences, Ateneo de Manila University) Tj T* ET
+BT /F1 9.5 Tf 11.4 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 507.2985 284.6 Tm (2018 - 2020) Tj T* ET
+BT /F2 9.4 Tf 11.28 TL ET
+0 .560784 .541176 rg
+q 1 0 0 1 0 -10 cm
+q 1 0 0 1 0 -10 cm
+BT 1 0 0 1 54 270.6 Tm (SELECTED PROJECTS) Tj T* ET
+.835294 .866667 .905882 RG
+.5 w
+n 54 263.6 m 558 263.6 l S
+BT /F2 10.9 Tf 13.08 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 54 250.6 Tm (Cafe Order & CRM Dashboard) Tj T* ET
+BT /F2 9.6 Tf 11.52 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 536.6496 250.6 Tm (2026) Tj T* ET
+BT /F1 8.9 Tf 10.68 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 54 237.6 Tm (Paid personal commission | Full-stack: React, TypeScript, Supabase, Netlify) Tj T* ET
+BT /F1 9.1 Tf 10.92 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 58 224.6 Tm (-) Tj T* ET
+BT 1 0 0 1 66 224.6 Tm (Built and deployed a PIN-gated PWA for orders, customer records, data imports, and admin settings; the paid system) Tj T* ET
+BT 1 0 0 1 66 213.2 Tm (remains live and in client use.) Tj T* ET
+BT /F2 10.9 Tf 13.08 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 54 194.8 Tm (Fundsicles - Expense Tracker) Tj T* ET
+BT /F2 9.6 Tf 11.52 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 536.6496 194.8 Tm (2026) Tj T* ET
+BT /F1 8.9 Tf 10.68 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 54 181.8 Tm (Paid personal commission | Full-stack: Vite, React, TypeScript, Supabase, PostgreSQL, Vercel | fundsicles.vercel.app) Tj T* ET
+BT /F1 9.1 Tf 10.92 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 58 168.8 Tm (-) Tj T* ET
+BT 1 0 0 1 66 168.8 Tm (Built and maintain a finance app with email authentication, RLS, accounts, transactions, budgets, reports, goals, and) Tj T* ET
+BT 1 0 0 1 66 157.4 Tm (debts; the paid system is live and in active use.) Tj T* ET
+BT /F2 10.9 Tf 13.08 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 54 139 Tm (30th Anniversary Celebration) Tj T* ET
+BT /F2 9.6 Tf 11.52 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 536.6496 139 Tm (2026) Tj T* ET
+BT /F1 8.9 Tf 10.68 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 54 126 Tm (Paid personal commission | Full-stack: HTML, CSS, JavaScript, Vercel Functions, Vercel Blob | 30th-anniv.vercel.app) Tj T* ET
+BT /F1 9.1 Tf 10.92 TL ET
+.086275 .12549 .168627 rg
+BT 1 0 0 1 58 113 Tm (-) Tj T* ET
+BT 1 0 0 1 66 113 Tm (Built a live passcode-protected anniversary site with story chapters, a private gallery, editable letters, story and album) Tj T* ET
+BT 1 0 0 1 66 101.6 Tm (playbacks with auto-playing music, and private Blob storage; it is currently used by the family.) Tj T* ET
+.835294 .866667 .905882 RG
+.5 w
+Q
+Q
+Q
+n 54 43 m 558 43 l S
+BT /F2 7.8 Tf 9.36 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 54 26 Tm (TRISTAN DOLFO  |  FULL-STACK DEVELOPER) Tj T* ET
+BT /F2 7.8 Tf 9.36 TL ET
+.34902 .419608 .509804 rg
+BT 1 0 0 1 553.6632 26 Tm (1) Tj T* ET
+ 
+
+endstream
+endobj
+15 0 obj
+<<
+/Type /Annot
+/Subtype /Link
+/P 3 0 R
+/Rect [ 153.1042 686.0542 247.1512 695.4542 ]
+/H /I
+/Border [ 0 0 0 ]
+/A <<
+/S /URI
+/URI (https\072\057\057github\056com\0573StanTech)
+>>
+>>
+endobj
 xref
-0 14
+0 16
 0000000000 65535 f 
 0000000015 00000 n 
 0000000064 00000 n 
 0000000129 00000 n 
-0000000318 00000 n 
-0000007868 00000 n 
-0000007909 00000 n 
-0000008016 00000 n 
-0000008128 00000 n 
-0000008318 00000 n 
-0000012967 00000 n 
-0000013011 00000 n 
-0000013119 00000 n 
-0000013232 00000 n 
+0000000338 00000 n 
+0000007888 00000 n 
+0000007929 00000 n 
+0000008036 00000 n 
+0000008148 00000 n 
+0000008338 00000 n 
+0000012987 00000 n 
+0000013031 00000 n 
+0000013139 00000 n 
+0000013252 00000 n 
+0000013579 00000 n 
+0000021129 00000 n 
 trailer
 <<
-/Size 14
+/Size 16
 /Root 1 0 R
 /Info 13 0 R
 >>
 startxref
-13559
+21326
 %%EOF

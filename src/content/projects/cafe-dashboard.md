@@ -12,7 +12,7 @@ outcome: Full-stack PWA order & CRM dashboard, live in production. Public demo r
 liveUrl: https://publicdemo-order-crm.vercel.app/
 liveLabel: Visit interactive demo version
 demoNote: Demo only — production holds live customer data. PIN 123456.
-repoUrl: https://github.com/dolfonator/PublicDemo-Order-CRM-Dashboard
+repoUrl: https://github.com/3StanTech/PublicDemo-Order-CRM-Dashboard
 coverAlt: PIN entry screen of the Order Management System + CRM Dashboard login
 cover: ../../assets/cafe-dashboard-pin.png
 ---
