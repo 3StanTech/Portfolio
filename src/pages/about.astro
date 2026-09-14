@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import CTA from '../components/CTA.astro';
 import Constellation from '../components/Constellation.astro';
 import Icon from '../components/Icon.astro';
-import profilePhoto from '../assets/tristan-profile.jpg';
+import profilePhoto from '../assets/tristan-profile-centered.png';
 
 const principles = [
   {
@@ -40,62 +40,60 @@ const values = [
   'Neither is sacrificed between Form & Function.',
   'Your problem is my problem.',
   'Design is better built together.',
+  'Good design leaves room to grow.',
+  'Learn, refine, repeat.',
 ];
 ---
 <Base title="About | Tristan" description="About Tristan, a software developer building reliable sites and systems for businesses and specific needs." canonical="/about/">
-  <section class="section band-mist">
+  <section class="section band-mist about-opening">
     <div class="container about-masthead">
-      <div class="about-identity">
-        <header class="page-head" data-reveal>
+      <div class="about-monogram about-monogram-photo" data-reveal>
+        <Image
+          src={profilePhoto}
+          alt="Portrait of Tristan Dolfo, smiling, in a navy coat and grey scarf"
+          width={1122}
+          height={1402}
+          widths={[280, 560, 840]}
+          sizes="(max-width: 860px) min(240px, calc(100vw - 1.25rem)), 280px"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+      <div class="about-intro" data-reveal>
+        <header class="page-head">
           <p class="page-kicker"><span class="hero-dot" aria-hidden="true"></span>Philippines · software developer</p>
           <h1 class="page-title">A practical partner for <span class="hero-mark">small-business</span> sites.</h1>
         </header>
-        <div class="about-profile" data-reveal>
-          <div class="about-monogram about-monogram-photo">
-            <Image
-              src={profilePhoto}
-              alt="Portrait of Tristan Dolfo, smiling, in a navy coat and grey scarf"
-              width={600}
-              height={600}
-              widths={[600, 900, 1200]}
-              sizes="(max-width: 520px) 15rem, (max-width: 860px) min(42vw, 22rem), min(26vw, 26rem)"
-              loading="eager"
-              fetchpriority="high"
-              decoding="async"
-            />
-          </div>
-          <div class="about-profile-notes">
-            <blockquote>Make the offer clear, make the site fast, make the next action obvious.</blockquote>
-            <dl class="about-facts">
-              <div><dt>Based in</dt><dd>Philippines</dd></div>
-              <div>
-                <dt>GitHub</dt>
-                <dd>
-                  <a href="https://github.com/3StanTech" target="_blank" rel="noopener">
-                    <Icon name="github" />
-                    3StanTech
-                  </a>
-                </dd>
-              </div>
-              <div>
-                <dt>Resume</dt>
-                <dd>
-                  <a href="/Tristan_Dolfo_Resume.pdf" target="_blank" rel="noopener">
-                    <Icon name="document" />
-                    View Resume
-                  </a>
-                </dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-      </div>
-      <div class="about-intro" data-reveal>
         <div class="about-bio">
           <p class="about-lede">I’m Tristan, a software developer from the Philippines. I build polished and reliable websites and systems for various businesses.</p>
           <CTA showPhone subject="Portfolio inquiry" class="about-cta" />
         </div>
       </div>
+    </div>
+    <div class="container about-profile-notes" data-reveal>
+      <blockquote>Make the offer clear, make the site fast, make the next action obvious.</blockquote>
+      <dl class="about-facts">
+        <div><dt>Based in</dt><dd>Philippines</dd></div>
+        <div>
+          <dt>GitHub</dt>
+          <dd>
+            <a href="https://github.com/3StanTech" target="_blank" rel="noopener">
+              <Icon name="github" />
+              3StanTech
+            </a>
+          </dd>
+        </div>
+        <div>
+          <dt>Resume</dt>
+          <dd>
+            <a href="/Tristan_Dolfo_Resume.pdf" target="_blank" rel="noopener">
+              <Icon name="document" />
+              View Resume
+            </a>
+          </dd>
+        </div>
+      </dl>
     </div>
     <div class="container about-values" data-reveal>
       <h2 class="about-values-label">My design principles</h2>
