@@ -1096,6 +1096,10 @@ li + li { margin-top: .35rem; }
 }
 .about-intro .page-head { margin-bottom: 0; }
 .about-intro .button-row { gap: .55rem; }
+.about-masthead-divider {
+  margin-top: 1.875rem;
+  border-top: 1px solid var(--poly-divider);
+}
 .about-profile-notes {
   display: grid;
   grid-template-columns: 1.15fr 1fr;
