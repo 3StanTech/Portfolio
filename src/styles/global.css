@@ -126,7 +126,7 @@ li + li { margin-top: .35rem; }
   color: var(--ink);
   text-decoration: none;
   font-weight: 720;
-  font-size: .94rem;
+  font-size: var(--text-nav);
   padding: .65rem .78rem;
   border-radius: 999px;
 }
@@ -215,7 +215,7 @@ li + li { margin-top: .35rem; }
 .section-num {
   font-family: var(--font-display);
   font-weight: 720;
-  font-size: clamp(2.4rem, 1.6rem + 2.8vw, 4rem);
+  font-size: var(--text-section-number);
   line-height: .8;
   color: var(--accent-ink);
   opacity: .88;
@@ -338,7 +338,7 @@ li + li { margin-top: .35rem; }
   align-items: center;
   gap: .6rem;
   font-weight: 760;
-  font-size: .9rem;
+  font-size: var(--text-kicker);
   color: var(--ink-soft);
 }
 .hero-dot {
@@ -349,7 +349,7 @@ li + li { margin-top: .35rem; }
   box-shadow: 0 0 0 .28rem color-mix(in srgb, var(--amber) 22%, transparent);
 }
 .hero-title {
-  font-size: clamp(2.55rem, 1.85rem + 3.3vw, 4.4rem);
+  font-size: var(--text-hero-title);
   font-weight: 700;
   line-height: 1.02;
   letter-spacing: -.02em;
@@ -371,7 +371,7 @@ li + li { margin-top: .35rem; }
 .hero-trust {
   margin: 0;
   color: var(--ink-soft);
-  font-size: .86rem;
+  font-size: var(--text-supporting);
   letter-spacing: .01em;
 }
 .hero-trust-count {
@@ -461,7 +461,7 @@ li + li { margin-top: .35rem; }
 .work-num {
   font-family: var(--font-display);
   font-weight: 650;
-  font-size: 1.05rem;
+  font-size: var(--text-work-number);
   color: var(--accent-ink);
 }
 .work-text {
@@ -472,12 +472,12 @@ li + li { margin-top: .35rem; }
 .work-text strong {
   font-family: var(--font-display);
   font-weight: 650;
-  font-size: 1.14rem;
+  font-size: var(--text-work-title);
   color: var(--ink);
 }
 .work-text span {
   color: var(--ink-soft);
-  font-size: .9rem;
+  font-size: var(--text-kicker);
 }
 .work svg { width: 1rem; height: 1rem; color: var(--steel); transition: transform .2s ease, color .2s ease; }
 .work:hover svg { color: var(--accent-ink); transform: translateX(3px); }
@@ -489,7 +489,7 @@ li + li { margin-top: .35rem; }
   border-top: 1px solid var(--divider);
   background: var(--panel);
   color: var(--ink-soft);
-  font-size: .86rem;
+  font-size: var(--text-supporting);
 }
 
 .grid {
@@ -526,7 +526,7 @@ li + li { margin-top: .35rem; }
   place-items: center;
   color: var(--steel);
   font-family: var(--font-display);
-  font-size: clamp(4rem, 12vw, 9rem);
+  font-size: var(--text-card-fallback);
   font-weight: 650;
   line-height: 1;
   opacity: .22;
@@ -584,7 +584,7 @@ li + li { margin-top: .35rem; }
   flex-wrap: wrap;
   gap: .45rem;
   color: var(--ink-soft);
-  font-size: .84rem;
+  font-size: var(--text-meta);
   font-weight: 720;
 }
 .pill {
@@ -596,7 +596,7 @@ li + li { margin-top: .35rem; }
   border-radius: 999px;
   background: color-mix(in srgb, var(--panel) 78%, transparent);
   color: var(--ink-soft);
-  font-size: .82rem;
+  font-size: var(--text-label);
   font-weight: 760;
 }
 .stack {
@@ -721,7 +721,7 @@ li + li { margin-top: .35rem; }
   border: 1px solid var(--line-on-dark);
   border-radius: 999px;
   color: var(--on-dark);
-  font-size: .88rem;
+  font-size: var(--text-utility);
   font-weight: 760;
   line-height: 1;
   text-decoration: none;
@@ -749,14 +749,14 @@ li + li { margin-top: .35rem; }
 .footer-nav { gap: 1rem; }
 .footer-nav a {
   color: var(--on-dark);
-  font-size: .88rem;
+  font-size: var(--text-utility);
   font-weight: 700;
   text-decoration: none;
 }
 .footer-nav a:hover { color: var(--accent); }
 .footer-secondary p {
   color: var(--on-dark-soft);
-  font-size: .86rem;
+  font-size: var(--text-supporting);
 }
 
 .case-hero {
@@ -789,7 +789,7 @@ li + li { margin-top: .35rem; }
 .prose a { font-weight: 760; }
 .prose code {
   padding: .12rem .25rem;
-  border-radius: 4px;
+  border-radius: var(--radius-code);
   background: var(--paper-2);
 }
 /* --- Homepage bold section rhythm (no numbered-eyebrow scaffold) --- */
@@ -798,7 +798,7 @@ li + li { margin-top: .35rem; }
 }
 .sec-head-bold h2 {
   max-width: 20ch;
-  font-size: clamp(1.75rem, 1.3rem + 1.9vw, 2.6rem);
+  font-size: var(--text-section-heading);
   letter-spacing: -.015em;
   text-wrap: balance;
 }
@@ -823,11 +823,11 @@ li + li { margin-top: .35rem; }
   gap: .5rem;
   margin-bottom: var(--space-3);
   font-weight: 760;
-  font-size: .9rem;
+  font-size: var(--text-kicker);
   color: var(--ink-soft);
 }
 .page-title {
-  font-size: clamp(2.1rem, 1.55rem + 2.5vw, 3.35rem);
+  font-size: var(--text-page-title);
   font-weight: 700;
   line-height: 1.04;
   letter-spacing: -.02em;
@@ -870,7 +870,7 @@ li + li { margin-top: .35rem; }
 }
 .scope-copy h3 {
   max-width: 17ch;
-  font-size: clamp(1.55rem, 1.15rem + 1.5vw, 2.2rem);
+  font-size: var(--text-scope-heading);
   letter-spacing: -.015em;
   text-wrap: balance;
 }
@@ -897,7 +897,7 @@ li + li { margin-top: .35rem; }
 }
 .commissions-head h2 {
   max-width: 18ch;
-  font-size: clamp(1.55rem, 1.2rem + 1.35vw, 2.15rem);
+  font-size: var(--text-commissions-heading);
 }
 /* Personal list is one-column ledger rows matching commercial; Bubu uses the
    same media-column tracks, with contain + padding gutters. */
@@ -970,7 +970,7 @@ li + li { margin-top: .35rem; }
 }
 .svc-tag {
   font-weight: 800;
-  font-size: .82rem;
+  font-size: var(--text-label);
   letter-spacing: .04em;
   color: var(--ink-soft);
 }
@@ -982,12 +982,12 @@ li + li { margin-top: .35rem; }
   border: 1px solid currentColor;
   border-radius: 999px;
   color: var(--accent-ink);
-  font-size: .72rem;
+  font-size: var(--text-badge);
   font-weight: 820;
   line-height: 1.15;
 }
 .svc-head h2 {
-  font-size: clamp(1.4rem, 1.1rem + 1.2vw, 1.95rem);
+  font-size: var(--text-service-heading);
   letter-spacing: -.01em;
   text-wrap: balance;
 }
@@ -1111,7 +1111,7 @@ li + li { margin-top: .35rem; }
   margin: 0;
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 1.08rem + .45vw, 1.4rem);
+  font-size: var(--text-profile-quote);
   font-weight: 600;
   line-height: 1.4;
 }
@@ -1123,8 +1123,8 @@ li + li { margin-top: .35rem; }
   padding: .7rem 0;
   border-bottom: 1px solid var(--poly-divider);
 }
-.about-facts dt { color: var(--ink-soft); font-size: .82rem; font-weight: 760; }
-.about-facts dd { margin: 0; color: var(--ink); font-size: .88rem; text-align: right; }
+.about-facts dt { color: var(--ink-soft); font-size: var(--text-label); font-weight: 760; }
+.about-facts dd { margin: 0; color: var(--ink); font-size: var(--text-utility); text-align: right; }
 .about-facts a { display: inline-flex; align-items: center; justify-content: flex-end; gap: .35rem; color: var(--link); }
 .about-facts a:hover { color: var(--link-hover); }
 .about-facts svg { width: .95rem; height: .95rem; }
@@ -1142,7 +1142,7 @@ li + li { margin-top: .35rem; }
 .principle { border-bottom-color: var(--poly-divider); }
 .tech-row { align-items: center; }
 .tech-row h3,
-.principle-head h3 { font-size: clamp(1.2rem, 1.05rem + .6vw, 1.5rem); }
+.principle-head h3 { font-size: var(--text-principle-heading); }
 .tech-row ul {
   margin: 0;
   padding: 0;
@@ -1170,7 +1170,7 @@ li + li { margin-top: .35rem; }
   gap: 1.125rem;
 }
 .about-lede {
-  font-size: clamp(1.15rem, 1.05rem + .2vw, 1.2rem);
+  font-size: var(--text-about-lede);
   line-height: 1.5;
   color: var(--ink);
   max-width: 54ch;
@@ -1188,7 +1188,7 @@ li + li { margin-top: .35rem; }
 .about-values-label {
   margin: 0;
   font-family: var(--font-body);
-  font-size: clamp(1.15rem, 1rem + .4vw, 1.35rem);
+  font-size: var(--text-values-heading);
   font-weight: 600;
   line-height: 1.3;
   letter-spacing: 0;
@@ -1254,12 +1254,12 @@ li + li { margin-top: .35rem; }
 }
 .closer-kicker {
   font-weight: 800;
-  font-size: .82rem;
+  font-size: var(--text-label);
   color: var(--on-dark-gold);
 }
 .closer-title {
   max-width: 20ch;
-  font-size: clamp(1.85rem, 1.4rem + 2.1vw, 3rem);
+  font-size: var(--text-closer-title);
   letter-spacing: -.015em;
   text-wrap: balance;
   color: var(--on-dark);
@@ -1275,7 +1275,7 @@ li + li { margin-top: .35rem; }
   max-width: 54ch;
   margin: 0;
   color: var(--on-dark-soft);
-  font-size: .92rem;
+  font-size: var(--step--1);
   text-wrap: pretty;
 }
 
@@ -1378,7 +1378,7 @@ dialog.pm::backdrop {
   flex-wrap: wrap;
   gap: .45rem;
   color: var(--ink-soft);
-  font-size: .84rem;
+  font-size: var(--text-meta);
   font-weight: 720;
 }
 .pm-meta span + span::before {
@@ -1403,7 +1403,7 @@ dialog.pm::backdrop {
   border-radius: var(--radius-sm);
   background: color-mix(in srgb, var(--mist) 38%, transparent);
   color: var(--ink-soft);
-  font-size: .92rem;
+  font-size: var(--step--1);
   text-wrap: pretty;
 }
 .pm-actions {
@@ -1433,7 +1433,7 @@ dialog.pm::backdrop {
   border-radius: var(--radius-sm);
   background: color-mix(in srgb, var(--mist) 48%, transparent);
   color: var(--ink-soft);
-  font-size: .8rem;
+  font-size: var(--text-compact);
   line-height: 1.35;
   text-align: left;
   text-wrap: pretty;

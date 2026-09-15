@@ -67,6 +67,32 @@
   --step-3: clamp(2rem, 1.48rem + 2.15vw, 3.16rem);
   --step-4: clamp(2.65rem, 1.72rem + 3.85vw, 4.75rem);
 
+  /* --- Named component text roles (documented in DESIGN.md) --- */
+  --text-nav: .94rem;
+  --text-kicker: .9rem;
+  --text-supporting: .86rem;
+  --text-label: .82rem;
+  --text-meta: .84rem;
+  --text-utility: .88rem;
+  --text-badge: .72rem;
+  --text-compact: .8rem;
+  --text-work-number: 1.05rem;
+  --text-work-title: 1.14rem;
+  --text-section-number: clamp(2.4rem, 1.6rem + 2.8vw, 4rem);
+  --text-hero-title: clamp(2.55rem, 1.85rem + 3.3vw, 4.4rem);
+  --text-card-fallback: clamp(4rem, 12vw, 9rem);
+  --text-section-heading: clamp(1.75rem, 1.3rem + 1.9vw, 2.6rem);
+  --text-page-title: clamp(2.1rem, 1.55rem + 2.5vw, 3.35rem);
+  --text-scope-heading: clamp(1.55rem, 1.15rem + 1.5vw, 2.2rem);
+  --text-commissions-heading: clamp(1.55rem, 1.2rem + 1.35vw, 2.15rem);
+  --text-service-heading: clamp(1.4rem, 1.1rem + 1.2vw, 1.95rem);
+  --text-profile-quote: clamp(1.25rem, 1.08rem + .45vw, 1.4rem);
+  --text-principle-heading: clamp(1.2rem, 1.05rem + .6vw, 1.5rem);
+  --text-about-lede: clamp(1.15rem, 1.05rem + .2vw, 1.2rem);
+  --text-values-heading: clamp(1.15rem, 1rem + .4vw, 1.35rem);
+  --text-closer-title: clamp(1.85rem, 1.4rem + 2.1vw, 3rem);
+  --radius-code: 4px;
+
   --space-1: .35rem;
   --space-2: .65rem;
   --space-3: 1rem;

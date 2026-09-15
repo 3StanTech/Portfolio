@@ -192,6 +192,42 @@ face, one body face; contrast comes from weight and size, not from adding fonts.
 - **Label / Eyebrow** (820, 0.73rem, 0.16em tracking, uppercase): section kickers
   and meta. Signed-Amber on light, Lamp-Gold on dark. See the Don'ts about overuse.
 
+### Named component roles
+
+The base steps above define the shared type scale. These named roles cover
+intentional component-specific sizes in `src/styles/tokens.css`; using the roles
+keeps the rendered design unchanged while making the exceptions explicit.
+
+| Token | Value | Typical use |
+|---|---|---|
+| `--text-nav` | `.94rem` | navigation links |
+| `--text-kicker` | `.9rem` | hero and page kickers, work metadata |
+| `--text-supporting` | `.86rem` | trust notes, footer notes, supporting labels |
+| `--text-label` | `.82rem` | pills, tags, facts labels, closer kicker |
+| `--text-meta` | `.84rem` | card and modal metadata |
+| `--text-utility` | `.88rem` | footer and facts links |
+| `--step--1` | `.92rem` | compact notes and modal notes |
+| `--text-badge` | `.72rem` | recommendation badges |
+| `--text-compact` | `.8rem` | demo notes |
+| `--text-work-number` | `1.05rem` | work-panel numbers |
+| `--text-work-title` | `1.14rem` | work-panel titles |
+| `--text-section-number` | `clamp(2.4rem, 1.6rem + 2.8vw, 4rem)` | numbered section markers |
+| `--text-hero-title` | `clamp(2.55rem, 1.85rem + 3.3vw, 4.4rem)` | homepage hero title |
+| `--text-card-fallback` | `clamp(4rem, 12vw, 9rem)` | fallback cover initials |
+| `--text-section-heading` | `clamp(1.75rem, 1.3rem + 1.9vw, 2.6rem)` | bold section headings |
+| `--text-page-title` | `clamp(2.1rem, 1.55rem + 2.5vw, 3.35rem)` | interior page titles |
+| `--text-scope-heading` | `clamp(1.55rem, 1.15rem + 1.5vw, 2.2rem)` | scope/process heading |
+| `--text-commissions-heading` | `clamp(1.55rem, 1.2rem + 1.35vw, 2.15rem)` | commissions heading |
+| `--text-service-heading` | `clamp(1.4rem, 1.1rem + 1.2vw, 1.95rem)` | service tier headings |
+| `--text-profile-quote` | `clamp(1.25rem, 1.08rem + .45vw, 1.4rem)` | About profile quote |
+| `--text-principle-heading` | `clamp(1.2rem, 1.05rem + .6vw, 1.5rem)` | About principle headings |
+| `--text-about-lede` | `clamp(1.15rem, 1.05rem + .2vw, 1.2rem)` | About lede |
+| `--text-values-heading` | `clamp(1.15rem, 1rem + .4vw, 1.35rem)` | About values heading |
+| `--text-closer-title` | `clamp(1.85rem, 1.4rem + 2.1vw, 3rem)` | closing CTA title |
+
+Inline code uses the intentional `--radius-code` exception (`4px`); other
+component radii remain the documented 6px, 8px, and pill scale.
+
 ### Named Rules
 **The One-Serif Rule.** Fraunces owns every heading; Hanken owns every line of body.
 Do not introduce a third family or set body copy in the serif. Contrast is bought
