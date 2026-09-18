@@ -6,9 +6,17 @@ displayOrder: 2
 clientType: Personal finance tracker (public demo)
 stack: [React, TypeScript, Vite, IndexedDB]
 year: 2026
-summary: A mobile-first personal finance app for tracking accounts, budgets, transactions, goals, and debts in Philippine pesos. The live link is a public demo with fictional sample data that stays in your browser; nothing is sent to a server.
+summary: >-
+  A personal-finance app built to distinguish actual spending from money moved
+  between accounts. I represented amounts in integer centavos, excluded
+  transfers and pending entries from cash-flow totals, and used database
+  aggregates for the production dashboard rather than its limited transaction
+  list. Tests cover money parsing and financial calculations. Production uses
+  Supabase with user-scoped access policies; the public demo uses fictional data
+  in browser storage so visitors can try transactions and reset their changes
+  without accessing a client's finances.
 blurb: Expense tracker with sample Philippine-peso data.
-outcome: Browser-only public demo with IndexedDB persistence and one-click reset.
+outcome: Spending totals separate transfers from expenses; demo data stays in the browser.
 liveUrl: https://publicdemo-expense-tracker.netlify.app
 liveLabel: Visit interactive demo version
 demoNote: Demo only — sample data stays in your browser. PIN 123456.

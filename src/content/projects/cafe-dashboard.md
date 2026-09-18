@@ -6,9 +6,16 @@ displayOrder: 1
 clientType: Matcha cafe, Metro Manila
 stack: [React, TypeScript, Supabase, Netlify]
 year: 2026
-summary: "A mobile-first full-stack PWA that runs a Metro Manila matcha cafe's day: a PIN-gated order board from new to paid to delivered, a customer CRM, deterministic catalog pricing, and owner-editable settings. The live link is a public demo with sample data. A separate production build runs the real business."
+summary: >-
+  A mobile-first order and customer dashboard for a matcha café. To keep
+  customized orders consistent, I centralized pricing in a catalog-based engine
+  that calculates in integer centavos and ignores totals supplied by imports.
+  Validation runs before an imported order is saved; tests cover price
+  manipulation, modifier rules, and persistence. The public demo uses browser
+  storage and sample data, letting visitors explore the workflow without
+  connecting to the café's customer database.
 blurb: Order and customer dashboard for a matcha cafe.
-outcome: Full-stack PWA order & CRM dashboard, live in production. Public demo runs entirely in the browser.
+outcome: Consistent order totals with a separate, inspectable demo.
 liveUrl: https://publicdemo-order-crm.vercel.app/
 liveLabel: Visit interactive demo version
 demoNote: Demo only. Production holds live customer data. PIN 123456.

@@ -1,831 +1,96 @@
-%PDF-1.3
-%âãÏÓ
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document (opensource)
 1 0 obj
 <<
-/Type /Catalog
-/Pages 2 0 R
+/F1 2 0 R /F2 3 0 R /F3 6 0 R
 >>
 endobj
 2 0 obj
 <<
-/Type /Pages
-/Count 2
-/Kids [ 3 0 R 8 0 R ]
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
 >>
 endobj
 3 0 obj
 <<
-/Contents 14 0 R
-/MediaBox [ 0 0 612 792 ]
-/Resources <<
-/Font 5 0 R
-/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->>
-/Rotate 0
-/Trans <<
->>
-/Type /Page
-/Parent 2 0 R
-/Annots [ 15 0 R ]
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
 >>
 endobj
 4 0 obj
 <<
-/Length 7498
+/A <<
+/S /URI /Type /Action /URI (https://tristandolfo.netlify.app)
+>> /Border [ 0 0 0 ] /Rect [ 41.76 710 126.3849 721 ] /Subtype /Link /Type /Annot
 >>
-stream
-1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
-BT /F2 27 Tf 32.4 TL ET
-0 .560784 .541176 rg
-BT 1 0 0 1 54 746 Tm (John Tristan R. Dolfo) Tj T* ET
-BT /F2 14 Tf 16.8 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 717 Tm (FULL-STACK DEVELOPER) Tj T* ET
-BT /F1 9.4 Tf 11.28 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 54 700 Tm (Quezon City, Philippines | tristandolfo@gmail.com | +63 999 882 7004) Tj T* ET
-BT /F1 9.4 Tf 11.28 TL ET
-0 .560784 .541176 rg
-BT 1 0 0 1 54 688 Tm (tristandolfo.netlify.app | github.com/dolfonator) Tj T* ET
-BT /F2 9.4 Tf 11.28 TL ET
-0 .560784 .541176 rg
-BT 1 0 0 1 54 664 Tm (PROFESSIONAL SUMMARY) Tj T* ET
-.835294 .866667 .905882 RG
-.5 w
-n 54 657 m 558 657 l S
-BT /F1 9.6 Tf 11.52 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 644 Tm (Full-stack developer delivering paid client websites and internal tools from requirements through deployment. Built and) Tj T* ET
-BT 1 0 0 1 54 631.4 Tm (maintain production systems now used by a Metro Manila cafe, a personal-finance client, and a family anniversary) Tj T* ET
-BT 1 0 0 1 54 618.8 Tm (project. Prioritizes responsive, accessible, reliable products and efficient workflows.) Tj T* ET
-BT /F2 9.4 Tf 11.28 TL ET
-0 .560784 .541176 rg
-BT 1 0 0 1 54 592.2 Tm (WORK EXPERIENCE) Tj T* ET
-.835294 .866667 .905882 RG
-.5 w
-n 54 585.2 m 558 585.2 l S
-BT /F2 11.4 Tf 13.68 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 572.2 Tm (Freelance Software Developer) Tj T* ET
-BT /F2 9.8 Tf 11.76 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 465.9486 572.2 Tm (June 2026 - Present) Tj T* ET
-BT /F1 9.2 Tf 11.04 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 54 558.2 Tm (Quezon City, Philippines | Client websites and business systems) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 544.2 Tm (-) Tj T* ET
-BT 1 0 0 1 66 544.2 Tm (Delivered a paid Cafe Order & CRM Dashboard, a mobile-first PWA now used by a Metro Manila cafe for order) Tj T* ET
-BT 1 0 0 1 66 532 Tm (intake, customer records, data import, and administrative settings.) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 517.8 Tm (-) Tj T* ET
-BT 1 0 0 1 66 517.8 Tm (Built and launched Fundsicles, a paid full-stack personal-finance system with Supabase authentication, Row Level) Tj T* ET
-BT 1 0 0 1 66 505.6 Tm (Security, transactions, budgets, reports, goals, and debts; it is live and in active use.) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 491.4 Tm (-) Tj T* ET
-BT 1 0 0 1 66 491.4 Tm (Built and launched a paid full-stack 30th anniversary keepsake with passcode access, a private gallery, editable) Tj T* ET
-BT 1 0 0 1 66 479.2 Tm (letters, and cinematic playback; it is live and in active family use.) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 465 Tm (-) Tj T* ET
-BT 1 0 0 1 66 465 Tm (Built additional client work for Justdiz Preproductions, Herminia's Food, and The Big Thirty using React, TypeScript,) Tj T* ET
-BT 1 0 0 1 66 452.8 Tm (Astro, Supabase, Netlify, Vercel, responsive design, and accessibility practices.) Tj T* ET
-BT /F2 11.4 Tf 13.68 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 433.6 Tm (IT Intern, Research and Standards Development Department) Tj T* ET
-BT /F2 9.8 Tf 11.76 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 457.7656 433.6 Tm (June 3 - July 16, 2026) Tj T* ET
-BT /F1 9.2 Tf 11.04 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 54 419.6 Tm (Metropolitan Waterworks and Sewerage System - Corporate Office \(MWSS\) | Quezon City, PH) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.086275 .12549 .168627 rg
-BT /F1 9.5 Tf 11.4 TL ET
-.086275 .12549 .168627 rg
-q 1 0 0 1 0 14 cm
-BT 1 0 0 1 58 391.4 Tm (-) Tj T* ET
-BT 1 0 0 1 66 391.4 Tm (Supported daily IT operations by assisting with operational systems, installing Wi-Fi access points, configuring basic) Tj T* ET
-BT 1 0 0 1 66 379.2 Tm (networks, and troubleshooting hardware issues.) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 365 Tm (-) Tj T* ET
-BT 1 0 0 1 66 365 Tm (Helped develop a document management system that transformed a static spreadsheet of documents into a) Tj T* ET
-BT 1 0 0 1 66 352.8 Tm (searchable records system with structured categories and filters, making document retrieval more efficient for staff.) Tj T* ET
-BT /F2 9.4 Tf 11.28 TL ET
-0 .560784 .541176 rg
-BT 1 0 0 1 54 319.6 Tm (EDUCATION) Tj T* ET
-.835294 .866667 .905882 RG
-.5 w
-n 54 312.6 m 558 312.6 l S
-BT /F2 10.3 Tf 12.36 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 299.6 Tm (BS Electronics Engineering, Ateneo de Davao University) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 507.2985 299.6 Tm (2021 - 2026) Tj T* ET
-BT 1 0 0 1 54 284.6 Tm (BS Life Sciences, Ateneo de Manila University) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 507.2985 284.6 Tm (2018 - 2020) Tj T* ET
-BT /F2 9.4 Tf 11.28 TL ET
-0 .560784 .541176 rg
-q 1 0 0 1 0 -10 cm
-q 1 0 0 1 0 -10 cm
-BT 1 0 0 1 54 270.6 Tm (SELECTED PROJECTS) Tj T* ET
-.835294 .866667 .905882 RG
-.5 w
-n 54 263.6 m 558 263.6 l S
-BT /F2 10.9 Tf 13.08 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 250.6 Tm (Cafe Order & CRM Dashboard) Tj T* ET
-BT /F2 9.6 Tf 11.52 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 536.6496 250.6 Tm (2026) Tj T* ET
-BT /F1 8.9 Tf 10.68 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 54 237.6 Tm (Paid personal commission | Full-stack: React, TypeScript, Supabase, Netlify) Tj T* ET
-BT /F1 9.1 Tf 10.92 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 224.6 Tm (-) Tj T* ET
-BT 1 0 0 1 66 224.6 Tm (Built and deployed a PIN-gated PWA for orders, customer records, data imports, and admin settings; the paid system) Tj T* ET
-BT 1 0 0 1 66 213.2 Tm (remains live and in client use.) Tj T* ET
-BT /F2 10.9 Tf 13.08 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 194.8 Tm (Fundsicles - Expense Tracker) Tj T* ET
-BT /F2 9.6 Tf 11.52 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 536.6496 194.8 Tm (2026) Tj T* ET
-BT /F1 8.9 Tf 10.68 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 54 181.8 Tm (Paid personal commission | Full-stack: Vite, React, TypeScript, Supabase, PostgreSQL, Vercel | fundsicles.vercel.app) Tj T* ET
-BT /F1 9.1 Tf 10.92 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 168.8 Tm (-) Tj T* ET
-BT 1 0 0 1 66 168.8 Tm (Built and maintain a finance app with email authentication, RLS, accounts, transactions, budgets, reports, goals, and) Tj T* ET
-BT 1 0 0 1 66 157.4 Tm (debts; the paid system is live and in active use.) Tj T* ET
-BT /F2 10.9 Tf 13.08 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 139 Tm (30th Anniversary Celebration) Tj T* ET
-BT /F2 9.6 Tf 11.52 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 536.6496 139 Tm (2026) Tj T* ET
-BT /F1 8.9 Tf 10.68 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 54 126 Tm (Paid personal commission | Full-stack: HTML, CSS, JavaScript, Vercel Functions, Vercel Blob | 30th-anniv.vercel.app) Tj T* ET
-BT /F1 9.1 Tf 10.92 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 113 Tm (-) Tj T* ET
-BT 1 0 0 1 66 113 Tm (Built a live passcode-protected anniversary site with story chapters, a private gallery, editable letters, story and album) Tj T* ET
-BT 1 0 0 1 66 101.6 Tm (playbacks with auto-playing music, and private Blob storage; it is currently used by the family.) Tj T* ET
-.835294 .866667 .905882 RG
-.5 w
-Q
-Q
-Q
-n 54 43 m 558 43 l S
-BT /F2 7.8 Tf 9.36 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 54 26 Tm (TRISTAN DOLFO  |  FULL-STACK DEVELOPER) Tj T* ET
-BT /F2 7.8 Tf 9.36 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 553.6632 26 Tm (1) Tj T* ET
- 
-
-endstream
 endobj
 5 0 obj
 <<
-/F1 6 0 R
-/F2 7 0 R
+/A <<
+/S /URI /Type /Action /URI (https://github.com/3StanTech)
+>> /Border [ 0 0 0 ] /Rect [ 138.3213 710 225.3648 721 ] /Subtype /Link /Type /Annot
 >>
 endobj
 6 0 obj
 <<
-/BaseFont /Helvetica
-/Encoding /WinAnsiEncoding
-/Name /F1
-/Subtype /Type1
-/Type /Font
+/BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding /Name /F3 /Subtype /Type1 /Type /Font
 >>
 endobj
 7 0 obj
 <<
-/BaseFont /Helvetica-Bold
-/Encoding /WinAnsiEncoding
-/Name /F2
-/Subtype /Type1
-/Type /Font
+/Annots [ 4 0 R 5 0 R ] /Contents 11 0 R /MediaBox [ 0 0 612 792 ] /Parent 10 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
 >>
 endobj
 8 0 obj
 <<
-/Contents 9 0 R
-/MediaBox [ 0 0 612 792 ]
-/Resources <<
-/Font 10 0 R
-/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->>
-/Rotate 0
-/Trans <<
->>
-/Type /Page
-/Parent 2 0 R
+/PageMode /UseNone /Pages 10 0 R /Type /Catalog
 >>
 endobj
 9 0 obj
 <<
-/Length 4597
+/Author (John Tristan R. Dolfo) /CreationDate (D:20260918154112+08'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20260918154112+08'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+  /Subject (Full-Stack Developer resume candidate) /Title (Tristan Dolfo - Resume) /Trapped /False
 >>
-stream
-1 0 0 1 0 0 cm
-BT
-/F1 12 Tf
-14.4 TL
-ET
-BT
-/F2 9.4 Tf
-11.28 TL
-ET
-0 0.560784 0.541176 rg
-BT
-1 0 0 1 54 746 Tm
-(SELECTED PROJECTS\054 CONTINUED) Tj
-T*
-ET
-0.835294 0.866667 0.905882 RG
-0.5 w
-n
-54 739 m
-558 739 l
-S
-BT
-/F2 10.9 Tf
-13.08 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 54 726 Tm
-(Personal Portfolio) Tj
-T*
-ET
-BT
-/F2 9.6 Tf
-11.52 TL
-ET
-0.34902 0.419608 0.509804 rg
-BT
-1 0 0 1 536.6496 726 Tm
-(2026) Tj
-T*
-ET
-BT
-/F1 8.9 Tf
-10.68 TL
-ET
-0.34902 0.419608 0.509804 rg
-BT
-1 0 0 1 54 713 Tm
-(Astro 7\054 TypeScript\054 Netlify\054 Vercel \174 tristandolfo\056netlify\056app) Tj
-T*
-ET
-BT
-/F1 9.1 Tf
-10.92 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 58 700 Tm
-(\055) Tj
-T*
-ET
-BT
-/F1 9.1 Tf
-10.92 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 66 700 Tm
-(Built an Astro portfolio with design tokens\054 WCAG AA themes\054 reduced\055motion and Save\055Data controls\054 JSON\055LD\054 and) Tj
-T*
-ET
-BT
-/F1 9.1 Tf
-10.92 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 66 688.6 Tm
-(automated social and SEO assets\056) Tj
-T*
-ET
-BT
-/F2 10.9 Tf
-13.08 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 54 670.2 Tm
-(Herminia\047s Food) Tj
-T*
-ET
-BT
-/F2 9.6 Tf
-11.52 TL
-ET
-0.34902 0.419608 0.509804 rg
-BT
-1 0 0 1 536.6496 670.2 Tm
-(2026) Tj
-T*
-ET
-BT
-/F1 8.9 Tf
-10.68 TL
-ET
-0.34902 0.419608 0.509804 rg
-BT
-1 0 0 1 54 657.2 Tm
-(Closed client engagement \174 Astro\054 TypeScript\054 Vercel \174 herminias\055food\056vercel\056app) Tj
-T*
-ET
-BT
-/F1 9.1 Tf
-10.92 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 58 644.2 Tm
-(\055) Tj
-T*
-ET
-BT
-/F1 9.1 Tf
-10.92 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 66 644.2 Tm
-(Built a Filipino\055food catering site with package pages\054 direct booking and quote paths\054 gallery content\054 reviews\054 and) Tj
-T*
-ET
-BT
-/F1 9.1 Tf
-10.92 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 66 632.8 Tm
-(structured data\056) Tj
-T*
-ET
-BT
-/F2 10.9 Tf
-13.08 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 54 614.4 Tm
-(The Big Thirty) Tj
-T*
-ET
-BT
-/F2 9.6 Tf
-11.52 TL
-ET
-0.34902 0.419608 0.509804 rg
-BT
-1 0 0 1 536.6496 614.4 Tm
-(2026) Tj
-T*
-ET
-BT
-/F1 8.9 Tf
-10.68 TL
-ET
-0.34902 0.419608 0.509804 rg
-BT
-1 0 0 1 54 601.4 Tm
-(Paid personal commission \174 HTML\054 CSS\054 JavaScript\054 Netlify Blobs \174 bday\055public\056netlify\056app) Tj
-T*
-ET
-BT
-/F1 9.1 Tf
-10.92 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 58 588.4 Tm
-(\055) Tj
-T*
-ET
-BT
-/F1 9.1 Tf
-10.92 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 66 588.4 Tm
-(Built a privacy\055safe birthday keepsake with editable stories\054 letters\054 gallery uploads\054 reveal controls\054 and isolated Blob) Tj
-T*
-ET
-BT
-/F1 9.1 Tf
-10.92 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 66 577 Tm
-(storage\056) Tj
-T*
-ET
-BT
-/F2 9.4 Tf
-11.28 TL
-ET
-0 0.560784 0.541176 rg
-BT
-1 0 0 1 54 544.6 Tm
-(LEADERSHIP) Tj
-T*
-ET
-0.835294 0.866667 0.905882 RG
-0.5 w
-n
-54 537.6 m
-558 537.6 l
-S
-BT
-/F2 10.8 Tf
-12.96 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 54 524.6 Tm
-(Head of Sponsorships and Partnerships\054 SELECOMES) Tj
-T*
-ET
-BT
-/F2 9.5 Tf
-11.4 TL
-ET
-0.34902 0.419608 0.509804 rg
-BT
-1 0 0 1 468.7665 524.6 Tm
-(Apr 2023 \055 Mar 2024) Tj
-T*
-ET
-BT
-/F1 9.2 Tf
-11.04 TL
-ET
-0.34902 0.419608 0.509804 rg
-BT
-1 0 0 1 54 510.6 Tm
-(Society of Electronics Engineering Students \174 Ateneo de Davao University) Tj
-T*
-ET
-BT
-/F2 9.4 Tf
-11.28 TL
-ET
-0 0.560784 0.541176 rg
-BT
-1 0 0 1 54 478.2 Tm
-(TECHNICAL SKILLS) Tj
-T*
-ET
-0.835294 0.866667 0.905882 RG
-0.5 w
-n
-54 471.2 m
-558 471.2 l
-S
-BT
-/F1 9.3 Tf
-11.16 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 54 458.2 Tm
-(Web\057App\072 React\054 TypeScript\054 Astro\054 Next\056js\054 HTML\054 CSS\054 JavaScript\054 Tailwind CSS\054 Supabase\054 Neon\054 Drizzle ORM) Tj
-T*
-ET
-BT
-/F1 9.3 Tf
-11.16 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 54 464.4 Tm
-() Tj
-T*
-ET
-BT
-/F1 9.3 Tf
-11.16 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 54 446 Tm
-(Delivery\072 Git\054 Netlify\054 Vercel\054 WCAG AA accessibility\054 SEO\054 JSON\055LD) Tj
-T*
-ET
-BT
-/F1 9.3 Tf
-11.16 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 54 433.8 Tm
-(Agentic Tools\072 Claude Code\054 OpenAI Codex\054 Grok Build\054 Grok Bot\054 Hermes Agent\054 Ollama\054 OpenRouter) Tj
-T*
-ET
-BT
-/F1 9.3 Tf
-11.16 TL
-ET
-0.086275 0.12549 0.168627 rg
-BT
-1 0 0 1 54 421.6 Tm
-(Embedded Systems\072 ESP32\054 LoRaWAN\054 Arduino\054 Raspberry Pi\054 C\053\053\054 IoT systems) Tj
-T*
-ET
-0.835294 0.866667 0.905882 RG
-0.5 w
-n
-54 43 m
-558 43 l
-S
-BT
-/F2 7.8 Tf
-9.36 TL
-ET
-0.34902 0.419608 0.509804 rg
-BT
-1 0 0 1 54 26 Tm
-(TRISTAN DOLFO  \174  FULL\055STACK DEVELOPER) Tj
-T*
-ET
-BT
-/F2 7.8 Tf
-9.36 TL
-ET
-0.34902 0.419608 0.509804 rg
-BT
-1 0 0 1 553.6632 26 Tm
-(2) Tj
-T*
-ET
-
-endstream
 endobj
 10 0 obj
 <<
-/F1 11 0 R
-/F2 12 0 R
+/Count 1 /Kids [ 7 0 R ] /Type /Pages
 >>
 endobj
 11 0 obj
 <<
-/BaseFont /Helvetica
-/Encoding /WinAnsiEncoding
-/Name /F1
-/Subtype /Type1
-/Type /Font
->>
-endobj
-12 0 obj
-<<
-/BaseFont /Helvetica-Bold
-/Encoding /WinAnsiEncoding
-/Name /F2
-/Subtype /Type1
-/Type /Font
->>
-endobj
-13 0 obj
-<<
-/Producer (ReportLab PDF Library \055 \050opensource\051)
-/Author (John Tristan R\056 Dolfo)
-/CreationDate (D\07220260904225339\05308\04700\047)
-/Creator (anonymous)
-/Keywords ()
-/ModDate (D\07220260904225339\05308\04700\047)
-/Subject (unspecified)
-/Title (Tristan Dolfo \055 Resume)
-/Trapped (\057False)
->>
-endobj
-14 0 obj
-<<
-/Length 7497
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 3060
 >>
 stream
-1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
-BT /F2 27 Tf 32.4 TL ET
-0 .560784 .541176 rg
-BT 1 0 0 1 54 746 Tm (John Tristan R. Dolfo) Tj T* ET
-BT /F2 14 Tf 16.8 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 717 Tm (FULL-STACK DEVELOPER) Tj T* ET
-BT /F1 9.4 Tf 11.28 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 54 700 Tm (Quezon City, Philippines | tristandolfo@gmail.com | +63 999 882 7004) Tj T* ET
-BT /F1 9.4 Tf 11.28 TL ET
-0 .560784 .541176 rg
-BT 1 0 0 1 54 688 Tm (tristandolfo.netlify.app | github.com/3StanTech) Tj T* ET
-BT /F2 9.4 Tf 11.28 TL ET
-0 .560784 .541176 rg
-BT 1 0 0 1 54 664 Tm (PROFESSIONAL SUMMARY) Tj T* ET
-.835294 .866667 .905882 RG
-.5 w
-n 54 657 m 558 657 l S
-BT /F1 9.6 Tf 11.52 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 644 Tm (Full-stack developer delivering paid client websites and internal tools from requirements through deployment. Built and) Tj T* ET
-BT 1 0 0 1 54 631.4 Tm (maintain production systems now used by a Metro Manila cafe, a personal-finance client, and a family anniversary) Tj T* ET
-BT 1 0 0 1 54 618.8 Tm (project. Prioritizes responsive, accessible, reliable products and efficient workflows.) Tj T* ET
-BT /F2 9.4 Tf 11.28 TL ET
-0 .560784 .541176 rg
-BT 1 0 0 1 54 592.2 Tm (WORK EXPERIENCE) Tj T* ET
-.835294 .866667 .905882 RG
-.5 w
-n 54 585.2 m 558 585.2 l S
-BT /F2 11.4 Tf 13.68 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 572.2 Tm (Freelance Software Developer) Tj T* ET
-BT /F2 9.8 Tf 11.76 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 465.9486 572.2 Tm (June 2026 - Present) Tj T* ET
-BT /F1 9.2 Tf 11.04 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 54 558.2 Tm (Quezon City, Philippines | Client websites and business systems) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 544.2 Tm (-) Tj T* ET
-BT 1 0 0 1 66 544.2 Tm (Delivered a paid Cafe Order & CRM Dashboard, a mobile-first PWA now used by a Metro Manila cafe for order) Tj T* ET
-BT 1 0 0 1 66 532 Tm (intake, customer records, data import, and administrative settings.) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 517.8 Tm (-) Tj T* ET
-BT 1 0 0 1 66 517.8 Tm (Built and launched Fundsicles, a paid full-stack personal-finance system with Supabase authentication, Row Level) Tj T* ET
-BT 1 0 0 1 66 505.6 Tm (Security, transactions, budgets, reports, goals, and debts; it is live and in active use.) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 491.4 Tm (-) Tj T* ET
-BT 1 0 0 1 66 491.4 Tm (Built and launched a paid full-stack 30th anniversary keepsake with passcode access, a private gallery, editable) Tj T* ET
-BT 1 0 0 1 66 479.2 Tm (letters, and cinematic playback; it is live and in active family use.) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 465 Tm (-) Tj T* ET
-BT 1 0 0 1 66 465 Tm (Built additional client work for Justdiz Preproductions, Herminia's Food, and The Big Thirty using React, TypeScript,) Tj T* ET
-BT 1 0 0 1 66 452.8 Tm (Astro, Supabase, Netlify, Vercel, responsive design, and accessibility practices.) Tj T* ET
-BT /F2 11.4 Tf 13.68 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 433.6 Tm (IT Intern, Research and Standards Development Department) Tj T* ET
-BT /F2 9.8 Tf 11.76 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 457.7656 433.6 Tm (June 3 - July 16, 2026) Tj T* ET
-BT /F1 9.2 Tf 11.04 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 54 419.6 Tm (Metropolitan Waterworks and Sewerage System - Corporate Office \(MWSS\) | Quezon City, PH) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.086275 .12549 .168627 rg
-BT /F1 9.5 Tf 11.4 TL ET
-.086275 .12549 .168627 rg
-q 1 0 0 1 0 14 cm
-BT 1 0 0 1 58 391.4 Tm (-) Tj T* ET
-BT 1 0 0 1 66 391.4 Tm (Supported daily IT operations by assisting with operational systems, installing Wi-Fi access points, configuring basic) Tj T* ET
-BT 1 0 0 1 66 379.2 Tm (networks, and troubleshooting hardware issues.) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 365 Tm (-) Tj T* ET
-BT 1 0 0 1 66 365 Tm (Helped develop a document management system that transformed a static spreadsheet of documents into a) Tj T* ET
-BT 1 0 0 1 66 352.8 Tm (searchable records system with structured categories and filters, making document retrieval more efficient for staff.) Tj T* ET
-BT /F2 9.4 Tf 11.28 TL ET
-0 .560784 .541176 rg
-BT 1 0 0 1 54 319.6 Tm (EDUCATION) Tj T* ET
-.835294 .866667 .905882 RG
-.5 w
-n 54 312.6 m 558 312.6 l S
-BT /F2 10.3 Tf 12.36 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 299.6 Tm (BS Electronics Engineering, Ateneo de Davao University) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 507.2985 299.6 Tm (2021 - 2026) Tj T* ET
-BT 1 0 0 1 54 284.6 Tm (BS Life Sciences, Ateneo de Manila University) Tj T* ET
-BT /F1 9.5 Tf 11.4 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 507.2985 284.6 Tm (2018 - 2020) Tj T* ET
-BT /F2 9.4 Tf 11.28 TL ET
-0 .560784 .541176 rg
-q 1 0 0 1 0 -10 cm
-q 1 0 0 1 0 -10 cm
-BT 1 0 0 1 54 270.6 Tm (SELECTED PROJECTS) Tj T* ET
-.835294 .866667 .905882 RG
-.5 w
-n 54 263.6 m 558 263.6 l S
-BT /F2 10.9 Tf 13.08 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 250.6 Tm (Cafe Order & CRM Dashboard) Tj T* ET
-BT /F2 9.6 Tf 11.52 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 536.6496 250.6 Tm (2026) Tj T* ET
-BT /F1 8.9 Tf 10.68 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 54 237.6 Tm (Paid personal commission | Full-stack: React, TypeScript, Supabase, Netlify) Tj T* ET
-BT /F1 9.1 Tf 10.92 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 224.6 Tm (-) Tj T* ET
-BT 1 0 0 1 66 224.6 Tm (Built and deployed a PIN-gated PWA for orders, customer records, data imports, and admin settings; the paid system) Tj T* ET
-BT 1 0 0 1 66 213.2 Tm (remains live and in client use.) Tj T* ET
-BT /F2 10.9 Tf 13.08 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 194.8 Tm (Fundsicles - Expense Tracker) Tj T* ET
-BT /F2 9.6 Tf 11.52 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 536.6496 194.8 Tm (2026) Tj T* ET
-BT /F1 8.9 Tf 10.68 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 54 181.8 Tm (Paid personal commission | Full-stack: Vite, React, TypeScript, Supabase, PostgreSQL, Vercel | fundsicles.vercel.app) Tj T* ET
-BT /F1 9.1 Tf 10.92 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 168.8 Tm (-) Tj T* ET
-BT 1 0 0 1 66 168.8 Tm (Built and maintain a finance app with email authentication, RLS, accounts, transactions, budgets, reports, goals, and) Tj T* ET
-BT 1 0 0 1 66 157.4 Tm (debts; the paid system is live and in active use.) Tj T* ET
-BT /F2 10.9 Tf 13.08 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 54 139 Tm (30th Anniversary Celebration) Tj T* ET
-BT /F2 9.6 Tf 11.52 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 536.6496 139 Tm (2026) Tj T* ET
-BT /F1 8.9 Tf 10.68 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 54 126 Tm (Paid personal commission | Full-stack: HTML, CSS, JavaScript, Vercel Functions, Vercel Blob | 30th-anniv.vercel.app) Tj T* ET
-BT /F1 9.1 Tf 10.92 TL ET
-.086275 .12549 .168627 rg
-BT 1 0 0 1 58 113 Tm (-) Tj T* ET
-BT 1 0 0 1 66 113 Tm (Built a live passcode-protected anniversary site with story chapters, a private gallery, editable letters, story and album) Tj T* ET
-BT 1 0 0 1 66 101.6 Tm (playbacks with auto-playing music, and private Blob storage; it is currently used by the family.) Tj T* ET
-.835294 .866667 .905882 RG
-.5 w
-Q
-Q
-Q
-n 54 43 m 558 43 l S
-BT /F2 7.8 Tf 9.36 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 54 26 Tm (TRISTAN DOLFO  |  FULL-STACK DEVELOPER) Tj T* ET
-BT /F2 7.8 Tf 9.36 TL ET
-.34902 .419608 .509804 rg
-BT 1 0 0 1 553.6632 26 Tm (1) Tj T* ET
- 
-
-endstream
-endobj
-15 0 obj
-<<
-/Type /Annot
-/Subtype /Link
-/P 3 0 R
-/Rect [ 153.1042 686.0542 247.1512 695.4542 ]
-/H /I
-/Border [ 0 0 0 ]
-/A <<
-/S /URI
-/URI (https\072\057\057github\056com\0573StanTech)
->>
->>
+Gau0E>C5'p&q0MXW2EqIN)>ZJ8:5^9"I"Zu3-G^olpG(tW<&!4>18Z$@D;[74k2,mn0N*eE?*^g8C_iCFm=)/;AW]Cq&-;khTk?84-s35Ad`X-a/@UD`j;F)O.:)!qE:/b2[mB+T:B5sO"8Z%UC7Y<h2hhc/G)M,>5WaN,P]-f`hZ+r1$K.U-LnZOYO9"t0VG'\ctlFs+4Md8R8/W;A9?q[WCdul-^t!"Z_-OgNK7ACDnP_4_363of9gqeV.jRGMWgL(jc)r60(hSiTbA8q?,qHK8^B=25?78mQ-h!/2^`^X9%#!2P=ubaNCrM_b\mGn\J@d%6u%]?IMqck3#iR//a.BVB6iDDD4\"W3:HuiI(,0;3j\RNj1<(;>n<H!Q>*YW3$Q[m(3G.7i:Tse@-G-l]G(#;@Fr,(ej[8uTg.=9-A4[sAtJ+TgC'RDkOu>rQ:\Wek+%`=4d77^a_8(t2=,OB+Z]J,lN;1Yp_ITH"#[8Og*]@&f^!lOg_p[l%t<#W?2]'PPhb7YRitaL:&UaNhu`pWRNB:$KFU,r\G!1lhqoX0V82),p_5"=QtBE4e(L4OFF#ZeGC_TaqgC6ai0D].F?9C`Sm5N\YP'L'R->+ckcVpc]5nX@[TtHB`<J]FhFFbid/@A1#A?]i[Qd"_Fc5Z8+5`)m/FLC%$#>(a3Lo-QX,D17PO[LmO";1ZS7/bf!9nUi_tR'#RAZ0\([W:'P4SUM@0"2^%!T8'."H+!EEDeG@!Vn[2jnVi)EM0I!NtJ;J4ujWVUOS&dqN,7Bq/^,b-d&J,SDQ^auQ.?;Z'B=.P']uOJFC`pJ5J2alPA-8WISn&P]<2bXEZq)ZKtfM9I.];j*j)7964gO=cq9*oAGq]h$[jJK%2bN#"G?-T@4gQ?j\u=e&;>8jR5-b7oH]LbssJ+/Gs%hr[qT**J,:0i'*I8RXr(-l;!FE9N5r.]Nim,AV;DYn_"Nh?kjDNm-TWga#KjQ,QW?685:p<4S0V99nP@gQeM5OF&KU;?qY?@SK^r[EQd86Ub.s)d_jtPg6RgdVJ/*[r8-A[G9CkMQICX/u&QsrG?J+l"TNs6c<c-G1uHK#0u.GTHF1MX`uc'3,6Dq-=HQoE8M`ISZk#bmkstN1jeR;q[TOKi9Zmc]`c3[Pc4Wa+/H36Bso`i?Td"??ug>WPN56ShrmFm8b0ILJ3%cY*2?C`#t#p)$M?Pgh6#/Aeu=Ec%I-!Bn=Q5UD,(N94?i3]f>WfBdkfe,$1Q@ok"NBFdl_up[[_bgK7Mg19Zi.gZ-\m.>5hYN=u)r_1mqCpEeW)h;mkT9m[?g]>euV0!WaT`3i2-"(Z",5Wo1m6_QJ;OIZdHNPrkiVnN+db#;fJliU0c]dFN8bhqJ54"]@>.;NtS96KS>eJW$Ng15S],O\4ZuQBDW\AstIU((,&\5@daAQJ<[?`&Vlh;[j]-Vc6ZZr$tj&-2lnZ(XY!93\Kiu&N4#RXs1b[OlGB-1/d!;s)A.5bs7jK?$:gF;b3UWQ(9[bU#Fr_2<#N7.b@D`*O`M*kj/fpR,&dQQqhQ-H^BQgn,>M;V,k-!',LFO:a4/o05NE)XjgedP1p\I"Pd[dFKQ$U/f'?Jo_8%Rr6'3Yod=FTIAV8H&qrRB?]lP)(>pT.0o#DZ&F.Nq>_@@:+]/s;7u!m,q"@E=CLNr+%g1.S85m7e9@A*POGM9I"m$).O8"4S7C'!OhZ.ABk(1f:krZEdE)%bnN>@_s8h%+9$97(nd=u^9g6X(:pG0uR:DWCE.#+ZTY[<:seMigQ-_OC8;H`5m%tG!ZUb&5a#F36H9$5R[V<oY*F6\4XBr'8Bn4Ln!IX49;EiC2H/FXE_GGlh//'Wu'(9K%N+&n@ua-6%,2EiEXo+/@"[Ops_O>ci[SeM#hMAqDkf3[@2$Ou2hs.[ok3Lu%:2-7TL@<q2Oakk,3[`ilLgVUYBO99Y`94-Tl9"e2>^?d83'$R/-q[e?]m.a=2>=.:Vi7g2A9\^W(P.4B.lXlp-Ru_^00j6,#$f+\rr/-e&+i,N:-Ja92MD^<NN<;F.3p'VgS?,eg!p:9A/PK!e(kXtf%,I89>(YlT;Fp)5b!;kO,(U:=De?*NS-4RM,G/'lBR,g2/1HNUW+?#g3*VqM'5P93MSqj\qgh5@otq+f6d/<0/MVgcmE-Ldpt2d$d)";#HG&4\YW\IAcWqVri.%YK?<sS*>\Z:t1hd?J+$R[XLVgheMcp)r7@+t]Qht&sWno/GfIH0?@;o9..!N[8s4=p*NOSR*Ys`P(<YGlP9D<GD:j"!F3_4+K=`:OABiI/Q=OL]_$OES+Q.g68MA&0]Hb&4.9"5%K/+/uQ;YaW+)FX\kh+U%URiupT,c><%U[,c:Eq!MRSO22dp!>9KA^W7<Vnq/5Vr[<E&#-1,3P87iOJg\%+:F8"bHopd&kX:C2d+/`-ABec0QJZ+Q8];TV8\F-)X+NWO\?'UCn`MiYImT[]Hpf9*'V@\LI/nT<i+Us(!qI*Q-'_CLLcp>[7hLb`:DI3U2qqZlq2"$f_qW%6u`pf7>eMKl_YV'WliVh:.fkn`#Xb/eu/QNC_mVt!9U\A$t:em9#JrBK%L0ubZU,reZ?`Kl2/"11G9UCA(>T+S/?W[@^Ic7(@&+XH%W)mp?D:G4e-FUdM?*&pQCE1*k.P[Pk$./oelubUtk$#44l]@UsdaB%89nlY9MC%P`jbfNC?SN:/jlBQT-_?(^uHreYa!'9Bn<$&Fb+,!2<Hrag>*7G^*F@DIhppcN56e_=DsdCR5'kb=pV-@,MKN,T'X']h.3>i)W&8HG-p(^B9u_T)Lp"1HW5DfX@k?h!R]D.cTF_G.oduhtPtF2U45jd6Qmi>i_0CF-2=h5]N5DYu+<%%nG0:D;s:8p@pG0+$&$KmS<H24[5N#D*FZVSM0#C"t_0N_&q%/VD:!<e0;'^P?uiK>=*AJrg$^tJ;r6,o`!n(kfndX^R\(GD>QFSo^4mm3@%#J6/Wl;+0(Rc5Q(o4,GK4&5/*Y[:L9$Xe!$53^251Z$/K;j<*!a-J<VRmBP&]2rfo^:pmgj3Bk'q"qB$i\5P+~>endstream
 endobj
 xref
-0 16
+0 12
 0000000000 65535 f 
-0000000015 00000 n 
-0000000064 00000 n 
-0000000129 00000 n 
-0000000338 00000 n 
-0000007888 00000 n 
-0000007929 00000 n 
-0000008036 00000 n 
-0000008148 00000 n 
-0000008338 00000 n 
-0000012987 00000 n 
-0000013031 00000 n 
-0000013139 00000 n 
-0000013252 00000 n 
-0000013579 00000 n 
-0000021129 00000 n 
+0000000061 00000 n 
+0000000112 00000 n 
+0000000219 00000 n 
+0000000331 00000 n 
+0000000502 00000 n 
+0000000672 00000 n 
+0000000787 00000 n 
+0000001006 00000 n 
+0000001075 00000 n 
+0000001394 00000 n 
+0000001454 00000 n 
 trailer
 <<
-/Size 16
-/Root 1 0 R
-/Info 13 0 R
+/ID 
+[<5e12d4d27fdcda8178210d6549fc0e35><5e12d4d27fdcda8178210d6549fc0e35>]
+% ReportLab generated PDF document -- digest (opensource)
+
+/Info 9 0 R
+/Root 8 0 R
+/Size 12
 >>
 startxref
-21326
+4606
 %%EOF
