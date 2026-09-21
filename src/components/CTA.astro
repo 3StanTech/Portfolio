@@ -6,6 +6,7 @@ const {
   subject = 'Portfolio inquiry',
   showPhone = false,
   showResume = false,
+  showGithub = false,
   class: className = ''
 } = Astro.props;
 
@@ -15,6 +16,7 @@ const phone = '0999-882-7004';
 // when the device has no default mail app registered for mailto:.
 const compose = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}`;
 const resumeHref = '/Tristan_Dolfo_Resume.pdf';
+const githubHref = 'https://github.com/3StanTech';
 ---
 <div class:list={['button-row', className]}>
   <a class="button" href={compose} target="_blank" rel="noopener">
@@ -31,6 +33,12 @@ const resumeHref = '/Tristan_Dolfo_Resume.pdf';
     <a class="button tertiary cta-resume" href={resumeHref} target="_blank" rel="noopener">
       <Icon name="document" />
       View Resume
+    </a>
+  )}
+  {showGithub && (
+    <a class="button tertiary cta-github" href={githubHref} target="_blank" rel="noopener">
+      <Icon name="github" />
+      View Github
     </a>
   )}
 </div>

@@ -288,7 +288,7 @@ li + li { margin-top: .35rem; }
 }
 .button svg { width: 1rem; height: 1rem; }
 
-/* H3: content-sized contact group — résumé spans Email + gap + Call only */
+/* Hero contact group: 2×2 hugging the labels — Email/Call, Resume/Github. */
 .hero-copy .button-row {
   display: grid;
   grid-template-columns: max-content max-content;
@@ -297,9 +297,16 @@ li + li { margin-top: .35rem; }
   gap: .75rem;
   align-items: center;
 }
-.hero-copy .button-row .cta-resume {
-  grid-column: 1 / -1;
-  width: 100%;
+.hero-copy .button-row .cta-resume,
+.hero-copy .button-row .cta-github {
+  color: var(--accent-ink);
+  border-color: color-mix(in srgb, var(--accent-ink) 45%, var(--line-strong));
+}
+.hero-copy .button-row .cta-resume:hover,
+.hero-copy .button-row .cta-github:hover {
+  background: color-mix(in srgb, var(--accent-ink) 12%, transparent);
+  color: var(--accent-ink);
+  border-color: var(--accent-ink);
 }
 
 .hero {
@@ -1622,10 +1629,15 @@ html.js [data-reveal] { opacity: 1; transform: none; }
   .container { width: min(100% - 1.25rem, var(--maxw)); }
   .brand small { display: none; }
   .button, .hero-actions .button { width: 100%; }
-  /* H3 mobile: stack the contact group full-width */
+  /* Keep the 2×2; shrink cells so Call + Email do not overflow ~320px. */
   .hero-copy .button-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     width: 100%;
+  }
+  .hero-copy .button-row .button {
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
   }
   .hero-copy p, .section-lead { font-size: 1rem; }
   .tech-row,
