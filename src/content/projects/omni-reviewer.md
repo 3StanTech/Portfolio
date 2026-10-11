@@ -14,11 +14,16 @@ summary: >-
   its source slide and a checker flags anything the slides don't support.
   Generation runs on free AI models in resumable steps, so a refresh never
   loses progress, and each student's files stay private to their account.
+  The public demo uses sample packs, so visitors can study without an account
+  or any of the client's material.
 blurb: Study packs with cited notes, quizzes and flashcards.
 outcome: Study notes that point back to the slide behind every fact.
 repoUrl: https://github.com/3StanTech/Omni-Reviewer
-coverAlt: Illustration of the Omni-Reviewer study screen, with section progress and a flashcard citing its slide
-cover: ../../assets/omni-reviewer-standin.png
+liveUrl: https://omni-reviewer-demo.web.app/
+liveLabel: Visit interactive demo version
+demoNote: Demo only. Sample OpenStax Microbiology packs; no sign-in needed.
+coverAlt: "Omni-Reviewer demo: a flashcard from the sample Microbiology pack, citing its source page"
+cover: ../../assets/omni-reviewer-demo.png
 caseStudy:
   lede: >-
     Turns a student's lecture files into study packs she can trust: a cited
@@ -28,7 +33,6 @@ caseStudy:
     - { label: Client, value: A paying student }
     - { label: Built, value: Aug–Oct 2026 }
     - { label: Stack, value: "Next.js 16, React 19, TypeScript, Auth.js, Drizzle, Neon Postgres, Vercel Blob" }
-  coverCaption: Illustration of the study screen. A screenshot of the public demo replaces it soon.
   problem: >-
     Long lecture transcripts and scanned slides, an exam date, and free AI
     models capped at 50 requests a day. Study notes that invent facts are
@@ -68,8 +72,7 @@ caseStudy:
     - lead: Checked like a user.
       body: Phone and desktop walkthroughs after every release.
   next: >-
-    A public demo with sample study packs, so anyone can try it without an
-    account. After that, streaming long study guides so the first section
-    shows while the rest loads.
+    Streaming long study guides so the first section shows while the rest
+    loads.
   demoNote: Sample packs, no sign-in. Your progress stays with your visit.
 ---
