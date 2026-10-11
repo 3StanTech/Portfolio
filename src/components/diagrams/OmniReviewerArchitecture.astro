@@ -1,0 +1,92 @@
+---
+// Omni-Reviewer architecture diagram. No props.
+// Wide layout above 700px, stacked layout below; case-study.css switches them
+// and supplies every fill and stroke through the .dg* classes.
+---
+
+<div class="diagram-art">
+  <svg class="dg dg-wide" viewBox="0 0 760 330" role="img" aria-labelledby="or-arch-title-wide">
+    <title id="or-arch-title-wide">Browser to route handlers, which talk to Postgres, private file storage and free AI models</title>
+    <defs>
+      <marker id="or-arch-ah-wide" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 10 5 0 10z" class="dg-ah" />
+      </marker>
+    </defs>
+    <path class="dg-l" d="M190 165 H262" marker-end="url(#or-arch-ah-wide)" />
+    <path class="dg-l" d="M478 165 H505 V52 H532" marker-end="url(#or-arch-ah-wide)" />
+    <path class="dg-l" d="M478 165 H532" marker-end="url(#or-arch-ah-wide)" />
+    <path class="dg-l" d="M505 165 V278 H532" marker-end="url(#or-arch-ah-wide)" />
+    <g class="dg-node">
+      <rect x="10" y="118" width="180" height="94" rx="8" />
+      <text class="dg-t" x="24" y="144">Browser</text>
+      <text class="dg-s" x="24" y="164">Next.js + React UI</text>
+      <text class="dg-s" x="24" y="181">Renders slides, converts photos</text>
+    </g>
+    <g class="dg-node">
+      <rect x="264" y="104" width="214" height="122" rx="8" />
+      <text class="dg-t" x="278" y="130">Route handlers</text>
+      <text class="dg-s" x="278" y="150">Auth.js session</text>
+      <text class="dg-s" x="278" y="167">Every query scoped to its owner</text>
+    </g>
+    <text class="dg-s" x="278" y="207">Job runner: one claimed step</text>
+    <g class="dg-node">
+      <rect x="534" y="12" width="216" height="82" rx="8" />
+      <text class="dg-t" x="548" y="38">Neon Postgres</text>
+      <text class="dg-s" x="548" y="58">Drizzle migrations</text>
+      <text class="dg-s" x="548" y="75">Full-text search</text>
+    </g>
+    <g class="dg-node">
+      <rect x="534" y="124" width="216" height="82" rx="8" />
+      <text class="dg-t" x="548" y="150">Vercel Blob</text>
+      <text class="dg-s" x="548" y="170">Private course files</text>
+      <text class="dg-s" x="548" y="187">Streamed only to the owner</text>
+    </g>
+    <g class="dg-node">
+      <rect x="534" y="236" width="216" height="82" rx="8" />
+      <text class="dg-t" x="548" y="262">OpenRouter</text>
+      <text class="dg-s" x="548" y="282">Free models only</text>
+      <text class="dg-s" x="548" y="299">Cited output, then verified</text>
+    </g>
+  </svg>
+  <svg class="dg dg-tall" viewBox="0 0 360 560" role="img" aria-labelledby="or-arch-title-tall">
+    <title id="or-arch-title-tall">Browser to route handlers, which talk to Postgres, private file storage and free AI models</title>
+    <defs>
+      <marker id="or-arch-ah-tall" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 10 5 0 10z" class="dg-ah" />
+      </marker>
+    </defs>
+    <path class="dg-l" d="M180 90 V116" marker-end="url(#or-arch-ah-tall)" />
+    <path class="dg-l" d="M180 214 V240 M180 228 H20 V474 H38 M20 360 H38 M20 252 H38" marker-end="url(#or-arch-ah-tall)" />
+    <g class="dg-node">
+      <rect x="40" y="10" width="280" height="80" rx="8" />
+      <text class="dg-t" x="54" y="36">Browser</text>
+      <text class="dg-s" x="54" y="56">Next.js + React UI</text>
+      <text class="dg-s" x="54" y="73">Renders slides, converts photos</text>
+    </g>
+    <g class="dg-node">
+      <rect x="40" y="118" width="280" height="96" rx="8" />
+      <text class="dg-t" x="54" y="144">Route handlers</text>
+      <text class="dg-s" x="54" y="164">Auth.js session</text>
+      <text class="dg-s" x="54" y="181">Every query scoped to its owner</text>
+    </g>
+    <text class="dg-s" x="54" y="200">Job runner: one claimed step</text>
+    <g class="dg-node">
+      <rect x="40" y="232" width="280" height="80" rx="8" />
+      <text class="dg-t" x="54" y="258">Neon Postgres</text>
+      <text class="dg-s" x="54" y="278">Drizzle migrations</text>
+      <text class="dg-s" x="54" y="295">Full-text search</text>
+    </g>
+    <g class="dg-node">
+      <rect x="40" y="340" width="280" height="80" rx="8" />
+      <text class="dg-t" x="54" y="366">Vercel Blob</text>
+      <text class="dg-s" x="54" y="386">Private course files</text>
+      <text class="dg-s" x="54" y="403">Streamed only to the owner</text>
+    </g>
+    <g class="dg-node">
+      <rect x="40" y="448" width="280" height="80" rx="8" />
+      <text class="dg-t" x="54" y="474">OpenRouter</text>
+      <text class="dg-s" x="54" y="494">Free models only</text>
+      <text class="dg-s" x="54" y="511">Cited output, then verified</text>
+    </g>
+  </svg>
+</div>

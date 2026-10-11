@@ -488,6 +488,36 @@ li + li { margin-top: .35rem; }
 }
 .work svg { width: 1rem; height: 1rem; color: var(--steel); transition: transform .2s ease, color .2s ease; }
 .work:hover svg { color: var(--accent-ink); transform: translateX(3px); }
+/* Pinned hiring row: stays above the scrolling list, tinted from the accent. */
+.work-hire {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 2rem 1fr auto;
+  align-items: center;
+  gap: .9rem;
+  padding: 1rem 1.25rem;
+  color: inherit;
+  text-decoration: none;
+  background: color-mix(in srgb, var(--accent-ink) 9%, transparent);
+  border-bottom: 1px solid var(--divider);
+  transition: background .2s ease;
+}
+.work-hire:hover {
+  color: inherit;
+  text-decoration: none;
+  background: color-mix(in srgb, var(--accent-ink) 15%, transparent);
+}
+.work-icon {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--accent-ink);
+}
+.work-icon svg { width: 1.7rem; height: 1.7rem; }
+.work-hire > svg { width: 1rem; height: 1rem; color: var(--accent-ink); transition: transform .2s ease; }
+.work-hire:hover > svg { transform: translateX(3px); }
+.work-hire + .works-label { padding-top: .95rem; }
 .works-foot {
   position: relative;
   z-index: 2;
@@ -641,7 +671,8 @@ li + li { margin-top: .35rem; }
   gap: .75rem;
 }
 /* The card body is covered by .card-title-link::after (z-index 2), which opens
-   the modal. This is the one control that must beat it: it goes to the site. */
+   the modal. This is the one control that must beat it: it goes to the site,
+   or to the case study when there is no public site. */
 .card-visit {
   position: relative;
   z-index: 3;
@@ -809,7 +840,6 @@ li + li { margin-top: .35rem; }
   letter-spacing: -.015em;
   text-wrap: balance;
 }
-.sec-head-bold h2.is-accent { color: var(--accent-ink); }
 .sec-lead {
   margin-top: var(--space-3);
   max-width: 58ch;
@@ -855,10 +885,6 @@ li + li { margin-top: .35rem; }
   display: grid;
   gap: var(--space-4);
 }
-.commercial-supporting {
-  display: grid;
-  gap: var(--space-4);
-}
 /* Supporting projects read as full-width ledger rows —
    a real hierarchy shift, and wide enough that the media crop stays natural. */
 .home-supporting-grid {
@@ -888,9 +914,6 @@ li + li { margin-top: .35rem; }
   text-wrap: pretty;
 }
 
-.commissions {
-  margin-top: 0;
-}
 .commissions-head {
   display: grid;
   grid-template-columns: minmax(8rem, .45fr) minmax(0, 1fr);
@@ -905,6 +928,25 @@ li + li { margin-top: .35rem; }
 .commissions-head h2 {
   max-width: 18ch;
   font-size: var(--text-commissions-heading);
+}
+/* Projects bands: the band name is the h2 (left, accent label) and the lead
+   carries the display weight (right), keeping the original band-head look. */
+.band-head h2 {
+  max-width: none;
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  font-weight: 800;
+  line-height: 1.65;
+  color: var(--accent-ink);
+}
+.band-head p {
+  max-width: 24ch;
+  font-family: var(--font-display);
+  font-size: var(--text-commissions-heading);
+  font-weight: 650;
+  line-height: 1.03;
+  color: var(--ink);
+  text-wrap: balance;
 }
 /* Personal list is one-column ledger rows matching commercial; Bubu uses the
    same media-column tracks, with contain + padding gutters. */
@@ -1423,6 +1465,20 @@ dialog.pm::backdrop {
   border-top: 1px solid var(--divider);
   background: var(--panel);
 }
+/* Secondary text action beside the primary button (case study, code). */
+.pm-actions .text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  min-height: 2.85rem;
+  padding: 0 .25rem;
+  color: var(--link);
+  font-weight: 760;
+  text-decoration: none;
+}
+.pm-actions .text-link:hover { color: var(--link-hover); text-decoration: underline; }
+.pm-actions .text-link svg { width: 1rem; height: 1rem; transition: transform .2s ease; }
+.pm-actions .text-link:hover svg { transform: translateX(2px); }
 /* Keep the visit CTA content-sized even under the global mobile .button { width: 100% } rule. */
 .pm-actions .button {
   flex: 0 1 auto;
@@ -1629,16 +1685,22 @@ html.js [data-reveal] { opacity: 1; transform: none; }
   .container { width: min(100% - 1.25rem, var(--maxw)); }
   .brand small { display: none; }
   .button, .hero-actions .button { width: 100%; }
-  /* Keep the 2×2; shrink cells so Call + Email do not overflow ~320px. */
+  /* Labels never wrap: each pill is at least its label's width and the row
+     fills the width. Email + Call pair up down to 360px; the 35% basis keeps
+     the résumé pill from joining their row, so Résumé + GitHub stay paired. */
   .hero-copy .button-row {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
+    gap: .6rem;
   }
   .hero-copy .button-row .button {
-    width: 100%;
-    min-width: 0;
-    white-space: normal;
+    flex: 1 1 auto;
+    width: auto;
+    padding-inline: .85rem;
+    white-space: nowrap;
   }
+  .hero-copy .button-row .button:not(.tertiary) { flex-basis: 35%; }
   .hero-copy p, .section-lead { font-size: 1rem; }
   .tech-row,
   .principle,

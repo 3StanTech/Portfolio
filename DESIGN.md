@@ -1,6 +1,6 @@
 ---
 name: Tristan Portfolio
-description: A confident, navy-anchored portfolio for a Quezon City software developer, with warm amber accents, editorial serif display, light + dark.
+description: A confident, navy-anchored portfolio for a Philippines full-stack developer, with warm amber accents, editorial serif display, light + dark.
 colors:
   navy: "#14304E"
   navy-deep: "#0B1F35"
@@ -105,8 +105,10 @@ work it sells, so craft, speed, and accessibility are the pitch, not decoration.
 It commits to a **Committed** color strategy — navy is not a neutral backdrop but a
 saturated brand surface that owns the dark bands, the primary button, and the
 footer — with amber as a deliberately rare warm highlight. The system ships in
-**both light and dark themes** from one set of semantic tokens; navy bands stay
-dark in both, so the "studio wall" reads the same day or night.
+**both light and dark themes** from one set of semantic tokens. Closer and footer
+bands deliberately follow the theme: `--band-deep-bg` maps to navy (`--navy-2`)
+in dark and mist (`--mist`) in light. The owner chose the light bands; this is
+intentional, not a missing dark surface.
 
 **Key Characteristics:**
 - Navy-drenched dark bands against cool off-white light bands; never a warm cream.
@@ -152,13 +154,15 @@ blue end, personality from the warm one.
 - **Soft Ink** (#536376): secondary text — AA-tuned to clear 4.5:1 even on the Mist
   and Sky bands.
 - **Line** (#D5DDE7) / **Line Strong** (#AFBDCE): hairlines and borders.
-- **On-Dark** (#EAF1F8) / **On-Dark Soft** (#BCCADA): text on the always-dark navy
-  bands, in both themes.
+- **On-Dark** (#EAF1F8) / **On-Dark Soft** (#BCCADA): dark-theme text on navy
+  bands. In light, `--on-dark` / `--on-dark-soft` map to Ink / Soft Ink for the
+  deliberately mist-colored closer and footer bands.
 
 **Dark theme.** Surfaces invert to a navy night — page **#0B1320**, panel **#111C2B**,
 ink **#EAF1F8**, links **#9DBBE6**, and the primary button flips to **Worklight Amber**
-with Midnight-Navy text. Navy bands and amber stay put; the brand doesn't change
-identity between themes, only its lighting.
+with Midnight-Navy text. Closer and footer bands use `--band-deep-bg`, with
+theme-aware text and border tokens; the brand keeps its navy and amber identity
+while those surfaces follow the selected theme.
 
 ### Named Rules
 **The Amber Rarity Rule.** Amber is the worklight, not the wall. It carries ≤10% of
@@ -288,24 +292,79 @@ CTAs, and a purposeful hover lift. Nothing tentative, nothing overwrought.
   "Email me" renders as the primary pill CTA at the end of the nav.
 - **Theme toggle:** a circular icon button (moon in light, sun in dark) that writes
   `data-theme` and persists to `localStorage`, with a no-flash inline script in
-  `<head>` and `prefers-color-scheme` as the default.
+  `<head>`. Dark is the default, including without JavaScript; only a saved
+  `light` choice overrides it, independently of `prefers-color-scheme`.
+- **Résumé:** a PDF link in desktop/mobile navigation and the footer, opening
+  in a new tab with an accessible name that states that behavior.
 
 ### Project Card (signature)
-The core proof unit. A 16:10 cover image (real project photography, screenshots, or
-character GIFs), a Commercial/Personal + year meta row, a Fraunces title, a concise
-summary, a hairline-topped "Outcome" row, up to four stack pills, and an honest
-"Open website ↗" (or "View code ↗" for repo-only work) affordance. The card is an
-`<article>`; the Fraunces title is the link, stretched over the whole card via a
-pseudo-element, with a separate z-raised "Code ↗" link when a live project also has
-a public repo. The homepage and Projects page use consistent compact rows for
-commercial work. The Projects page separates that work from a Personal Commissions
-band that stacks cleanly on mobile.
+The core proof unit. Compact `<article>` rows show a 16:10 cover, a
+Commercial/Personal + year meta row, a Fraunces title button, a short `blurb`
+(falling back to `summary`), and a separate visit action. The title button opens
+the project dialog through a stretched `::after` overlay at `z-index: 2`;
+`.card-visit` sits at `z-index: 3`. Cards use `--panel`, `--ink`, `--ink-soft`,
+`--line` / `--line-strong` and the shared button tokens. Rows stack at ≤860px.
+
+The card action uses `liveUrl` and `liveLabel` when present. With `caseStudy`
+and no live URL, it becomes "Read the case study" linking to `/projects/<slug>/`.
+There are no per-project repo links on cards. The native `<dialog>` holds the
+long summary, outcome and full stack; its `.pm-actions` stays below the scrolling
+body. With a live URL, the modal leads with the live action and adds a case-study
+text link only when that data exists. With a case study and no demo, it leads
+with "Read the case study" and offers "View the code" when `repoUrl` exists.
+That code action is a narrow exception, confined to the modal and case-study
+page for a project with a case study and no demo. Currently only Omni-Reviewer
+has case-study data; its cover is explicitly an illustration.
+
+### Projects bands
+Eight projects appear in three `group` bands: **Apps and systems** (`systems`,
+3), **Business websites** (`websites`, 2), then **Small builds** (`small`, 3).
+Each band sorts by `displayOrder`; `kind` still supplies the card/modal metadata.
+All three reuse the compact card and modal. The first and third use `.band-paper`
+and `--paper`; the middle uses `.starfield`, a `--paper` base with token-driven
+steel/amber washes, and a faded constellation. Borders use the shared divider
+tokens.
 
 ### Hero (signature)
 Two-column on desktop: left is eyebrow → serif H1 (≤11ch) → subhead → contact CTAs;
-right is the **Proof Panel**, a hairline-divided stack of featured-work links. The
+right is the **Proof Panel**, a hairline-divided index of project buttons. The
 background is a theme-aware token gradient (a soft Steel glow top-right, a faint Amber
 glow bottom-left over Paper) — no raster image, so it stays clean in both themes.
+
+The Proof Panel begins with a pinned **Hiring a developer?** link to `/projects/`,
+followed by the Selected work label, all eight project buttons in `displayOrder`
+(Omni-Reviewer first), and a fixed footnote. Only `.works-list` scrolls. The hiring
+row uses a 9% `color-mix` tint from `--accent-ink` (15% on hover), an accent code
+icon/arrow, `--divider`, and the existing `--ink`, `--ink-soft`, `--text-work-title`
+and `--text-kicker` roles. Hero Email/Call and View Resume/View Github stay in a
+2×2; the Call label stays on one line.
+
+### Case-study page
+`src/pages/projects/[slug].astro` generates pages only for entries with
+`caseStudy`. Shared sections, panels, buttons, titles and closers remain in
+`global.css`; case-study-specific rules live in the page-scoped
+`src/styles/case-study.css`, imported only by this route. All colors use tokens.
+
+- **Header and facts:** a Breadcrumb nav, title/lede, and `<dl>` facts row use
+  `--ink`, `--ink-soft`, `--line-strong`, `--text-label`, `--text-meta` and spacing
+  tokens. Facts wrap from four columns to two at ≤860px. The cover/caption reuses
+  `--panel`, `--radius-sm` and `--text-supporting`. Omni-Reviewer offers "View the
+  code" and no demo action.
+- **Section menu:** a sticky "On this page" nav beside the left-aligned content
+  links to problem, constraints, architecture, decisions, proof and optional
+  next. At ≤860px it becomes a horizontal scroller above the content. The current
+  section uses `aria-current="location"`, `--ink` and a `--steel` border;
+  observation never moves the scroll position.
+- **Constraints and decisions:** bordered constraint lists and a decisions grid
+  use `--line`, `--ink-soft`, `--text-scope-heading`, `--text-values-heading` and
+  spacing tokens. Decision title/body columns stack at ≤860px.
+- **Proof list:** check icons use `--accent-ink`; bold leads use `--ink`, bodies
+  `--ink-soft`. Proof describes outcomes and verification without test counts.
+- **Architecture diagram:** `OmniReviewerArchitecture.astro` supplies wide and
+  stacked SVGs with accessible titles and real text. Nodes use `--panel` and
+  `--line-strong`, labels `--ink` / `--ink-soft`, and arrows `--steel`, with
+  `--font-display` / `--font-body`. The stacked SVG appears at ≤700px. Its caption
+  uses `--text-supporting`; the closer uses `--band-deep-bg` and the shared CTA.
 
 ## 6. Do's and Don'ts
 

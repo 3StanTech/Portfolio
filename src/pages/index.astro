@@ -35,7 +35,7 @@ const jsonLd = [
       '@type': 'PostalAddress',
       addressCountry: 'PH'
     },
-    jobTitle: 'Software Developer',
+    jobTitle: 'Full-Stack Developer',
     image: logoUrl
   },
   {
@@ -56,13 +56,21 @@ const jsonLd = [
     <Constellation class="fade-edge" />
     <div class="container hero-grid">
       <div class="hero-copy">
-        <p class="hero-kicker"><span class="hero-dot" aria-hidden="true"></span>Philippines · software developer</p>
+        <p class="hero-kicker"><span class="hero-dot" aria-hidden="true"></span>Philippines · full-stack developer</p>
         <h1 class="hero-title">Sites and systems for your <span class="hero-mark">every</span> need.</h1>
-        <p class="hero-sub">I build polished and reliable sites and management systems for restaurants, cafés, small teams, and just about anyone who needs software or tech help.</p>
+        <p class="hero-sub">I build websites for small businesses and full-stack apps that real people use every day.</p>
         <CTA showPhone showResume showGithub />
         <p class="hero-trust"><span class="hero-trust-count">{projectCount}</span> builds · replies within a day</p>
       </div>
       <aside class="works panel" aria-label="Selected work">
+        <a class="work-hire" href="/projects/">
+          <span class="work-icon" aria-hidden="true"><Icon name="code" /></span>
+          <span class="work-text">
+            <strong>Hiring a developer?</strong>
+            <span>Case studies, live demos and my résumé</span>
+          </span>
+          <Icon name="arrow" />
+        </a>
         <p class="works-label">Selected work</p>
         <ol class="works-list">
           {allWork.map((project, i) => (

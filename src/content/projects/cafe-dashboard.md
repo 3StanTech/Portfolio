@@ -2,14 +2,15 @@
 title: Order Management System + CRM Dashboard
 slug: cafe-dashboard
 kind: personal
-displayOrder: 1
+group: systems
+displayOrder: 2
 clientType: Matcha cafe, Metro Manila
 stack: [React, TypeScript, Supabase, Netlify]
 year: 2026
 summary: >-
   A mobile-first order and customer dashboard for a matcha café. To keep
   customized orders consistent, I centralized pricing in a catalog-based engine
-  that calculates in integer centavos and ignores totals supplied by imports.
+  that calculates totals exactly to the centavo and ignores totals supplied by imports.
   Validation runs before an imported order is saved; tests cover price
   manipulation, modifier rules, and persistence. The public demo uses browser
   storage and sample data, letting visitors explore the workflow without

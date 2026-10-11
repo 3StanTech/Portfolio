@@ -8,55 +8,66 @@ import ProjectCard from '../../components/ProjectCard.astro';
 import ProjectModal from '../../components/ProjectModal.astro';
 
 type Project = CollectionEntry<'projects'>;
+type Group = Project['data']['group'];
 
 const projects: Project[] = (await getCollection('projects'))
   .sort((a: Project, b: Project) => a.data.displayOrder - b.data.displayOrder);
-const commercialProjects = projects.filter((project) => project.data.kind === 'commercial');
-const personalProjects = projects.filter((project) => project.data.kind === 'personal');
-const commercialCount = commercialProjects.length;
-const personalCount = personalProjects.length;
-const projectMix = `${personalCount} personal ${personalCount === 1 ? 'commission' : 'commissions'} and ${commercialCount} commercial ${commercialCount === 1 ? 'demo' : 'demos'}`;
+
+// Band order and copy. Each band lists its projects by displayOrder.
+const bands: { group: Group; id: string; title: string; lead: string }[] = [
+  {
+    group: 'systems',
+    id: 'systems',
+    title: 'Apps and systems',
+    lead: 'Full-stack builds with sign-in, private data and real business rules.',
+  },
+  {
+    group: 'websites',
+    id: 'websites',
+    title: 'Business websites',
+    lead: 'Concept builds for local businesses.',
+  },
+  {
+    group: 'small',
+    id: 'small-builds',
+    title: 'Small builds',
+    lead: 'Personal sites with a story.',
+  },
+];
+const groupedBands = bands
+  .map((band) => ({ ...band, projects: projects.filter((project) => project.data.group === band.group) }))
+  .filter((band) => band.projects.length > 0);
 ---
-<Base title="Projects | Tristan" description="Projects by Tristan: personal commissions and commercial demos. Open any one for details, then visit the live site." canonical="/projects/">
+<Base title="Projects | Tristan" description="Projects by Tristan: full-stack apps and systems, business websites and small personal builds. Open any one for the story, then try it yourself." canonical="/projects/">
   <section class="section starfield">
     <Constellation density={200} islandLimit={4} class="fade-edge" />
     <div class="container">
       <header class="page-head" data-reveal>
-        <p class="page-kicker"><span class="hero-dot" aria-hidden="true"></span>{projects.length} builds, open for details</p>
-        <h1 class="page-title">Sites that look like the <span class="hero-mark">business</span>, not the template.</h1>
-        <p class="page-lead">{projectMix}, each art-directed for the audience it serves. Open a project for the full story, then visit the real site.</p>
+        <p class="page-kicker"><span class="hero-dot" aria-hidden="true"></span>{projects.length} builds</p>
+        <h1 class="page-title">Built for the people who use them.</h1>
+        <p class="page-lead">Apps and systems first, then business websites and a few small personal builds. Open any one for the story, then try it yourself.</p>
       </header>
     </div>
   </section>
 
-  {personalProjects.length > 0 && (
-    <section class="section band-paper commissions" aria-labelledby="commissions-title">
+  {groupedBands.map((band, i) => (
+    <section
+      class:list={['section', i % 2 === 0 ? 'band-paper' : 'starfield']}
+      id={band.id}
+      aria-labelledby={`${band.id}-title`}
+    >
+      {i % 2 === 1 && <Constellation density={120} islandLimit={2} class="fade-edge" />}
       <div class="container">
-        <header class="commissions-head" data-reveal>
-          <p>Personal Commissions</p>
-          <h2 id="commissions-title">Specific builds for specific needs.</h2>
+        <header class="commissions-head band-head" data-reveal>
+          <h2 id={`${band.id}-title`}>{band.title}</h2>
+          <p>{band.lead}</p>
         </header>
         <div class="commission-list">
-          {personalProjects.map((project) => <ProjectCard project={project} compact headingLevel={3} />)}
+          {band.projects.map((project) => <ProjectCard project={project} compact headingLevel={3} />)}
         </div>
       </div>
     </section>
-  )}
-
-  {commercialProjects.length > 0 && (
-    <section class="section starfield demos" aria-labelledby="demos-title">
-      <Constellation density={120} islandLimit={2} class="fade-edge" />
-      <div class="container">
-        <header class="commissions-head" data-reveal>
-          <p>Commercial Demos</p>
-          <h2 id="demos-title">Business sites shaped around the offer.</h2>
-        </header>
-        <div class="commercial-supporting">
-          {commercialProjects.map((project) => <ProjectCard project={project} compact headingLevel={3} />)}
-        </div>
-      </div>
-    </section>
-  )}
+  ))}
 
   <section class="section band-dark closer">
     <Constellation class="fade-edge" />
@@ -67,6 +78,5 @@ const projectMix = `${personalCount} personal ${personalCount === 1 ? 'commissio
     </div>
   </section>
 
-  {personalProjects.map((project) => <ProjectModal project={project} />)}
-  {commercialProjects.map((project) => <ProjectModal project={project} />)}
+  {groupedBands.map((band) => band.projects.map((project) => <ProjectModal project={project} />))}
 </Base>

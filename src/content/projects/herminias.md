@@ -2,7 +2,8 @@
 title: Herminia's Food
 slug: herminias
 kind: commercial
-displayOrder: 4
+group: websites
+displayOrder: 5
 clientType: Event catering, Quezon City
 stack:
   - HTML

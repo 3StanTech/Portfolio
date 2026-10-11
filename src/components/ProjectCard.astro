@@ -14,6 +14,7 @@ const Heading = `h${headingLevel}`;
 const d = project.data;
 const titleLinkLabel = `${d.title}: view details`;
 const visitLabel = d.liveLabel ?? 'View site';
+const caseStudyHref = `/projects/${d.slug}/`;
 ---
 <article class:list={[
   'card panel',
@@ -49,6 +50,12 @@ const visitLabel = d.liveLabel ?? 'View site';
         >
           {visitLabel}
           <Icon name="external" />
+        </a>
+      )}
+      {!d.liveUrl && d.caseStudy && (
+        <a class="card-visit button secondary" href={caseStudyHref}>
+          Read the case study
+          <Icon name="arrow" />
         </a>
       )}
     </div>

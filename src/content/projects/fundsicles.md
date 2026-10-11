@@ -2,13 +2,14 @@
 title: Fundsicles — Expense Tracker
 slug: fundsicles
 kind: personal
-displayOrder: 2
+group: systems
+displayOrder: 3
 clientType: Personal finance tracker (public demo)
 stack: [React, TypeScript, Vite, IndexedDB]
 year: 2026
 summary: >-
   A personal-finance app built to distinguish actual spending from money moved
-  between accounts. I represented amounts in integer centavos, excluded
+  between accounts. I kept amounts exact to the centavo, excluded
   transfers and pending entries from cash-flow totals, and used database
   aggregates for the production dashboard rather than its limited transaction
   list. Tests cover money parsing and financial calculations. Production uses

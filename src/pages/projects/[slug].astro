@@ -1,0 +1,182 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import CTA from '../../components/CTA.astro';
+import Constellation from '../../components/Constellation.astro';
+import Icon from '../../components/Icon.astro';
+import OmniReviewerArchitecture from '../../components/diagrams/OmniReviewerArchitecture.astro';
+import '../../styles/case-study.css';
+
+type Project = CollectionEntry<'projects'>;
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', (entry: Project) => Boolean(entry.data.caseStudy));
+  return projects.map((project: Project) => ({
+    params: { slug: project.data.slug },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props as { project: Project };
+const d = project.data;
+const cs = d.caseStudy!;
+
+// Each architecture diagram is hand-built; the content entry picks one by key.
+const diagrams = {
+  'omni-reviewer': OmniReviewerArchitecture
+};
+const Diagram = diagrams[cs.diagram as keyof typeof diagrams];
+
+const liveLabel = d.liveLabel ?? 'Try the demo';
+const demoNote = cs.demoNote ?? d.demoNote;
+
+const toc = [
+  { id: 'problem', label: 'The problem' },
+  { id: 'constraints', label: 'Constraints' },
+  { id: 'architecture', label: 'How it fits together' },
+  { id: 'decisions', label: 'Decisions' },
+  { id: 'proof', label: 'Proof' },
+  ...(cs.next ? [{ id: 'next', label: 'Next' }] : [])
+];
+---
+<Base title={`${d.title} case study | Tristan`} description={cs.lede} canonical={`/projects/${d.slug}/`}>
+  <section class="section starfield case-head">
+    <Constellation density={120} islandLimit={2} class="fade-edge" />
+    <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/projects/">Projects</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{d.title}</span>
+      </nav>
+      <h1 class="page-title case-title">{d.title}</h1>
+      <p class="page-lead case-lede">{cs.lede}</p>
+      <dl class="facts">
+        {cs.facts.map((fact: { label: string; value: string }) => (
+          <div><dt>{fact.label}</dt><dd>{fact.value}</dd></div>
+        ))}
+      </dl>
+      <div class="case-actions">
+        {d.liveUrl && (
+          <a class="button" href={d.liveUrl} target="_blank" rel="noopener" aria-label={`${liveLabel} (opens in new tab)`}>
+            <Icon name="external" />
+            {liveLabel}
+          </a>
+        )}
+        {d.repoUrl && (
+          <a class:list={['button', { secondary: Boolean(d.liveUrl) }]} href={d.repoUrl} target="_blank" rel="noopener" aria-label="View the code on GitHub (opens in new tab)">
+            <Icon name="github" />
+            View the code
+          </a>
+        )}
+        {d.liveUrl && demoNote && <span class="demo-note">{demoNote}</span>}
+      </div>
+      <figure class="case-shot panel">
+        <Image
+          src={d.cover}
+          alt={d.coverAlt ?? ''}
+          widths={[640, 960, 1280, 1600]}
+          sizes="(max-width: 1152px) calc(100vw - 2rem), 1120px"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+        {cs.coverCaption && <figcaption class="demo-note">{cs.coverCaption}</figcaption>}
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container case-body">
+      <nav class="case-toc" aria-label="On this page" data-case-toc>
+        {toc.map((item) => <a href={`#${item.id}`}>{item.label}</a>)}
+      </nav>
+      <div class="case-main">
+        <section class="case-sec" id="problem" aria-labelledby="problem-title">
+          <h2 id="problem-title">The problem</h2>
+          <p>{cs.problem}</p>
+        </section>
+
+        <section class="case-sec" id="constraints" aria-labelledby="constraints-title">
+          <h2 id="constraints-title">Constraints</h2>
+          <ul class="constraints">
+            {cs.constraints.map((constraint: string) => <li>{constraint}</li>)}
+          </ul>
+        </section>
+
+        <section class="case-sec" id="architecture" aria-labelledby="architecture-title">
+          <h2 id="architecture-title">How it fits together</h2>
+          <figure class="diagram panel">
+            <Diagram />
+            <figcaption>{cs.diagramCaption}</figcaption>
+          </figure>
+        </section>
+
+        <section class="case-sec" id="decisions" aria-labelledby="decisions-title">
+          <h2 id="decisions-title">Decisions that mattered</h2>
+          <div class="decisions">
+            {cs.decisions.map((decision: { title: string; body: string }) => (
+              <div class="decision">
+                <h3>{decision.title}</h3>
+                <p>{decision.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="case-sec" id="proof" aria-labelledby="proof-title">
+          <h2 id="proof-title">Proof</h2>
+          <ul class="proof-list">
+            {cs.proof.map((item: { lead: string; body: string }) => (
+              <li><Icon name="check" /><span><strong>{item.lead}</strong> {item.body}</span></li>
+            ))}
+          </ul>
+        </section>
+
+        {cs.next && (
+          <section class="case-sec" id="next" aria-labelledby="next-title">
+            <h2 id="next-title">Next</h2>
+            <p>{cs.next}</p>
+          </section>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-dark closer">
+    <Constellation class="fade-edge" />
+    <div class="container closer-inner">
+      <h2 class="closer-title">Want something like this for your team?</h2>
+      <CTA label="Email me" showPhone />
+      <p class="closer-note">No forms, no pressure. A plain email describing your business is enough.</p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Marks the section in view in the "On this page" menu. Observation only:
+  // it never moves the scroll position.
+  const toc = document.querySelector<HTMLElement>('[data-case-toc]');
+  if (toc && 'IntersectionObserver' in window) {
+    const links = new Map<string, HTMLAnchorElement>();
+    toc.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((link) => {
+      links.set(link.hash.slice(1), link);
+    });
+    const setCurrent = (id: string) => {
+      links.forEach((link, key) => {
+        if (key === id) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setCurrent(entry.target.id);
+      });
+    }, { rootMargin: '-25% 0px -65% 0px' });
+    links.forEach((_link, id) => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+  }
+</script>

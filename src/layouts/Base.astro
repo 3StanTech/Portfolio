@@ -4,11 +4,11 @@ import Icon from '../components/Icon.astro';
 import logoHeader from '../assets/logo-header.png';
 
 const {
-  title = 'Tristan Dolfo | Software Developer from the Philippines',
+  title = 'Tristan Dolfo | Full-Stack Developer from the Philippines',
   description = 'Fast, polished sites and systems for businesses. Built by Tristan Dolfo. Philippines.',
   canonical = Astro.url.pathname,
   // Query version forces social crawlers to re-fetch after brand/copy changes.
-  ogImage = '/og-image.png?v=20260730-2',
+  ogImage = '/og-image.png?v=20261011-1',
   jsonLd
 } = Astro.props;
 
@@ -20,7 +20,7 @@ if (!siteUrl) {
 }
 const canonicalUrl = new URL(canonical, siteUrl).toString();
 const ogUrl = new URL(ogImage, siteUrl).toString();
-const ogImageAlt = 'Tristan Dolfo — Philippines software developer. Sites and systems for local businesses.';
+const ogImageAlt = 'Tristan Dolfo — Philippines full-stack developer. Sites and systems for local businesses.';
 const resumeHref = '/Tristan_Dolfo_Resume.pdf';
 
 // Active-nav "you are here": a nav item is current when the path matches it.
@@ -29,7 +29,8 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
 const navLinks = [
   { href: '/projects/', label: 'Projects' },
   { href: '/services/', label: 'Services' },
-  { href: '/about/', label: 'About' }
+  { href: '/about/', label: 'About' },
+  { href: resumeHref, label: 'Résumé', external: true }
 ];
 ---
 <!doctype html>
@@ -87,7 +88,7 @@ const navLinks = [
             alt=""
             decoding="async"
           />
-          <span>Tristan Dolfo<small>Software developer</small></span>
+          <span>Tristan Dolfo<small>Full-stack developer</small></span>
         </a>
         <button class="theme-toggle" type="button" aria-label="Switch to dark theme" data-theme-toggle>
           <span data-icon="moon"><Icon name="moon" /></span>
@@ -101,8 +102,11 @@ const navLinks = [
           {navLinks.map((link) => (
             <a
               href={link.href}
-              class:list={{ 'is-current': isCurrent(link.href) }}
-              aria-current={isCurrent(link.href) ? 'page' : undefined}
+              class:list={{ 'is-current': !link.external && isCurrent(link.href) }}
+              aria-current={!link.external && isCurrent(link.href) ? 'page' : undefined}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener' : undefined}
+              aria-label={link.external ? 'Résumé (PDF, opens in new tab)' : undefined}
             >{link.label}</a>
           ))}
           <a class="nav-cta" href="https://mail.google.com/mail/?view=cm&fs=1&to=tristandolfo@gmail.com&su=Portfolio%20inquiry" target="_blank" rel="noopener">Email me</a>
@@ -130,7 +134,14 @@ const navLinks = [
         </div>
         <div class="footer-secondary">
           <nav class="footer-nav" aria-label="Footer">
-            {navLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+            {navLinks.map((link) => (
+              <a
+                href={link.href}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener' : undefined}
+                aria-label={link.external ? 'Résumé (PDF, opens in new tab)' : undefined}
+              >{link.label}</a>
+            ))}
           </nav>
           <p>Philippines · usually replies within a day</p>
         </div>
@@ -139,7 +150,7 @@ const navLinks = [
     <script>
       // A lil hello for the curious recruiters and devs who open the console.
       console.log(
-        '%cTristan · software developer%c\nLiked the build? Let’s make yours. → tristandolfo@gmail.com',
+        '%cTristan · full-stack developer%c\nLiked the build? Let’s make yours. → tristandolfo@gmail.com',
         'font: 650 15px/1.5 Georgia, serif; color: #D9822B',
         'font: 400 13px/1.6 system-ui, sans-serif; color: #4A6FA5'
       );

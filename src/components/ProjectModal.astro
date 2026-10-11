@@ -7,6 +7,7 @@ interface Props { project: CollectionEntry<'projects'> }
 const { project } = Astro.props;
 const d = project.data;
 const liveLabel = d.liveLabel ?? 'Visit the site';
+const caseStudyHref = `/projects/${d.slug}/`;
 ---
 <dialog class="pm" id={`pm-${d.slug}`} aria-labelledby={`pm-title-${d.slug}`}>
   <div class="pm-inner">
@@ -35,10 +36,22 @@ const liveLabel = d.liveLabel ?? 'Visit the site';
       </div>
     </div>
     <div class="pm-actions">
-      {d.liveUrl
-        ? <a class="button" href={d.liveUrl} target="_blank" rel="noopener" aria-label={`${liveLabel} — ${d.title} (opens in new tab)`}>{liveLabel} <Icon name="external" /></a>
-        : <p class="pm-note">This one runs behind a PIN-gated login, so there is no public URL to visit.</p>}
-      {d.liveUrl && d.demoNote && <p class="pm-demo-note">{d.demoNote}</p>}
+      {d.liveUrl ? (
+        <>
+          <a class="button" href={d.liveUrl} target="_blank" rel="noopener" aria-label={`${liveLabel} — ${d.title} (opens in new tab)`}>{liveLabel} <Icon name="external" /></a>
+          {d.caseStudy && <a class="text-link" href={caseStudyHref}>Read the case study <Icon name="arrow" /></a>}
+          {d.demoNote && <p class="pm-demo-note">{d.demoNote}</p>}
+        </>
+      ) : d.caseStudy ? (
+        <>
+          <a class="button" href={caseStudyHref}>Read the case study <Icon name="arrow" /></a>
+          {d.repoUrl && (
+            <a class="text-link" href={d.repoUrl} target="_blank" rel="noopener" aria-label={`View the code — ${d.title} on GitHub (opens in new tab)`}>View the code <Icon name="external" /></a>
+          )}
+        </>
+      ) : (
+        <p class="pm-note">This one runs behind a PIN-gated login, so there is no public URL to visit.</p>
+      )}
     </div>
   </div>
 </dialog>

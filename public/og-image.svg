@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
   <title id="title">Tristan Dolfo Portfolio</title>
-  <desc id="desc">Software developer from the Philippines, building sites and systems for local businesses</desc>
+  <desc id="desc">Full-stack developer from the Philippines, building sites and systems for local businesses</desc>
   <rect width="1200" height="630" fill="#F7F9FC"/>
   <rect x="48" y="48" width="1104" height="534" rx="18" fill="#DCE6F1" stroke="#14304E" stroke-width="3"/>
   <path d="M48 430h1104v152H48z" fill="#14304E"/>
   <!-- Night Studio monogram plate (rasterized/composited by scripts/gen-og-image.mjs) -->
   <rect id="logo-slot" x="868" y="92" width="248" height="248" rx="14" fill="#0B1F35" stroke="#14304E" stroke-width="3"/>
-  <text x="104" y="150" fill="#935214" font-family="Arial, sans-serif" font-size="27" font-weight="700" letter-spacing="5">PHILIPPINES · SOFTWARE DEVELOPER</text>
+  <text x="104" y="150" fill="#935214" font-family="Arial, sans-serif" font-size="27" font-weight="700" letter-spacing="5">PHILIPPINES · FULL-STACK DEVELOPER</text>
   <text x="102" y="268" fill="#16202B" font-family="Georgia, serif" font-size="84" font-weight="700">Tristan Dolfo</text>
   <!-- Two-line headline: matches site offer, kept left of logo plate (x=868) and above contact band (y=430) -->
   <text x="104" y="338" fill="#16202B" font-family="Georgia, serif" font-size="44" font-weight="700">Sites and systems for</text>

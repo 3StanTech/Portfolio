@@ -2,7 +2,8 @@
 title: Pearl Anniversary Celebration
 slug: pearl-anniversary
 kind: personal
-displayOrder: 3
+group: small
+displayOrder: 4
 clientType: Privacy-safe anniversary keepsake (public demo)
 stack: [HTML, CSS, JavaScript, Netlify Blobs]
 year: 2026
@@ -20,6 +21,6 @@ liveUrl: https://publicdemo-anniv-celebration.netlify.app
 liveLabel: Visit interactive demo version
 demoNote: Demo only — fictional couple; guest edits may reset daily.
 repoUrl: https://github.com/3StanTech/PublicDemo-Anniv-Celebration
-coverAlt: Couple embracing outdoors in warm golden light at sunset
-cover: ../../assets/pearl-anniversary-hero.webp
+coverAlt: Watercolor illustration of a pearl keepsake for an anniversary album
+cover: ../../assets/pearl-anniversary-cute.png
 ---
