@@ -1,0 +1,78 @@
+---
+// Café order dashboard (public demo) architecture diagram. No props.
+// Wide layout above 700px, stacked layout below; case-study.css switches them
+// and supplies every fill and stroke through the .dg* classes.
+---
+
+<div class="diagram-art">
+  <svg class="dg dg-wide" viewBox="0 49 760 142" role="img" aria-labelledby="cafe-arch-title-wide">
+    <title id="cafe-arch-title-wide">The browser builds sample orders and saves a visitor's changes to Firestore under an anonymous ID; a Cloud Function re-prices each saved order and writes a verification record back to Firestore</title>
+    <defs>
+      <marker id="cafe-arch-ah-wide" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 10 5 0 10z" class="dg-ah" />
+      </marker>
+    </defs>
+    <path class="dg-l" d="M212 120 H268" marker-start="url(#cafe-arch-ah-wide)" marker-end="url(#cafe-arch-ah-wide)" />
+    <path class="dg-l" d="M490 100 H536" marker-end="url(#cafe-arch-ah-wide)" />
+    <path class="dg-l" d="M538 140 H492" marker-end="url(#cafe-arch-ah-wide)" />
+    <g class="dg-node">
+      <rect x="10" y="59" width="200" height="122" rx="8" />
+      <text class="dg-t" x="24" y="85">Browser</text>
+      <text class="dg-s" x="24" y="105">React + TypeScript</text>
+      <text class="dg-s" x="24" y="123">Builds the sample data</text>
+      <text class="dg-s" x="24" y="141">Prices every order</text>
+      <text class="dg-s" x="24" y="159">Shows the verified chip</text>
+    </g>
+    <g class="dg-node">
+      <rect x="270" y="59" width="220" height="122" rx="8" />
+      <text class="dg-t" x="284" y="85">Firestore</text>
+      <text class="dg-s" x="284" y="105">Only a visitor's changes</text>
+      <text class="dg-s" x="284" y="123">Anonymous ID, owner-only</text>
+      <text class="dg-s" x="284" y="141">Shape and rate limits</text>
+      <text class="dg-s" x="284" y="159">App Check enforced</text>
+    </g>
+    <g class="dg-node">
+      <rect x="538" y="59" width="212" height="122" rx="8" />
+      <text class="dg-t" x="552" y="85">Cloud Function</text>
+      <text class="dg-s" x="552" y="105">Runs on each saved order</text>
+      <text class="dg-s" x="552" y="123">Same pricing engine</text>
+      <text class="dg-s" x="552" y="141">Writes a verification</text>
+      <text class="dg-s" x="552" y="159">1 instance, spend cap</text>
+    </g>
+  </svg>
+  <svg class="dg dg-tall" viewBox="0 0 360 410" role="img" aria-labelledby="cafe-arch-title-tall">
+    <title id="cafe-arch-title-tall">The browser builds sample orders and saves a visitor's changes to Firestore under an anonymous ID; a Cloud Function re-prices each saved order and writes a verification record back to Firestore</title>
+    <defs>
+      <marker id="cafe-arch-ah-tall" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 10 5 0 10z" class="dg-ah" />
+      </marker>
+    </defs>
+    <path class="dg-l" d="M180 124 V146" marker-start="url(#cafe-arch-ah-tall)" marker-end="url(#cafe-arch-ah-tall)" />
+    <path class="dg-l" d="M150 262 V286" marker-end="url(#cafe-arch-ah-tall)" />
+    <path class="dg-l" d="M210 286 V262" marker-end="url(#cafe-arch-ah-tall)" />
+    <g class="dg-node">
+      <rect x="40" y="10" width="280" height="112" rx="8" />
+      <text class="dg-t" x="54" y="36">Browser</text>
+      <text class="dg-s" x="54" y="56">React + TypeScript</text>
+      <text class="dg-s" x="54" y="74">Builds the sample data</text>
+      <text class="dg-s" x="54" y="92">Prices every order</text>
+      <text class="dg-s" x="54" y="110">Shows the verified chip</text>
+    </g>
+    <g class="dg-node">
+      <rect x="40" y="148" width="280" height="112" rx="8" />
+      <text class="dg-t" x="54" y="174">Firestore</text>
+      <text class="dg-s" x="54" y="194">Only a visitor's changes</text>
+      <text class="dg-s" x="54" y="212">Anonymous ID, owner-only</text>
+      <text class="dg-s" x="54" y="230">Shape and rate limits</text>
+      <text class="dg-s" x="54" y="248">App Check enforced</text>
+    </g>
+    <g class="dg-node">
+      <rect x="40" y="288" width="280" height="112" rx="8" />
+      <text class="dg-t" x="54" y="314">Cloud Function</text>
+      <text class="dg-s" x="54" y="334">Runs on each saved order</text>
+      <text class="dg-s" x="54" y="352">Same pricing engine</text>
+      <text class="dg-s" x="54" y="370">Writes a verification</text>
+      <text class="dg-s" x="54" y="388">1 instance, spend cap</text>
+    </g>
+  </svg>
+</div>
