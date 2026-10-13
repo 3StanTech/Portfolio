@@ -1,0 +1,76 @@
+---
+// Fundsicles (public demo) architecture diagram. No props.
+// Wide layout above 700px, stacked layout below; case-study.css switches them
+// and supplies every fill and stroke through the .dg* classes.
+---
+
+<div class="diagram-art">
+  <svg class="dg dg-wide" viewBox="0 49 760 142" role="img" aria-labelledby="fundsicles-arch-title-wide">
+    <title id="fundsicles-arch-title-wide">The browser builds the sample data and lays a visitor's saved changes over it; Firestore's local cache on the device holds edits through reloads and offline spells, and syncs them to Firestore, which stores only that visitor's changes under an anonymous ID and checks them with security rules and App Check</title>
+    <defs>
+      <marker id="fundsicles-arch-ah-wide" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 10 5 0 10z" class="dg-ah" />
+      </marker>
+    </defs>
+    <path class="dg-l" d="M212 120 H268" marker-start="url(#fundsicles-arch-ah-wide)" marker-end="url(#fundsicles-arch-ah-wide)" />
+    <path class="dg-l" d="M492 120 H536" marker-start="url(#fundsicles-arch-ah-wide)" marker-end="url(#fundsicles-arch-ah-wide)" />
+    <g class="dg-node">
+      <rect x="10" y="59" width="200" height="122" rx="8" />
+      <text class="dg-t" x="24" y="85">Browser</text>
+      <text class="dg-s" x="24" y="105">React + TypeScript</text>
+      <text class="dg-s" x="24" y="123">Builds the sample data</text>
+      <text class="dg-s" x="24" y="141">Counts in whole centavos</text>
+      <text class="dg-s" x="24" y="159">Lays edits over samples</text>
+    </g>
+    <g class="dg-node">
+      <rect x="270" y="59" width="220" height="122" rx="8" />
+      <text class="dg-t" x="284" y="85">Local cache</text>
+      <text class="dg-s" x="284" y="105">Firestore, on the device</text>
+      <text class="dg-s" x="284" y="123">Holds edits made offline</text>
+      <text class="dg-s" x="284" y="141">Survives a reload</text>
+      <text class="dg-s" x="284" y="159">Sends each edit once</text>
+    </g>
+    <g class="dg-node">
+      <rect x="538" y="59" width="212" height="122" rx="8" />
+      <text class="dg-t" x="552" y="85">Firestore</text>
+      <text class="dg-s" x="552" y="105">Only a visitor's changes</text>
+      <text class="dg-s" x="552" y="123">Anonymous ID, owner-only</text>
+      <text class="dg-s" x="552" y="141">Shape checks, write cap</text>
+      <text class="dg-s" x="552" y="159">App Check enforced</text>
+    </g>
+  </svg>
+  <svg class="dg dg-tall" viewBox="0 0 360 410" role="img" aria-labelledby="fundsicles-arch-title-tall">
+    <title id="fundsicles-arch-title-tall">The browser builds the sample data and lays a visitor's saved changes over it; Firestore's local cache on the device holds edits through reloads and offline spells, and syncs them to Firestore, which stores only that visitor's changes under an anonymous ID and checks them with security rules and App Check</title>
+    <defs>
+      <marker id="fundsicles-arch-ah-tall" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 10 5 0 10z" class="dg-ah" />
+      </marker>
+    </defs>
+    <path class="dg-l" d="M180 124 V146" marker-start="url(#fundsicles-arch-ah-tall)" marker-end="url(#fundsicles-arch-ah-tall)" />
+    <path class="dg-l" d="M180 262 V286" marker-start="url(#fundsicles-arch-ah-tall)" marker-end="url(#fundsicles-arch-ah-tall)" />
+    <g class="dg-node">
+      <rect x="40" y="10" width="280" height="112" rx="8" />
+      <text class="dg-t" x="54" y="36">Browser</text>
+      <text class="dg-s" x="54" y="56">React + TypeScript</text>
+      <text class="dg-s" x="54" y="74">Builds the sample data</text>
+      <text class="dg-s" x="54" y="92">Counts in whole centavos</text>
+      <text class="dg-s" x="54" y="110">Lays edits over samples</text>
+    </g>
+    <g class="dg-node">
+      <rect x="40" y="148" width="280" height="112" rx="8" />
+      <text class="dg-t" x="54" y="174">Local cache</text>
+      <text class="dg-s" x="54" y="194">Firestore, on the device</text>
+      <text class="dg-s" x="54" y="212">Holds edits made offline</text>
+      <text class="dg-s" x="54" y="230">Survives a reload</text>
+      <text class="dg-s" x="54" y="248">Sends each edit once</text>
+    </g>
+    <g class="dg-node">
+      <rect x="40" y="288" width="280" height="112" rx="8" />
+      <text class="dg-t" x="54" y="314">Firestore</text>
+      <text class="dg-s" x="54" y="334">Only a visitor's changes</text>
+      <text class="dg-s" x="54" y="352">Anonymous ID, owner-only</text>
+      <text class="dg-s" x="54" y="370">Shape checks, write cap</text>
+      <text class="dg-s" x="54" y="388">App Check enforced</text>
+    </g>
+  </svg>
+</div>

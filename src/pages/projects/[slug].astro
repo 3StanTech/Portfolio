@@ -8,6 +8,7 @@ import Constellation from '../../components/Constellation.astro';
 import Icon from '../../components/Icon.astro';
 import OmniReviewerArchitecture from '../../components/diagrams/OmniReviewerArchitecture.astro';
 import CafeOmsArchitecture from '../../components/diagrams/CafeOmsArchitecture.astro';
+import FundsiclesArchitecture from '../../components/diagrams/FundsiclesArchitecture.astro';
 import '../../styles/case-study.css';
 
 type Project = CollectionEntry<'projects'>;
@@ -27,7 +28,8 @@ const cs = d.caseStudy!;
 // Each architecture diagram is hand-built; the content entry picks one by key.
 const diagrams = {
   'omni-reviewer': OmniReviewerArchitecture,
-  'cafe-dashboard': CafeOmsArchitecture
+  'cafe-dashboard': CafeOmsArchitecture,
+  fundsicles: FundsiclesArchitecture
 };
 const Diagram = diagrams[cs.diagram as keyof typeof diagrams];
 

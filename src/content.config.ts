@@ -18,7 +18,7 @@ const projects = defineCollection({
         coverCaption: z.string().optional(),
         problem: z.string(),
         constraints: z.array(z.string()).min(1),
-        diagram: z.enum(['omni-reviewer', 'cafe-dashboard']),
+        diagram: z.enum(['omni-reviewer', 'cafe-dashboard', 'fundsicles']),
         diagramCaption: z.string(),
         decisions: z.array(z.object({ title: z.string(), body: z.string() })).min(1),
         proof: z.array(z.object({ lead: z.string(), body: z.string() })).min(1),
