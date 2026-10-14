@@ -42,7 +42,7 @@ caseStudy:
     - Run one-handed on a phone
     - Real finances stay in production
     - No hosting bill for the public demo
-    - Visitors' edits survive a reload, even offline
+    - Visitors' edits survive a reload, even while the database is unreachable
   diagram: fundsicles
   diagramCaption: >-
     The sample data is built in the browser. Only a visitor's own edits are
@@ -67,8 +67,9 @@ caseStudy:
     - title: One offline layer, not two
       body: >-
         Firestore's own local cache is the only offline store. An edit made
-        with no connection survives a reload and is sent once when the
-        connection returns.
+        while Firestore is unreachable is kept, survives a reload as long as
+        the page itself can load, and is sent once Firestore is reachable
+        again.
     - title: Guardrails on a free plan
       body: >-
         The rules let each visitor reach only their own space, check every
@@ -85,8 +86,8 @@ caseStudy:
       body: On the live demo, a ₱123.45 expense moved the month's expenses by exactly 12,345 centavos.
     - lead: Transfers stay out.
       body: A ₱500 transfer left the month's income and expenses unchanged.
-    - lead: Offline edits sync once.
-      body: An edit made offline survived a reload and reached the server as exactly one record.
+    - lead: Unsynced edits sync once.
+      body: With Firestore blocked, an edit survived a reload and reached the server as exactly one record once the connection returned.
     - lead: Locked to each visitor.
       body: A request without an App Check token is refused, and no visitor can read another's space.
     - lead: Rules tested in CI.

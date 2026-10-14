@@ -6,7 +6,7 @@
 
 <div class="diagram-art">
   <svg class="dg dg-wide" viewBox="0 49 760 142" role="img" aria-labelledby="fundsicles-arch-title-wide">
-    <title id="fundsicles-arch-title-wide">The browser builds the sample data and lays a visitor's saved changes over it; Firestore's local cache on the device holds edits through reloads and offline spells, and syncs them to Firestore, which stores only that visitor's changes under an anonymous ID and checks them with security rules and App Check</title>
+    <title id="fundsicles-arch-title-wide">The browser builds the sample data and lays a visitor's saved changes over it; Firestore's local cache on the device keeps edits Firestore has not yet received, including through a reload while the page can still load, and sends each one to Firestore once it is reachable again; Firestore stores only that visitor's changes under an anonymous ID and checks them with security rules and App Check</title>
     <defs>
       <marker id="fundsicles-arch-ah-wide" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
         <path d="M0 0 10 5 0 10z" class="dg-ah" />
@@ -26,9 +26,9 @@
       <rect x="270" y="59" width="220" height="122" rx="8" />
       <text class="dg-t" x="284" y="85">Local cache</text>
       <text class="dg-s" x="284" y="105">Firestore, on the device</text>
-      <text class="dg-s" x="284" y="123">Holds edits made offline</text>
+      <text class="dg-s" x="284" y="123">Keeps unsynced edits</text>
       <text class="dg-s" x="284" y="141">Survives a reload</text>
-      <text class="dg-s" x="284" y="159">Sends each edit once</text>
+      <text class="dg-s" x="284" y="159">Syncs when reachable</text>
     </g>
     <g class="dg-node">
       <rect x="538" y="59" width="212" height="122" rx="8" />
@@ -40,7 +40,7 @@
     </g>
   </svg>
   <svg class="dg dg-tall" viewBox="0 0 360 410" role="img" aria-labelledby="fundsicles-arch-title-tall">
-    <title id="fundsicles-arch-title-tall">The browser builds the sample data and lays a visitor's saved changes over it; Firestore's local cache on the device holds edits through reloads and offline spells, and syncs them to Firestore, which stores only that visitor's changes under an anonymous ID and checks them with security rules and App Check</title>
+    <title id="fundsicles-arch-title-tall">The browser builds the sample data and lays a visitor's saved changes over it; Firestore's local cache on the device keeps edits Firestore has not yet received, including through a reload while the page can still load, and sends each one to Firestore once it is reachable again; Firestore stores only that visitor's changes under an anonymous ID and checks them with security rules and App Check</title>
     <defs>
       <marker id="fundsicles-arch-ah-tall" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
         <path d="M0 0 10 5 0 10z" class="dg-ah" />
@@ -60,9 +60,9 @@
       <rect x="40" y="148" width="280" height="112" rx="8" />
       <text class="dg-t" x="54" y="174">Local cache</text>
       <text class="dg-s" x="54" y="194">Firestore, on the device</text>
-      <text class="dg-s" x="54" y="212">Holds edits made offline</text>
+      <text class="dg-s" x="54" y="212">Keeps unsynced edits</text>
       <text class="dg-s" x="54" y="230">Survives a reload</text>
-      <text class="dg-s" x="54" y="248">Sends each edit once</text>
+      <text class="dg-s" x="54" y="248">Syncs when reachable</text>
     </g>
     <g class="dg-node">
       <rect x="40" y="288" width="280" height="112" rx="8" />

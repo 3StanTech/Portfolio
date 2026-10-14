@@ -292,8 +292,9 @@ CTAs, and a purposeful hover lift. Nothing tentative, nothing overwrought.
   "Email me" renders as the primary pill CTA at the end of the nav.
 - **Theme toggle:** a circular icon button (moon in light, sun in dark) that writes
   `data-theme` and persists to `localStorage`, with a no-flash inline script in
-  `<head>`. Dark is the default, including without JavaScript; only a saved
-  `light` choice overrides it, independently of `prefers-color-scheme`.
+  `<head>`. The boot script uses the saved choice when there is one, otherwise
+  `prefers-color-scheme`. Dark-by-default is not implemented; whether to build
+  it is an open owner decision (see `master.md`).
 - **Résumé:** a PDF link in desktop/mobile navigation and the footer, opening
   in a new tab with an accessible name that states that behavior.
 
@@ -312,10 +313,12 @@ long summary, outcome and full stack; its `.pm-actions` stays below the scrollin
 body. With a live URL, the modal leads with the live action and adds a case-study
 text link only when that data exists. With a case study and no demo, it leads
 with "Read the case study" and offers "View the code" when `repoUrl` exists.
-That code action is a narrow exception, confined to the modal and case-study
-page for a project with a case study and no demo. Omni-Reviewer, Café OMS and
-Fundsicles all have case-study data, live demos and real screenshot covers, so
-the code exception applies to none of them today.
+In the modal that code link is a narrow exception for a project with a case
+study and no demo. The case-study page is different: it shows "View the code"
+whenever `repoUrl` exists, as a secondary button beside the live demo when
+there is one. Omni-Reviewer, Café OMS and Fundsicles all have case-study data,
+live demos, repos and real screenshot covers, so their modals show no code link
+and their case-study pages do.
 
 ### Projects bands
 Eight projects appear in three `group` bands: **Apps and systems** (`systems`,

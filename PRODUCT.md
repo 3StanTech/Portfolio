@@ -49,9 +49,11 @@ above. Every confident move must stay instantly legible to a café owner on a ph
 ## Evidence on Hand
 
 Canonical working projects currently on the site (see `src/content/projects/` and
-`master.md`): Herminia's Food and Justdiz Preproductions as art-directed commercial
-demos; Order Management System + CRM Dashboard, Fundsicles, and Pearl Anniversary as
-public-demo personal commissions; The Big Thirty as a privacy-safe full-stack build
+`master.md`): Omni-Reviewer, a study app built for a paying student client, with a
+sample-only public demo; Order Management System + CRM Dashboard, paid commercial
+work for an unnamed café, with a sample-data public demo; Herminia's Food and
+Justdiz Preproductions as art-directed commercial demos; Fundsicles and Pearl
+Anniversary as public-demo personal projects; The Big Thirty as a privacy-safe full-stack build
 backed by an isolated Netlify Blobs store; and the Bubu Workout microsite. Visible
 craft of the portfolio itself is also evidence. Do not fabricate testimonials,
 pricing, or live-client claims beyond what these sources support.
