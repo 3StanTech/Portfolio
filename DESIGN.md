@@ -378,6 +378,10 @@ and `--text-kicker` roles. Hero Email/Call and View Resume/View Github stay in a
 - **Do** route every color through the tokens in `src/styles/tokens.css`. All hues
   flow from tokens; the semantic roles (`--brand`, `--link`, `--on-dark`…) are what
   make the dark theme work.
+  The hex values in this document are the specification those tokens implement
+  (kept in sync with `tokens.css`); the no-hex rule applies to code. The only
+  literals outside `tokens.css` are the `theme-color` meta in `Base.astro` (HTML
+  cannot read CSS variables) and the console greeting's `%c` styles.
 - **Do** verify AA on any new text/background pair in *both* themes before shipping;
   use Signed Amber (#935214) and Soft Ink (#536376) on tinted light bands.
 - **Do** keep amber rare and warm — one CTA, the external-link marks, a hover.

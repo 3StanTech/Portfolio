@@ -40,6 +40,7 @@
   --button-bg: var(--navy);
   --button-bg-hover: var(--navy-2);
   --button-text: #FFFFFF;
+  --on-amber-dark: #FFFFFF; /* text on the amber-dark hover fill; same in both themes */
 
   /* Deep contrast bands (closer sections + footer). These follow the theme:
      tinted-light in light mode, navy in dark mode. */

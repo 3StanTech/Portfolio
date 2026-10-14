@@ -1527,7 +1527,7 @@ dialog.pm::backdrop {
 .band-dark .button:not(.secondary):hover {
   background: var(--amber-dark);
   border-color: var(--amber-dark);
-  color: #FFFFFF;
+  color: var(--on-amber-dark);
 }
 .band-dark .button.secondary {
   color: var(--on-dark);
