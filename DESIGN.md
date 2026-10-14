@@ -313,8 +313,9 @@ body. With a live URL, the modal leads with the live action and adds a case-stud
 text link only when that data exists. With a case study and no demo, it leads
 with "Read the case study" and offers "View the code" when `repoUrl` exists.
 That code action is a narrow exception, confined to the modal and case-study
-page for a project with a case study and no demo. Currently only Omni-Reviewer
-has case-study data; its cover is explicitly an illustration.
+page for a project with a case study and no demo. Omni-Reviewer, Café OMS and
+Fundsicles all have case-study data, live demos and real screenshot covers, so
+the code exception applies to none of them today.
 
 ### Projects bands
 Eight projects appear in three `group` bands: **Apps and systems** (`systems`,
@@ -348,8 +349,10 @@ and `--text-kicker` roles. Hero Email/Call and View Resume/View Github stay in a
 - **Header and facts:** a Breadcrumb nav, title/lede, and `<dl>` facts row use
   `--ink`, `--ink-soft`, `--line-strong`, `--text-label`, `--text-meta` and spacing
   tokens. Facts wrap from four columns to two at ≤860px. The cover/caption reuses
-  `--panel`, `--radius-sm` and `--text-supporting`. Omni-Reviewer offers "View the
-  code" and no demo action.
+  `--panel`, `--radius-sm` and `--text-supporting`. Each case-study page
+  (Omni-Reviewer, Café OMS, Fundsicles) leads with its live demo action, which
+  opens in a new tab, shows the demo note beside it, and offers "View the code"
+  when `repoUrl` exists.
 - **Section menu:** a sticky "On this page" nav beside the left-aligned content
   links to problem, constraints, architecture, decisions, proof and optional
   next. At ≤860px it becomes a horizontal scroller above the content. The current
@@ -360,8 +363,9 @@ and `--text-kicker` roles. Hero Email/Call and View Resume/View Github stay in a
   spacing tokens. Decision title/body columns stack at ≤860px.
 - **Proof list:** check icons use `--accent-ink`; bold leads use `--ink`, bodies
   `--ink-soft`. Proof describes outcomes and verification without test counts.
-- **Architecture diagram:** `OmniReviewerArchitecture.astro` supplies wide and
-  stacked SVGs with accessible titles and real text. Nodes use `--panel` and
+- **Architecture diagram:** `OmniReviewerArchitecture.astro`,
+  `CafeOmsArchitecture.astro` and `FundsiclesArchitecture.astro` each supply wide
+  and stacked SVGs with accessible titles and real text. Nodes use `--panel` and
   `--line-strong`, labels `--ink` / `--ink-soft`, and arrows `--steel`, with
   `--font-display` / `--font-body`. The stacked SVG appears at ≤700px. Its caption
   uses `--text-supporting`; the closer uses `--band-deep-bg` and the shared CTA.
