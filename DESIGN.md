@@ -293,8 +293,8 @@ CTAs, and a purposeful hover lift. Nothing tentative, nothing overwrought.
 - **Theme toggle:** a circular icon button (moon in light, sun in dark) that writes
   `data-theme` and persists to `localStorage`, with a no-flash inline script in
   `<head>`. The boot script uses the saved choice when there is one, otherwise
-  `prefers-color-scheme`. Dark-by-default is not implemented; whether to build
-  it is an open owner decision (see `master.md`).
+  `prefers-color-scheme`. Following the system setting is the decided default
+  (owner, 2026-10-14); dark-by-default was considered and declined.
 - **Résumé:** a PDF link in desktop/mobile navigation and the footer, opening
   in a new tab with an accessible name that states that behavior.
 
