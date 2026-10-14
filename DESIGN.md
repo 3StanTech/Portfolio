@@ -338,8 +338,8 @@ glow bottom-left over Paper) — no raster image, so it stays clean in both them
 The Proof Panel begins with a pinned **Hiring a developer?** link to `/projects/`,
 followed by the Selected work label, all eight project buttons in `displayOrder`
 (Omni-Reviewer first), and a fixed footnote. Only `.works-list` scrolls. The hiring
-row uses a 9% `color-mix` tint from `--accent-ink` (15% on hover), an accent code
-icon/arrow, `--divider`, and the existing `--ink`, `--ink-soft`, `--text-work-title`
+row sits on the `--mist` band tone (`--sky` on hover) so it stays in the navy
+family in both themes, with an accent code icon/arrow, `--divider`, and the existing `--ink`, `--ink-soft`, `--text-work-title`
 and `--text-kicker` roles. Hero Email/Call and View Resume/View Github stay in a
 2×2; the Call label stays on one line.
 
