@@ -43,8 +43,8 @@ li + li { margin-top: .35rem; }
   left: .75rem;
   z-index: 100;
   transform: translateY(-160%);
-  background: var(--navy-2);
-  color: var(--on-dark);
+  background: var(--skip-bg);
+  color: var(--skip-text);
   padding: .7rem .9rem;
   border-radius: var(--radius-sm);
 }
@@ -849,6 +849,17 @@ li + li { margin-top: .35rem; }
 }
 .sec-cta { margin-top: var(--space-5); }
 
+/* Plain-text contact line under each CTA button row. */
+.cta-address {
+  margin-top: var(--space-3);
+  color: var(--ink-soft);
+  font-size: var(--text-supporting);
+}
+/* Its link keeps the global `a` styling (var(--link), underline, hover). */
+.band-dark .cta-address { color: var(--on-dark-soft); }
+/* Out-rank `.hero-copy p`; the hero grid gap already spaces it from the buttons. */
+.hero-copy .cta-address { margin-top: 0; font-size: var(--text-supporting); }
+
 /* --- Projects index: bold masthead + lead-card hierarchy --- */
 .page-head {
   max-width: 46rem;
@@ -1001,6 +1012,7 @@ li + li { margin-top: .35rem; }
 .svc-tier {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   gap: var(--space-4);
   padding: clamp(1.25rem, 1rem + 1.2vw, 2rem);
   border: 1px solid var(--line);
@@ -1046,6 +1058,7 @@ li + li { margin-top: .35rem; }
   display: flex;
   flex: 1;
   flex-direction: column;
+  min-width: 0;
   gap: var(--space-4);
 }
 .svc-list {
@@ -1074,6 +1087,11 @@ li + li { margin-top: .35rem; }
 .svc-detail .button {
   align-self: flex-start;
   margin-top: auto;
+  /* Long tier labels wrap inside the card instead of overflowing it. */
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.25;
 }
 /* "Every tier includes" — a quiet centered coda under the three tier cards. */
 .svc-includes {
@@ -1210,7 +1228,7 @@ li + li { margin-top: .35rem; }
   max-width: 54ch;
   text-wrap: pretty;
 }
-.principle-evidence { width: fit-content; color: var(--steel); font-weight: 760; }
+.principle-evidence { width: fit-content; color: var(--link); font-weight: 760; }
 .principle-evidence:hover { color: var(--link-hover); }
 
 /* About: bio as a confident lede, not a boxed panel */
@@ -1412,6 +1430,8 @@ dialog.pm::backdrop {
   gap: var(--space-3);
   padding: var(--space-4);
 }
+/* The scrollable body is focusable so keyboard users can scroll it. */
+.pm-body:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
 .pm-body::-webkit-scrollbar {
   width: 7px;
 }
@@ -1546,6 +1566,7 @@ dialog.pm::backdrop {
   .hero-title { animation: heroLift .6s .02s cubic-bezier(.2, .7, .3, 1) backwards; }
   .hero-sub { animation: heroRise .6s .16s cubic-bezier(.2, .7, .3, 1) backwards; }
   .hero-copy .button-row { animation: heroRise .6s .24s cubic-bezier(.2, .7, .3, 1) backwards; }
+  .hero-copy .cta-address { animation: heroRise .6s .3s cubic-bezier(.2, .7, .3, 1) backwards; }
   .works { animation: heroRise .7s .2s cubic-bezier(.2, .7, .3, 1) backwards; }
 }
 @keyframes heroRise {

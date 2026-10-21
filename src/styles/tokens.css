@@ -8,7 +8,8 @@
   /* --- Brand hues (theme-independent) --- */
   --navy: #14304E;        /* primary brand: buttons, dark bands, heading marks */
   --navy-2: #0B1F35;      /* deepest band / footer */
-  --steel: #4A6FA5;       /* secondary accent, links on light */
+  --steel: #4A6FA5;       /* secondary accent: borders, diagram marks, lattice */
+  --steel-ink: #3D5F92;   /* link text on light surfaces (AA on Mist/Sky) */
   --amber: #D9822B;       /* CTA / highlight — warm contrast against navy */
   --amber-dark: #935214;  /* accent text on light + CTA/link hover (AA-tuned) */
   --gold: #C9A227;        /* small accents on dark bands only */
@@ -24,7 +25,7 @@
   --line: #D5DDE7;
   --line-strong: #AFBDCE;
   --divider: var(--line-strong);                                      /* panels, header, non-lattice contexts */
-  --divider-on-dark: rgba(255, 255, 255, .22);                        /* dark bands + footer */
+  --divider-on-dark: var(--line-strong);                              /* deep bands + footer (tinted in light) */
   /* Divider tuned to the low-poly lattice (steel, theme-constant) so hairlines
      over the band grid read as one of its horizontal lines. */
   --poly-divider: color-mix(in srgb, var(--steel) 30%, transparent);  /* over the lattice */
@@ -32,15 +33,17 @@
   /* --- Semantic roles (flip per theme) --- */
   --brand: var(--navy);
   --brand-deep: var(--navy-2);
-  --link: var(--steel);
+  --link: var(--steel-ink);
   --link-hover: var(--amber-dark);
   --accent: var(--amber);        /* bright highlight (used on dark or as bg) */
   --accent-ink: var(--amber-dark); /* accent text on light — AA-safe */
-  --focus: var(--gold);
+  --focus: var(--amber-dark);
   --button-bg: var(--navy);
   --button-bg-hover: var(--navy-2);
   --button-text: #FFFFFF;
   --on-amber-dark: #FFFFFF; /* text on the amber-dark hover fill; same in both themes */
+  --skip-bg: var(--navy-2);  /* skip link: theme-constant pair */
+  --skip-text: #FFFFFF;
 
   /* Deep contrast bands (closer sections + footer). These follow the theme:
      tinted-light in light mode, navy in dark mode. */
@@ -116,6 +119,7 @@
   --line-strong: #3B526F;
   --link: #9DBBE6;
   --link-hover: #E7C46A;
+  --focus: var(--gold);
   --accent-ink: #E7C46A;
   --brand: #9DBBE6;
   --brand-deep: #EAF1F8;
@@ -132,5 +136,6 @@
   --on-dark-soft: #BCCADA;
   --on-dark-gold: #E7C46A;
   --line-on-dark: rgba(255, 255, 255, .12);
+  --divider-on-dark: rgba(255, 255, 255, .22);
   --poly-divider: color-mix(in srgb, var(--steel) 46%, transparent);
 }

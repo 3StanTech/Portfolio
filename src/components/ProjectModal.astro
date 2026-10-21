@@ -17,7 +17,7 @@ const caseStudyHref = `/projects/${d.slug}/`;
     <div class="pm-media">
       <Image src={d.cover} alt={d.coverAlt ?? `${d.title} home page`} widths={[520, 900]} sizes="(max-width: 700px) 92vw, 640px" />
     </div>
-    <div class="pm-body">
+    <div class="pm-body" tabindex="0" role="region" aria-label={`${d.title} details`}>
       <p class="pm-meta">
         <span>{d.kind === 'commercial' ? 'Commercial' : 'Personal'}</span>
         <span>{d.year}</span>
@@ -31,8 +31,8 @@ const caseStudyHref = `/projects/${d.slug}/`;
           <strong class="card-outcome-text">{d.outcome}</strong>
         </div>
       )}
-      <div class="stack" aria-label="Stack">
-        {d.stack.map((item: string) => <span class="pill">{item}</span>)}
+      <div class="stack" role="list" aria-label="Stack">
+        {d.stack.map((item: string) => <span class="pill" role="listitem">{item}</span>)}
       </div>
     </div>
     <div class="pm-actions">

@@ -80,8 +80,10 @@ const {
     const root = document.documentElement;
     const targetCount = Math.max(60, Math.min(180, Math.round(Number(canvas.dataset.density) || 130)));
     const islandLimit = Math.max(2, Math.min(6, Math.round(Number(canvas.dataset.islandLimit) || 3)));
-    const shouldAnimate = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      && (navigator as NavigatorWithConnection).connection?.saveData !== true;
+    // Reduced motion can change while the page is open; Save-Data is fixed.
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const saveData = (navigator as NavigatorWithConnection).connection?.saveData === true;
+    let shouldAnimate = !motionQuery.matches && !saveData;
     const interactionRadius = 170;
     const maximumCursorThreads = 6;
     const pointer = { x: 0, y: 0, active: false };
@@ -588,6 +590,18 @@ const {
       if (!shouldAnimate) draw(lastTime);
     };
 
+    const onMotionChange = () => {
+      shouldAnimate = !motionQuery.matches && !saveData;
+      if (!shouldAnimate) {
+        stopAnimation();
+        shootingStars.length = 0;
+        canvas.dataset.meteorCount = '0';
+        draw(lastTime);
+      } else {
+        startAnimation();
+      }
+    };
+
     const onResize = () => {
       window.clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(() => {
@@ -623,6 +637,7 @@ const {
       window.clearTimeout(resizeTimer);
       parent.removeEventListener('pointermove', onPointerMove);
       parent.removeEventListener('pointerleave', onPointerLeave);
+      motionQuery.removeEventListener('change', onMotionChange);
       resizeObserver.disconnect();
       visibilityObserver?.disconnect();
       documentObserver?.disconnect();
@@ -644,6 +659,7 @@ const {
 
     parent.addEventListener('pointermove', onPointerMove, { passive: true });
     parent.addEventListener('pointerleave', onPointerLeave, { passive: true });
+    motionQuery.addEventListener('change', onMotionChange);
     resizeObserver.observe(canvas);
 
     resizeCanvas();
