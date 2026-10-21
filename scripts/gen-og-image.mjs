@@ -14,7 +14,7 @@ import { dirname, join } from 'node:path';
 
 const publicDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'public');
 const src = join(publicDir, 'og-image.svg');
-const logoSrc = join(publicDir, 'og-logo.png');
+const logoSrc = join(publicDir, 'logo.png');
 const out = join(publicDir, 'og-image.png');
 
 // Matches the logo plate in public/og-image.svg (rect#logo-slot).

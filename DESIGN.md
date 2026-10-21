@@ -5,6 +5,7 @@ colors:
   navy: "#14304E"
   navy-deep: "#0B1F35"
   steel: "#4A6FA5"
+  steel-ink: "#3D5F92"
   amber: "#D9822B"
   amber-deep: "#935214"
   gold: "#C9A227"
@@ -69,7 +70,7 @@ components:
     textColor: "{colors.on-dark}"
   button-secondary:
     backgroundColor: "transparent"
-    textColor: "{colors.steel}"
+    textColor: "{colors.steel-ink}"
     rounded: "{rounded.pill}"
     padding: "0.72rem 1.05rem"
   card:
@@ -138,10 +139,13 @@ blue end, personality from the warm one.
   eyebrows, the numbered markers, list counters, and link hover. The "signature."
 
 ### Tertiary
-- **Steel** (#4A6FA5): body-link color on light, secondary-button text, quiet
-  structural accent. The muted-blue mid-tone between navy and paper.
-- **Brass Gold** (#C9A227): tiny accents on dark bands only (focus ring, small
-  flourishes). Never on light. Its on-dark eyebrow sibling is **Lamp Gold**
+- **Steel** (#4A6FA5): quiet structural accent (lattice, borders, diagram arrows).
+  The muted-blue mid-tone between navy and paper. Link and secondary-button text on
+  light uses its deeper sibling **Steel Ink** (#3D5F92, 5.1:1 on Mist/Sky, 6.1:1 on
+  paper), so links clear AA on every tinted band.
+- **Brass Gold** (#C9A227): tiny accents on dark bands only (the dark-theme focus
+  ring, small flourishes). Never on light; the light-theme focus ring is Signed
+  Amber (#935214, ≥4.8:1 on every light surface). Its on-dark eyebrow sibling is **Lamp Gold**
   (#E7C46A).
 
 ### Neutral
@@ -156,7 +160,9 @@ blue end, personality from the warm one.
 - **Line** (#D5DDE7) / **Line Strong** (#AFBDCE): hairlines and borders.
 - **On-Dark** (#EAF1F8) / **On-Dark Soft** (#BCCADA): dark-theme text on navy
   bands. In light, `--on-dark` / `--on-dark-soft` map to Ink / Soft Ink for the
-  deliberately mist-colored closer and footer bands.
+  deliberately mist-colored closer and footer bands, and their dividers
+  (`--divider-on-dark`) switch to Line Strong in light. The skip link keeps its own
+  theme-constant pair (`--skip-bg` navy-deep, `--skip-text` white) instead.
 
 **Dark theme.** Surfaces invert to a navy night — page **#0B1320**, panel **#111C2B**,
 ink **#EAF1F8**, links **#9DBBE6**, and the primary button flips to **Worklight Amber**
@@ -175,7 +181,8 @@ a cream/sand/beige body is prohibited.
 
 **The AA-First Rule.** Every text/background pair is verified to WCAG AA in both
 themes before it ships. Amber-on-light body text and steel-on-mist are the known
-traps; use Signed Amber (#935214) and Soft Ink (#536376), not their brighter siblings.
+traps; use Signed Amber (#935214), Steel Ink (#3D5F92) and Soft Ink (#536376), not
+their brighter siblings.
 
 ## 3. Typography
 
@@ -266,8 +273,9 @@ CTAs, and a purposeful hover lift. Nothing tentative, nothing overwrought.
   fill flips to Worklight-Amber with Midnight-Navy text — the CTA is always the
   highest-contrast object on the band.
 - **Hover / Focus:** primary darkens to Midnight-Navy (amber → deeper amber in dark);
-  focus shows a 3px Brass-Gold outline offset 3px. Transitions are color-only, ~200ms.
-- **Secondary / Ghost:** transparent fill, Steel/Navy text, full border; hover fills
+  focus shows a 3px `--focus` outline offset 3px (Signed Amber in light, Brass Gold
+  in dark). Transitions are color-only, ~200ms.
+- **Secondary / Ghost:** transparent fill, Steel Ink/Navy text, full border; hover fills
   with Mist. Used for "More about me", "Open website", secondary contact.
 
 ### Chips / Pills
@@ -284,8 +292,8 @@ CTAs, and a purposeful hover lift. Nothing tentative, nothing overwrought.
 
 ### Navigation
 - **Style:** sticky, blurred translucent Paper header with a 1px Line underbottom.
-  Text links in Ink, pill hover fill in Mist. Brand mark is a navy disc with a white
-  serif "T".
+  Text links in Ink, pill hover fill in Mist. Brand mark is the navy monogram disc
+  (`src/assets/logo-header.png`, served as 1×/2× WebP).
 - **Mobile:** below 860px the links collapse into a hamburger-triggered panel
   (icon swaps to an X while open; Escape and outside-click close it and return
   focus). The theme toggle stays visible in the header bar, outside the panel.
