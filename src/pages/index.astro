@@ -8,6 +8,7 @@ import SectionBand from '../components/SectionBand.astro';
 import ProcessSteps from '../components/ProcessSteps.astro';
 import ProjectModal from '../components/ProjectModal.astro';
 import Icon from '../components/Icon.astro';
+import { contact } from '../data/contact';
 
 type Project = CollectionEntry<'projects'>;
 
@@ -29,8 +30,8 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Tristan Dolfo',
-    email: 'mailto:tristandolfo@gmail.com',
-    telephone: '+639998827004',
+    email: `mailto:${contact.email}`,
+    telephone: contact.phoneE164,
     address: {
       '@type': 'PostalAddress',
       addressCountry: 'PH'
@@ -42,9 +43,9 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     name: 'Tristan Dolfo Web Development',
-    areaServed: 'Philippines',
-    email: 'mailto:tristandolfo@gmail.com',
-    telephone: '+639998827004',
+    areaServed: 'Worldwide',
+    email: `mailto:${contact.email}`,
+    telephone: contact.phoneE164,
     serviceType: ['Business websites', 'Restaurant websites', 'Static web development', 'Business systems'],
     logo: logoUrl,
     image: logoUrl

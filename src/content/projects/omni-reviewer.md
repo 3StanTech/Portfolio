@@ -14,8 +14,10 @@ summary: >-
   its source slide and a checker flags anything the slides don't support.
   Generation runs on free AI models in resumable steps, so a refresh never
   loses progress, and each student's files stay private to their account.
-  The public demo uses sample packs, so visitors can study without an account
-  or any of the client's material.
+  Its default look is a custom illustrated theme designed to the client's
+  taste, with calmer Day and Night modes one menu away. The public demo uses
+  sample packs and the Day and Night modes, so visitors can study without an
+  account or any of the client's material.
 blurb: Study packs with cited notes, quizzes and flashcards.
 outcome: Study notes that point back to the slide behind every fact.
 repoUrl: https://github.com/3StanTech/Omni-Reviewer
@@ -62,6 +64,12 @@ caseStudy:
         Every row belongs to one user. Another user's ID returns "not found"
         without revealing that it exists. Files stay in private storage and
         stream only to their owner.
+    - title: Designed around one student
+      body: >-
+        The default look is a custom illustrated theme made to her taste, with
+        Day and Night modes as calmer alternatives. Only the styling changes;
+        every study tool works the same in all three, and illustrations hold
+        still for anyone who turns on reduced motion.
   proof:
     - lead: Measured, not assumed.
       body: On one lecture, unsourced claims fell from 10.4% to 2.7% after the prompt and verifier changes.

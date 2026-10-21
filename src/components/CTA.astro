@@ -1,32 +1,28 @@
 ---
 import Icon from './Icon.astro';
+import { contact, mailto } from '../data/contact';
 
 const {
   label = 'Email me',
-  subject = 'Portfolio inquiry',
+  subject = contact.defaultSubject,
   showPhone = false,
   showResume = false,
   showGithub = false,
   class: className = ''
 } = Astro.props;
 
-const email = 'tristandolfo@gmail.com';
-const phone = '0999-882-7004';
-// Gmail compose URL opens a pre-filled draft in the browser — reliable even
-// when the device has no default mail app registered for mailto:.
-const compose = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}`;
 const resumeHref = '/Tristan_Dolfo_Resume.pdf';
 const githubHref = 'https://github.com/3StanTech';
 ---
 <div class:list={['button-row', className]}>
-  <a class="button" href={compose} target="_blank" rel="noopener">
+  <a class="button" href={mailto(subject)}>
     <Icon name="mail" />
     {label}
   </a>
   {showPhone && (
-    <a class="button secondary" href="tel:+639998827004">
+    <a class="button secondary" href={contact.phoneHref}>
       <Icon name="phone" />
-      Call · {phone}
+      Call · {contact.phoneDisplay}
     </a>
   )}
   {showResume && (
@@ -42,3 +38,4 @@ const githubHref = 'https://github.com/3StanTech';
     </a>
   )}
 </div>
+<p class="cta-address">Or write to <a href={mailto(subject)}>{contact.email}</a></p>

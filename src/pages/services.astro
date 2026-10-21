@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import CTA from '../components/CTA.astro';
 import Constellation from '../components/Constellation.astro';
 import Icon from '../components/Icon.astro';
+import { mailto } from '../data/contact';
 
 const tiers = [
   {
@@ -46,7 +47,6 @@ const tiers = [
   },
 ];
 
-const compose = (subject: string) => `https://mail.google.com/mail/?view=cm&fs=1&to=tristandolfo@gmail.com&su=${encodeURIComponent(subject)}`;
 ---
 <Base title="Services | Tristan" description="Website packages for small businesses worldwide, shown by outcome and scope without public pricing." canonical="/services/">
   <section class="section band-paper">
@@ -72,7 +72,7 @@ const compose = (subject: string) => `https://mail.google.com/mail/?view=cm&fs=1
               <ul class="svc-list">
                 {tier.points.map((point) => <li>{point}</li>)}
               </ul>
-              <a class:list={['button', { secondary: tier.tag !== 'Business' }]} href={compose(tier.subject)} target="_blank" rel="noopener">
+              <a class:list={['button', { secondary: tier.tag !== 'Business' }]} href={mailto(tier.subject)}>
                 {tier.ctaLabel}
                 <Icon name="arrow" />
               </a>
