@@ -26,15 +26,15 @@ const githubHref = 'https://github.com/3StanTech';
     </a>
   )}
   {showResume && (
-    <a class="button tertiary cta-resume" href={resumeHref} target="_blank" rel="noopener">
+    <a class="button tertiary cta-resume" href={resumeHref} target="_blank" rel="noopener" aria-label="View Résumé (PDF, opens in new tab)">
       <Icon name="document" />
-      View Resume
+      View Résumé
     </a>
   )}
   {showGithub && (
-    <a class="button tertiary cta-github" href={githubHref} target="_blank" rel="noopener">
+    <a class="button tertiary cta-github" href={githubHref} target="_blank" rel="noopener" aria-label="View GitHub (opens in new tab)">
       <Icon name="github" />
-      View Github
+      View GitHub
     </a>
   )}
 </div>

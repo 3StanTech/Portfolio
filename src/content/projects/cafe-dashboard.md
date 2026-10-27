@@ -4,7 +4,7 @@ slug: cafe-dashboard
 kind: commercial
 group: systems
 displayOrder: 2
-clientType: Matcha cafe, Metro Manila
+clientType: Matcha café, Metro Manila
 stack: [React, TypeScript, Supabase, Netlify, Firebase]
 year: 2026
 summary: >-
@@ -15,7 +15,7 @@ summary: >-
   manipulation, modifier rules, and persistence. The public demo runs on
   Firebase with sample data: each visitor's changes stay under their own
   anonymous ID, and a Cloud Function re-checks every saved order total.
-blurb: Order and customer dashboard for a matcha cafe.
+blurb: Order and customer dashboard for a matcha café.
 outcome: Consistent order totals with a separate, inspectable demo.
 liveUrl: https://cafe-oms-demo.web.app/
 liveLabel: Visit interactive demo version
