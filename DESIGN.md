@@ -348,7 +348,7 @@ followed by the Selected work label, all eight project buttons in `displayOrder`
 (Omni-Reviewer first), and a fixed footnote. Only `.works-list` scrolls. The hiring
 row sits on the `--mist` band tone (`--sky` on hover) so it stays in the navy
 family in both themes, with an accent code icon/arrow, `--divider`, and the existing `--ink`, `--ink-soft`, `--text-work-title`
-and `--text-kicker` roles. Hero Email/Call and View Resume/View Github stay in a
+and `--text-kicker` roles. Hero Email/Call and View Résumé/View GitHub stay in a
 2×2; the Call label stays on one line.
 
 ### Case-study page

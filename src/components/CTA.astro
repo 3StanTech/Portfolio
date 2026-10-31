@@ -12,7 +12,7 @@ const {
 } = Astro.props;
 
 const resumeHref = '/Tristan_Dolfo_Resume.pdf';
-const githubHref = 'https://github.com/3StanTech';
+const githubHref = contact.github;
 ---
 <div class:list={['button-row', className]}>
   <a class="button" href={mailto(subject)}>
@@ -37,5 +37,5 @@ const githubHref = 'https://github.com/3StanTech';
       View GitHub
     </a>
   )}
+  <slot />
 </div>
-<p class="cta-address">Or write to <a href={mailto(subject)}>{contact.email}</a></p>

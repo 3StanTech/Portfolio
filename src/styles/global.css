@@ -784,6 +784,11 @@ li + li { margin-top: .35rem; }
   color: var(--accent);
 }
 .footer-social svg { width: .95rem; height: .95rem; }
+/* Keeps the two discs together when the actions wrap. */
+.footer-socials {
+  display: inline-flex;
+  gap: .55rem;
+}
 .footer-nav { gap: 1rem; }
 .footer-nav a {
   color: var(--on-dark);
@@ -849,16 +854,18 @@ li + li { margin-top: .35rem; }
 }
 .sec-cta { margin-top: var(--space-5); }
 
-/* Plain-text contact line under each CTA button row. */
-.cta-address {
-  margin-top: var(--space-3);
-  color: var(--ink-soft);
-  font-size: var(--text-supporting);
+/* Screen-reader-only text, e.g. the "Email address copied" announcement. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
-/* Its link keeps the global `a` styling (var(--link), underline, hover). */
-.band-dark .cta-address { color: var(--on-dark-soft); }
-/* Out-rank `.hero-copy p`; the hero grid gap already spaces it from the buttons. */
-.hero-copy .cta-address { margin-top: 0; font-size: var(--text-supporting); }
 
 /* --- Projects index: bold masthead + lead-card hierarchy --- */
 .page-head {
@@ -1171,7 +1178,7 @@ li + li { margin-top: .35rem; }
   display: grid;
   grid-template-columns: 1.15fr 1fr;
   gap: 2.75rem;
-  align-items: start;
+  align-items: center;
   margin-top: 1.875rem;
 }
 .about-profile-notes blockquote {
@@ -1354,7 +1361,10 @@ li + li { margin-top: .35rem; }
   text-align: center;
 }
 .not-found .section-lead { margin-inline: auto; }
-.not-found .button-row { justify-content: center; }
+.not-found .button-row {
+  justify-content: center;
+  margin-top: var(--space-4);
+}
 
 /* Project detail modal — native <dialog>, cover + info + optional live link. */
 dialog.pm {
@@ -1538,6 +1548,15 @@ dialog.pm::backdrop {
   to { opacity: 1; }
 }
 
+/* Brief pop when an Email link copies the address. */
+@media (prefers-reduced-motion: no-preference) {
+  .is-copied { animation: copiedPop .3s cubic-bezier(.2, .7, .3, 1); }
+}
+@keyframes copiedPop {
+  from { transform: scale(.96); opacity: .7; }
+  to { transform: none; opacity: 1; }
+}
+
 /* CTA pops on dark bands: amber primary, light ghost */
 .band-dark .button:not(.secondary) {
   background: var(--amber);
@@ -1566,7 +1585,6 @@ dialog.pm::backdrop {
   .hero-title { animation: heroLift .6s .02s cubic-bezier(.2, .7, .3, 1) backwards; }
   .hero-sub { animation: heroRise .6s .16s cubic-bezier(.2, .7, .3, 1) backwards; }
   .hero-copy .button-row { animation: heroRise .6s .24s cubic-bezier(.2, .7, .3, 1) backwards; }
-  .hero-copy .cta-address { animation: heroRise .6s .3s cubic-bezier(.2, .7, .3, 1) backwards; }
   .works { animation: heroRise .7s .2s cubic-bezier(.2, .7, .3, 1) backwards; }
 }
 @keyframes heroRise {

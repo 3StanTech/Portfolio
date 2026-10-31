@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import CTA from '../components/CTA.astro';
@@ -9,6 +10,7 @@ import ProcessSteps from '../components/ProcessSteps.astro';
 import ProjectModal from '../components/ProjectModal.astro';
 import Icon from '../components/Icon.astro';
 import { contact } from '../data/contact';
+import profilePhoto from '../assets/tristan-profile-centered.png';
 
 type Project = CollectionEntry<'projects'>;
 
@@ -22,8 +24,11 @@ const siteUrl = Astro.site;
 if (!siteUrl) {
   throw new Error('Astro.site is undefined — set SITE_URL before building.');
 }
-// Stable public Responsive Studio mark (compact identity for schema surfaces).
+// Stable public Night Studio mark (compact identity for schema surfaces).
 const logoUrl = new URL('/logo.png', siteUrl).toString();
+// The portrait is the Person image; getImage() gives an optimized, hashed URL.
+const portrait = await getImage({ src: profilePhoto, width: 560, format: 'webp' });
+const portraitUrl = new URL(portrait.src, siteUrl).toString();
 
 const jsonLd = [
   {
@@ -37,16 +42,19 @@ const jsonLd = [
       addressCountry: 'PH'
     },
     jobTitle: 'Full-Stack Developer',
-    image: logoUrl
+    url: siteUrl.toString(),
+    image: portraitUrl,
+    sameAs: [contact.github, contact.facebook]
   },
   {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     name: 'Tristan Dolfo Web Development',
+    url: siteUrl.toString(),
     areaServed: 'Worldwide',
     email: `mailto:${contact.email}`,
     telephone: contact.phoneE164,
-    serviceType: ['Business websites', 'Restaurant websites', 'Static web development', 'Business systems'],
+    serviceType: ['Business websites', 'Web applications', 'Business systems', 'Website care plans'],
     logo: logoUrl,
     image: logoUrl
   }
@@ -58,7 +66,7 @@ const jsonLd = [
     <div class="container hero-grid">
       <div class="hero-copy">
         <p class="hero-kicker"><span class="hero-dot" aria-hidden="true"></span>Philippines · full-stack developer</p>
-        <h1 class="hero-title">Sites and systems for your <span class="hero-mark">every</span> need.</h1>
+        <h1 class="hero-title">Sites and systems that <span class="hero-mark">work</span> for your business.</h1>
         <p class="hero-sub">I build websites for small businesses and full-stack apps that real people use every day.</p>
         <CTA showPhone showResume showGithub />
         <p class="hero-trust"><span class="hero-trust-count">{projectCount}</span> builds · replies within a day</p>
@@ -92,7 +100,7 @@ const jsonLd = [
             </li>
           ))}
         </ol>
-        <p class="works-foot">{allWork.length} distinct briefs, each designed around the business or story it serves.</p>
+        <p class="works-foot">Each one designed around the business or story it serves.</p>
       </aside>
     </div>
   </section>
@@ -105,7 +113,7 @@ const jsonLd = [
     <div class="split scope-process">
       <div class="scope-copy">
         <h3>One-page presence, full business site, or a focused custom build.</h3>
-        <p>Each package follows the content, urgency, and customer actions for each client. Every successful deploy stays reliable and easy to maintain.</p>
+        <p>Each package is shaped by your content, your timeline and the one action you want customers to take. Every build is made to stay reliable and easy to maintain.</p>
         <a class="button secondary" href="/services/">See website packages</a>
       </div>
       <ProcessSteps />
@@ -115,7 +123,7 @@ const jsonLd = [
   <section class="section band-dark closer">
     <Constellation class="fade-edge" />
     <div class="container closer-inner">
-      <p class="closer-kicker">Ready when you are!</p>
+      <p class="closer-kicker">Ready when you are.</p>
       <h2 class="closer-title">Tell me what you need for your online <span class="closer-mark"> presence.</span></h2>
       <CTA label="Email me" showPhone />
       <p class="closer-note">No forms, no pressure. A plain email describing your business is enough. I reply within a day.</p>

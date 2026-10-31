@@ -11,6 +11,8 @@ const {
   canonical = Astro.url.pathname,
   // Query version forces social crawlers to re-fetch after brand/copy changes.
   ogImage = '/og-image.png?v=20261027-1',
+  // Missing-page style surfaces: robots noindex and no canonical.
+  noindex = false,
   jsonLd
 } = Astro.props;
 
@@ -49,7 +51,7 @@ const navLinks = [
     <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
     <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-    <link rel="canonical" href={canonicalUrl} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonicalUrl} />}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Tristan Dolfo" />
@@ -132,12 +134,14 @@ const navLinks = [
             <a class="footer-contact" href={mailto()}>{contact.email}</a>
             <a class="footer-contact" href={contact.phoneHref}>{contact.phoneDisplay}</a>
             <a class="footer-contact" href={resumeHref} target="_blank" rel="noopener" aria-label="View Résumé (PDF, opens in new tab)">View Résumé</a>
-            <a class="footer-social" href="https://github.com/3StanTech" target="_blank" rel="noopener" aria-label="Tristan Dolfo on GitHub (opens in new tab)">
-              <Icon name="github" />
-            </a>
-            <a class="footer-social" href="https://www.facebook.com/tristan.dolfo.7" target="_blank" rel="noopener" aria-label="Tristan Dolfo on Facebook (opens in new tab)">
-              <Icon name="facebook" />
-            </a>
+            <span class="footer-socials">
+              <a class="footer-social" href={contact.github} target="_blank" rel="noopener" aria-label="Tristan Dolfo on GitHub (opens in new tab)">
+                <Icon name="github" />
+              </a>
+              <a class="footer-social" href={contact.facebook} target="_blank" rel="noopener" aria-label="Tristan Dolfo on Facebook (opens in new tab)">
+                <Icon name="facebook" />
+              </a>
+            </span>
           </div>
         </div>
         <div class="footer-secondary">
@@ -155,6 +159,7 @@ const navLinks = [
         </div>
       </div>
     </footer>
+    <p class="visually-hidden" aria-live="polite" data-copy-status></p>
     <script>
       import { contact } from '../data/contact';
 
@@ -235,6 +240,56 @@ const navLinks = [
       } else {
         document.querySelectorAll('[data-reveal]').forEach((item) => item.classList.add('is-visible'));
       }
+
+      // Every mailto link also copies the address: a click on a desktop with no
+      // mail handler otherwise does nothing. Never preventDefault, so phones and
+      // configured mail apps still open a draft with the subject.
+      const copyStatus = document.querySelector<HTMLElement>('[data-copy-status]');
+      const copyLabels = new WeakMap<HTMLAnchorElement, { node: Text; text: string }>();
+      const copyTimers = new WeakMap<HTMLAnchorElement, number>();
+
+      const lastTextNode = (link: HTMLAnchorElement) => {
+        const walker = document.createTreeWalker(link, NodeFilter.SHOW_TEXT);
+        let found: Text | null = null;
+        while (walker.nextNode()) {
+          const node = walker.currentNode as Text;
+          if (node.textContent?.trim()) found = node;
+        }
+        return found;
+      };
+
+      const onCopied = (link: HTMLAnchorElement) => {
+        // Store the original label once, so a repeat click never saves "Copied".
+        if (!copyLabels.has(link)) {
+          const node = lastTextNode(link);
+          if (!node) return;
+          link.style.minWidth = `${link.offsetWidth}px`;
+          copyLabels.set(link, { node, text: node.textContent ?? '' });
+        }
+        const label = copyLabels.get(link)!;
+        label.node.textContent = 'Copied';
+        link.classList.remove('is-copied');
+        void link.offsetWidth;
+        link.classList.add('is-copied');
+        if (copyStatus) copyStatus.textContent = `Email address copied: ${contact.email}`;
+
+        window.clearTimeout(copyTimers.get(link));
+        copyTimers.set(link, window.setTimeout(() => {
+          label.node.textContent = label.text;
+          link.classList.remove('is-copied');
+          link.style.minWidth = '';
+          copyLabels.delete(link);
+          if (copyStatus) copyStatus.textContent = '';
+        }, 1600));
+      };
+
+      document.addEventListener('click', (event) => {
+        const link = event.target instanceof Element
+          ? event.target.closest<HTMLAnchorElement>('a[href^="mailto:"]')
+          : null;
+        if (!link) return;
+        navigator.clipboard?.writeText(contact.email).then(() => onCopied(link)).catch(() => {});
+      });
 
       let lastTrigger: HTMLElement | null = null;
       document.querySelectorAll<HTMLElement>('[data-project-modal]').forEach((trigger) => {

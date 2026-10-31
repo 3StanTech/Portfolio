@@ -5,6 +5,8 @@ export const contact = {
   phoneHref: 'tel:+639998827004',
   phoneE164: '+639998827004',
   defaultSubject: 'Portfolio inquiry',
+  github: 'https://github.com/3StanTech',
+  facebook: 'https://www.facebook.com/tristan.dolfo.7',
 } as const;
 
 export const mailto = (subject: string = contact.defaultSubject) =>

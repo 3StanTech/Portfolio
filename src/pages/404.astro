@@ -2,16 +2,13 @@
 import Base from '../layouts/Base.astro';
 import CTA from '../components/CTA.astro';
 ---
-<Base title="Page not found | Tristan Dolfo" description="This page could not be found." canonical="/404/">
+<Base title="Page not found | Tristan Dolfo" description="This page could not be found." noindex>
   <section class="section band-paper">
     <div class="container not-found">
       <p class="eyebrow">404</p>
       <h1 class="page-title">That page is not here.</h1>
       <p class="section-lead">The portfolio moved, or the link is mistyped. Start from the projects page or email me directly.</p>
-      <div class="button-row">
-        <a class="button secondary" href="/projects/">View projects</a>
-        <CTA />
-      </div>
+      <CTA><a class="button secondary" href="/projects/">View projects</a></CTA>
     </div>
   </section>
 </Base>
