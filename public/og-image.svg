@@ -4,13 +4,15 @@
   <rect width="1200" height="630" fill="#F7F9FC"/>
   <rect x="48" y="48" width="1104" height="534" rx="3" fill="#DCE6F1" stroke="#14304E" stroke-width="3"/>
   <path d="M48 430h1104v152H48z" fill="#14304E"/>
+  <!-- Text uses the site fonts by name; scripts/gen-og-image.mjs turns each <text> into
+       outlines from the @fontsource packages, so every build host renders it the same. -->
   <!-- Night Studio monogram plate (rasterized/composited by scripts/gen-og-image.mjs) -->
   <rect id="logo-slot" x="868" y="92" width="248" height="248" rx="3" fill="#0B1F35" stroke="#14304E" stroke-width="3"/>
-  <text x="104" y="150" fill="#935214" font-family="Arial, sans-serif" font-size="27" font-weight="700" letter-spacing="5">PHILIPPINES · FULL-STACK DEVELOPER</text>
-  <text x="102" y="268" fill="#16202B" font-family="Arial, Helvetica, 'Liberation Sans', sans-serif" font-size="84" font-weight="800" letter-spacing="-2">Tristan Dolfo</text>
+  <text x="104" y="150" fill="#935214" font-family="Hanken Grotesk" font-size="27" font-weight="700" letter-spacing="5">PHILIPPINES · FULL-STACK DEVELOPER</text>
+  <text x="102" y="268" fill="#16202B" font-family="Schibsted Grotesk" font-size="84" font-weight="800" letter-spacing="-3">Tristan Dolfo</text>
   <!-- Two-line headline: matches site offer, kept left of logo plate (x=868) and above contact band (y=430) -->
-  <text x="104" y="338" fill="#16202B" font-family="Arial, Helvetica, 'Liberation Sans', sans-serif" font-size="44" font-weight="800" letter-spacing="-1">Sites and systems for</text>
-  <text x="104" y="394" fill="#16202B" font-family="Arial, Helvetica, 'Liberation Sans', sans-serif" font-size="44" font-weight="800" letter-spacing="-1">businesses worldwide.</text>
-  <text x="104" y="512" fill="#F7F9FC" font-family="Arial, sans-serif" font-size="34" font-weight="700">tristandolfo@gmail.com</text>
-  <text x="104" y="554" fill="#D8E8F4" font-family="Arial, sans-serif" font-size="27">Restaurants · cafés · clinics · small teams</text>
+  <text x="104" y="338" fill="#16202B" font-family="Schibsted Grotesk" font-size="44" font-weight="800" letter-spacing="-1.5">Sites and systems for</text>
+  <text x="104" y="394" fill="#16202B" font-family="Schibsted Grotesk" font-size="44" font-weight="800" letter-spacing="-1.5">businesses worldwide.</text>
+  <text x="104" y="512" fill="#F7F9FC" font-family="Hanken Grotesk" font-size="34" font-weight="700">tristandolfo@gmail.com</text>
+  <text x="104" y="554" fill="#D8E8F4" font-family="Hanken Grotesk" font-size="27" font-weight="400">Restaurants · cafés · clinics · small teams</text>
 </svg>
