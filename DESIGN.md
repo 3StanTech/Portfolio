@@ -116,9 +116,10 @@ intentional, not a missing dark surface.
 
 **Key Characteristics:**
 - Navy-drenched dark bands against cool off-white light bands; never a warm cream.
-- Light bands are plain `--paper` / `--mist` / `--sky` with no pattern. The Projects
-  page alone sits on a faded isometric drafting grid with a Ripple pointer effect;
-  every other page keeps the starfield.
+- A faded isometric drafting grid with a Ripple pointer effect (`.gf-section`,
+  `GridField.astro`) sits on the Projects section and on the light bands of Home
+  (Scope) and About (opening, approach); each band keeps its own `--paper` /
+  `--mist` / `--sky` colour. Hero and closer bands keep the starfield.
 - Heavy grotesk display (Schibsted Grotesk) over a clean grotesque body (Hanken Grotesk).
 - Square shapes: 2px panels and dialogs, 3px controls; only the brand disc is round.
 - Amber is the single warm accent — rare, warm, and always AA-legible.

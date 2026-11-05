@@ -5,10 +5,11 @@ const {
   lead,
   number,
   tone = 'paper',
+  grid = false,
   id
 } = Astro.props;
 ---
-<section class:list={['section', `band-${tone}`]} id={id}>
+<section class:list={['section', `band-${tone}`, { 'gf-section': grid }]} id={id}>
   <div class="container">
     {(eyebrow || title || lead || number) && (
       <header class="section-head" data-reveal>

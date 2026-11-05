@@ -3,7 +3,7 @@ title: Justdiz Preproductions
 slug: justdiz
 kind: commercial
 group: websites
-displayOrder: 6
+displayOrder: 7
 clientType: Creative production studio, Quezon City
 stack:
   - HTML

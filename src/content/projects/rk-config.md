@@ -3,7 +3,7 @@ title: "RK Config: Keyboard Configurator"
 slug: rk-config
 kind: personal
 group: small
-displayOrder: 9
+displayOrder: 4
 clientType: Open-source keyboard tool (public)
 stack: [Astro, React, TypeScript, Tailwind CSS, WebHID, Bun, Cloudflare Workers]
 year: 2026

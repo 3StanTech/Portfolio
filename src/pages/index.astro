@@ -6,6 +6,7 @@ import Base from '../layouts/Base.astro';
 import CTA from '../components/CTA.astro';
 import Closer from '../components/Closer.astro';
 import Constellation from '../components/Constellation.astro';
+import GridField from '../components/GridField.astro';
 import SectionBand from '../components/SectionBand.astro';
 import ProcessSteps from '../components/ProcessSteps.astro';
 import ProjectModal from '../components/ProjectModal.astro';
@@ -106,7 +107,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <SectionBand tone="sky">
+  <SectionBand tone="sky" grid>
     <header class="sec-head-bold">
       <h2>From the right scope to a successful launch.</h2>
       <p class="sec-lead">I build with your goals in mind, and your vision in hand.</p>
@@ -124,6 +125,7 @@ const jsonLd = [
   <Closer kicker="Ready when you are." note="No forms, no pressure. A plain email describing your business is enough. I reply within a day.">Tell me what you need for your online <span class="closer-mark">presence.</span></Closer>
 
   {allWork.map((project) => <ProjectModal project={project} />)}
+  <GridField />
 </Base>
 
 <script>

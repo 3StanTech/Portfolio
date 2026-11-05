@@ -3,7 +3,7 @@ title: Pearl Anniversary Celebration
 slug: pearl-anniversary
 kind: personal
 group: small
-displayOrder: 4
+displayOrder: 5
 clientType: Privacy-safe anniversary keepsake (public demo)
 stack: [HTML, CSS, JavaScript, Netlify Blobs]
 year: 2026
