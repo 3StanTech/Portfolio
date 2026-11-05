@@ -1,6 +1,6 @@
 ---
 name: Tristan Portfolio
-description: A confident, navy-anchored portfolio for a Philippines full-stack developer, with warm amber accents, editorial serif display, light + dark.
+description: A confident, navy-anchored portfolio for a Philippines full-stack developer, with warm amber accents, Blueprint grotesk display, light + dark.
 colors:
   navy: "#14304E"
   navy-deep: "#0B1F35"
@@ -22,21 +22,23 @@ colors:
   on-dark-soft: "#BCCADA"
 typography:
   display:
-    fontFamily: "Fraunces Variable, Iowan Old Style, Georgia, serif"
-    fontSize: "clamp(2.65rem, 1.72rem + 3.85vw, 4.75rem)"
-    fontWeight: 650
-    lineHeight: 1.03
-    letterSpacing: "0"
+    fontFamily: "Schibsted Grotesk Variable, system-ui, sans-serif"
+    fontSize: "clamp(2.7rem, 1.8rem + 4vw, 5rem)"
+    fontWeight: 800
+    lineHeight: 0.96
+    letterSpacing: "-0.045em"
   headline:
-    fontFamily: "Fraunces Variable, Georgia, serif"
+    fontFamily: "Schibsted Grotesk Variable, system-ui, sans-serif"
     fontSize: "clamp(2rem, 1.48rem + 2.15vw, 3.16rem)"
-    fontWeight: 650
-    lineHeight: 1.03
+    fontWeight: 760
+    lineHeight: 1
+    letterSpacing: "-0.035em"
   title:
-    fontFamily: "Fraunces Variable, Georgia, serif"
+    fontFamily: "Schibsted Grotesk Variable, system-ui, sans-serif"
     fontSize: "clamp(1.48rem, 1.24rem + 1vw, 2.02rem)"
-    fontWeight: 650
-    lineHeight: 1.1
+    fontWeight: 760
+    lineHeight: 1
+    letterSpacing: "-0.035em"
   body:
     fontFamily: "Hanken Grotesk Variable, system-ui, sans-serif"
     fontSize: "1rem"
@@ -48,9 +50,9 @@ typography:
     fontWeight: 820
     letterSpacing: "0.16em"
 rounded:
-  sm: "6px"
-  md: "8px"
-  pill: "999px"
+  sm: "2px"
+  md: "2px"
+  control: "3px"
 spacing:
   xs: "0.35rem"
   sm: "0.65rem"
@@ -63,7 +65,7 @@ components:
   button-primary:
     backgroundColor: "{colors.navy}"
     textColor: "{colors.on-dark}"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.control}"
     padding: "0.72rem 1.05rem"
   button-primary-hover:
     backgroundColor: "{colors.navy-deep}"
@@ -71,17 +73,17 @@ components:
   button-secondary:
     backgroundColor: "transparent"
     textColor: "{colors.steel-ink}"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.control}"
     padding: "0.72rem 1.05rem"
   card:
     backgroundColor: "{colors.panel}"
     textColor: "{colors.ink}"
     rounded: "{rounded.md}"
     padding: "clamp(1.25rem, 1rem + 1.2vw, 2rem)"
-  pill:
+  chip:
     backgroundColor: "{colors.panel}"
     textColor: "{colors.ink-soft}"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.control}"
     padding: "0.25rem 0.55rem"
   eyebrow:
     textColor: "{colors.amber-deep}"
@@ -97,8 +99,9 @@ components:
 A working design studio after dark: deep-navy walls, one warm amber worklight, and
 the work itself glowing on display. The system is **confident, precise, and warm** —
 navy carries the authority and trust a non-technical business owner needs to feel,
-while amber, an editorial serif, and plain human copy keep it from ever going cold
-or corporate. It should read as *sharp*, not loud; every bold move stays instantly
+while amber, decisive type, and plain human copy keep it from ever going cold or
+corporate. The look is **Blueprint**: an engineer's drafting sheet, with heavy
+grotesk headings, square 2–3px corners and clean bands. It should read as *sharp*, not loud; every bold move stays instantly
 legible on a phone in daylight.
 
 The register is **brand**: this portfolio is itself the strongest sample of the
@@ -113,7 +116,10 @@ intentional, not a missing dark surface.
 
 **Key Characteristics:**
 - Navy-drenched dark bands against cool off-white light bands; never a warm cream.
-- Editorial serif display (Fraunces) over a clean grotesque body (Hanken Grotesk).
+- Light bands are plain `--paper` / `--mist` / `--sky` with no pattern. A drafting
+  grid is planned for the Projects page only (Phase 3); it is not live yet.
+- Heavy grotesk display (Schibsted Grotesk) over a clean grotesque body (Hanken Grotesk).
+- Square shapes: 2px panels and dialogs, 3px controls; only the brand disc is round.
 - Amber is the single warm accent — rare, warm, and always AA-legible.
 - Flat by default; crisp borders at rest and a restrained navy-tinted lift on hover.
 - Motion is purposeful and quiet: scroll reveals, card lifts, theme crossfade —
@@ -139,7 +145,7 @@ blue end, personality from the warm one.
   eyebrows, the numbered markers, list counters, and link hover. The "signature."
 
 ### Tertiary
-- **Steel** (#4A6FA5): quiet structural accent (lattice, borders, diagram arrows).
+- **Steel** (#4A6FA5): quiet structural accent (borders, dividers, diagram arrows).
   The muted-blue mid-tone between navy and paper. Link and secondary-button text on
   light uses its deeper sibling **Steel Ink** (#3D5F92, 5.1:1 on Mist/Sky, 6.1:1 on
   paper), so links clear AA on every tinted band.
@@ -175,7 +181,7 @@ while those surfaces follow the selected theme.
 any screen — one CTA, the external-link marks, a hover. Flood the page with it and it
 stops meaning "act here."
 
-**The Warm-the-Navy Rule.** Warmth is carried by amber, the serif, and the copy —
+**The Warm-the-Navy Rule.** Warmth is carried by amber, decisive type, and the copy:
 *never* by tinting the body background warm. The light background is cool off-white;
 a cream/sand/beige body is prohibited.
 
@@ -186,19 +192,22 @@ their brighter siblings.
 
 ## 3. Typography
 
-**Display Font:** Fraunces Variable (with Iowan Old Style, Georgia, serif)
+**Display Font:** Schibsted Grotesk Variable (with system-ui, sans-serif)
 **Body Font:** Hanken Grotesk Variable (with system-ui, sans-serif)
 
-**Character:** A high-contrast pairing on the serif↔sans axis. Fraunces brings warm,
-slightly literary authority to headings — the "signed" human hand — while Hanken
-Grotesk keeps body copy clean, neutral, and fast to read on a phone. One display
-face, one body face; contrast comes from weight and size, not from adding fonts.
+**Character:** Two grotesks split by weight and tracking. Schibsted Grotesk sets
+headings heavy and tight, like the title block on a drawing; Hanken Grotesk keeps
+body copy clean, neutral, and fast to read on a phone. One display face, one body
+face; contrast comes from weight, size and tracking, not from adding fonts.
 
 ### Hierarchy
-- **Display** (650, clamp(2.65rem→4.75rem), lh 1.03): the hero H1 only, capped at
-  ~11ch width. Ceiling stays ≤ ~4.75rem — confident, never shouting.
-- **Headline** (650, clamp(2rem→3.16rem), lh 1.03): section H2s.
-- **Title** (650, clamp(1.48rem→2.02rem), lh 1.1): card and panel H3s.
+- **Display** (800, `--text-hero-title` clamp(2.7rem→5rem), lh .96, -.045em): the
+  hero H1 only, capped at ~15ch width. Interior page titles and closer titles also
+  set 800 with -.04em tracking.
+- **Headline** (760, clamp(2rem→3.16rem), lh 1, -.035em): section H2s.
+- **Title** (760, clamp(1.48rem→2.02rem), lh 1, -.035em): card and panel H3s.
+- **Work index:** numbers in Hanken 800 with .02em tracking; titles in the display
+  face at 720 with -.02em.
 - **Body** (400, 1rem, lh 1.65): paragraphs; cap measure at 56–75ch.
 - **Label / Eyebrow** (820, 0.73rem, 0.16em tracking, uppercase): section kickers
   and meta. Signed-Amber on light, Lamp-Gold on dark. See the Don'ts about overuse.
@@ -220,10 +229,10 @@ keeps the rendered design unchanged while making the exceptions explicit.
 | `--step--1` | `.92rem` | compact notes and modal notes |
 | `--text-badge` | `.72rem` | recommendation badges |
 | `--text-compact` | `.8rem` | demo notes |
-| `--text-work-number` | `1.05rem` | work-panel numbers |
+| `--text-work-number` | `.95rem` | work-panel numbers |
 | `--text-work-title` | `1.14rem` | work-panel titles |
 | `--text-section-number` | `clamp(2.4rem, 1.6rem + 2.8vw, 4rem)` | numbered section markers |
-| `--text-hero-title` | `clamp(2.55rem, 1.85rem + 3.3vw, 4.4rem)` | homepage hero title |
+| `--text-hero-title` | `clamp(2.7rem, 1.8rem + 4vw, 5rem)` | homepage hero title |
 | `--text-card-fallback` | `clamp(4rem, 12vw, 9rem)` | fallback cover initials |
 | `--text-section-heading` | `clamp(1.75rem, 1.3rem + 1.9vw, 2.6rem)` | bold section headings |
 | `--text-page-title` | `clamp(2.1rem, 1.55rem + 2.5vw, 3.35rem)` | interior page titles |
@@ -236,13 +245,16 @@ keeps the rendered design unchanged while making the exceptions explicit.
 | `--text-values-heading` | `clamp(1.15rem, 1rem + .4vw, 1.35rem)` | About values heading |
 | `--text-closer-title` | `clamp(1.85rem, 1.4rem + 2.1vw, 3rem)` | closing CTA title |
 
-Inline code uses the intentional `--radius-code` exception (`4px`); other
-component radii remain the documented 6px, 8px, and pill scale.
+Radii: panels, cards and dialogs use `--radius` / `--radius-sm` (2px); controls
+(buttons, nav links, pills, toggles, footer contact and social links, the
+recommendation badge, the dialog close) use 3px; inline code keeps the
+`--radius-code` exception (4px). Only the brand disc and scrollbar thumbs are round. The case-study architecture
+diagrams keep their 8-unit node corners (SVG `rx`), as in the approved case mock.
 
 ### Named Rules
-**The One-Serif Rule.** Fraunces owns every heading; Hanken owns every line of body.
-Do not introduce a third family or set body copy in the serif. Contrast is bought
-with weight and scale.
+**The One-Display Rule.** Schibsted Grotesk owns every heading; Hanken owns every
+line of body. Do not introduce a third family or set body copy in the display face.
+Contrast is bought with weight, scale and tracking.
 
 ## 4. Elevation
 
@@ -264,11 +276,11 @@ navy-tinted shadow appears.
 
 ## 5. Components
 
-Components read **sharp and confident**: decisive weight, crisp full borders, pill
-CTAs, and a purposeful hover lift. Nothing tentative, nothing overwrought.
+Components read **sharp and confident**: decisive weight, crisp full borders, square
+3px CTAs, and a purposeful hover lift. Nothing tentative, nothing overwrought.
 
 ### Buttons
-- **Shape:** fully pill (999px), min-height 2.85rem, padding 0.72rem 1.05rem.
+- **Shape:** square 3px corners, min-height 2.85rem, padding 0.72rem 1.05rem.
 - **Primary:** Studio-Navy fill, white text, matching navy border. In dark theme the
   fill flips to Worklight-Amber with Midnight-Navy text — the CTA is always the
   highest-contrast object on the band.
@@ -279,7 +291,7 @@ CTAs, and a purposeful hover lift. Nothing tentative, nothing overwrought.
   with Mist. Used for "More about me", "Open website", secondary contact.
 
 ### Chips / Pills
-- **Style:** Panel-White-tinted fill, Soft-Ink text, 1px Line border, fully pill.
+- **Style:** Panel-White-tinted fill, Soft-Ink text, 1px Line border, 3px corners.
 - **Use:** tech-stack tags on project cards and case meta. Non-interactive; purely
   informational, never mistaken for a button.
 
@@ -303,7 +315,7 @@ have no border or fill, so they never read as buttons.
 `.container` keeps a 16px side gutter on phones (≤520px: `min(100% - 2rem, var(--maxw))`).
 
 ### Cards / Containers
-- **Corner Style:** 8px (md).
+- **Corner Style:** 2px (md).
 - **Background:** Panel White on light, #111C2B on dark; no shadow at rest.
 - **Border:** 1px Line, firming to Line-Strong on hover.
 - **Hover:** lifts translateY(-4px); the cover image scales to 1.035 inside its clip.
@@ -311,13 +323,13 @@ have no border or fill, so they never read as buttons.
 
 ### Navigation
 - **Style:** sticky, blurred translucent Paper header with a 1px Line underbottom.
-  Text links in Ink, pill hover fill in Mist. Brand mark is the navy monogram disc
+  Text links in Ink, square 3px hover fill in Mist. Brand mark is the navy monogram disc
   (`src/assets/logo-header.png`, served as 1×/2× WebP).
 - **Mobile:** below 860px the links collapse into a hamburger-triggered panel
   (icon swaps to an X while open; Escape and outside-click close it and return
   focus). The theme toggle stays visible in the header bar, outside the panel.
-  "Email me" renders as the primary pill CTA at the end of the nav.
-- **Theme toggle:** a circular icon button (moon in light, sun in dark) that writes
+  "Email me" renders as the primary CTA button at the end of the nav.
+- **Theme toggle:** a square 3px icon button (moon in light, sun in dark) that writes
   `data-theme` and persists to `localStorage`, with a no-flash inline script in
   `<head>`. The boot script uses the saved choice when there is one, otherwise
   `prefers-color-scheme`. Following the system setting is the decided default
@@ -327,7 +339,7 @@ have no border or fill, so they never read as buttons.
 
 ### Project Card (signature)
 The core proof unit. Compact `<article>` rows show a 16:10 cover, a
-Commercial/Personal + year meta row, a Fraunces title button, a short `blurb`
+Commercial/Personal + year meta row, a display-face title button, a short `blurb`
 (falling back to `summary`), and a separate visit action. The title button opens
 the project dialog through a stretched `::after` overlay at `z-index: 2`;
 `.card-visit` sits at `z-index: 3`. Cards use `--panel`, `--ink`, `--ink-soft`,
@@ -358,7 +370,7 @@ steel/amber washes, and a faded constellation. Borders use the shared divider
 tokens.
 
 ### Hero (signature)
-Two-column on desktop: left is eyebrow → serif H1 (≤11ch) → subhead → contact CTAs;
+Two-column on desktop: left is eyebrow → display H1 (≤15ch) → subhead → contact CTAs;
 right is the **Proof Panel**, a hairline-divided index of project buttons. The
 background is a theme-aware token gradient (a soft Steel glow top-right, a faint Amber
 glow bottom-left over Paper) — no raster image, so it stays clean in both themes.
@@ -427,8 +439,8 @@ and `--text-kicker` roles. Hero Email/Call and View Résumé/View GitHub stay in
   everything, obviously-a-theme.
 - **Don't overdesign**: no animation for its own sake, no effect that fights legibility.
   Sharp beats busy; readability wins every tie.
-- **Don't go corporate-cold**: faceless navy-and-gray with no amber, no serif, no human
-  copy is a failure even if it's "clean."
+- **Don't go corporate-cold**: faceless navy-and-gray with no amber, no decisive type, no
+  human copy is a failure even if it's "clean."
 - **Don't** paint the body background cream/sand/beige/warm-tinted. The light surface is
   cool off-white (#F7F9FC); warmth comes from amber and type, per the Warm-the-Navy Rule.
 - **Don't** lean on the **tracked uppercase eyebrow + numbered marker on every section**

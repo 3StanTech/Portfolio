@@ -1,14 +1,14 @@
-@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/schibsted-grotesk';
 @import '@fontsource-variable/hanken-grotesk';
 
 :root {
-  --font-display: 'Fraunces Variable', 'Iowan Old Style', Georgia, serif;
+  --font-display: 'Schibsted Grotesk Variable', system-ui, sans-serif;
   --font-body: 'Hanken Grotesk Variable', system-ui, sans-serif;
 
   /* --- Brand hues (theme-independent) --- */
   --navy: #14304E;        /* primary brand: buttons, dark bands, heading marks */
   --navy-2: #0B1F35;      /* deepest band / footer */
-  --steel: #4A6FA5;       /* secondary accent: borders, diagram marks, lattice */
+  --steel: #4A6FA5;       /* secondary accent: borders, diagram marks, dividers */
   --steel-ink: #3D5F92;   /* link text on light surfaces (AA on Mist/Sky) */
   --amber: #D9822B;       /* CTA / highlight — warm contrast against navy */
   --amber-dark: #935214;  /* accent text on light + CTA/link hover (AA-tuned) */
@@ -24,11 +24,11 @@
   --ink-soft: #536376;    /* secondary text (AA-tuned for tinted bands) */
   --line: #D5DDE7;
   --line-strong: #AFBDCE;
-  --divider: var(--line-strong);                                      /* panels, header, non-lattice contexts */
+  --divider: var(--line-strong);                                      /* panels, header, plain contexts */
   --divider-on-dark: var(--line-strong);                              /* deep bands + footer (tinted in light) */
-  /* Divider tuned to the low-poly lattice (steel, theme-constant) so hairlines
-     over the band grid read as one of its horizontal lines. */
-  --poly-divider: color-mix(in srgb, var(--steel) 30%, transparent);  /* over the lattice */
+  /* Steel hairline for dividers on the light bands, such as the About
+     principles (30% here, 46% in dark). */
+  --poly-divider: color-mix(in srgb, var(--steel) 30%, transparent);  /* on light bands */
 
   /* --- Semantic roles (flip per theme) --- */
   --brand: var(--navy);
@@ -56,8 +56,8 @@
   /* project-card cover fallback bg (replaces hardcoded hex) */
   --media-bubu: #f6b7b4;
 
-  --radius: 8px;
-  --radius-sm: 6px;
+  --radius: 2px;      /* Blueprint: panels, cards, dialogs */
+  --radius-sm: 2px;
   --maxw: 1120px;
   --header-h: 72px;
   --shadow: none;
@@ -80,10 +80,10 @@
   --text-utility: .88rem;
   --text-badge: .72rem;
   --text-compact: .8rem;
-  --text-work-number: 1.05rem;
+  --text-work-number: .95rem;
   --text-work-title: 1.14rem;
   --text-section-number: clamp(2.4rem, 1.6rem + 2.8vw, 4rem);
-  --text-hero-title: clamp(2.55rem, 1.85rem + 3.3vw, 4.4rem);
+  --text-hero-title: clamp(2.7rem, 1.8rem + 4vw, 5rem);
   --text-card-fallback: clamp(4rem, 12vw, 9rem);
   --text-section-heading: clamp(1.75rem, 1.3rem + 1.9vw, 2.6rem);
   --text-page-title: clamp(2.1rem, 1.55rem + 2.5vw, 3.35rem);

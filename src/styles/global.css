@@ -26,9 +26,9 @@ a:focus-visible, button:focus-visible {
 h1, h2, h3, h4 {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 650;
-  line-height: 1.03;
-  letter-spacing: 0;
+  font-weight: 760;
+  line-height: 1;
+  letter-spacing: -.035em;
 }
 h1 { font-size: var(--step-4); max-width: 11ch; }
 h2 { font-size: var(--step-3); }
@@ -105,7 +105,7 @@ li + li { margin-top: .35rem; }
   width: 2.65rem;
   height: 2.65rem;
   border: 1px solid var(--line-strong);
-  border-radius: 50%;
+  border-radius: 3px;
   background: var(--panel);
   color: var(--ink);
 }
@@ -128,7 +128,7 @@ li + li { margin-top: .35rem; }
   font-weight: 720;
   font-size: var(--text-nav);
   padding: .65rem .78rem;
-  border-radius: 999px;
+  border-radius: 3px;
 }
 .nav a:hover { background: var(--mist); color: var(--brand-deep); }
 .nav .nav-cta {
@@ -156,7 +156,7 @@ li + li { margin-top: .35rem; }
   width: 2.45rem;
   height: 2.45rem;
   border: 1px solid var(--line-strong);
-  border-radius: 50%;
+  border-radius: 3px;
   background: var(--panel);
   color: var(--ink);
   cursor: pointer;
@@ -175,19 +175,6 @@ li + li { margin-top: .35rem; }
 .band-paper { background: var(--paper); }
 .band-mist { background: var(--mist); }
 .band-sky { background: var(--sky); }
-/* Quiet low-poly wireframe over the bands — diagonals only, echoing the
-   constellation on the dark bands. Deliberately carries NO horizontal lines:
-   the only horizontals on a band are the real dividers its content declares.
-   Top-left anchored, so every band shares the same phase at their seam. */
-.band-paper,
-.band-mist,
-.band-sky {
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='74' height='64'%3E%3Cpath d='M0 64L37 0M37 64L74 0M37 64L0 0M74 64L37 0' fill='none' stroke='rgba(74,111,165,0.07)' stroke-width='1'/%3E%3C/svg%3E");
-  background-position: 0 0;
-  background-size: 74px 64px;
-  background-repeat: repeat;
-}
 /* Starfield backdrop — the hero's gradient wash, reused by any section that
    hosts a <Constellation />. Base is --paper, so it flips with the theme.
    Declared after the band rules so it wins the shorthand on source order. */
@@ -253,7 +240,7 @@ li + li { margin-top: .35rem; }
   min-height: 2.85rem;
   padding: .72rem 1.05rem;
   border: 1px solid var(--button-bg);
-  border-radius: 999px;
+  border-radius: 3px;
   background: var(--button-bg);
   color: var(--button-text);
   font-weight: 820;
@@ -354,15 +341,15 @@ li + li { margin-top: .35rem; }
 .hero-dot {
   width: .5rem;
   height: .5rem;
-  border-radius: 50%;
+  border-radius: 1px;
   background: var(--amber);
   box-shadow: 0 0 0 .28rem color-mix(in srgb, var(--amber) 22%, transparent);
 }
 .hero-title {
   font-size: var(--text-hero-title);
-  font-weight: 700;
-  line-height: 1.02;
-  letter-spacing: -.02em;
+  font-weight: 800;
+  line-height: .96;
+  letter-spacing: -.045em;
   text-wrap: balance;
   max-width: 15ch;
 }
@@ -465,8 +452,9 @@ li + li { margin-top: .35rem; }
 }
 .work:hover { background: color-mix(in srgb, var(--mist) 55%, transparent); }
 .work-num {
-  font-family: var(--font-display);
-  font-weight: 650;
+  font-family: var(--font-body);
+  font-weight: 800;
+  letter-spacing: .02em;
   font-size: var(--text-work-number);
   color: var(--accent-ink);
 }
@@ -477,7 +465,8 @@ li + li { margin-top: .35rem; }
 }
 .work-text strong {
   font-family: var(--font-display);
-  font-weight: 650;
+  font-weight: 720;
+  letter-spacing: -.02em;
   font-size: var(--text-work-title);
   color: var(--ink);
 }
@@ -629,7 +618,7 @@ li + li { margin-top: .35rem; }
   min-height: 1.85rem;
   padding: .25rem .55rem;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 3px;
   background: color-mix(in srgb, var(--panel) 78%, transparent);
   color: var(--ink-soft);
   font-size: var(--text-label);
@@ -756,7 +745,7 @@ li + li { margin-top: .35rem; }
   min-height: 2rem;
   padding: .42rem .78rem;
   border: 1px solid var(--line-on-dark);
-  border-radius: 999px;
+  border-radius: 3px;
   color: var(--on-dark);
   font-size: var(--text-utility);
   font-weight: 760;
@@ -775,7 +764,7 @@ li + li { margin-top: .35rem; }
   width: 1.9rem;
   height: 1.9rem;
   border: 1px solid var(--line-on-dark);
-  border-radius: 50%;
+  border-radius: 3px;
   color: var(--on-dark-soft);
 }
 .footer-social:hover {
@@ -882,9 +871,9 @@ li + li { margin-top: .35rem; }
 }
 .page-title {
   font-size: var(--text-page-title);
-  font-weight: 700;
-  line-height: 1.04;
-  letter-spacing: -.02em;
+  font-weight: 800;
+  line-height: .98;
+  letter-spacing: -.04em;
   text-wrap: balance;
   max-width: 18ch;
 }
@@ -1044,7 +1033,7 @@ li + li { margin-top: .35rem; }
   min-height: 1.65rem;
   padding: .2rem .55rem;
   border: 1px solid currentColor;
-  border-radius: 999px;
+  border-radius: 3px;
   color: var(--accent-ink);
   font-size: var(--text-badge);
   font-weight: 820;
@@ -1084,7 +1073,7 @@ li + li { margin-top: .35rem; }
   top: .58em;
   width: .5rem;
   height: .5rem;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--line-strong);
 }
 .svc-detail .button {
@@ -1215,7 +1204,7 @@ li + li { margin-top: .35rem; }
   padding: var(--space-4) 0;
   border-bottom: 1px solid var(--divider);
 }
-/* Over the lattice, the principle dividers read as its horizontal lines. */
+/* Steel hairlines divide the principles on the light band. */
 .principle { border-bottom-color: var(--poly-divider); }
 .tech-row { align-items: center; }
 .tech-row h3,
@@ -1344,7 +1333,8 @@ li + li { margin-top: .35rem; }
 .closer-title {
   max-width: 20ch;
   font-size: var(--text-closer-title);
-  letter-spacing: -.015em;
+  font-weight: 800;
+  letter-spacing: -.04em;
   text-wrap: balance;
   color: var(--on-dark);
 }
@@ -1413,7 +1403,7 @@ dialog.pm::backdrop {
   min-height: 44px;
   padding: 0;
   border: 1px solid var(--divider);
-  border-radius: 50%;
+  border-radius: 3px;
   background: color-mix(in srgb, var(--panel) 92%, transparent);
   color: var(--ink);
   cursor: pointer;
@@ -1736,9 +1726,9 @@ html.js [data-reveal] { opacity: 1; transform: none; }
   .container { width: min(100% - 2rem, var(--maxw)); }
   .brand small { display: none; }
   .button, .hero-actions .button { width: 100%; }
-  /* Labels never wrap: each pill is at least its label's width and the row
+  /* Labels never wrap: each button is at least its label's width and the row
      fills the width. Email + Call pair up down to 360px; the 35% basis keeps
-     the résumé pill from joining their row, so Résumé + GitHub stay paired. */
+     the Résumé button from joining their row, so Résumé + GitHub stay paired. */
   .hero-copy .button-row {
     display: flex;
     flex-wrap: wrap;

@@ -19,7 +19,6 @@
 .crumbs a:hover { color: var(--ink); }
 .crumbs [aria-current] { color: var(--ink); }
 
-.case-title { letter-spacing: -.015em; }
 .case-lede { margin-top: var(--space-3); max-width: 60ch; }
 
 .facts {
