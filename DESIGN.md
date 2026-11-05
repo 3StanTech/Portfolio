@@ -116,13 +116,14 @@ intentional, not a missing dark surface.
 
 **Key Characteristics:**
 - Navy-drenched dark bands against cool off-white light bands; never a warm cream.
-- Light bands are plain `--paper` / `--mist` / `--sky` with no pattern. A drafting
-  grid is planned for the Projects page only (Phase 3); it is not live yet.
+- Light bands are plain `--paper` / `--mist` / `--sky` with no pattern. The Projects
+  page alone sits on a faded isometric drafting grid with a Ripple pointer effect;
+  every other page keeps the starfield.
 - Heavy grotesk display (Schibsted Grotesk) over a clean grotesque body (Hanken Grotesk).
 - Square shapes: 2px panels and dialogs, 3px controls; only the brand disc is round.
 - Amber is the single warm accent — rare, warm, and always AA-legible.
-- Flat by default; crisp borders at rest and a restrained navy-tinted lift on hover.
-- Motion is purposeful and quiet: scroll reveals, card lifts, theme crossfade —
+- Flat by default; crisp borders, with state shown by fills and borders, not shadows.
+- Motion is purposeful and quiet: scroll reveals, the Projects tour and image flip, theme crossfade,
   all gated behind `prefers-reduced-motion`.
 
 ## 2. Colors
@@ -233,11 +234,9 @@ keeps the rendered design unchanged while making the exceptions explicit.
 | `--text-work-title` | `1.14rem` | work-panel titles |
 | `--text-section-number` | `clamp(2.4rem, 1.6rem + 2.8vw, 4rem)` | numbered section markers |
 | `--text-hero-title` | `clamp(2.7rem, 1.8rem + 4vw, 5rem)` | homepage hero title |
-| `--text-card-fallback` | `clamp(4rem, 12vw, 9rem)` | fallback cover initials |
 | `--text-section-heading` | `clamp(1.75rem, 1.3rem + 1.9vw, 2.6rem)` | bold section headings |
 | `--text-page-title` | `clamp(2.1rem, 1.55rem + 2.5vw, 3.35rem)` | interior page titles |
 | `--text-scope-heading` | `clamp(1.55rem, 1.15rem + 1.5vw, 2.2rem)` | scope/process heading |
-| `--text-commissions-heading` | `clamp(1.55rem, 1.2rem + 1.35vw, 2.15rem)` | commissions heading |
 | `--text-service-heading` | `clamp(1.4rem, 1.1rem + 1.2vw, 1.95rem)` | service tier headings |
 | `--text-profile-quote` | `clamp(1.25rem, 1.08rem + .45vw, 1.4rem)` | About profile quote |
 | `--text-principle-heading` | `clamp(1.2rem, 1.05rem + .6vw, 1.5rem)` | About principle headings |
@@ -247,9 +246,11 @@ keeps the rendered design unchanged while making the exceptions explicit.
 
 Radii: panels, cards and dialogs use `--radius` / `--radius-sm` (2px); controls
 (buttons, nav links, pills, toggles, footer contact and social links, the
-recommendation badge, the dialog close) use 3px; inline code keeps the
+recommendation badge, the dialog close, the Inspector's prev/next and tour
+buttons) use 3px; inline code keeps the
 `--radius-code` exception (4px). Only the brand disc and scrollbar thumbs are round. The case-study architecture
-diagrams keep their 8-unit node corners (SVG `rx`), as in the approved case mock.
+diagrams keep their 8-unit node corners (SVG `rx`), as in the approved case mock. The Projects
+Inspector's phone view keeps an 18px handset frame, since it depicts a phone.
 
 ### Named Rules
 **The One-Display Rule.** Schibsted Grotesk owns every heading; Hanken owns every
@@ -258,26 +259,22 @@ Contrast is bought with weight, scale and tracking.
 
 ## 4. Elevation
 
-Flat by default, lifted on interaction. Bordered surfaces carry no shadow at rest;
-depth is a *response* to state (hover), not a permanent costume. Dark theme deepens
-the same compact hover shadow rather than adding new layers.
+Flat by default. Bordered surfaces carry no shadow; hover and selection show as a
+Mist fill and a firmer border (the Projects list marks the open build with an
+accent left border). The only shadow is the floating mobile menu.
 
 ### Shadow Vocabulary
-- **Interactive lift** (`box-shadow: 0 6px 10px rgba(11,31,53,.14)`): used only when
-  a project card rises on hover. Dark theme uses the same compact geometry with a
-  deeper neutral shadow.
 - **Floating menu** (`box-shadow: 0 8px 14px rgba(11,31,53,.16)`): reserved for the
   open mobile navigation, where elevation communicates that it sits above the page.
 
 ### Named Rules
-**The Flat-By-Default Rule.** No stacked shadows and no glow at rest. A card sits flat
-until hover, when it rises 4px, its border firms to Line-Strong, and one compact
-navy-tinted shadow appears.
+**The Flat-By-Default Rule.** No stacked shadows, no glow and no hover lift. State is
+carried by fill and border colour from the tokens.
 
 ## 5. Components
 
 Components read **sharp and confident**: decisive weight, crisp full borders, square
-3px CTAs, and a purposeful hover lift. Nothing tentative, nothing overwrought.
+3px CTAs, and state shown by fill and border. Nothing tentative, nothing overwrought.
 
 ### Buttons
 - **Shape:** square 3px corners, min-height 2.85rem, padding 0.72rem 1.05rem.
@@ -318,7 +315,7 @@ have no border or fill, so they never read as buttons.
 - **Corner Style:** 2px (md).
 - **Background:** Panel White on light, #111C2B on dark; no shadow at rest.
 - **Border:** 1px Line, firming to Line-Strong on hover.
-- **Hover:** lifts translateY(-4px); the cover image scales to 1.035 inside its clip.
+- **Hover:** no lift; interactive rows fill with Mist.
 - **Internal Padding:** clamp(1.25rem → 2rem).
 
 ### Navigation
@@ -337,17 +334,33 @@ have no border or fill, so they never read as buttons.
 - **Résumé:** a PDF link in desktop/mobile navigation and the footer, opening
   in a new tab with an accessible name that states that behavior.
 
-### Project Card (signature)
-The core proof unit. Compact `<article>` rows show a 16:10 cover, a
-Commercial/Personal + year meta row, a display-face title button, a short `blurb`
-(falling back to `summary`), and a separate visit action. The title button opens
-the project dialog through a stretched `::after` overlay at `z-index: 2`;
-`.card-visit` sits at `z-index: 3`. Cards use `--panel`, `--ink`, `--ink-soft`,
-`--line` / `--line-strong` and the shared button tokens. Rows stack at ≤860px.
+### Projects Inspector (signature)
+The core proof unit (`src/components/ProjectInspector.astro`, styles in
+`src/styles/projects.css`). A numbered list of all nine builds under three
+group labels, each row with a 16:10 thumbnail (`shots.thumb`, else `cover`),
+and one open panel: prev/next at the top right, the live capture as a button
+that flips desktop ↔ phone (0.7s 3D turn, none under reduced motion, **no
+visible hint**; the accessible name says which view a click shows), a tag row
+(App / Website / Personal, Commercial or Personal, year), the title, and
+Overview / Stack / Outcome tabs (arrow keys, roving tabindex). Actions: the
+live link as a secondary button (`liveLabel` or "View site"), "Read the case
+study" as a text link when `caseStudy` exists, and "Project details", which
+opens the modal. The panel background is `--paper`.
 
-The card action uses `liveUrl` and `liveLabel` when present. With `caseStudy`
-and no live URL, it becomes "Read the case study" linking to `/projects/<slug>/`.
-There are no per-project repo links on cards. The native `<dialog>` holds the
+On wide screens the panel sits beside the list; hover, click or the arrow keys
+switch builds. A tour opens the next build every 5s and loops, with an icon-only
+Pause/Play button at the panel's top left and no timer line; it holds while the
+pointer or focus is inside, offscreen or in a hidden tab, and starts paused
+under reduced motion. At 860px and below the panels become a swipe carousel
+(scroll-snap) and the tour is off. Without JavaScript every panel and every tab
+shows, stacked; the script adds `.is-ready` to turn on the Inspector.
+
+Captures live in `src/assets/shots/` and come from the `shots` front matter
+(`desktop`, `phone`, optional `thumb`), rendered through Astro `<Image>`.
+
+With `caseStudy` and no live URL, the panel's button becomes "Read the case
+study" linking to `/projects/<slug>/`. There are no per-project repo links in
+the panel. The native `<dialog>` holds the
 long summary, outcome and full stack; its `.pm-actions` stays below the scrolling
 body. With a live URL, the modal leads with the live action and adds a case-study
 text link only when that data exists. With a case study and no demo, it leads
@@ -359,15 +372,13 @@ there is one. Omni-Reviewer, Café OMS and Fundsicles all have case-study data,
 live demos, repos and real screenshot covers, so their modals show no code link
 and their case-study pages do.
 
-### Projects bands
-Nine projects appear in three `group` bands: **Apps and systems** (`systems`,
-3), **Business websites** (`websites`, 2), then **Personal Projects &
-Commissions** (`small`, 4).
-Each band sorts by `displayOrder`; `kind` still supplies the card/modal metadata.
-All three reuse the compact card and modal. The first and third use `.band-paper`
-and `--paper`; the middle uses `.starfield`, a `--paper` base with token-driven
-steel/amber washes, and a faded constellation. Borders use the shared divider
-tokens.
+### Projects page
+One `.starfield.gf-section`: the page head, then the Inspector, over the faded
+isometric grid (`--gf-ink`, a CSS mask at half opacity) with the Ripple canvas
+(`src/components/GridField.astro`: mouse and pen only, none under reduced motion
+or Save-Data, paused offscreen). Groups, in order: **Apps and systems**
+(`systems`, 3), **Business websites** (`websites`, 2), **Personal Projects &
+Commissions** (`small`, 4); each sorts by `displayOrder`.
 
 ### Hero (signature)
 Two-column on desktop: left is eyebrow → display H1 (≤15ch) → subhead → contact CTAs;

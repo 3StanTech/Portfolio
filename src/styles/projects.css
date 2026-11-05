@@ -1,0 +1,289 @@
+/* Projects page: the P3 Inspector over a faded isometric drafting grid.
+   Without JavaScript every build and tab shows, stacked; ProjectInspector's
+   script adds .is-ready, which turns on the two-column inspector (wide) or the
+   swipe carousel (860px and below). Colours come from tokens only. */
+
+/* --- Drafting grid (Projects only) ------------------------------------- */
+/* One masked layer under the section's content, coloured by a token so it
+   follows the theme. The tile is the isometric lattice (56px triangles). */
+:root { --gf-ink: color-mix(in srgb, var(--steel) 30%, transparent); }
+:root[data-theme='dark'] { --gf-ink: color-mix(in srgb, var(--steel) 36%, transparent); }
+.gf-section {
+  --gf-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'56'%20height%3D'97'%3E%3Cg%20fill-opacity%3D'.6'%3E%3Crect%20width%3D'56'%20height%3D'1'%2F%3E%3Crect%20y%3D'48.5'%20width%3D'56'%20height%3D'1'%2F%3E%3C%2Fg%3E%3Cpath%20d%3D'M0%200L56%2097M56%200L0%2097'%20stroke%3D'black'%20stroke-opacity%3D'.6'%20stroke-width%3D'1'%20fill%3D'none'%2F%3E%3C%2Fsvg%3E");
+  --gf-size: 56px 97px;
+  position: relative;
+}
+.gf-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .5; /* faded: the lattice sits behind the work */
+  background-color: var(--gf-ink);
+  -webkit-mask: var(--gf-mask) 0 0 / var(--gf-size) repeat;
+          mask: var(--gf-mask) 0 0 / var(--gf-size) repeat;
+}
+/* Ripple (GridField.astro): a soft hole in the CSS grid at the pointer, where
+   the canvas redraws the lattice bent. Clear to 70% of the reach, then the grid
+   fades back in as the canvas lines fade out. */
+.gf-section.is-warping::before {
+  -webkit-mask:
+    var(--gf-mask) 0 0 / var(--gf-size) repeat,
+    radial-gradient(circle at var(--gx) var(--gy), transparent calc(var(--gr) * .7), black var(--gr)) 0 0 / 100% 100% no-repeat;
+  -webkit-mask-composite: source-in;
+  mask:
+    var(--gf-mask) 0 0 / var(--gf-size) repeat,
+    radial-gradient(circle at var(--gx) var(--gy), transparent calc(var(--gr) * .7), black var(--gr)) 0 0 / 100% 100% no-repeat;
+  mask-composite: intersect;
+}
+/* The effect canvas: viewport-sized, sticking while the section scrolls. */
+.gf-fx { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.gf-fx canvas { position: sticky; top: 0; display: block; width: 100%; height: 100vh; }
+.gf-section .page-head { margin-bottom: var(--space-5); }
+
+/* --- Meta row and text link -------------------------------------------- */
+.r2-tags { display: flex; flex-wrap: wrap; gap: .4rem; color: var(--ink-soft); font-size: var(--text-meta); font-weight: 720; }
+.r2-tags span + span::before { content: '·'; margin-right: .4rem; }
+.r2-tag { color: var(--accent-ink); }
+.r2-link {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  width: fit-content;
+  font-weight: 760;
+  font-size: var(--text-utility);
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: .22em;
+  white-space: nowrap;
+}
+.r2-link:hover { color: var(--link-hover); }
+.r2-link svg { width: .95rem; height: .95rem; }
+
+/* --- Inspector: base (no JavaScript) ----------------------------------- */
+/* A single column: each build's row, then its panel, all open. --p3-list-w is
+   the list column's width on wide screens; the panel and tour button align to it. */
+.p3 { --p3-list-w: 21rem; position: relative; }
+.p3-side { display: grid; gap: .75rem; align-self: start; }
+.p3-list {
+  list-style: none;
+  margin: 0;
+  padding: .5rem 0;
+  border: 1px solid var(--line-strong);
+  background: var(--panel);
+}
+.p3-label {
+  padding: .9rem 1rem .35rem;
+  color: var(--ink-soft);
+  font: 760 var(--text-meta)/1.2 var(--font-body);
+}
+.p3-label:first-child { padding-top: .5rem; }
+.p3-pick {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2rem 4.2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .5rem;
+  padding: .6rem 1rem;
+  border: 0;
+  border-left: 2px solid transparent;
+  background: none;
+  color: var(--ink);
+  font: 700 .95rem/1.3 var(--font-body);
+  text-align: left;
+  cursor: pointer;
+}
+.p3-pick:hover { background: color-mix(in srgb, var(--mist) 55%, transparent); }
+.p3-item.is-active .p3-pick { background: var(--mist); border-left-color: var(--accent-ink); }
+.p3-pick-no { color: var(--ink-soft); font-size: .8rem; font-weight: 800; }
+.p3-pick > svg { width: 1rem; height: 1rem; color: var(--steel); }
+.p3-pick-thumb { display: block; width: 4.2rem; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--line); background: var(--mist); }
+.p3-pick-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.card-logo .p3-pick-thumb img,
+.card-bubu .p3-pick-thumb img { object-fit: contain; padding: .1rem; }
+.card-bubu .p3-pick-thumb { background: var(--media-bubu); }
+
+.p3-panel {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0 .5rem .75rem;
+  padding: 1rem;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+}
+.p3-panel[hidden] { display: none; }
+.p3-cover { overflow: hidden; border: 1px solid var(--line); background: var(--mist); }
+.card-bubu .p3-cover { background: var(--media-bubu); }
+.p3-body { display: grid; gap: .6rem; padding: 0 .25rem .25rem; }
+.p3-body h2 { font-size: clamp(1.7rem, 1.35rem + 1.2vw, 2.4rem); }
+.p3-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.25rem; margin-top: .3rem; }
+.p3-actions .button { min-height: 2.6rem; }
+.p3-details {
+  border: 0;
+  padding: 0;
+  background: none;
+  font: 760 var(--text-utility)/1 var(--font-body);
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: .22em;
+  cursor: pointer;
+}
+.p3-details:hover { color: var(--link-hover); }
+
+/* Overview / Stack / Outcome. Without JavaScript the tab list hides and all
+   three panels show in order. */
+.p3-tabbed { display: grid; gap: .75rem; }
+.p3-ptabs { display: flex; gap: .25rem; border-bottom: 1px solid var(--line); }
+.p3:not(.is-ready) .p3-ptabs { display: none; }
+.p3-ptabs [role='tab'] {
+  margin-bottom: -1px;
+  padding: .5rem .8rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--ink-soft);
+  font: 760 .86rem/1 var(--font-body);
+  cursor: pointer;
+}
+.p3-ptabs [role='tab'][aria-selected='true'] { color: var(--ink); border-bottom-color: var(--accent-ink); }
+.p3-tabbed [role='tabpanel'] { display: grid; gap: .6rem; }
+.p3-tabbed [role='tabpanel'][hidden] { display: none; }
+.p3-tabbed [role='tabpanel'] p { color: var(--ink-soft); max-width: 62ch; }
+.p3-summary { font-size: var(--step--1); line-height: 1.6; }
+.p3-outcome strong { color: var(--ink); font-weight: 760; }
+.p3-note { font-size: var(--text-compact); }
+
+/* Previous / next, top right of the panel; and the tour button. Both need the
+   script, so they show only once it runs. */
+.p3-panel-head { display: flex; align-items: center; justify-content: flex-end; gap: 1rem; }
+.p3-step { display: inline-flex; gap: .35rem; }
+.p3-step button,
+.p3-auto {
+  display: inline-grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+}
+.p3-step button:hover,
+.p3-auto:hover { border-color: var(--accent-ink); color: var(--accent-ink); }
+.p3-step svg,
+.p3-auto svg { width: 1rem; height: 1rem; }
+.p3:not(.is-ready) .p3-panel-head,
+.p3:not(.is-ready) .p3-auto { display: none; }
+
+/* Project tour: icon-only pause/play at the open panel's upper left; no timer
+   indicator. Wide screens only; the phone carousel is swiped by hand. */
+.p3-auto {
+  position: absolute;
+  z-index: 3;
+  top: 1rem;
+  left: calc(var(--p3-list-w) + var(--space-5) + 1rem);
+}
+.p3-auto-play { display: none; }
+.p3-auto.is-paused .p3-auto-pause { display: none; }
+.p3-auto.is-paused .p3-auto-play { display: block; }
+
+/* Panel image: flips between the desktop view (front) and the phone view
+   (back). No visible hint; the button's accessible name says which view a
+   click shows. */
+.p3-flip {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  perspective: 1400px;
+}
+.p3-flip-inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform .7s cubic-bezier(.3, .7, .2, 1);
+}
+.p3-flip[aria-pressed='true'] .p3-flip-inner { transform: rotateY(180deg); }
+.p3-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  background: var(--mist);
+}
+.p3-face img { width: 100%; height: 100%; object-fit: cover; }
+.card-logo .p3-face-front img,
+.card-bubu .p3-face-front img { object-fit: contain; }
+.card-bubu .p3-face-front { background: var(--media-bubu); }
+/* The phone view stands upright in the same box, framed like a handset. */
+.p3-face-back {
+  transform: rotateY(180deg);
+  background: color-mix(in srgb, var(--steel) 14%, var(--paper));
+}
+.p3-flip .p3-face-back img {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  width: auto;
+  height: calc(100% - 2rem);
+  transform: translateX(-50%);
+  aspect-ratio: 390 / 844;
+  border: 6px solid var(--ink);
+  border-radius: 18px;
+  object-fit: cover;
+  object-position: top;
+}
+/* .p3-cover clips its content, which would hide the flip's own outline, so the
+   ring is drawn on the cover instead. */
+.p3-flip:focus-visible { outline: none; }
+.p3-cover:has(.p3-flip:focus-visible) { outline: 3px solid var(--focus); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .p3-flip-inner { transition: none; } }
+
+/* --- Inspector: wide screens, with JavaScript --------------------------- */
+/* An IDE-style master-detail: the grouped list on the left, the open build in
+   a large panel on the right (out of flow; the script sets the min-height). */
+@media (min-width: 861px) {
+  .p3.is-ready {
+    display: grid;
+    grid-template-columns: minmax(16rem, var(--p3-list-w)) minmax(0, 1fr);
+    gap: var(--space-5);
+    min-height: 42rem;
+  }
+  .p3.is-ready .p3-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc(100% - var(--p3-list-w) - var(--space-5));
+    margin: 0;
+  }
+}
+
+/* --- Inspector: phones, with JavaScript: a swipe carousel of panels ------ */
+@media (max-width: 860px) {
+  .p3.is-ready .p3-list {
+    display: flex;
+    gap: .75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 0 .5rem;
+    border: 0;
+    background: none;
+  }
+  .p3.is-ready .p3-label,
+  .p3.is-ready .p3-pick,
+  .p3.is-ready .p3-panel-head,
+  .p3-auto { display: none; }
+  .p3.is-ready .p3-item { flex: 0 0 86%; margin-top: 0; scroll-snap-align: start; }
+  .p3.is-ready .p3-panel,
+  .p3.is-ready .p3-panel[hidden] { display: grid; height: 100%; margin: 0; align-content: start; }
+}

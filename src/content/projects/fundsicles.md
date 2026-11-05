@@ -95,4 +95,8 @@ caseStudy:
         An emulator suite checks the Firestore rules on every pull request, and
         the browser tests run against the Auth and Firestore emulators.
   demoNote: "Demo only: sample data; your changes save to a private demo space. PIN 123456 (a screen lock, not security)."
+shots:
+  desktop: ../../assets/shots/fundsicles-desktop.webp
+  phone: ../../assets/shots/fundsicles-phone.webp
+  thumb: ../../assets/shots/fundsicles-thumb.webp
 ---

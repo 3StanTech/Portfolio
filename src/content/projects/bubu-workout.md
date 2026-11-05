@@ -24,4 +24,7 @@ blurb: Illustrated workout plan with an exercise log for each person.
 outcome: Separate exercise histories saved on the same browser, without an account.
 coverAlt: Cartoon panda jogging in pink workout clothes
 cover: ../../assets/bubu-run.gif
+shots:
+  desktop: ../../assets/shots/bubu-workout-desktop.webp
+  phone: ../../assets/shots/bubu-workout-phone.webp
 ---

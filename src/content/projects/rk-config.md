@@ -24,4 +24,8 @@ demoNote: Desktop Chrome, Edge or Opera with a USB cable. Try the demo without a
 repoUrl: https://github.com/3StanTech/RK-Config
 coverAlt: "RK Config home page: the headline Remap and relight your Royal Kludge keyboard above a keyboard drawn in code with the W, A, S and D keys lit purple"
 cover: ../../assets/rk-config-demo.png
+shots:
+  desktop: ../../assets/shots/rk-config-desktop.webp
+  phone: ../../assets/shots/rk-config-phone.webp
+  thumb: ../../assets/shots/rk-config-thumb.webp
 ---

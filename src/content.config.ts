@@ -9,7 +9,7 @@ const projects = defineCollection({
       title: z.string(),
       slug: z.string(),
       kind: z.enum(['commercial', 'personal']),
-      /** Projects-page band. Independent of `kind`, which still drives the card meta label. */
+      /** Projects Inspector group (list label and short tag). Independent of `kind`, which drives the Commercial/Personal label in the panel and modal. */
       group: z.enum(['systems', 'websites', 'small']),
       /** Present only for projects with a /projects/<slug>/ case study. */
       caseStudy: z.object({
@@ -40,7 +40,9 @@ const projects = defineCollection({
       blurb: z.string().optional(),
       outcome: z.string().optional(),
       coverAlt: z.string().optional(),
-      cover: image()
+      cover: image(),
+      /** Live captures for the Projects Inspector; thumb falls back to cover. */
+      shots: z.object({ desktop: image(), phone: image(), thumb: image().optional() })
     })
 });
 

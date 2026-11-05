@@ -86,4 +86,8 @@ caseStudy:
   next: >-
     A public ordering link for customers, priced by the same engine before the
     owner accepts each order.
+shots:
+  desktop: ../../assets/shots/cafe-dashboard-desktop.webp
+  phone: ../../assets/shots/cafe-dashboard-phone.webp
+  thumb: ../../assets/shots/cafe-dashboard-thumb.webp
 ---

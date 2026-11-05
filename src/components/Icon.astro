@@ -1,5 +1,5 @@
 ---
-type IconName = 'mail' | 'phone' | 'arrow' | 'menu' | 'external' | 'moon' | 'sun' | 'github' | 'facebook' | 'close' | 'document' | 'code' | 'check';
+type IconName = 'mail' | 'phone' | 'arrow' | 'menu' | 'external' | 'moon' | 'sun' | 'github' | 'facebook' | 'close' | 'document' | 'code' | 'check' | 'chevron-left' | 'chevron-right';
 
 interface Props {
   name: IconName;
@@ -19,7 +19,9 @@ const paths = {
   close: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
   document: '<path d="M14 3H7.5A1.5 1.5 0 0 0 6 4.5v15A1.5 1.5 0 0 0 7.5 21h9a1.5 1.5 0 0 0 1.5-1.5V8.5L14 3Z"/><path d="M14 3v5.5h5.5"/><path d="M9 13h6"/><path d="M9 16.5h6"/>',
   code: '<path d="M8.5 7 3.5 12l5 5"/><path d="m15.5 7 5 5-5 5"/><path d="M13.5 4.5 10.5 19.5"/>',
-  check: '<path d="m5 12.5 4.2 4.2L19 7"/>'
+  check: '<path d="m5 12.5 4.2 4.2L19 7"/>',
+  'chevron-left': '<path d="m15 18-6-6 6-6"/>',
+  'chevron-right': '<path d="m9 18 6-6-6-6"/>'
 } satisfies Record<IconName, string>;
 ---
 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={paths[name]} />

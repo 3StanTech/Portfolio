@@ -25,4 +25,8 @@ blurb: Filipino event catering, from per-head packages to booking.
 outcome: Closed client concept demo; final site pending client brand direction.
 coverAlt: Circular orange seal with a line-art figure and the Herminia's script wordmark
 cover: ../../assets/herminias-logo.png
+shots:
+  desktop: ../../assets/shots/herminias-desktop.webp
+  phone: ../../assets/shots/herminias-phone.webp
+  thumb: ../../assets/shots/herminias-thumb.webp
 ---

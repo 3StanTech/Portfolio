@@ -83,4 +83,8 @@ caseStudy:
     Streaming long study guides so the first section shows while the rest
     loads.
   demoNote: Sample packs, no sign-in. Your progress stays with your visit.
+shots:
+  desktop: ../../assets/shots/omni-reviewer-desktop.webp
+  phone: ../../assets/shots/omni-reviewer-phone.webp
+  thumb: ../../assets/shots/omni-reviewer-thumb.webp
 ---

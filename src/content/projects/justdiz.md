@@ -24,4 +24,8 @@ blurb: Story-first portfolio for a photo and video studio.
 outcome: Selected services carry through from browsing to the demo inquiry form.
 coverAlt: Justdiz Preproductions home page
 cover: ../../assets/justdiz-home.png
+shots:
+  desktop: ../../assets/shots/justdiz-desktop.webp
+  phone: ../../assets/shots/justdiz-phone.webp
+  thumb: ../../assets/shots/justdiz-thumb.webp
 ---

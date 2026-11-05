@@ -26,4 +26,7 @@ blurb: Privacy-safe birthday keepsake with shared letters and photos.
 outcome: Shared letters and photos, with image bytes loaded separately from gallery metadata.
 coverAlt: Pink sculptural birthday cake with tall pink and burgundy candles
 cover: ../../assets/at-thirty-hero.webp
+shots:
+  desktop: ../../assets/shots/at-thirty-desktop.webp
+  phone: ../../assets/shots/at-thirty-phone.webp
 ---

@@ -23,4 +23,7 @@ demoNote: "Demo only: fictional couple; guest edits may reset daily."
 repoUrl: https://github.com/3StanTech/PublicDemo-Anniv-Celebration
 coverAlt: Watercolor illustration of a pearl keepsake for an anniversary album
 cover: ../../assets/pearl-anniversary-cute.png
+shots:
+  desktop: ../../assets/shots/pearl-anniversary-desktop.webp
+  phone: ../../assets/shots/pearl-anniversary-phone.webp
 ---
