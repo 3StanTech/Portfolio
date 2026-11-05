@@ -333,6 +333,9 @@ li + li { margin-top: .35rem; }
   color: var(--ink-soft);
   font-size: var(--step-1);
 }
+/* `.hero-copy p` would otherwise inflate the kicker and trust line to lead size. */
+.hero-copy .hero-kicker { font-size: var(--text-kicker); }
+.hero-copy .hero-trust { font-size: var(--text-supporting); }
 .hero-actions,
 .button-row {
   display: flex;
@@ -364,10 +367,12 @@ li + li { margin-top: .35rem; }
   max-width: 15ch;
 }
 .hero-mark {
-  background: linear-gradient(var(--amber), var(--amber)) no-repeat left bottom / 100% .1em;
-  padding-bottom: .12em;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
+  /* Baseline underline: it can never reach the next line's ascenders. */
+  text-decoration-line: underline;
+  text-decoration-color: var(--amber);
+  text-decoration-thickness: .085em;
+  text-underline-offset: .1em;
+  text-decoration-skip-ink: none;
 }
 .hero-sub {
   max-width: 52ch;
@@ -420,6 +425,13 @@ li + li { margin-top: .35rem; }
   overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: var(--line-strong) transparent;
+  /* A foot fade says "more below"; index.astro clears it at the list's end. */
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 3.25rem), transparent);
+          mask-image: linear-gradient(#000 calc(100% - 3.25rem), transparent);
+}
+.works-list.is-end {
+  -webkit-mask-image: none;
+          mask-image: none;
 }
 .works-list::-webkit-scrollbar {
   width: 7px;
@@ -430,19 +442,6 @@ li + li { margin-top: .35rem; }
 .works-list::-webkit-scrollbar-thumb {
   background: var(--line-strong);
   border-radius: 999px;
-}
-/* Quiet scroll affordance — soft bottom fade so the list reads as scrollable. */
-.works::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 3.1rem; /* sits just above .works-foot */
-  height: 2.5rem;
-  pointer-events: none;
-  z-index: 1;
-  background: linear-gradient(to top, var(--panel), transparent);
-  opacity: .92;
 }
 .works-list li { margin: 0; }
 .work {
@@ -889,9 +888,6 @@ li + li { margin-top: .35rem; }
   text-wrap: balance;
   max-width: 18ch;
 }
-/* Page titles wrap at line-height 1.04, so the default .12em drop reads as
-   belonging to the line below. Pull the bar back onto its own baseline. */
-.page-title .hero-mark { padding-bottom: .02em; }
 .page-lead {
   margin-top: var(--space-4);
   max-width: 58ch;
@@ -1112,10 +1108,17 @@ li + li { margin-top: .35rem; }
 }
 .svc-includes-label {
   color: var(--ink-soft);
-  font-size: var(--step--1);
+  font-size: var(--text-supporting);
   font-weight: 820;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+}
+/* Services hero starfield: hero area only, fading out before the tier cards. */
+.field-top {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: min(100%, 46rem);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(#000 62%, transparent);
+          mask-image: linear-gradient(#000 62%, transparent);
 }
 .svc-includes ul {
   display: flex;
@@ -1269,34 +1272,41 @@ li + li { margin-top: .35rem; }
   text-transform: none;
   color: var(--ink);
 }
+/* Principles read as statements, not buttons: a small amber diamond (the
+   constellation's node shape) marks each line. */
 .about-values-list {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: .75rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--space-4) var(--space-5);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 .about-values-list li {
-  display: inline-flex;
-  align-items: center;
+  position: relative;
+  display: block;
   margin: 0;
-  padding: .75rem 1.25rem;
-  min-width: 0;
-  max-width: 100%;
-  border: 1px solid var(--amber);
-  border-radius: 999px;
-  background: transparent;
+  padding: 0 0 0 1.15rem;
   color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--text-values-heading);
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.25;
   overflow-wrap: break-word;
+}
+.about-values-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .5em;
+  width: .42rem;
+  height: .42rem;
+  background: var(--amber);
+  transform: rotate(45deg);
 }
 
 @media (max-width: 520px) {
   .about-intro .button-row { flex-wrap: wrap; }
-  .about-values-list li { width: 100%; }
 }
 
 /* Quiet zone over constellation fields — opaque panel over the star field.
@@ -1339,10 +1349,12 @@ li + li { margin-top: .35rem; }
   color: var(--on-dark);
 }
 .closer-mark {
-  background: linear-gradient(var(--amber), var(--amber)) no-repeat left bottom / 100% .1em;
-  padding-bottom: .12em;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
+  /* Baseline underline: it can never reach the next line's ascenders. */
+  text-decoration-line: underline;
+  text-decoration-color: var(--amber);
+  text-decoration-thickness: .085em;
+  text-underline-offset: .1em;
+  text-decoration-skip-ink: none;
 }
 .closer .button-row { margin-top: var(--space-2); }
 .closer-note {
@@ -1721,7 +1733,7 @@ html.js [data-reveal] { opacity: 1; transform: none; }
 }
 
 @media (max-width: 520px) {
-  .container { width: min(100% - 1.25rem, var(--maxw)); }
+  .container { width: min(100% - 2rem, var(--maxw)); }
   .brand small { display: none; }
   .button, .hero-actions .button { width: 100%; }
   /* Labels never wrap: each pill is at least its label's width and the row
@@ -1741,6 +1753,8 @@ html.js [data-reveal] { opacity: 1; transform: none; }
   }
   .hero-copy .button-row .button:not(.tertiary) { flex-basis: 35%; }
   .hero-copy p, .section-lead { font-size: 1rem; }
+  .hero-copy .hero-kicker { font-size: var(--text-kicker); }
+  .hero-copy .hero-trust { font-size: var(--text-supporting); }
   .tech-row,
   .principle,
   .svc-includes {

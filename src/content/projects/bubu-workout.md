@@ -20,7 +20,7 @@ summary: >-
   account or backend. The single-file HTML, CSS, and JavaScript approach keeps
   deployment simple; the tradeoff is that logs do not synchronize between
   devices.
-blurb: Illustrated workout plan, built for reading on a phone.
+blurb: Illustrated workout plan with an exercise log for each person.
 outcome: Separate exercise histories saved on the same browser, without an account.
 coverAlt: Cartoon panda jogging in pink workout clothes
 cover: ../../assets/bubu-run.gif

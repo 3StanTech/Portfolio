@@ -1,5 +1,5 @@
 ---
-title: Fundsicles — Expense Tracker
+title: "Fundsicles: Expense Tracker"
 slug: fundsicles
 kind: personal
 group: systems
@@ -19,14 +19,14 @@ blurb: Expense tracker with sample Philippine-peso data.
 outcome: Spending totals separate transfers from expenses, exact to the centavo.
 liveUrl: https://fundsicles-demo.web.app
 liveLabel: Visit interactive demo version
-demoNote: Demo only — sample data; your changes save to a private demo space. PIN 123456.
+demoNote: "Demo only: sample data; your changes save to a private demo space. PIN 123456."
 repoUrl: https://github.com/3StanTech/PublicDemo-Expense-Tracker
 coverAlt: "Fundsicles demo on a phone: the Home screen as of Aug 31, 2026, with net worth, the month's income and expenses, budget used, debt total and a six-month income vs expenses chart"
 cover: ../../assets/fundsicles-demo.png
 caseStudy:
   lede: >-
-    A phone-first money tracker that keeps real spending apart from money
-    moved between your own accounts, with every amount exact to the centavo.
+    A money tracker that keeps real spending apart from money
+    moved between your own accounts.
   facts:
     - { label: Role, value: Solo full-stack developer }
     - { label: Type, value: Personal project }
@@ -94,5 +94,5 @@ caseStudy:
       body: >-
         An emulator suite checks the Firestore rules on every pull request, and
         the browser tests run against the Auth and Firestore emulators.
-  demoNote: Demo only — sample data; your changes save to a private demo space. PIN 123456 (a screen lock, not security).
+  demoNote: "Demo only: sample data; your changes save to a private demo space. PIN 123456 (a screen lock, not security)."
 ---

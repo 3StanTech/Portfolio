@@ -38,7 +38,7 @@ const caseStudyHref = `/projects/${d.slug}/`;
     <div class="pm-actions">
       {d.liveUrl ? (
         <>
-          <a class="button" href={d.liveUrl} target="_blank" rel="noopener" aria-label={`${liveLabel} — ${d.title} (opens in new tab)`}>{liveLabel} <Icon name="external" /></a>
+          <a class="button" href={d.liveUrl} target="_blank" rel="noopener" aria-label={`${liveLabel}: ${d.title} (opens in new tab)`}>{liveLabel} <Icon name="external" /></a>
           {d.caseStudy && <a class="text-link" href={caseStudyHref}>Read the case study <Icon name="arrow" /></a>}
           {d.demoNote && <p class="pm-demo-note">{d.demoNote}</p>}
         </>
@@ -46,7 +46,7 @@ const caseStudyHref = `/projects/${d.slug}/`;
         <>
           <a class="button" href={caseStudyHref}>Read the case study <Icon name="arrow" /></a>
           {d.repoUrl && (
-            <a class="text-link" href={d.repoUrl} target="_blank" rel="noopener" aria-label={`View the code — ${d.title} on GitHub (opens in new tab)`}>View the code <Icon name="external" /></a>
+            <a class="text-link" href={d.repoUrl} target="_blank" rel="noopener" aria-label={`View the code: ${d.title} on GitHub (opens in new tab)`}>View the code <Icon name="external" /></a>
           )}
         </>
       ) : (

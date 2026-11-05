@@ -8,7 +8,7 @@ clientType: Matcha café, Metro Manila
 stack: [React, TypeScript, Supabase, Netlify, Firebase]
 year: 2026
 summary: >-
-  A mobile-first order and customer dashboard for a matcha café. To keep
+  An order and customer dashboard for a matcha café. To keep
   customized orders consistent, I centralized pricing in a catalog-based engine
   that calculates totals exactly to the centavo and ignores totals supplied by imports.
   Validation runs before an imported order is saved; tests cover price
@@ -25,8 +25,8 @@ coverAlt: "Order dashboard demo on a phone: the Today board, with each order mar
 cover: ../../assets/cafe-oms-demo.png
 caseStudy:
   lede: >-
-    A phone-first order and customer dashboard for a paying matcha café,
-    where every total comes from one pricing engine, down to the centavo.
+    An order and customer dashboard for a paying matcha café,
+    where every total comes from one pricing engine.
   facts:
     - { label: Role, value: Solo full-stack developer }
     - { label: Client, value: A paying matcha café }

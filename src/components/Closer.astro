@@ -1,0 +1,24 @@
+---
+// Shared dark closer band: optional kicker, the title from the default slot
+// (marked words use <span class="closer-mark">), an optional `lead` slot shown
+// before the buttons, and an optional note after them. Styles live in global.css.
+import Constellation from './Constellation.astro';
+import CTA from './CTA.astro';
+
+interface Props {
+  kicker?: string;
+  note?: string;
+}
+
+const { kicker, note } = Astro.props as Props;
+---
+<section class="section band-dark closer">
+  <Constellation class="fade-edge" />
+  <div class="container closer-inner">
+    {kicker && <p class="closer-kicker">{kicker}</p>}
+    <h2 class="closer-title"><slot /></h2>
+    <slot name="lead" />
+    <CTA label="Email me" showPhone />
+    {note && <p class="closer-note">{note}</p>}
+  </div>
+</section>

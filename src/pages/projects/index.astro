@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import CTA from '../../components/CTA.astro';
+import Closer from '../../components/Closer.astro';
 import Constellation from '../../components/Constellation.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import ProjectModal from '../../components/ProjectModal.astro';
@@ -30,7 +30,7 @@ const bands: { group: Group; id: string; title: string; lead: string }[] = [
   {
     group: 'small',
     id: 'small-builds',
-    title: 'Small builds',
+    title: 'Personal Projects & Commissions',
     lead: 'Personal sites with a story.',
   },
 ];
@@ -38,14 +38,14 @@ const groupedBands = bands
   .map((band) => ({ ...band, projects: projects.filter((project) => project.data.group === band.group) }))
   .filter((band) => band.projects.length > 0);
 ---
-<Base title="Projects | Tristan Dolfo" description="Projects by Tristan: full-stack apps and systems, business websites and small personal builds. Open any one for the story, then try it yourself." canonical="/projects/">
+<Base title="Projects | Tristan Dolfo" description="Projects by Tristan: full-stack apps and systems, business websites, and personal projects and commissions. Check them out, then try for yourself." canonical="/projects/">
   <section class="section starfield">
     <Constellation density={200} islandLimit={4} class="fade-edge" />
     <div class="container">
       <header class="page-head" data-reveal>
         <p class="page-kicker"><span class="hero-dot" aria-hidden="true"></span>{projects.length} builds</p>
         <h1 class="page-title">Built for the people who use them.</h1>
-        <p class="page-lead">Apps and systems first, then business websites and a few small personal builds. Open any one for the story, then try it yourself.</p>
+        <p class="page-lead">Check them out, then try for yourself.</p>
       </header>
     </div>
   </section>
@@ -69,14 +69,7 @@ const groupedBands = bands
     </section>
   ))}
 
-  <section class="section band-dark closer">
-    <Constellation class="fade-edge" />
-    <div class="container closer-inner">
-      <p class="closer-kicker">Seen enough?</p>
-      <h2 class="closer-title">Tell me which one is <span class="closer-mark">closest</span> to your business.</h2>
-      <CTA label="Email me" showPhone />
-    </div>
-  </section>
+  <Closer kicker="Seen enough?">Tell me which one is <span class="closer-mark">closest</span> to your business.</Closer>
 
   {groupedBands.map((band) => band.projects.map((project) => <ProjectModal project={project} />))}
 </Base>

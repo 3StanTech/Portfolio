@@ -54,7 +54,9 @@ sample-only public demo; Order Management System + CRM Dashboard, paid commercia
 work for an unnamed café, with a sample-data public demo; Herminia's Food and
 Justdiz Preproductions as art-directed commercial demos; Fundsicles and Pearl
 Anniversary as public-demo personal projects; The Big Thirty as a privacy-safe full-stack build
-backed by an isolated Netlify Blobs store; and the Bubu Workout microsite. Visible
+backed by an isolated Netlify Blobs store; the Bubu Workout microsite; and RK Config, an
+open-source fork of KludgeKnight (GPL-3.0) for remapping Royal Kludge keyboards in the
+browser. Visible
 craft of the portfolio itself is also evidence. Do not fabricate testimonials,
 pricing, or live-client claims beyond what these sources support.
 

@@ -283,6 +283,25 @@ CTAs, and a purposeful hover lift. Nothing tentative, nothing overwrought.
 - **Use:** tech-stack tags on project cards and case meta. Non-interactive; purely
   informational, never mistaken for a button.
 
+### Marked words
+Hero and closer titles mark one word (`.hero-mark`, `.closer-mark`) with a
+baseline underline: `text-decoration` in `--amber`, `.085em` thick at a `.1em`
+offset, `skip-ink: none`. It sits inside the line box, so it never touches the
+next line. Keep the space outside the marked span.
+
+### Closer band
+Every dark closer comes from `src/components/Closer.astro`: optional kicker, the
+title (default slot), an optional `lead` slot before the Email/Call buttons and
+an optional note after them. Its styles stay in `global.css`.
+
+### About principles
+The About values list is a grid of statements in the display face, each marked by
+a small amber diamond (the constellation's node shape). They are not chips and
+have no border or fill, so they never read as buttons.
+
+### Page gutter
+`.container` keeps a 16px side gutter on phones (≤520px: `min(100% - 2rem, var(--maxw))`).
+
 ### Cards / Containers
 - **Corner Style:** 8px (md).
 - **Background:** Panel White on light, #111C2B on dark; no shadow at rest.
@@ -329,8 +348,9 @@ live demos, repos and real screenshot covers, so their modals show no code link
 and their case-study pages do.
 
 ### Projects bands
-Eight projects appear in three `group` bands: **Apps and systems** (`systems`,
-3), **Business websites** (`websites`, 2), then **Small builds** (`small`, 3).
+Nine projects appear in three `group` bands: **Apps and systems** (`systems`,
+3), **Business websites** (`websites`, 2), then **Personal Projects &
+Commissions** (`small`, 4).
 Each band sorts by `displayOrder`; `kind` still supplies the card/modal metadata.
 All three reuse the compact card and modal. The first and third use `.band-paper`
 and `--paper`; the middle uses `.starfield`, a `--paper` base with token-driven
@@ -344,8 +364,9 @@ background is a theme-aware token gradient (a soft Steel glow top-right, a faint
 glow bottom-left over Paper) — no raster image, so it stays clean in both themes.
 
 The Proof Panel begins with a pinned **Hiring a developer?** link to `/projects/`,
-followed by the Selected work label, all eight project buttons in `displayOrder`
-(Omni-Reviewer first), and a fixed footnote. Only `.works-list` scrolls. The hiring
+followed by the Selected work label, all nine project buttons in `displayOrder`
+(Omni-Reviewer first), and a fixed footnote. Only `.works-list` scrolls; a mask
+fades its foot to say there is more below and clears once it reaches the end. The hiring
 row sits on the `--mist` band tone (`--sky` on hover) so it stays in the navy
 family in both themes, with an accent code icon/arrow, `--divider`, and the existing `--ink`, `--ink-soft`, `--text-work-title`
 and `--text-kicker` roles. Hero Email/Call and View Résumé/View GitHub stay in a

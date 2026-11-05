@@ -4,6 +4,7 @@ import { getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import CTA from '../components/CTA.astro';
+import Closer from '../components/Closer.astro';
 import Constellation from '../components/Constellation.astro';
 import SectionBand from '../components/SectionBand.astro';
 import ProcessSteps from '../components/ProcessSteps.astro';
@@ -22,7 +23,7 @@ const allWork = projects
 // Fail fast if site origin is missing — structured-data logo/image must be absolute.
 const siteUrl = Astro.site;
 if (!siteUrl) {
-  throw new Error('Astro.site is undefined — set SITE_URL before building.');
+  throw new Error('Astro.site is undefined: set SITE_URL before building.');
 }
 // Stable public Night Studio mark (compact identity for schema surfaces).
 const logoUrl = new URL('/logo.png', siteUrl).toString();
@@ -67,7 +68,7 @@ const jsonLd = [
       <div class="hero-copy">
         <p class="hero-kicker"><span class="hero-dot" aria-hidden="true"></span>Philippines · full-stack developer</p>
         <h1 class="hero-title">Sites and systems that <span class="hero-mark">work</span> for your business.</h1>
-        <p class="hero-sub">I build websites for small businesses and full-stack apps that real people use every day.</p>
+        <p class="hero-sub">I build websites for small businesses and full-stack apps that real people use.</p>
         <CTA showPhone showResume showGithub />
         <p class="hero-trust"><span class="hero-trust-count">{projectCount}</span> builds · replies within a day</p>
       </div>
@@ -88,7 +89,7 @@ const jsonLd = [
                 class="work"
                 type="button"
                 data-project-modal={project.data.slug}
-                aria-label={`${project.data.title} — view details`}
+                aria-label={`${project.data.title}: view details`}
               >
                 <span class="work-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                 <span class="work-text">
@@ -120,15 +121,17 @@ const jsonLd = [
     </div>
   </SectionBand>
 
-  <section class="section band-dark closer">
-    <Constellation class="fade-edge" />
-    <div class="container closer-inner">
-      <p class="closer-kicker">Ready when you are.</p>
-      <h2 class="closer-title">Tell me what you need for your online <span class="closer-mark"> presence.</span></h2>
-      <CTA label="Email me" showPhone />
-      <p class="closer-note">No forms, no pressure. A plain email describing your business is enough. I reply within a day.</p>
-    </div>
-  </section>
+  <Closer kicker="Ready when you are." note="No forms, no pressure. A plain email describing your business is enough. I reply within a day.">Tell me what you need for your online <span class="closer-mark">presence.</span></Closer>
 
   {allWork.map((project) => <ProjectModal project={project} />)}
 </Base>
+
+<script>
+  // Selected work scroll cue: drop the foot fade once the list is scrolled to its end.
+  for (const list of document.querySelectorAll<HTMLElement>('.works-list')) {
+    const update = () => list.classList.toggle('is-end', list.scrollTop + list.clientHeight >= list.scrollHeight - 2);
+    list.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+</script>

@@ -19,7 +19,7 @@ blurb: Pearl-anniversary keepsake album with story, gallery, and letters.
 outcome: Conflict-aware editing in the private build, with a separate public showcase.
 liveUrl: https://publicdemo-anniv-celebration.netlify.app
 liveLabel: Visit interactive demo version
-demoNote: Demo only — fictional couple; guest edits may reset daily.
+demoNote: "Demo only: fictional couple; guest edits may reset daily."
 repoUrl: https://github.com/3StanTech/PublicDemo-Anniv-Celebration
 coverAlt: Watercolor illustration of a pearl keepsake for an anniversary album
 cover: ../../assets/pearl-anniversary-cute.png

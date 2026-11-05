@@ -20,11 +20,11 @@ const {
 // here. Guard anyway rather than fall back to a wrong hardcoded URL.
 const siteUrl = Astro.site;
 if (!siteUrl) {
-  throw new Error('Astro.site is undefined — set SITE_URL before building.');
+  throw new Error('Astro.site is undefined: set SITE_URL before building.');
 }
 const canonicalUrl = new URL(canonical, siteUrl).toString();
 const ogUrl = new URL(ogImage, siteUrl).toString();
-const ogImageAlt = 'Tristan Dolfo — full-stack developer in the Philippines. Sites and systems for businesses worldwide.';
+const ogImageAlt = 'Tristan Dolfo, full-stack developer in the Philippines. Sites and systems for businesses worldwide.';
 const resumeHref = '/Tristan_Dolfo_Resume.pdf';
 
 // Active-nav "you are here": a nav item is current when the path matches it.

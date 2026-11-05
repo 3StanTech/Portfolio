@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import CTA from '../components/CTA.astro';
+import Closer from '../components/Closer.astro';
 import Constellation from '../components/Constellation.astro';
 import Icon from '../components/Icon.astro';
 import { mailto } from '../data/contact';
@@ -11,10 +11,10 @@ const tiers = [
     title: 'A polished one-page presence',
     bestFor: 'owners who mainly need customers to find them and choose them.',
     subject: 'Starter website quote',
-    ctaLabel: 'Start a Starter conversation',
+    ctaLabel: 'Get a Starter quote',
     points: [
       'Hero, offer, proof, location and contact, one clear CTA',
-      'Mobile-first responsive design',
+      'Responsive design for phones and desktops',
       'SEO basics and social preview metadata',
       'Fast static deployment',
     ],
@@ -24,7 +24,7 @@ const tiers = [
     title: 'Your full menu or service story, on-site',
     bestFor: 'clients with real content to show, such as a menu, services, or a gallery.',
     subject: 'Business website quote',
-    ctaLabel: 'Start a Business conversation',
+    ctaLabel: 'Get a Business quote',
     points: [
       'Multi-section or multi-page site',
       'Menu or services, gallery, reviews, FAQs',
@@ -37,7 +37,7 @@ const tiers = [
     title: 'Custom builds for specific workflows',
     bestFor: 'businesses that need an interactive tool or system, not just an online brochure.',
     subject: 'Premier website quote',
-    ctaLabel: 'Start a Premier conversation',
+    ctaLabel: 'Get a Premier quote',
     points: [
       'Interactive tools or richer content systems',
       'Serverless functions when the site needs state',
@@ -50,7 +50,7 @@ const tiers = [
 ---
 <Base title="Services | Tristan Dolfo" description="Website packages for small businesses worldwide, shown by outcome and scope without public pricing." canonical="/services/">
   <section class="section band-paper">
-    <Constellation class="fade-edge" />
+    <div class="field-top" aria-hidden="true"><Constellation class="fade-edge" density={180} islandLimit={4} /></div>
     <div class="container">
       <header class="page-head" data-reveal>
         <p class="page-kicker"><span class="hero-dot" aria-hidden="true"></span>Website packages</p>
@@ -83,7 +83,6 @@ const tiers = [
       <div class="svc-includes" data-reveal>
         <p class="svc-includes-label">Every tier includes</p>
         <ul aria-label="Included with every website tier">
-          <li class="pill">Mobile-first build</li>
           <li class="pill">SEO basics</li>
           <li class="pill">Structured data</li>
           <li class="pill">Fast static deployment</li>
@@ -93,13 +92,8 @@ const tiers = [
     </div>
   </section>
 
-  <section class="section band-dark closer">
-    <Constellation class="fade-edge" />
-    <div class="container closer-inner">
-      <p class="closer-kicker">After launch</p>
-      <h2 class="closer-title">Keep your site <span class="closer-mark">maintained.</span></h2>
-      <p class="section-lead">Optional care plans cover updates, small fixes, SEO improvements and growth work, scoped once the first version is live.</p>
-      <CTA label="Email me" showPhone />
-    </div>
-  </section>
+  <Closer kicker="After launch">
+    Keep your site <span class="closer-mark">maintained.</span>
+    <p class="section-lead" slot="lead">Optional care plans cover updates, small fixes, SEO improvements and growth work, scoped once the first version is live.</p>
+  </Closer>
 </Base>

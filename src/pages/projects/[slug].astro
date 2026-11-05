@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
-import CTA from '../../components/CTA.astro';
+import Closer from '../../components/Closer.astro';
 import Constellation from '../../components/Constellation.astro';
 import Icon from '../../components/Icon.astro';
 import OmniReviewerArchitecture from '../../components/diagrams/OmniReviewerArchitecture.astro';
@@ -148,14 +148,7 @@ const toc = [
     </div>
   </section>
 
-  <section class="section band-dark closer">
-    <Constellation class="fade-edge" />
-    <div class="container closer-inner">
-      <h2 class="closer-title">Want something like this for your team?</h2>
-      <CTA label="Email me" showPhone />
-      <p class="closer-note">No forms, no pressure. A plain email describing your business is enough.</p>
-    </div>
-  </section>
+  <Closer note="No forms, no pressure. A plain email describing your business is enough.">Want something like this for your team?</Closer>
 </Base>
 
 <script>
