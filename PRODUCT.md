@@ -31,7 +31,7 @@ free Netlify subdomain: static-first, no forms, one contact path.
 Bold and modern, but grounded and trustworthy — "this person is sharp, and I can
 rely on them." Voice is plain-spoken and confident with zero jargon, quietly
 proud of the craft. Three words: **confident, precise, warm**. Trust is carried
-by the navy system; personality and warmth come from the amber accent, decisive
+by the restrained black-and-glass system with its navy hint; personality and warmth come from the amber accent, decisive
 typography, and human copy. The emotional target is a non-technical owner feeling
 reassured enough to hit "Email me."
 
@@ -40,7 +40,8 @@ Anti-references that remain binding:
 - **Generic AI SaaS**: gradient blobs, identical icon-cards, the hero-metric
   template, tiny tracked uppercase eyebrows above every section.
 - **Cheap purchased template**: clip-art icons, stock-everything, obviously-a-theme.
-- **Overdesigned**: animation for its own sake, style that fights legibility.
+- **Overdesigned**: animation for its own sake, style that fights legibility. Glass
+  is for controls and panels, never for its own sake.
 - **Corporate-cold**: faceless enterprise navy-and-gray with no warmth or point of view.
 
 The pull to resolve: studio-agency boldness *without* tipping into any of the four
@@ -78,7 +79,7 @@ pricing, or live-client claims beyond what these sources support.
 ## Accessibility & Inclusion
 
 - **WCAG 2.1 AA** baseline. Contrast is verified on every text/background pair,
-  including the amber and steel accents, in both light and dark themes.
+  including the amber and steel accents and every text on glass, on the dark theme.
 - Full keyboard operability with visible `:focus-visible` states, a skip link, and
   semantic landmarks.
 - `prefers-reduced-motion` is honored for every animation (reveal, hover, theme).

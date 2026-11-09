@@ -1,462 +1,295 @@
 ---
 name: Tristan Portfolio
-description: A confident, navy-anchored portfolio for a Philippines full-stack developer, with warm amber accents, Blueprint grotesk display, light + dark.
+description: A dark glass-and-starlight portfolio for a Philippines full-stack developer. Black page, smoky navy-grey glass, Geist type with one amber DM Serif italic accent word, a live galaxy. Dark only.
 colors:
+  page: "#000000"
+  ink: "#F5F5F7"
+  ink-soft: "rgb(245 245 247 / .66)"
+  ink-dim: "rgb(245 245 247 / .58)"
+  hair: "rgb(245 245 247 / .13)"
+  hair-strong: "rgb(245 245 247 / .28)"
+  glass-tint: "#222A39"
+  stage: "#0B0C10"
+  sheet: "rgb(18 22 32 / .94)"
   navy: "#14304E"
-  navy-deep: "#0B1F35"
+  navy-2: "#0B1F35"
   steel: "#4A6FA5"
-  steel-ink: "#3D5F92"
+  steel-light: "#9DBBE6"
   amber: "#D9822B"
-  amber-deep: "#935214"
+  amber-soft: "#E9A25C"
+  amber-light: "#FFC98F"
   gold: "#C9A227"
-  paper: "#F7F9FC"
-  paper-2: "#EBF0F6"
-  mist: "#DCE6F1"
-  sky: "#D8E8F4"
-  panel: "#FFFFFF"
-  ink: "#16202B"
-  ink-soft: "#536376"
-  line: "#D5DDE7"
-  line-strong: "#AFBDCE"
-  on-dark: "#EAF1F8"
-  on-dark-soft: "#BCCADA"
+  rail-a: "#5B86C4"
+  rail-b: "#9DBBE6"
 typography:
   display:
-    fontFamily: "Schibsted Grotesk Variable, system-ui, sans-serif"
-    fontSize: "clamp(2.7rem, 1.8rem + 4vw, 5rem)"
-    fontWeight: 800
-    lineHeight: 0.96
-    letterSpacing: "-0.045em"
+    fontFamily: "Geist Variable, Geist, system-ui, sans-serif"
+    fontSize: "clamp(50px, 1.5rem + 5.6vw, 106px)"
+    fontWeight: 700
+    lineHeight: 0.98
+    letterSpacing: "-0.055em"
   headline:
-    fontFamily: "Schibsted Grotesk Variable, system-ui, sans-serif"
-    fontSize: "clamp(2rem, 1.48rem + 2.15vw, 3.16rem)"
-    fontWeight: 760
+    fontFamily: "Geist Variable, Geist, system-ui, sans-serif"
+    fontSize: "clamp(40px, 1.5rem + 3.6vw, 82px)"
+    fontWeight: 700
     lineHeight: 1
-    letterSpacing: "-0.035em"
-  title:
-    fontFamily: "Schibsted Grotesk Variable, system-ui, sans-serif"
-    fontSize: "clamp(1.48rem, 1.24rem + 1vw, 2.02rem)"
-    fontWeight: 760
-    lineHeight: 1
-    letterSpacing: "-0.035em"
+    letterSpacing: "-0.052em"
+  section:
+    fontFamily: "Geist Variable, Geist, system-ui, sans-serif"
+    fontSize: "clamp(30px, 1rem + 1.8vw, 48px)"
+    fontWeight: 700
+    lineHeight: 1.04
+    letterSpacing: "-0.045em"
+  lead:
+    fontFamily: "Geist Variable, Geist, system-ui, sans-serif"
+    fontSize: "21px"
+    fontWeight: 400
+    textColor: "{colors.ink-soft}"
   body:
-    fontFamily: "Hanken Grotesk Variable, system-ui, sans-serif"
+    fontFamily: "Geist Variable, Geist, system-ui, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.65
   label:
-    fontFamily: "Hanken Grotesk Variable, system-ui, sans-serif"
-    fontSize: "0.73rem"
-    fontWeight: 820
-    letterSpacing: "0.16em"
+    fontFamily: "Geist Mono Variable, Geist Mono, ui-monospace, monospace"
+    fontSize: "12.5px"
+    fontWeight: 500
+    letterSpacing: "0.07em"
+    textTransform: "uppercase"
+  accent:
+    fontFamily: "DM Serif Display, Georgia, serif"
+    fontStyle: "italic"
+    fontWeight: 400
+    textColor: "{colors.amber}"
 rounded:
-  sm: "2px"
-  md: "2px"
-  control: "3px"
+  pill: "999px"
+  panel: "26px to 34px (Glasswork --radius, unitless)"
+  image: "20px to 26px, superellipse(1.5)"
+  menu-item: "16px"
 spacing:
-  xs: "0.35rem"
-  sm: "0.65rem"
-  md: "1rem"
-  lg: "1.5rem"
-  xl: "2rem"
-  "2xl": "3rem"
-  section: "clamp(4.5rem, 3.2rem + 5.5vw, 8rem)"
+  gutter: "24px (16px under 860px)"
+  maxw: "1200px"
+  section: "64px (48px under 860px)"
+  page-top: "clamp(120px, 16vh, 156px)"
 components:
-  button-primary:
-    backgroundColor: "{colors.navy}"
-    textColor: "{colors.on-dark}"
-    rounded: "{rounded.control}"
-    padding: "0.72rem 1.05rem"
-  button-primary-hover:
-    backgroundColor: "{colors.navy-deep}"
-    textColor: "{colors.on-dark}"
-  button-secondary:
-    backgroundColor: "transparent"
-    textColor: "{colors.steel-ink}"
-    rounded: "{rounded.control}"
-    padding: "0.72rem 1.05rem"
-  card:
-    backgroundColor: "{colors.panel}"
+  button-glass:
+    class: ".btn.glass[data-kind=dark][data-tier=clear][data-pill]"
     textColor: "{colors.ink}"
-    rounded: "{rounded.md}"
-    padding: "clamp(1.25rem, 1rem + 1.2vw, 2rem)"
-  chip:
-    backgroundColor: "{colors.panel}"
-    textColor: "{colors.ink-soft}"
-    rounded: "{rounded.control}"
-    padding: "0.25rem 0.55rem"
-  eyebrow:
-    textColor: "{colors.amber-deep}"
+    hoverTextColor: "{colors.amber}"
+    rounded: "{rounded.pill}"
+    minHeight: "48px"
+    padding: "0 22px"
+  island:
+    class: ".isl.glass (SiteHeader.astro)"
+    rounded: "{rounded.pill}"
+  contact-menu:
+    class: ".pop.glass[data-tier=regular]"
+    rounded: "24px"
+  kicker:
+    class: ".mono.kicker"
     typography: "{typography.label}"
+    marker: "7px amber diamond"
+  glass-panel:
+    class: ".glass[data-kind=dark][data-tier=regular|thick]"
+    backgroundColor: "{colors.glass-tint}"
+    rounded: "{rounded.panel}"
+  rows:
+    class: ".rows"
+    border: "1px {colors.hair} between rows"
+  chip:
+    class: ".pill"
+    typography: "Geist Mono 500 12.5px"
+    textColor: "{colors.ink-soft}"
+    border: "inset 1px {colors.hair}"
+    rounded: "{rounded.pill}"
+  link-go:
+    class: ".link-go"
+    textColor: "{colors.steel-light}"
+    hoverTextColor: "{colors.amber-light}"
 ---
 
 # Design System: Tristan Portfolio
 
 ## 1. Overview
 
-**Creative North Star: "The Night Studio"**
+**Creative North Star: "Glass and starlight"**
 
-A working design studio after dark: deep-navy walls, one warm amber worklight, and
-the work itself glowing on display. The system is **confident, precise, and warm** —
-navy carries the authority and trust a non-technical business owner needs to feel,
-while amber, decisive type, and plain human copy keep it from ever going cold or
-corporate. The look is **Blueprint**: an engineer's drafting sheet, with heavy
-grotesk headings, square 2–3px corners and clean bands. It should read as *sharp*, not loud; every bold move stays instantly
-legible on a phone in daylight.
+The site is a dark product page for one developer: a pitch-black sky with a live galaxy,
+smoky glass controls and panels that catch the light at their rims, large tight Geist
+headlines, and one warm amber word per heading set in DM Serif Display italic. It should
+feel like an Apple product page and still read instantly for a café owner on a phone.
 
-The register is **brand**: this portfolio is itself the strongest sample of the
-work it sells, so craft, speed, and accessibility are the pitch, not decoration.
-It commits to a **Committed** color strategy — navy is not a neutral backdrop but a
-saturated brand surface that owns the dark bands, the primary button, and the
-footer — with amber as a deliberately rare warm highlight. The system ships in
-**both light and dark themes** from one set of semantic tokens. Closer and footer
-bands deliberately follow the theme: `--band-deep-bg` maps to navy (`--navy-2`)
-in dark and mist (`--mist`) in light. The owner chose the light bands; this is
-intentional, not a missing dark surface.
+The register is **brand**: the portfolio is the strongest sample of the work it sells, so
+craft, speed and accessibility are the pitch. The system is internally called **G4** (the
+approved mock round). It is **dark only**: there is no light theme, no theme toggle and no
+`prefers-color-scheme` path.
 
-**Key Characteristics:**
-- Navy-drenched dark bands against cool off-white light bands; never a warm cream.
-- A faded isometric drafting grid with a Ripple pointer effect (`.gf-section`,
-  `GridField.astro`) sits on the Projects section and on the light bands of Home
-  (Scope) and About (opening, approach); each band keeps its own `--paper` /
-  `--mist` / `--sky` colour. Hero and closer bands keep the starfield.
-- Heavy grotesk display (Schibsted Grotesk) over a clean grotesque body (Hanken Grotesk).
-- Square shapes: 2px panels and dialogs, 3px controls; only the brand disc is round.
-- Amber is the single warm accent — rare, warm, and always AA-legible.
-- Flat by default; crisp borders, with state shown by fills and borders, not shadows.
-- Motion is purposeful and quiet: scroll reveals, the Projects tour and image flip, theme crossfade,
-  all gated behind `prefers-reduced-motion`.
+**Key characteristics:**
+- Black page (`--page`) with a fixed galaxy canvas behind everything (`Galaxy.astro`,
+  `src/scripts/galaxy.js`); a black hole's rims mark the hero's exit and every closer's entry.
+- Glass for controls and panels only: Glasswork (MIT, `src/vendor/glasswork/`) with the dark
+  tiers in `src/styles/material.css`. Rim refraction is Chromium-only; elsewhere the blur,
+  tint and rim catch stay.
+- Geist for everything, Geist Mono for labels, DM Serif Display italic amber for one accent word.
+- Amber is the one warm colour: accent words, kicker diamonds, hover, focus. Steel blue is
+  the cool hint: links, the process rail, the galaxy's cool stars.
+- Motion is a fixed, owner-approved set (section 6); reduced motion and Save-Data stop it.
 
 ## 2. Colors
 
-A cool, confident navy field warmed by a single ochre-amber accent — trust from the
-blue end, personality from the warm one.
+All colours are tokens in `src/styles/tokens.css`. Rules never hold a hex value; a new colour
+becomes a named token first.
 
-### Primary
-- **Studio Navy** (#14304E): the brand's load-bearing color. Primary buttons, the
-  brand mark, heading accents, and the base of every dark band. Carries 30–50% of
-  the surface on dark sections — this is a Committed strategy, not a hint of blue.
-- **Midnight Navy** (#0B1F35): the deepest tone. Footer, the darkest CTA bands, and
-  primary-button hover. The back wall of the studio.
+| Role | Token | Use |
+|---|---|---|
+| Page | `--page` `#000` | `<html>` background; `body` has none so the canvas shows |
+| Ink | `--ink` `#F5F5F7` | headings, body copy, button labels |
+| Ink soft | `--ink-soft` (66%) | leads, supporting text, labels |
+| Ink dim | `--ink-dim` (58%) | inactive nav and tabs; the AA floor over dimmed content |
+| Hairline | `--hair` (13%) / `--hair-strong` (28%) | row dividers, chip outlines / diagram node outlines |
+| Glass tint | `--glass-tint` `#222A39` | the smoky navy-grey of every dark glass surface |
+| Stage | `--stage` `#0B0C10` | behind captures and diagrams |
+| Sheet | `--sheet` | the Project details dialog |
+| Amber | `--amber` `#D9822B`, `--amber-soft`, `--amber-light` | accent word, diamonds, hover / Projects link / current link, tags on glass |
+| Steel | `--steel` `#4A6FA5`, `--steel-light` `#9DBBE6` | glows / links on black |
+| Rail | `--rail-a`, `--rail-b`, `--rail-glow` | the process rail's line and nodes |
+| Galaxy | `--star*`, `--neb-*`, `--ember-hot` | read once by `galaxy.js` |
+| Effects | `--glare`, `--spot`, `--spot-rim`, `--glow-hot`, `--sweep*` | the motion set's light |
 
-### Secondary
-- **Worklight Amber** (#D9822B): the one warm accent. The dark-theme CTA fill (with
-  Midnight-Navy text), external-link affordances, and warm glances of highlight.
-  Bright amber never carries body text on light — it fails AA there by design.
-- **Signed Amber** (#935214): the AA-safe amber for text on light surfaces — section
-  eyebrows, the numbered markers, list counters, and link hover. The "signature."
-
-### Tertiary
-- **Steel** (#4A6FA5): quiet structural accent (borders, dividers, diagram arrows).
-  The muted-blue mid-tone between navy and paper. Link and secondary-button text on
-  light uses its deeper sibling **Steel Ink** (#3D5F92, 5.1:1 on Mist/Sky, 6.1:1 on
-  paper), so links clear AA on every tinted band.
-- **Brass Gold** (#C9A227): tiny accents on dark bands only (the dark-theme focus
-  ring, small flourishes). Never on light; the light-theme focus ring is Signed
-  Amber (#935214, ≥4.8:1 on every light surface). Its on-dark eyebrow sibling is **Lamp Gold**
-  (#E7C46A).
-
-### Neutral
-- **Cloud Paper** (#F7F9FC): the light page background — a cool off-white at near-zero
-  warmth. Explicitly NOT cream/sand.
-- **Overcast** (#EBF0F6) / **Mist** (#DCE6F1) / **Sky** (#D8E8F4): the tinted light
-  bands, tinted toward the brand's own blue, that give sections rhythm.
-- **Panel White** (#FFFFFF): cards and raised surfaces on light.
-- **Ink** (#16202B): body text on light (15.6:1 on paper).
-- **Soft Ink** (#536376): secondary text — AA-tuned to clear 4.5:1 even on the Mist
-  and Sky bands.
-- **Line** (#D5DDE7) / **Line Strong** (#AFBDCE): hairlines and borders.
-- **On-Dark** (#EAF1F8) / **On-Dark Soft** (#BCCADA): dark-theme text on navy
-  bands. In light, `--on-dark` / `--on-dark-soft` map to Ink / Soft Ink for the
-  deliberately mist-colored closer and footer bands, and their dividers
-  (`--divider-on-dark`) switch to Line Strong in light. The skip link keeps its own
-  theme-constant pair (`--skip-bg` navy-deep, `--skip-text` white) instead.
-
-**Dark theme.** Surfaces invert to a navy night — page **#0B1320**, panel **#111C2B**,
-ink **#EAF1F8**, links **#9DBBE6**, and the primary button flips to **Worklight Amber**
-with Midnight-Navy text. Closer and footer bands use `--band-deep-bg`, with
-theme-aware text and border tokens; the brand keeps its navy and amber identity
-while those surfaces follow the selected theme.
-
-### Named Rules
-**The Amber Rarity Rule.** Amber is the worklight, not the wall. It carries ≤10% of
-any screen — one CTA, the external-link marks, a hover. Flood the page with it and it
-stops meaning "act here."
-
-**The Warm-the-Navy Rule.** Warmth is carried by amber, decisive type, and the copy:
-*never* by tinting the body background warm. The light background is cool off-white;
-a cream/sand/beige body is prohibited.
-
-**The AA-First Rule.** Every text/background pair is verified to WCAG AA in both
-themes before it ships. Amber-on-light body text and steel-on-mist are the known
-traps; use Signed Amber (#935214), Steel Ink (#3D5F92) and Soft Ink (#536376), not
-their brighter siblings.
+### Named rules
+- **One warm accent.** Amber marks one word per heading and the interactive state; never a
+  fill behind text (no amber buttons).
+- **AA on glass, measured.** Every text on glass is at least 4.5:1 against the brightest
+  realistic backdrop (95th-percentile luminance under the glyphs). Where a capture is bright,
+  the glass thickens (adaptive tint) rather than the text getting louder.
 
 ## 3. Typography
 
-**Display Font:** Schibsted Grotesk Variable (with system-ui, sans-serif)
-**Body Font:** Hanken Grotesk Variable (with system-ui, sans-serif)
+- **Geist** (variable, self-hosted through Fontsource, OFL) for display and body.
+- **Geist Mono** for labels: kickers, tags, chips, fact labels (uppercase, tracked .06 to .07em).
+- **DM Serif Display italic** (400) for the accent word only, in amber, with no underline.
+  `line-height: 0` on `.accent` keeps its taller ascent from opening a gap between lines.
+  The About page's quote is the one full serif line (in ink, not amber).
+- The two first-screen faces (Geist, DM Serif italic) are preloaded in `Base.astro`.
 
-**Character:** Two grotesks split by weight and tracking. Schibsted Grotesk sets
-headings heavy and tight, like the title block on a drawing; Hanken Grotesk keeps
-body copy clean, neutral, and fast to read on a phone. One display face, one body
-face; contrast comes from weight, size and tracking, not from adding fonts.
-
-### Hierarchy
-- **Display** (800, `--text-hero-title` clamp(2.7rem→5rem), lh .96, -.045em): the
-  hero H1 only, capped at ~15ch width. Interior page titles and closer titles also
-  set 800 with -.04em tracking.
-- **Headline** (760, clamp(2rem→3.16rem), lh 1, -.035em): section H2s.
-- **Title** (760, clamp(1.48rem→2.02rem), lh 1, -.035em): card and panel H3s.
-- **Work index:** numbers in Hanken 800 with .02em tracking; titles in the display
-  face at 720 with -.02em.
-- **Body** (400, 1rem, lh 1.65): paragraphs; cap measure at 56–75ch.
-- **Label / Eyebrow** (820, 0.73rem, 0.16em tracking, uppercase): section kickers
-  and meta. Signed-Amber on light, Lamp-Gold on dark. See the Don'ts about overuse.
-
-### Named component roles
-
-The base steps above define the shared type scale. These named roles cover
-intentional component-specific sizes in `src/styles/tokens.css`; using the roles
-keeps the rendered design unchanged while making the exceptions explicit.
-
-| Token | Value | Typical use |
+| Class | Size | Use |
 |---|---|---|
-| `--text-nav` | `.94rem` | navigation links |
-| `--text-kicker` | `.9rem` | hero and page kickers, work metadata |
-| `--text-supporting` | `.86rem` | trust notes, footer notes, supporting labels |
-| `--text-label` | `.82rem` | pills, tags, facts labels, closer kicker |
-| `--text-meta` | `.84rem` | card and modal metadata |
-| `--text-utility` | `.88rem` | footer and facts links |
-| `--step--1` | `.92rem` | compact notes and modal notes |
-| `--text-badge` | `.72rem` | recommendation badges |
-| `--text-compact` | `.8rem` | demo notes |
-| `--text-work-number` | `.95rem` | work-panel numbers |
-| `--text-work-title` | `1.14rem` | work-panel titles |
-| `--text-section-number` | `clamp(2.4rem, 1.6rem + 2.8vw, 4rem)` | numbered section markers |
-| `--text-hero-title` | `clamp(2.7rem, 1.8rem + 4vw, 5rem)` | homepage hero title |
-| `--text-section-heading` | `clamp(1.75rem, 1.3rem + 1.9vw, 2.6rem)` | bold section headings |
-| `--text-page-title` | `clamp(2.1rem, 1.55rem + 2.5vw, 3.35rem)` | interior page titles |
-| `--text-scope-heading` | `clamp(1.55rem, 1.15rem + 1.5vw, 2.2rem)` | scope/process heading |
-| `--text-service-heading` | `clamp(1.4rem, 1.1rem + 1.2vw, 1.95rem)` | service tier headings |
-| `--text-profile-quote` | `clamp(1.25rem, 1.08rem + .45vw, 1.4rem)` | About profile quote |
-| `--text-principle-heading` | `clamp(1.2rem, 1.05rem + .6vw, 1.5rem)` | About principle headings |
-| `--text-about-lede` | `clamp(1.15rem, 1.05rem + .2vw, 1.2rem)` | About lede |
-| `--text-values-heading` | `clamp(1.15rem, 1rem + .4vw, 1.35rem)` | About values heading |
-| `--text-closer-title` | `clamp(1.85rem, 1.4rem + 2.1vw, 3rem)` | closing CTA title |
+| `.h1` | clamp(50px, 1.5rem + 5.6vw, 106px), 700, -.055em | Home hero; page heads scale it down (`.p-head .h1`, About, case studies) |
+| `.h2` | clamp(40px, 1.5rem + 3.6vw, 82px), 700 | scope band, closer (larger) |
+| `.sec-h` | clamp(30px, 1rem + 1.8vw, 48px), 700 | section headings on inner pages |
+| `.lead` | 21px, ink-soft | the paragraph under a page heading |
+| `.mono` | 12.5px Geist Mono 500, uppercase | labels; `.mono.kicker` adds the amber diamond |
 
-Radii: panels, cards and dialogs use `--radius` / `--radius-sm` (2px); controls
-(buttons, nav links, pills, toggles, footer contact and social links, the
-recommendation badge, the dialog close, the Inspector's prev/next and tour
-buttons) use 3px; inline code keeps the
-`--radius-code` exception (4px). Only the brand disc and scrollbar thumbs are round. The case-study architecture
-diagrams keep their 8-unit node corners (SVG `rx`), as in the approved case mock. The Projects
-Inspector's phone view keeps an 18px handset frame, since it depicts a phone.
+Copy is never changed by styling: words come from the mock's `content.md` (Home, Projects)
+or stay as written (the other pages). Styling may only move an already marked word into `.accent`.
 
-### Named Rules
-**The One-Display Rule.** Schibsted Grotesk owns every heading; Hanken owns every
-line of body. Do not introduce a third family or set body copy in the display face.
-Contrast is bought with weight, scale and tracking.
+## 4. Elevation: glass tiers
 
-## 4. Elevation
+Shadows are not the elevation system; glass is. `material.css` sets three dark tiers on
+Glasswork's material (`data-kind="dark"` plus `data-tier`):
 
-Flat by default. Bordered surfaces carry no shadow; hover and selection show as a
-Mist fill and a firmer border (the Projects list marks the open build with an
-accent left border). The only shadow is the floating mobile menu.
+| Tier | Use |
+|---|---|
+| `clear` | small floating controls: buttons, the island, the contact pill, photo frames |
+| `regular` | panels with text: tiles, the scope bento, Services tiers, the stack panel, menus, the case-study menu and diagram |
+| `thick` | dense reading surfaces and emphasis (the recommended Services tier) |
 
-### Shadow Vocabulary
-- **Floating menu** (`box-shadow: 0 8px 14px rgba(11,31,53,.16)`): reserved for the
-  open mobile navigation, where elevation communicates that it sits above the page.
-
-### Named Rules
-**The Flat-By-Default Rule.** No stacked shadows, no glow and no hover lift. State is
-carried by fill and border colour from the tokens.
+Panels use Glasswork's unitless `--radius` (26 to 34); continuous corners
+(`corner-shape: superellipse(1.5)`) where supported. The rim lens (refraction) mounts lazily,
+one per idle slot, as glass comes on screen (`site.js`); `data-lens="none"` opts a surface out
+(photo frames, sticky menus, diagrams) to save the pixel work.
 
 ## 5. Components
 
-Components read **sharp and confident**: decisive weight, crisp full borders, square
-3px CTAs, and state shown by fill and border. Nothing tentative, nothing overwrought.
+### Buttons (`.btn.glass`)
+Glass pills, 48px tall (44px in compact contexts), Geist 650 16px, an 18px sprite icon.
+Every button is glass, including Email me (no amber fill). Hover and focus turn the label and
+icon amber, add the warm glare sweep and a 1.02 lift; press scales to .97. Focus ring:
+2px amber, 3px offset. `CTA.astro` renders the standard row (Email me, Call, Résumé, GitHub).
 
-### Buttons
-- **Shape:** square 3px corners, min-height 2.85rem, padding 0.72rem 1.05rem.
-- **Primary:** Studio-Navy fill, white text, matching navy border. In dark theme the
-  fill flips to Worklight-Amber with Midnight-Navy text — the CTA is always the
-  highest-contrast object on the band.
-- **Hover / Focus:** primary darkens to Midnight-Navy (amber → deeper amber in dark);
-  focus shows a 3px `--focus` outline offset 3px (Signed Amber in light, Brass Gold
-  in dark). Transitions are color-only, ~200ms.
-- **Secondary / Ghost:** transparent fill, Steel Ink/Navy text, full border; hover fills
-  with Mist. Used for "More about me", "Open website", secondary contact.
+### Island header and contact menu (`SiteHeader.astro`)
+A floating glass capsule: compact ("Tristan Dolfo · replies within a day"), expanded on hover
+or focus into the nav (Projects in amber text), mini while scrolling. "check me out" opens the
+glass contact menu (Email me, Copy email with a "Copied" check and live announcement, Call,
+Résumé, GitHub); Escape closes and returns focus. Under 600px the open island drops Résumé and
+the pill shrinks to its diamond so both fit a 360px screen.
 
-### Chips / Pills
-- **Style:** Panel-White-tinted fill, Soft-Ink text, 1px Line border, 3px corners.
-- **Use:** tech-stack tags on project cards and case meta. Non-interactive; purely
-  informational, never mistaken for a button.
+### Page head (`.p-head`)
+Centred: `.mono.kicker`, `.h1`, `.lead`, top padding clamp(120px, 16vh, 156px) to clear the
+island. Projects, Services and 404 use it; About and the case studies use a left-aligned variant.
 
-### Marked words
-Hero and closer titles mark one word (`.hero-mark`, `.closer-mark`) with a
-baseline underline: `text-decoration` in `--amber`, `.085em` thick at a `.1em`
-offset, `skip-ink: none`. It sits inside the line box, so it never touches the
-next line. Keep the space outside the marked span.
+### Panels and rows
+- `.gpanel` / any `.glass[data-tier]`: the panel; padding clamp(22px, 1rem + 1.6vw, 40px).
+- `.rows`: hairline list rows (`--hair` above the first and under each row, 18px padding),
+  used for facts, values, principles, the stack groups, constraints and decisions.
+- `.dia`: bullet lists with a 7px amber diamond.
+- `.pill` chips: Geist Mono, ink-soft, hairline outline, pill radius.
+- `.badge`: amber-light mono label with an amber outline ("Most owners start here").
+- `.link-go`: steel-light text link with an optional arrow that shifts on hover; amber-light on hover.
 
-### Closer band
-Every dark closer comes from `src/components/Closer.astro`: optional kicker, the
-title (default slot), an optional `lead` slot before the Email/Call buttons and
-an optional note after them. Its styles stay in `global.css`.
+### Home
+Hero (blur-up words and one amber sweep; the H1 is painted in the first frame), the selected
+work rail (nine glass tiles, 5s tour with pause/play, paddles, the Hiring panel left of the
+heading), the scope bento (packages panel, process rail with a steel-blue line and amber step
+names), the closer.
 
-### About principles
-The About values list is a grid of statements in the display face, each marked by
-a small amber diamond (the constellation's node shape). They are not chips and
-have no border or fill, so they never read as buttons.
+### Projects (signature): the Spotlight Inspector
+A typographic index on the left, the capture as a large stage, the details on a glass sheet
+over the capture (Stack and Outcome tabs, live link, case study, Project details), a 5s tour
+ring, prev/next, a desktop/phone capture flip and `#slug` deep links. Without JavaScript every
+build is stacked and complete.
 
-### Page gutter
-`.container` keeps a 16px side gutter on phones (≤520px: `min(100% - 2rem, var(--maxw))`).
+### Services
+Three glass tier panels (Business is `thick` with a faint amber outline and the badge); each
+has a mono tag, title, "Best for", a diamond list and a glass quote button aligned to the
+panel's foot. "Every tier includes" chips sit centred below.
 
-### Cards / Containers
-- **Corner Style:** 2px (md).
-- **Background:** Panel White on light, #111C2B on dark; no shadow at rest.
-- **Border:** 1px Line, firming to Line-Strong on hover.
-- **Hover:** no lift; interactive rows fill with Mist.
-- **Internal Padding:** clamp(1.25rem → 2rem).
+### About
+Portrait in a clear glass frame beside the heading, lede and contact buttons; the serif aside
+with the facts as rows; the six principles as two columns of diamond rows; the stack as rows
+of chips in one glass panel; the approach as rows with evidence links.
 
-### Navigation
-- **Style:** sticky, blurred translucent Paper header with a 1px Line underbottom.
-  Text links in Ink, square 3px hover fill in Mist. Brand mark is the navy monogram disc
-  (`src/assets/logo-header.png`, served as 1×/2× WebP).
-- **Mobile:** below 860px the links collapse into a hamburger-triggered panel
-  (icon swaps to an X while open; Escape and outside-click close it and return
-  focus). The theme toggle stays visible in the header bar, outside the panel.
-  "Email me" renders as the primary CTA button at the end of the nav.
-- **Theme toggle:** a square 3px icon button (moon in light, sun in dark) that writes
-  `data-theme` and persists to `localStorage`, with a no-flash inline script in
-  `<head>`. The boot script uses the saved choice when there is one, otherwise
-  `prefers-color-scheme`. Following the system setting is the decided default
-  (owner, 2026-10-14); dark-by-default was considered and declined.
-- **Résumé:** a PDF link in desktop/mobile navigation and the footer, opening
-  in a new tab with an accessible name that states that behavior.
+### Case studies
+Mono breadcrumb, left-aligned title and lede, a glass facts strip, glass action buttons, the
+cover in a glass frame. Body: a sticky glass "On this page" menu (the current section gets the
+amber diamond; it becomes a scrolling row under 860px), sections with `.sec-h`-scale headings,
+constraints and decisions as rows, the architecture SVG in a glass panel (nodes on `--stage`
+with `--hair-strong` outlines, steel-light lines), proof with amber checks.
 
-### Projects Inspector (signature)
-The core proof unit (`src/components/ProjectInspector.astro`, styles in
-`src/styles/projects.css`). A numbered list of all nine builds under three
-group labels, each row with a 16:10 thumbnail (`shots.thumb`, else `cover`),
-and one open panel: prev/next at the top right, the live capture as a button
-that flips desktop ↔ phone (0.7s 3D turn, none under reduced motion, **no
-visible hint**; the accessible name says which view a click shows), a tag row
-(App / Website / Personal, Commercial or Personal, year), the title, and
-Overview / Stack / Outcome tabs (arrow keys, roving tabindex). Actions: the
-live link as a secondary button (`liveLabel` or "View site"), "Read the case
-study" as a text link when `caseStudy` exists, and "Project details", which
-opens the modal. The panel background is `--paper`.
+### Closer and footer
+Every page but 404 ends in the closer (`Closer.astro`): amber kicker, a large `.h2` with the
+accent word, Email me and Call, a note; the black hole's outgoing rim sits above it. The footer
+is the heading plus Résumé, GitHub and Facebook pills only.
 
-On wide screens the panel sits beside the list; hover, click or the arrow keys
-switch builds. A tour opens the next build every 5s and loops, with an icon-only
-Pause/Play button at the panel's top left and no timer line; it holds while the
-pointer or focus is inside, offscreen or in a hidden tab, and starts paused
-under reduced motion. At 860px and below the panels become a swipe carousel
-(scroll-snap) and the tour is off. Without JavaScript every panel and every tab
-shows, stacked; the script adds `.is-ready` to turn on the Inspector.
+### Project details dialog (`ProjectModal.astro`)
+Native `<dialog>` on `--sheet` with a blurred backdrop: capture, mono meta, title, blurb,
+summary, outcome, chips, and glass actions.
 
-Captures live in `src/assets/shots/` and come from the `shots` front matter
-(`desktop`, `phone`, optional `thumb`), rendered through Astro `<Image>`.
+## 6. Motion
 
-With `caseStudy` and no live URL, the panel's button becomes "Read the case
-study" linking to `/projects/<slug>/`. There are no per-project repo links in
-the panel. The native `<dialog>` holds the
-long summary, outcome and full stack; its `.pm-actions` stays below the scrolling
-body. With a live URL, the modal leads with the live action and adds a case-study
-text link only when that data exists. With a case study and no demo, it leads
-with "Read the case study" and offers "View the code" when `repoUrl` exists.
-In the modal that code link is a narrow exception for a project with a case
-study and no demo. The case-study page is different: it shows "View the code"
-whenever `repoUrl` exists, as a secondary button beside the live demo when
-there is one. Omni-Reviewer, Café OMS and Fundsicles all have case-study data,
-live demos, repos and real screenshot covers, so their modals show no code link
-and their case-study pages do.
+The set is fixed (owner's saved settings): glare and amber hover on every button and clickable
+panel; the play/pause morph; the Copied check; press feel; the cursor spotlight on glass panels;
+blur-up headline words with one amber sweep; stars focusing in; depth tilt; the cursor lens;
+the horizon crossing sweep with a softened ripple. Springs are `--spring` and `--spring-soft`
+(`material.css`).
 
-### Projects page
-One `.starfield.gf-section`: the page head, then the Inspector, over the faded
-isometric grid (`--gf-ink`, a CSS mask at half opacity) with the Ripple canvas
-(`src/components/GridField.astro`: mouse and pen only, none under reduced motion
-or Save-Data, paused offscreen). Groups, in order: **Apps and systems**
-(`systems`, 3), **Business websites** (`websites`, 2), **Personal Projects &
-Commissions** (`small`, 4); each sorts by `displayOrder`.
+- **Reduced motion:** every effect stops; the galaxy is one still frame; the process rail is
+  fully drawn; the tours start paused.
+- **Save-Data:** the same, plus every transition and animation stops (`.save-data`).
+- The hero is never hidden while fonts load (no intro wait).
 
-### Hero (signature)
-Two-column on desktop: left is eyebrow → display H1 (≤15ch) → subhead → contact CTAs;
-right is the **Proof Panel**, a hairline-divided index of project buttons. The
-background is a theme-aware token gradient (a soft Steel glow top-right, a faint Amber
-glow bottom-left over Paper) — no raster image, so it stays clean in both themes.
+## 7. Do's and Don'ts
 
-The Proof Panel begins with a pinned **Hiring a developer?** link to `/projects/`,
-followed by the Selected work label, all nine project buttons in `displayOrder`
-(Omni-Reviewer first), and a fixed footnote. Only `.works-list` scrolls; a mask
-fades its foot to say there is more below and clears once it reaches the end. The hiring
-row sits on the `--mist` band tone (`--sky` on hover) so it stays in the navy
-family in both themes, with an accent code icon/arrow, `--divider`, and the existing `--ink`, `--ink-soft`, `--text-work-title`
-and `--text-kicker` roles. Hero Email/Call and View Résumé/View GitHub stay in a
-2×2; the Call label stays on one line.
+### Do
+- Use glass for controls and panels, never for its own sake.
+- Put every colour in `tokens.css` first.
+- Measure text-on-glass contrast over the brightest backdrop it can sit on.
+- Keep one obvious contact action per page (the island's "check me out" and the closer).
+- Reuse `.p-head`, `.gpanel`, `.rows`, `.dia`, `.pill`, `.link-go` before writing new rules.
 
-### Case-study page
-`src/pages/projects/[slug].astro` generates pages only for entries with
-`caseStudy`. Shared sections, panels, buttons, titles and closers remain in
-`global.css`; case-study-specific rules live in the page-scoped
-`src/styles/case-study.css`, imported only by this route. All colors use tokens.
-
-- **Header and facts:** a Breadcrumb nav, title/lede, and `<dl>` facts row use
-  `--ink`, `--ink-soft`, `--line-strong`, `--text-label`, `--text-meta` and spacing
-  tokens. Facts wrap from four columns to two at ≤860px. The cover/caption reuses
-  `--panel`, `--radius-sm` and `--text-supporting`. Each case-study page
-  (Omni-Reviewer, Café OMS, Fundsicles) leads with its live demo action, which
-  opens in a new tab, shows the demo note beside it, and offers "View the code"
-  when `repoUrl` exists.
-- **Section menu:** a sticky "On this page" nav beside the left-aligned content
-  links to problem, constraints, architecture, decisions, proof and optional
-  next. At ≤860px it becomes a horizontal scroller above the content. The current
-  section uses `aria-current="location"`, `--ink` and a `--steel` border;
-  observation never moves the scroll position.
-- **Constraints and decisions:** bordered constraint lists and a decisions grid
-  use `--line`, `--ink-soft`, `--text-scope-heading`, `--text-values-heading` and
-  spacing tokens. Decision title/body columns stack at ≤860px.
-- **Proof list:** check icons use `--accent-ink`; bold leads use `--ink`, bodies
-  `--ink-soft`. Proof describes outcomes and verification without test counts.
-- **Architecture diagram:** `OmniReviewerArchitecture.astro`,
-  `CafeOmsArchitecture.astro` and `FundsiclesArchitecture.astro` each supply wide
-  and stacked SVGs with accessible titles and real text. Nodes use `--panel` and
-  `--line-strong`, labels `--ink` / `--ink-soft`, and arrows `--steel`, with
-  `--font-display` / `--font-body`. The stacked SVG appears at ≤700px. Its caption
-  uses `--text-supporting`; the closer uses `--band-deep-bg` and the shared CTA.
-
-## 6. Do's and Don'ts
-
-### Do:
-- **Do** keep navy Committed: let it own the dark bands, the primary button, and the
-  footer at full saturation. Hedging it with grays kills the voice.
-- **Do** route every color through the tokens in `src/styles/tokens.css`. All hues
-  flow from tokens; the semantic roles (`--brand`, `--link`, `--on-dark`…) are what
-  make the dark theme work.
-  The hex values in this document are the specification those tokens implement
-  (kept in sync with `tokens.css`); the no-hex rule applies to code. The only
-  literals outside `tokens.css` are the `theme-color` meta in `Base.astro` (HTML
-  cannot read CSS variables) and the console greeting's `%c` styles.
-- **Do** verify AA on any new text/background pair in *both* themes before shipping;
-  use Signed Amber (#935214) and Soft Ink (#536376) on tinted light bands.
-- **Do** keep amber rare and warm — one CTA, the external-link marks, a hover.
-- **Do** gate every animation behind `@media (prefers-reduced-motion: reduce)` and
-  keep reveals enhancing already-visible content (never gate visibility on a class).
-
-### Don't:
-- **Don't** ship anything that reads as **generic AI SaaS**: gradient blobs, a wall of
-  identical icon-cards, the big-number hero-metric template, or glassmorphism-by-default.
-- **Don't** let it look like a **cheap purchased template** — clip-art icons, stock
-  everything, obviously-a-theme.
-- **Don't overdesign**: no animation for its own sake, no effect that fights legibility.
-  Sharp beats busy; readability wins every tie.
-- **Don't go corporate-cold**: faceless navy-and-gray with no amber, no decisive type, no
-  human copy is a failure even if it's "clean."
-- **Don't** paint the body background cream/sand/beige/warm-tinted. The light surface is
-  cool off-white (#F7F9FC); warmth comes from amber and type, per the Warm-the-Navy Rule.
-- **Don't** lean on the **tracked uppercase eyebrow + numbered marker on every section**
-  as scaffolding. Reserve numbers for a genuine sequence, such as the three-step
-  Scope/Build/Launch process, and vary the section cadence elsewhere.
-- **Don't** use gradient text (`background-clip: text`) or a >1px colored side-stripe
-  border as an accent. Emphasis comes from weight, scale, and full borders.
+### Don't
+- No amber-filled buttons, no underlined accent words, no second warm colour.
+- No glass text below 4.5:1, no text on a bare canvas region without enough contrast.
+- No light theme, no `data-theme`, no `prefers-color-scheme` branches.
+- No new effects outside the motion set; nothing that hides the hero for a reveal.
+- No gradient blobs, identical icon-cards or hero-metric templates (PRODUCT.md anti-references).
