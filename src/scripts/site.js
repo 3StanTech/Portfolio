@@ -28,12 +28,13 @@ const lensStep = () => {
   if (lensQueue.length) idle(lensStep, { timeout: 800 });
   else lensBusy = false;
 };
-const lensSeen = new IntersectionObserver((entries) => {
+// Browsers without IntersectionObserver keep the CSS glass (no lens).
+const lensSeen = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
   for (const e of entries) if (e.isIntersecting) { lensSeen.unobserve(e.target); lensQueue.push(e.target); }
   if (lensQueue.length && !lensBusy) { lensBusy = true; idle(lensStep, { timeout: 800 }); }
-});
+}) : null;
 export function mountLenses(scope = document) {
-  if (!isLensSupported()) return;
+  if (!lensSeen || !isLensSupported()) return;
   for (const el of $$('.glass', scope)) {
     if (watched.has(el) || el.dataset.lens === 'none') continue;
     watched.add(el); lensSeen.observe(el);
@@ -153,7 +154,9 @@ if (isl) {
     adaptAll();
   };
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(syncScroll); } }, { passive: true });
-  addEventListener('resize', adaptAll);
+  // Breakpoints change the faces (status text, nav padding, Résumé link): re-measure on resize.
+  let resizeT;
+  addEventListener('resize', () => { adaptAll(); clearTimeout(resizeT); resizeT = setTimeout(() => { measureFaces(); islandMode(true); }, 150); });
   body.dataset.scrolled = String(scrollY > 40);
   measureFaces(); islandMode(true);
   // The first sizing (and the one when the fonts are in) snaps; only later changes animate,
@@ -170,12 +173,15 @@ if (contactEl && more && pop) {
   document.addEventListener('keydown', () => { lastPointer = 'keyboard'; }, true);
   const items = () => $$(':scope > a, :scope > button', pop);
   const isOpen = () => more.getAttribute('aria-expanded') === 'true';
+  // The closed menu is inert at once, so its items cannot take focus while it animates shut.
   const setPop = (open, { focusFirst = false } = {}) => {
     pop.style.setProperty('--bw', more.offsetWidth + 'px');
+    pop.inert = !open;
     more.setAttribute('aria-expanded', String(open));
     pop.classList.toggle('open', open);
     if (open) { adapt(pop); if (focusFirst) requestAnimationFrame(() => items()[0]?.focus()); }
   };
+  pop.inert = true;
   let ht;
   const fine = (e) => e.pointerType === 'mouse' || e.pointerType === 'pen';
   contactEl.addEventListener('pointerenter', (e) => { if (!fine(e)) return; clearTimeout(ht); ht = setTimeout(() => setPop(true), 90); });
@@ -203,6 +209,34 @@ if (contactEl && more && pop) {
 // morphs to a check and the label says Copied for 1.6s; the live region announces it.
 const status = $('[data-copy-status]');
 const say = (m) => { if (!status) return; status.textContent = ''; setTimeout(() => { status.textContent = m; }, 30); };
+// One feedback state per control: any new result first restores the original label (kept
+// once, the first time), so a success after a failure (or the reverse) never sticks.
+const feedback = new WeakMap();
+function labelNode(el, kind) {
+  const small = $('.two small', el);
+  if (kind === 'copy') return $(':scope > span:not(.fx-ico)', el)?.firstChild;
+  return small ? small.firstChild : [...el.childNodes].find((n) => n.nodeType === 3 && n.data.trim());
+}
+function resetFeedback(el) {
+  const f = feedback.get(el); if (!f) return;
+  clearTimeout(f.timer);
+  el.classList.remove('fx-done');
+  if (f.node) f.node.data = f.text;
+  el.style.minWidth = '';
+  feedback.delete(el);
+}
+function showFeedback(el, kind, text, ms, done) {
+  resetFeedback(el);
+  const node = labelNode(el, kind);
+  const f = { node, text: node?.data ?? '', timer: 0 };
+  if (node) {
+    if (kind === 'mail' && !$('.two small', el)) el.style.minWidth = el.offsetWidth + 'px';
+    node.data = (kind === 'mail' && /^\s/.test(f.text) ? ' ' : '') + text;
+  }
+  if (done) el.classList.add('fx-done');
+  f.timer = setTimeout(() => { resetFeedback(el); if (status) status.textContent = ''; }, ms);
+  feedback.set(el, f);
+}
 function copiedMorph(el, kind) {
   let ico = $(':scope > .fx-ico', el);
   const svg = ico ? null : $(':scope > svg.icon', el);
@@ -210,33 +244,30 @@ function copiedMorph(el, kind) {
     ico = document.createElement('span'); ico.className = 'fx-ico'; svg.replaceWith(ico); ico.append(svg);
     ico.insertAdjacentHTML('beforeend', '<svg class="icon fx-check" aria-hidden="true"><use href="#i-check"/></svg>');
   }
-  clearTimeout(el._copyT);
-  if (!el._restore) {
-    const small = $('.two small', el);
-    const label = kind === 'copy' ? $(':scope > span:not(.fx-ico)', el)?.firstChild : small ? small.firstChild : [...el.childNodes].find((n) => n.nodeType === 3 && n.data.trim());
-    if (label) {
-      const was = label.data; if (!small && kind !== 'copy') el.style.minWidth = el.offsetWidth + 'px';
-      label.data = kind === 'copy' || small ? 'Copied' : (/^\s/.test(was) ? ' ' : '') + 'Copied';
-      el._restore = () => { label.data = was; el.style.minWidth = ''; };
-    }
-  }
-  el.classList.add('fx-done');
-  el._copyT = setTimeout(() => { el.classList.remove('fx-done'); el._restore?.(); el._restore = null; if (status) status.textContent = ''; }, 1600);
+  showFeedback(el, kind, 'Copied', 1600, true);
+}
+// Without a clipboard API the "Copy email address" row goes (the address is shown beside
+// Email me); a blocked write says so and announces the address to copy by hand.
+const canCopy = !!navigator.clipboard?.writeText;
+if (!canCopy) $$('[data-copy]').forEach((el) => el.remove());
+function copyFailed(el) {
+  showFeedback(el, 'copy', `Copy blocked: ${EMAIL}`, 4000, false);
+  say(`Copy was blocked. The address is ${EMAIL}`);
 }
 document.addEventListener('click', (e) => {
   const target = e.target instanceof Element ? e.target : null;
   const copy = target?.closest('[data-copy]');
   const mail = target?.closest('a[href^="mailto:"]');
   const el = copy || mail;
-  if (!el || !EMAIL || !navigator.clipboard) return;
+  if (!el || !EMAIL || !canCopy) return;
   navigator.clipboard.writeText(EMAIL).then(() => {
     copiedMorph(el, copy ? 'copy' : 'mail');
     say(`Email address copied: ${EMAIL}`);
-  }).catch(() => {});
+  }).catch(() => { if (copy) copyFailed(copy); });
 });
 
 // ---------- Scroll reveal (only under html.js; no-JS readers see everything) ----------
-if (!reduce && 'IntersectionObserver' in window) {
+if (!reduce && !saveData && 'IntersectionObserver' in window) {
   const io = new IntersectionObserver((entries) => {
     for (const entry of entries) if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
   }, { threshold: .12 });

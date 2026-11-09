@@ -1,70 +1,64 @@
 /* G4 design tokens (glass overhaul). Dark only: the light theme and its toggle are gone.
    Fonts are self-hosted through Fontsource (all OFL): Geist and Geist Mono variable, and
-   DM Serif Display italic for the one accent word per heading. */
+   DM Serif Display italic for the one accent word per heading. Every colour the site
+   uses is defined here; g4.css, fx.css, material.css and the galaxy canvas read these. */
 @import '@fontsource-variable/geist';
 @import '@fontsource-variable/geist-mono';
 @import '@fontsource/dm-serif-display/latin-400-italic.css';
 
 :root {
-  --font-display: 'Geist Variable', system-ui, sans-serif;
-  --font-body: 'Geist Variable', system-ui, sans-serif;
+  color-scheme: dark;
 
-  /* --- Brand hues (theme-independent) --- */
-  --navy: #14304E;        /* primary brand: buttons, dark bands, heading marks */
-  --navy-2: #0B1F35;      /* deepest band / footer */
-  --steel: #4A6FA5;       /* secondary accent: borders, diagram marks, dividers */
-  --steel-ink: #3D5F92;   /* link text on light surfaces (AA on Mist/Sky) */
-  --amber: #D9822B;       /* CTA / highlight — warm contrast against navy */
-  --amber-dark: #935214;  /* accent text on light + CTA/link hover (AA-tuned) */
-  --gold: #C9A227;        /* small accents on dark bands only */
+  /* ---- Brand hues ---- */
+  --navy: #14304E;
+  --navy-2: #0B1F35;
+  --steel: #4A6FA5;
+  --steel-light: #9DBBE6;   /* links on black, the cool stars, the rail's end */
+  --amber: #D9822B;         /* the one warm accent */
+  --amber-soft: #E9A25C;    /* Projects link, amber text on glass */
+  --amber-light: #FFC98F;   /* current Projects link, sheet tags, hover on amber links */
+  --gold: #C9A227;
 
-  /* --- Light-theme surfaces & text (AA-verified) --- */
-  --paper: #F7F9FC;       /* page background (cool off-white) */
-  --paper-2: #EBF0F6;     /* alternate light band */
-  --mist: #DCE6F1;        /* tinted band */
-  --sky: #D8E8F4;         /* tinted band (process) */
-  --panel: #ffffff;
-  --ink: #16202B;         /* body text */
-  --ink-soft: #536376;    /* secondary text (AA-tuned for tinted bands) */
-  --line: #D5DDE7;
-  --line-strong: #AFBDCE;
-  --divider: var(--line-strong);                                      /* panels, header, plain contexts */
-  --divider-on-dark: var(--line-strong);                              /* deep bands + footer (tinted in light) */
-  /* Steel hairline for dividers on the light bands, such as the About
-     principles (30% here, 46% in dark). */
-  --poly-divider: color-mix(in srgb, var(--steel) 30%, transparent);  /* on light bands */
+  /* ---- G4 surfaces and ink (approved mock: direction C with navy at "Hint") ---- */
+  --page: #000;
+  --ink: #F5F5F7;
+  --ink-soft: color-mix(in srgb, var(--ink) 66%, transparent);
+  --ink-dim: color-mix(in srgb, var(--ink) 58%, transparent); /* AA floor over dimmed content under the bar */
+  --hair: color-mix(in srgb, var(--ink) 13%, transparent);
+  --on-ink: #000;                       /* text on an ink-filled pill (skip link) */
+  --glass-tint: #222a39;                /* dark glass: smoky navy-grey */
+  --stage: #0b0c10;                     /* behind captures, process-rail nodes */
+  --sheet: rgb(18 22 32 / .94);         /* Project details dialog */
+  --rail-a: #5B86C4;                    /* process rail: steel blue, start */
+  --rail-b: var(--steel-light);         /* process rail: end */
+  --rail-glow: 91 134 196;              /* process rail glow, RGB channels */
+  --sweep: #F0A458;                     /* headline amber sweep */
+  --sweep-on-accent: #FFF2E2;           /* the sweep over the amber accent word */
+  --glare: 255 240 222;                 /* warm glare band on hover, RGB channels */
+  --spot: 255 238 220;                  /* cursor spotlight sheen, RGB channels */
+  --spot-rim: 255 210 160;              /* cursor spotlight rim, RGB channels */
+  --glow-hot: 255 214 160;              /* accent word glow core, RGB channels */
+  --ember-hot: #FFE3BE;                 /* black-hole embers, hottest */
+  /* Galaxy canvas (galaxy.js reads these once). */
+  --star: #fff;
+  --star-cool: var(--steel-light);
+  --star-warm: #E7A35A;
+  --neb-1: rgb(22 38 70 / .5);
+  --neb-2: rgb(74 111 165 / .15);
+  --neb-3: rgb(217 130 43 / .05);
 
-  /* --- Semantic roles (flip per theme) --- */
-  --brand: var(--navy);
-  --brand-deep: var(--navy-2);
-  --link: var(--steel-ink);
-  --link-hover: var(--amber-dark);
-  --accent: var(--amber);        /* bright highlight (used on dark or as bg) */
-  --accent-ink: var(--amber-dark); /* accent text on light — AA-safe */
-  --focus: var(--amber-dark);
-  --button-bg: var(--navy);
-  --button-bg-hover: var(--navy-2);
-  --button-text: #FFFFFF;
-  --on-amber-dark: #FFFFFF; /* text on the amber-dark hover fill; same in both themes */
-  --skip-bg: var(--navy-2);  /* skip link: theme-constant pair */
-  --skip-text: #FFFFFF;
-
-  /* Deep contrast bands (closer sections + footer). These follow the theme:
-     tinted-light in light mode, navy in dark mode. */
-  --band-deep-bg: var(--mist);
-  --on-dark: var(--ink);
-  --on-dark-soft: var(--ink-soft);
-  --on-dark-gold: var(--accent-ink);
-  --line-on-dark: var(--line-strong);
-
-  /* project-card cover fallback bg (replaces hardcoded hex) */
-  --media-bubu: #f6b7b4;
-
-  --radius-sm: 2px;
-  --maxw: 1120px;
+  /* ---- Type, layout ---- */
+  --f-display: 'Geist Variable', 'Geist', system-ui, sans-serif;
+  --f-body: var(--f-display);
+  --f-label: 'Geist Mono Variable', 'Geist Mono', ui-monospace, monospace;
+  --f-accent: 'DM Serif Display', Georgia, serif;
+  --font-display: var(--f-display);
+  --font-body: var(--f-body);
+  --maxw: 1200px;
+  --gutter: 24px;
+  --rail-pad: max(var(--gutter), (100vw - var(--maxw)) / 2);
   --header-h: 72px;
-  --shadow: none;
-  --shadow-float: 0 8px 14px rgba(11, 31, 53, .16);
+  /* z-index scale: sky -1, page 0, edge fade 15, header 20, dialog 50 */
 
   --step--1: .92rem;
   --step-0: 1rem;
@@ -72,8 +66,50 @@
   --step-2: clamp(1.48rem, 1.24rem + 1vw, 2.02rem);
   --step-3: clamp(2rem, 1.48rem + 2.15vw, 3.16rem);
   --step-4: clamp(2.65rem, 1.72rem + 3.85vw, 4.75rem);
+  --space-1: .35rem;
+  --space-2: .65rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --space-7: clamp(4.5rem, 3.2rem + 5.5vw, 8rem);
 
-  /* --- Named component text roles (documented in DESIGN.md) --- */
+  /* ---- Legacy bridge (Phase 2 removes it) ----
+     The Blueprint names Services, About, the case studies and 404 still use, set to dark
+     values that pass AA on black. Bands are transparent so the galaxy shows through. */
+  --paper: transparent;
+  --paper-2: transparent;
+  --mist: transparent;
+  --sky: transparent;
+  --panel: rgb(20 24 34 / .86);
+  --line: #26384F;
+  --line-strong: #3B526F;
+  --divider: var(--line-strong);
+  --divider-on-dark: rgb(255 255 255 / .22);
+  --poly-divider: color-mix(in srgb, var(--steel) 46%, transparent);
+  --brand: var(--steel-light);
+  --brand-deep: #EAF1F8;
+  --link: var(--steel-light);
+  --link-hover: #E7C46A;
+  --accent: var(--amber);
+  --accent-ink: #E7C46A;
+  --focus: var(--gold);
+  --button-bg: var(--amber);
+  --button-bg-hover: #C46E1F;
+  --button-text: #0B1320;
+  --amber-dark: #935214;
+  --on-amber-dark: #FFFFFF;
+  --band-deep-bg: var(--navy-2);
+  --on-dark: #EAF1F8;
+  --on-dark-soft: #BCCADA;
+  --on-dark-gold: #E7C46A;
+  --line-on-dark: rgb(255 255 255 / .12);
+  --media-bubu: #8a5250;
+  --shadow: none;
+  --shadow-float: 0 8px 14px rgb(0 0 0 / .32);
+  --radius-panel: 18px; /* legacy panels; Glasswork owns the unitless --radius on .glass */
+  --radius-sm: 12px;
+  --radius-code: 4px;
   --text-nav: .94rem;
   --text-kicker: .9rem;
   --text-supporting: .86rem;
@@ -95,66 +131,4 @@
   --text-about-lede: clamp(1.15rem, 1.05rem + .2vw, 1.2rem);
   --text-values-heading: clamp(1.15rem, 1rem + .4vw, 1.35rem);
   --text-closer-title: clamp(1.85rem, 1.4rem + 2.1vw, 3rem);
-  --radius-code: 4px;
-
-  --space-1: .35rem;
-  --space-2: .65rem;
-  --space-3: 1rem;
-  --space-4: 1.5rem;
-  --space-5: 2rem;
-  --space-6: 3rem;
-  --space-7: clamp(4.5rem, 3.2rem + 5.5vw, 8rem);
-
-  /* ---- G4 system (from the approved mock: site.css, dir-c.css, dir-d.css at navy "Hint") ---- */
-  color-scheme: dark;
-  --page: #000;
-  --ink: #F5F5F7;
-  --ink-soft: color-mix(in srgb, var(--ink) 66%, transparent);
-  --ink-dim: color-mix(in srgb, var(--ink) 58%, transparent); /* AA floor over dimmed content under the bar */
-  --hair: color-mix(in srgb, var(--ink) 13%, transparent);
-  --amber-soft: #E9A25C;
-  --steel-light: #9DBBE6;
-  --gutter: 24px;
-  --f-display: 'Geist Variable', 'Geist', system-ui, sans-serif;
-  --f-body: 'Geist Variable', 'Geist', system-ui, sans-serif;
-  --f-label: 'Geist Mono Variable', 'Geist Mono', ui-monospace, monospace;
-  --f-accent: 'DM Serif Display', Georgia, serif;
-  --h-w: 700;
-  --rail-pad: max(var(--gutter), (100vw - var(--maxw)) / 2);
-  /* z-index scale: sky -1, page 0, edge fade 15, header 20, dialog 50 */
-
-  /* ---- Legacy bridge: the Blueprint names Services, About, the case studies and 404 still
-     use, set to dark values that pass AA on black. Phase 2 restyles those pages and removes
-     this bridge. Bands are transparent so the galaxy shows through. ---- */
-  --paper: transparent;
-  --paper-2: transparent;
-  --mist: transparent;
-  --sky: transparent;
-  --panel: rgb(20 24 34 / .86);
-  --line: #26384F;
-  --line-strong: #3B526F;
-  --link: #9DBBE6;
-  --link-hover: #E7C46A;
-  --focus: var(--gold);
-  --accent-ink: #E7C46A;
-  --brand: #9DBBE6;
-  --brand-deep: #EAF1F8;
-  --button-bg: #D9822B;
-  --button-bg-hover: #C46E1F;
-  --button-text: #0B1320;
-  --shadow: none;
-  --shadow-float: 0 8px 14px rgba(0, 0, 0, .32);
-  /* project-card cover fallback bg — muted dusty rose against navy */
-  --media-bubu: #8a5250;
-  --band-deep-bg: var(--navy-2);
-  --on-dark: #EAF1F8;
-  --on-dark-soft: #BCCADA;
-  --on-dark-gold: #E7C46A;
-  --line-on-dark: rgba(255, 255, 255, .12);
-  --divider-on-dark: rgba(255, 255, 255, .22);
-  --poly-divider: color-mix(in srgb, var(--steel) 46%, transparent);
-  --maxw: 1200px;
-  --header-h: 72px;
-  --radius-panel: 18px; /* legacy panels; Glasswork owns the unitless --radius on .glass */
-  --radius-sm: 12px;
 }

@@ -11,11 +11,10 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .container { width: min(100% - var(--gutter) * 2, var(--maxw)); margin-inline: auto; }
 
 /* The galaxy canvas, behind everything. Colours for starfield.js. */
-.sky { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;
-  --star: #fff; --star-cool: #9DBBE6; --star-warm: #E7A35A; --neb-1: rgba(22,38,70,.5); --neb-2: rgba(74,111,165,.15); --neb-3: rgba(217,130,43,.05); }
+.sky { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; } /* palette: --star*, --neb-* in tokens.css */
 
 /* Skip link: visually hidden in place until focused. */
-.skip { position: fixed; z-index: 30; left: 16px; top: 16px; padding: 10px 16px; border-radius: 999px; background: var(--ink); color: #000; font-weight: 650; text-decoration: none; }
+.skip { position: fixed; z-index: 30; left: 16px; top: 16px; padding: 10px 16px; border-radius: 999px; background: var(--ink); color: var(--on-ink); font-weight: 650; text-decoration: none; }
 .skip:not(:focus) { width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* The marked word: DM Serif Display Italic in amber, everywhere, no underline.
@@ -69,14 +68,14 @@ html:not(.js) .face-expanded { display: flex; position: static; opacity: 1; filt
 .nav-links a[aria-current='page'] { color: var(--ink); background: rgb(255 255 255 / .1); }
 /* Projects is the warm key link everywhere: amber text only, no pill, also when current. */
 .nav-links a[data-key] { position: relative; display: inline-flex; align-items: center; gap: 7px; color: var(--amber-soft); }
-.nav-links a[data-key][aria-current='page'] { color: #FFC98F; background: none; box-shadow: none; }
+.nav-links a[data-key][aria-current='page'] { color: var(--amber-light); background: none; box-shadow: none; }
 .nav-links .count { display: none; }
 
 /* "check me out": a clear glass pill that opens the contact menu on hover
  * (mouse and pen), on click, Enter or Space (keyboard and touch). */
 .contact { position: relative; display: flex; align-items: center; }
 .cta-more { --radius: 999; position: relative; height: 44px; padding: 0 18px 0 16px; display: inline-flex; align-items: center; gap: 9px; border: 0; cursor: pointer; font: 600 15px/1 var(--f-body); letter-spacing: -.005em; white-space: nowrap; }
-.cta-more .spark { width: 7px; height: 7px; border-radius: 1px; background: var(--amber); rotate: 45deg; box-shadow: 0 0 8px rgb(217 130 43 / .75); transition: rotate var(--t-spring) var(--spring), scale var(--t-spring) var(--spring); }
+.cta-more .spark { width: 7px; height: 7px; border-radius: 1px; background: var(--amber); rotate: 45deg; box-shadow: 0 0 8px color-mix(in srgb, var(--amber) 75%, transparent); transition: rotate var(--t-spring) var(--spring), scale var(--t-spring) var(--spring); }
 .cta-more[aria-expanded='true'] .spark { rotate: 225deg; scale: 1.25; }
 .pop.glass[data-tier] { --d-blur: 7; }
 .pop { --radius: 24; position: absolute; top: calc(100% + 10px); right: 0; width: 300px; padding: 8px; display: grid; gap: 2px;
@@ -101,7 +100,7 @@ body[data-scrolled='true'] .edge-top { opacity: 1; }
 /* ------------------------------ Shared type ------------------------------ */
 .mono { margin: 0; font: 500 12.5px/1 var(--f-label); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
 .kicker { display: inline-flex; align-items: center; gap: 10px; }
-.kicker::before { content: ''; width: 7px; height: 7px; rotate: 45deg; border-radius: 1px; background: var(--amber); box-shadow: 0 0 10px rgb(217 130 43 / .7); }
+.kicker::before { content: ''; width: 7px; height: 7px; rotate: 45deg; border-radius: 1px; background: var(--amber); box-shadow: 0 0 10px color-mix(in srgb, var(--amber) 70%, transparent); }
 .nw { white-space: nowrap; }
 .h1 { margin: 0; max-width: none; font: 700 clamp(50px, 1.5rem + 5.6vw, 106px)/.98 var(--f-display); letter-spacing: -.055em; }
 .h2 { margin: 0 0 18px; font: 700 clamp(40px, 1.5rem + 3.6vw, 82px)/1 var(--f-display); letter-spacing: -.052em; }
@@ -109,8 +108,8 @@ body[data-scrolled='true'] .edge-top { opacity: 1; }
 .pool { position: absolute; z-index: 0; width: var(--s, 560px); aspect-ratio: 1; border-radius: 50%; pointer-events: none;
   background: radial-gradient(closest-side, var(--c), transparent); left: var(--x); top: var(--y); translate: -50% -50%;
   animation: g4-drift var(--d, 26s) ease-in-out infinite alternate; }
-.pool.steel { --c: rgb(60 100 170 / .42); }
-.pool.amber { --c: rgb(217 130 43 / .24); }
+.pool.steel { --c: color-mix(in srgb, var(--steel) 62%, transparent); }
+.pool.amber { --c: color-mix(in srgb, var(--amber) 24%, transparent); }
 @keyframes g4-drift { from { transform: translate(-3%, 2%) scale(1); } to { transform: translate(4%, -3%) scale(1.08); } }
 /* Horizons mark where the black hole's rims sit (galaxy.js reads [data-horizon]); the
    canvas draws them, so the CSS planet stays hidden. */
@@ -140,7 +139,7 @@ body[data-scrolled='true'] .edge-top { opacity: 1; }
 .works-head .hire { order: -1; --radius: 18; display: inline-grid; grid-template-columns: 34px auto 16px; gap: 11px; align-items: center; padding: 8px 14px 8px 8px; text-decoration: none;
   --d-thin: .1; --d-dense: .26; --d-blur: 4; --d-sat: 1.7; --d-bri: .88; --d-catch: 1.8; transition: translate 420ms var(--spring); }
 .works-head .hire:hover { translate: 0 -2px; color: var(--ink); }
-.works-head .hire-ico { width: 34px; height: 34px; border-radius: 11px; corner-shape: superellipse(1.5); display: grid; place-items: center; background: rgb(217 130 43 / .2); color: var(--amber); }
+.works-head .hire-ico { width: 34px; height: 34px; border-radius: 11px; corner-shape: superellipse(1.5); display: grid; place-items: center; background: color-mix(in srgb, var(--amber) 20%, transparent); color: var(--amber); }
 .works-head .hire-ico svg { width: 17px; height: 17px; }
 .works-head .hire-t { display: grid; gap: 2px; line-height: 1.15; }
 .works-head .hire-t strong { font: 650 14.5px/1.15 var(--f-display); letter-spacing: -.02em; }
@@ -184,7 +183,7 @@ html:not(.js) .paddles, html:not(.js) .rail-foot { display: none; }
 /* The process rail: one glass strip, the step names on one line in amber, a steel-blue
    line through three diamond nodes, their text below. --p (0 to 1, set by home.js on
    scroll) draws the line; without script or under reduced motion it stays fully drawn. */
-.bento .prail { --ra: #5B86C4; --rb: #9DBBE6; --rg: 91 134 196;
+.bento .prail { --ra: var(--rail-a); --rb: var(--rail-b); --rg: var(--rail-glow);
   --radius: 34; --gap: 56px; --name: 44px; --p: 1; grid-column: 1 / -1; padding: 40px 44px 44px; }
 .bento .prail ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gap); margin: 0; padding: 0; list-style: none; }
 .prail li { position: relative; margin: 0; display: grid; grid-template-rows: var(--name) 30px auto; row-gap: 14px; align-content: start;
@@ -193,7 +192,7 @@ html:not(.js) .paddles, html:not(.js) .rail-foot { display: none; }
 .prail p { margin: 0; color: var(--ink-soft); font-size: 16px; }
 .prail .pnode { position: relative; z-index: 1; align-self: center; width: 14px; height: 14px; margin-left: 1px; }
 .prail .pnode::before, .prail .pnode::after { content: ''; position: absolute; inset: 0; rotate: 45deg; border-radius: 2px; }
-.prail .pnode::before { background: #0B0C10; box-shadow: inset 0 0 0 1.5px rgb(var(--rg) / .55); }
+.prail .pnode::before { background: var(--stage); box-shadow: inset 0 0 0 1.5px rgb(var(--rg) / .55); }
 .prail .pnode::after { background: var(--ra); box-shadow: 0 0 14px 1px rgb(var(--rg) / .75); opacity: var(--lit); scale: calc(.6 + .55 * var(--lit)); transition: opacity 300ms ease, scale 520ms var(--spring); }
 .prail .pline { position: absolute; left: 8px; top: calc(var(--name) + 14px + 15px); width: calc(100% + var(--gap)); height: 2px; margin-top: -1px; border-radius: 2px; background: rgb(255 255 255 / .14); }
 .prail .pline::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(90deg, var(--ra), var(--rb)); box-shadow: 0 0 10px rgb(var(--rg) / .6); transform-origin: left center; scale: var(--seg) 1; transition: scale 220ms linear; }
@@ -243,7 +242,7 @@ html.js .ins:not(.is-ready) .ins-build:not(:first-of-type), html.js .ins:not(.is
 .ins-pick:hover .t, .ins-pick[aria-current='true'] .t { color: var(--ink); }
 .ins-pick[aria-current='true'] .t { translate: 4px 0; }
 .pick-lens { position: absolute; left: 4px; top: calc(var(--ly, 0px) + var(--lh, 50px) / 2 - 5px); width: 10px; height: 10px; rotate: 45deg; border-radius: 1.5px; pointer-events: none;
-  background: var(--amber); box-shadow: 0 0 12px rgb(217 130 43 / .8); transition: top 600ms var(--spring); }
+  background: var(--amber); box-shadow: 0 0 12px color-mix(in srgb, var(--amber) 80%, transparent); transition: top 600ms var(--spring); }
 .ins-panel { position: relative; padding: 0; }
 .ins-build { position: relative; }
 .ins.is-ready .ins-build:not(.is-current) { display: none; }
@@ -254,7 +253,7 @@ html.js .ins:not(.is-ready) .ins-build:not(:first-of-type), html.js .ins:not(.is
 .ins-tour [data-i='play'] { display: none; }
 .ins-tour[aria-pressed='false'] [data-i='play'] { display: block; }
 .ins-tour[aria-pressed='false'] [data-i='pause'] { display: none; }
-.ins-cover { position: relative; display: block; width: 100%; padding: 0; border: 0; background: #0b0c10; cursor: zoom-in; overflow: hidden;
+.ins-cover { position: relative; display: block; width: 100%; padding: 0; border: 0; background: var(--stage); cursor: zoom-in; overflow: hidden;
   border-radius: 34px; corner-shape: superellipse(1.5); box-shadow: 0 0 0 1px rgb(255 255 255 / .1), 0 40px 80px -40px rgb(0 0 0 / .9); }
 .ins-cover .desk { width: 100%; height: auto; aspect-ratio: 16 / 10.5; object-fit: cover; object-position: top; transition: filter 520ms var(--ease-out), scale 640ms var(--spring-soft), opacity 400ms; }
 .ins-cover .phone { position: absolute; left: 50%; top: 50%; height: 88%; width: auto; max-width: none; aspect-ratio: 390 / 844; object-fit: cover; object-position: top; border-radius: 26px; corner-shape: superellipse(1.5);
@@ -271,7 +270,7 @@ html.js .ins:not(.is-ready) .ins-build:not(:first-of-type), html.js .ins:not(.is
    adaptive tint thickens it over bright captures so its text keeps AA. */
 .ins-body.glass { --d-blur: 16; --d-sat: 1.7; --d-bri: .7; --d-catch: 1.7; text-shadow: 0 1px 2px rgb(0 0 0 / .35); }
 .ins-tags { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0; font: 500 11.5px/1.4 var(--f-label); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
-.ins-tags .tag { color: #FFC98F; }
+.ins-tags .tag { color: var(--amber-light); }
 .ins-title { margin: 0; font: 700 30px/1.05 var(--f-display); letter-spacing: -.045em; }
 .ins-tabs { position: relative; display: inline-flex; gap: 2px; justify-self: start; padding: 4px; border-radius: 999px; background: rgb(255 255 255 / .06); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .07); }
 .ins-tabs [role='tab'] { position: relative; z-index: 1; border: 0; background: none; cursor: pointer; padding: 10px 16px; border-radius: 999px; font: 600 14.5px/1 var(--f-body); color: var(--ink-dim); transition: color 220ms; }
@@ -288,11 +287,11 @@ html.js .ins:not(.is-ready) .ins-build:not(:first-of-type), html.js .ins:not(.is
 .ins-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
 .ins-actions .btn { min-height: 40px; font-size: 14px; padding: 0 15px; }
 /* Live-site links: amber text and outline, apart from the stack chips. */
-.ins-actions .btn.glass { color: var(--amber-soft); box-shadow: inset 0 0 0 1px rgb(217 130 43 / .7), 0 4px 14px rgb(0 0 0 / .25); }
-.ins-actions .btn.glass:hover { color: #FFC98F; box-shadow: inset 0 0 0 1px rgb(233 162 92 / .95), 0 0 18px -4px rgb(217 130 43 / .55); }
+.ins-actions .btn.glass { color: var(--amber-soft); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--amber) 70%, transparent), 0 4px 14px rgb(0 0 0 / .25); }
+.ins-actions .btn.glass:hover { color: var(--amber-light); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--amber-soft) 95%, transparent), 0 0 18px -4px color-mix(in srgb, var(--amber) 55%, transparent); }
 .ins-actions .link { display: inline-flex; align-items: center; gap: 8px; font-weight: 650; text-decoration: none; color: var(--amber-soft); font-size: 14.5px; }
 .ins-actions .link svg { width: 16px; height: 16px; transition: translate 420ms var(--spring); }
-.ins-actions .link:hover { color: #FFC98F; }
+.ins-actions .link:hover { color: var(--amber-light); }
 .ins-actions .link:hover svg { translate: 3px 0; }
 .ins-actions .details { border: 0; background: none; padding: 0; cursor: pointer; font: 600 14.5px/1.4 var(--f-body); color: var(--ink-soft); text-decoration: underline; text-decoration-color: var(--hair); text-underline-offset: .25em; }
 .ins-actions .details:hover { color: var(--ink); text-decoration-color: currentColor; }
@@ -301,7 +300,7 @@ html.js .ins:not(.is-ready) .ins-build:not(:first-of-type), html.js .ins:not(.is
 @keyframes g4-swap { from { opacity: 0; translate: 0 10px; filter: blur(4px); } to { opacity: 1; translate: 0 0; filter: none; } }
 
 /* Project details dialog (ProjectModal.astro): glass-dark surface. */
-dialog.pm { border-radius: 30px; corner-shape: superellipse(1.5); border: 0; background: rgb(18 22 32 / .94); color: var(--ink); box-shadow: 0 0 0 1px rgb(255 255 255 / .12), 0 40px 90px -30px rgb(0 0 0 / .9); }
+dialog.pm { border-radius: 30px; corner-shape: superellipse(1.5); border: 0; background: var(--sheet); color: var(--ink); box-shadow: 0 0 0 1px rgb(255 255 255 / .12), 0 40px 90px -30px rgb(0 0 0 / .9); }
 dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 
 /* ------------------------------ Responsive ------------------------------ */
@@ -338,8 +337,9 @@ dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blu
   .prail .pline { left: 8px; top: calc(var(--name) / 2); width: 2px; height: calc(100% + var(--gap)); margin: 0 0 0 -1px; }
   .prail .pline::after { transform-origin: center top; scale: 1 var(--seg); }
 }
-/* Save-Data: the ambient motion stays off too (fx.css gates the effects the same way). */
-.save-data .pool, .save-data .hero-inner, .save-data .ins-swap { animation: none !important; }
+/* Save-Data: every animation and transition stops, as under reduced motion (fx.css also
+   skips its effects); states still change, just without the movement. */
+.save-data *, .save-data *::before, .save-data *::after, .save-data ::backdrop { animation: none !important; transition: none !important; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .face, .pop > *, .ins-swap { transition: none !important; animation: none !important; }
@@ -361,3 +361,4 @@ html.js .ins-overview { display: none; }
 html:not(.js) .ins-tabs { display: none; }
 html:not(.js) .ins-body { position: static; width: auto; margin-top: 12px; }
 html:not(.js) .ins-actions .details { display: none; }
+dialog.pm .pm-blurb { color: var(--ink); font-weight: 600; }

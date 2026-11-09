@@ -19,14 +19,14 @@
 /* Glare: a 0.85s sweep, then a 1s rest, on every clickable button and glass panel. The
    band is an extra background layer over the glass's own top sheen. */
 :root:not(.save-data) :is(.btn.glass, a.glass[data-pill], button.glass[data-pill], .tile.glass, .works-head .hire):not(:disabled):is(:hover, :focus-visible) {
-  background-image: linear-gradient(105deg, transparent 38%, rgb(255 240 222 / .07) 43%, rgb(255 240 222 / .26) 49%, rgb(255 240 222 / .07) 55%, transparent 61%), linear-gradient(180deg, rgb(255 255 255 / .10), rgb(255 255 255 / .025) 42%, transparent 70%);
+  background-image: linear-gradient(105deg, transparent 38%, rgb(var(--glare) / .07) 43%, rgb(var(--glare) / .26) 49%, rgb(var(--glare) / .07) 55%, transparent 61%), linear-gradient(180deg, rgb(255 255 255 / .10), rgb(255 255 255 / .025) 42%, transparent 70%);
   background-size: 260% 100%, 100% 100%; background-repeat: no-repeat;
   animation: fx-glare 1.85s cubic-bezier(.65, 0, .35, 1) infinite; }
 @keyframes fx-glare { 0% { background-position: 130% 0, 0 0; } 46%, 100% { background-position: -30% 0, 0 0; } }
 
 /* Play/pause morph: two shapes reshape (fx.js draws the paths). */
 :root:not(.save-data) .fx-pp { display: block; fill: currentColor; stroke: currentColor; stroke-width: 1.3; stroke-linejoin: round; }
-:root:not(.save-data) :is(.rail-tour, .ins-tour) > svg:not(.fx-pp) { display: none !important; }
+:root:not(.save-data) .fx-morphed > svg:not(.fx-pp) { display: none !important; } /* fx.js marks a button once its morph is mounted */
 
 /* Copied check morph. */
 .fx-ico > svg { transition: scale 320ms var(--spring), opacity 160ms ease, rotate 320ms var(--spring); }
@@ -42,9 +42,9 @@
 
 /* Cursor spotlight: a soft sheen and a lit rim follow the pointer on glass panels. */
 :root:not(.save-data) .fx-spot { display: block; position: absolute; inset: 0; z-index: 3; pointer-events: none; border-radius: inherit; corner-shape: inherit; opacity: 0;
-  background: radial-gradient(420px circle at var(--fx-x, 50%) var(--fx-y, 50%), rgb(255 238 220 / .09), transparent 70%); mix-blend-mode: plus-lighter; transition: opacity 320ms var(--fx-expo); }
+  background: radial-gradient(420px circle at var(--fx-x, 50%) var(--fx-y, 50%), rgb(var(--spot) / .09), transparent 70%); mix-blend-mode: plus-lighter; transition: opacity 320ms var(--fx-expo); }
 :root:not(.save-data) .fx-spot::after { content: ''; position: absolute; inset: 0; border-radius: inherit; corner-shape: inherit; padding: 1.2px;
-  background: radial-gradient(220px circle at var(--fx-x, 50%) var(--fx-y, 50%), rgb(255 210 160 / .75), transparent 70%);
+  background: radial-gradient(220px circle at var(--fx-x, 50%) var(--fx-y, 50%), rgb(var(--spot-rim) / .75), transparent 70%);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
 :root:not(.save-data) .fx-lit > .fx-spot { opacity: 1; }
 
@@ -54,12 +54,12 @@
 @keyframes fx-word { from { translate: 0 .32em; filter: blur(12px); } }
 :root.js:not(.save-data) [data-words-box] > :not([data-words]) { animation: fx-rise 640ms var(--fx-expo) both; animation-delay: var(--fx-d, 260ms); }
 @keyframes fx-rise { from { opacity: 0; translate: 0 12px; } }
-.fx-sweep .w { --fx-tone: #F0A458; background-image: linear-gradient(100deg, currentColor calc(var(--b, -999px) - 120px), var(--fx-tone) var(--b, -999px), currentColor calc(var(--b, -999px) + 120px));
+.fx-sweep .w { --fx-tone: var(--sweep); background-image: linear-gradient(100deg, currentColor calc(var(--b, -999px) - 120px), var(--fx-tone) var(--b, -999px), currentColor calc(var(--b, -999px) + 120px));
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; padding: .16em .14em; margin: -.16em -.14em; }
-.fx-sweep .w:has(.accent) { color: var(--amber); --fx-tone: #FFF2E2; }
+.fx-sweep .w:has(.accent) { color: var(--amber); --fx-tone: var(--sweep-on-accent); }
 .fx-sweep .w .accent { -webkit-text-fill-color: transparent; }
 .fx-glow .accent { animation: fx-glow 1.25s ease-out; }
-@keyframes fx-glow { 30% { text-shadow: 0 0 26px rgb(217 130 43 / .75), 0 0 2px rgb(255 214 160 / .6); } }
+@keyframes fx-glow { 30% { text-shadow: 0 0 26px color-mix(in srgb, var(--amber) 75%, transparent), 0 0 2px rgb(var(--glow-hot) / .6); } }
 
 /* Sky: the stars come into focus on load. */
 :root:not(.save-data) .sky.fx-in { animation: fx-skyin 2s var(--fx-expo) both; }

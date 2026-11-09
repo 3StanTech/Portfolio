@@ -24,6 +24,7 @@ const caseStudyHref = `/projects/${d.slug}/`;
         <span>{d.clientType}</span>
       </p>
       <h2 id={`pm-title-${d.slug}`}>{d.title}</h2>
+      {d.blurb && <p class="pm-blurb">{d.blurb}</p>}
       <p>{d.summary}</p>
       {d.outcome && (
         <div class="card-outcome">

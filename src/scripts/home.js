@@ -25,7 +25,7 @@ if (rail && works) {
   // focus is on the work, while the rail is off screen and while the tab is hidden
   // (WCAG 2.2.2); the glass button pauses or plays it; reduced motion and Save-Data start it paused.
   const tourBtn = $('.rail-tour', works);
-  let playing = !reduce.matches && !saveData, held = false, onScreen = false;
+  let playing = !reduce.matches && !saveData, holdPointer = false, holdFocus = false, onScreen = true;
   const setPlaying = (on) => {
     playing = on;
     tourBtn.setAttribute('aria-pressed', String(on));
@@ -33,14 +33,15 @@ if (rail && works) {
   };
   setPlaying(playing);
   tourBtn.addEventListener('click', () => setPlaying(!playing));
-  works.addEventListener('pointerenter', () => { held = true; });
-  works.addEventListener('pointerleave', () => { held = works.contains(document.activeElement); });
-  works.addEventListener('focusin', () => { held = true; });
-  works.addEventListener('focusout', (e) => { if (!works.contains(e.relatedTarget)) held = false; });
-  new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; }).observe(rail);
+  // Pointer and focus hold separately: tabbing out while the pointer rests on the work keeps it held.
+  works.addEventListener('pointerenter', () => { holdPointer = true; });
+  works.addEventListener('pointerleave', () => { holdPointer = false; });
+  works.addEventListener('focusin', () => { holdFocus = true; });
+  works.addEventListener('focusout', (e) => { if (!works.contains(e.relatedTarget)) holdFocus = false; });
+  if ('IntersectionObserver' in window) new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; }).observe(rail);
   reduce.addEventListener('change', () => { if (reduce.matches) setPlaying(false); });
   setInterval(() => {
-    if (!playing || held || !onScreen || document.hidden) return;
+    if (!playing || holdPointer || holdFocus || !onScreen || document.hidden) return;
     const atEnd = rail.scrollLeft > rail.scrollWidth - rail.clientWidth - 8;
     rail.scrollTo({ left: atEnd ? 0 : rail.scrollLeft + step(), behavior: behavior() });
   }, 5000);
@@ -54,10 +55,13 @@ if (prail && !reduce.matches && !saveData) {
   let queued = false;
   const syncRail = () => {
     queued = false;
+    // Reduced motion switched on mid-visit: the rail stays fully drawn from then on.
+    if (reduce.matches) { prail.style.removeProperty('--p'); return; }
     const top = prail.getBoundingClientRect().top, vh = innerHeight;
     prail.style.setProperty('--p', Math.min(1, Math.max(0, (vh * 0.85 - top) / (vh * 0.5))).toFixed(3));
   };
   addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(syncRail); } }, { passive: true });
   addEventListener('resize', syncRail);
+  reduce.addEventListener('change', syncRail);
   syncRail();
 }

@@ -38,6 +38,7 @@ const spring = (t) => { const w = 22, z = 0.75, wd = w * Math.sqrt(1 - z * z); r
 function morph(b) {
   if ($('.fx-pp', b)) return;
   b.insertAdjacentHTML('beforeend', '<svg class="fx-pp" viewBox="0 0 24 24" aria-hidden="true"><path/><path/></svg>');
+  b.classList.add('fx-morphed');
   const paths = $$('.fx-pp path', b), state = () => (b.getAttribute('aria-pressed') === 'true' ? 'pause' : 'play');
   let cur = state(), raf = 0;
   const draw = (A, B, e) => paths.forEach((p, i) => p.setAttribute('d', dPath(A[i].map(([x, y], j) => [x + (B[i][j][0] - x) * e, y + (B[i][j][1] - y) * e]))));

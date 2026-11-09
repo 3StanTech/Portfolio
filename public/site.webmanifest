@@ -3,8 +3,8 @@
   "short_name": "Tristan",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F7F9FC",
-  "theme_color": "#14304E",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "icons": [
     {
       "src": "/icon-192.png",

@@ -107,7 +107,7 @@ for (const ins of $$('[data-ins]')) {
   ins.addEventListener('pointerleave', () => { holdPointer = false; restart(); });
   ins.addEventListener('focusin', () => { holdFocus = true; restart(); });
   ins.addEventListener('focusout', (e) => { if (!ins.contains(e.relatedTarget)) { holdFocus = false; restart(); } });
-  new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; restart(); }).observe(ins);
+  if ('IntersectionObserver' in window) new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; restart(); }).observe(ins);
   document.addEventListener('visibilitychange', restart);
   for (const dialog of $$('dialog.pm')) dialog.addEventListener('close', restart);
   reduce.addEventListener('change', () => { if (reduce.matches) setTour(false); });

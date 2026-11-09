@@ -2,7 +2,9 @@
 // faint nebula, rich around the cursor and on the side you scroll toward, with the
 // black hole's accretion-disk rims at the page's [data-horizon] markers. Ported from the
 // approved mock (glass-overhaul-mocks/shared/starfield.js); no constellation lines.
-// One still frame under reduced motion or Save-Data (redrawn on scroll, no loop);
+// Under reduced motion or Save-Data the stars hold still (no drift, twinkle, parallax,
+// scroll richness or cursor effects); the frame is redrawn only so the black-hole rims
+// follow their sections as the page scrolls, like any content. No loop;
 // paused while the tab is hidden; devicePixelRatio capped at 2. Colours come from CSS
 // custom properties on the canvas (--star, --star-cool, --star-warm, --neb-1..3).
 // Options: density, drift, parallax, nebula, starBoost, twinkle (0-1), glints,
@@ -15,11 +17,18 @@ export function starfield(canvas, opts = {}) {
   const saveData = navigator.connection?.saveData === true;
   let w = 0, h = 0, dpr = 1, stars = [], raf = 0, t0 = performance.now();
 
-  const css = (name, fallback) => getComputedStyle(canvas).getPropertyValue(name).trim() || fallback;
+  const still = () => reduce.matches || saveData;
+  // The palette is read once per build (tokens.css), not every frame.
+  let pal = {};
+  const readPalette = () => {
+    const cs = getComputedStyle(canvas), v = (n, f) => cs.getPropertyValue(n).trim() || f;
+    pal = { white: v('--star', '#fff'), cool: v('--star-cool', '#9DBBE6'), warm: v('--star-warm', '#E7A35A'), n1: v('--neb-1', 'rgb(22 38 70 / .5)'), n2: v('--neb-2', 'rgb(74 111 165 / .15)'), n3: v('--neb-3', 'rgb(217 130 43 / .05)'), emberHot: v('--ember-hot', '#FFE3BE'), ember: v('--amber-soft', '#E9A25C') };
+  };
   let rand = mulberry(7);
 
   function build() {
     rand = mulberry(7);
+    readPalette();
     dpr = Math.min(2, devicePixelRatio || 1);
     w = canvas.clientWidth; h = canvas.clientHeight;
     canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
@@ -52,31 +61,35 @@ export function starfield(canvas, opts = {}) {
   const smooth = (a) => (a <= 0 ? 0 : a >= 1 ? 1 : a * a * (3 - 2 * a));
   function richAt(x, y) {
     let L = o.base;
+    if (still()) return L;
     if (flow) { const f = flow > 0 ? y / h : 1 - y / h; L += (f - L) * Math.abs(flow); }
     if (ptr.on > 0.01) { const d = Math.hypot(x - ptr.x, y - ptr.y); L += (1 - L) * ptr.on * smooth(1 - d / o.radius); }
     return Math.max(0, Math.min(1, L));
   }
 
   function draw(now) {
-    const t = (now - t0) / 1000;
-    if (o.interactive) {
+    raf = 0;
+    const frozen = still();
+    const t = frozen ? 0 : (now - t0) / 1000;
+    if (o.interactive && !frozen) {
       if (performance.now() - lastMove > 900) flowT = 0;
       flow += (flowT - flow) * (flowT ? 0.08 : 0.03);
     }
-    if (o.interactive || o.pull || o.tilt) { ptr.x += (ptr.tx - ptr.x) * 0.12; ptr.y += (ptr.ty - ptr.y) * 0.12; ptr.on += (ptr.ton - ptr.on) * 0.06; }
+    if ((o.interactive || o.pull || o.tilt) && !frozen) { ptr.x += (ptr.tx - ptr.x) * 0.12; ptr.y += (ptr.ty - ptr.y) * 0.12; ptr.on += (ptr.ton - ptr.on) * 0.06; }
     // Depth tilt: an eased cursor offset (-.5 to .5 of the screen); near stars move most.
-    const gx = o.tilt && ptr.on > 0.01 ? (ptr.x / w - 0.5) * ptr.on : 0, gy = o.tilt && ptr.on > 0.01 ? (ptr.y / h - 0.5) * ptr.on : 0;
-    tl.x += (gx - tl.x) * 0.06; tl.y += (gy - tl.y) * 0.06;
-    const sy = scrollY;
+    const gx = o.tilt && !frozen && ptr.on > 0.01 ? (ptr.x / w - 0.5) * ptr.on : 0, gy = o.tilt && ptr.on > 0.01 ? (ptr.y / h - 0.5) * ptr.on : 0;
+    if (frozen) { tl.x = 0; tl.y = 0; ptr.on = 0; } // a live switch to still mode drops any eased tilt
+    else { tl.x += (gx - tl.x) * 0.06; tl.y += (gy - tl.y) * 0.06; }
+    const sy = frozen ? 0 : scrollY;
     ctx.clearRect(0, 0, w, h);
-    if (o.nebula) nebula(-tl.x * 12, -tl.y * 8);
-    const col = { white: css('--star', '#ffffff'), cool: css('--star-cool', '#9DBBE6'), warm: css('--star-warm', '#E7A35A') };
+    if (o.nebula) nebula(-tl.x * 12, -tl.y * 8, frozen);
+    const col = pal;
     for (const s of stars) {
       const y = ((s.y - sy * o.parallax * (0.3 + s.z) + t * o.drift * 60 * s.z) % (h * 1.6) + h * 1.6) % (h * 1.6) - h * 0.3;
       if (y < -40 || y > h + 40) continue;
       // Depth tilt and the cursor's pull or lens move where the star is drawn, not where it lives.
       let px = s.x - tl.x * 30 * s.z, py = y - tl.y * 18 * s.z, lensK = 0;
-      if (o.pull && ptr.on > 0.01) {
+      if (o.pull && !frozen && ptr.on > 0.01) {
         const dx = px - ptr.x, dy = py - ptr.y, d = Math.hypot(dx, dy);
         if (d < 230 && d > 0.5) {
           const f = smooth(1 - d / 230) * ptr.on;
@@ -88,7 +101,7 @@ export function starfield(canvas, opts = {}) {
       // Twinkle: each star breathes at its own pace and depth; glint stars
       // spend most of the time dim and flare briefly (a sharpened sine).
       let k = 1;
-      if (!(reduce.matches || saveData)) {
+      if (!frozen) {
         const wave = 0.5 + 0.5 * Math.sin(s.tw + t * s.ts);
         k = s.glint ? wave ** 4 : wave;
       }
@@ -116,7 +129,7 @@ export function starfield(canvas, opts = {}) {
     }
     ctx.globalAlpha = 1;
     if (o.horizons) blackHole(t);
-    if (!(reduce.matches || saveData)) raf = requestAnimationFrame(draw);
+    if (!frozen) schedule();
   }
 
   // ---------- Black hole (owner, G4) ----------
@@ -138,6 +151,7 @@ export function starfield(canvas, opts = {}) {
   function blackHole(t) {
     const list = o.horizons() || [];
     const still = reduce.matches || saveData;
+    if (still) { embers = []; heat.in = heat.out = 0.3; }
     const dt = Math.min(0.05, Math.max(0.001, t - lastT)); lastT = t;
     const dy = scrollY - lastHY; lastHY = scrollY;
     speed += (Math.min(1, Math.abs(dy) / 28) - speed) * 0.12;
@@ -174,7 +188,7 @@ export function starfield(canvas, opts = {}) {
       embers = embers.filter((e) => (e.life += dt) < e.max);
       for (const e of embers) {
         e.x += e.vx * dt; e.y += e.vy * dt; const f = 1 - e.life / e.max;
-        ctx.globalAlpha = 0.7 * f; ctx.fillStyle = f > 0.6 ? '#FFE3BE' : '#E9A25C';
+        ctx.globalAlpha = 0.7 * f; ctx.fillStyle = f > 0.6 ? pal.emberHot : pal.ember;
         ctx.beginPath(); ctx.arc(e.x, e.y, 0.6 + 1.1 * f, 0, Math.PI * 2); ctx.fill();
       }
       ctx.restore();
@@ -234,12 +248,12 @@ export function starfield(canvas, opts = {}) {
     }
   }
 
-  function nebula(ox = 0, oy = 0) {
-    const sy = scrollY * 0.06 - oy;
+  function nebula(ox = 0, oy = 0, frozen = false) {
+    const sy = (frozen ? 0 : scrollY * 0.06) - oy;
     const blobs = [
-      [w * 0.78 + ox, h * 0.18 - sy, Math.max(w, h) * 0.55, css('--neb-1', 'rgba(20,48,78,.55)')],
-      [w * 0.12 + ox, h * 0.85 - sy, Math.max(w, h) * 0.45, css('--neb-2', 'rgba(74,111,165,.18)')],
-      [w * 0.55 + ox, h * 0.62 - sy, Math.max(w, h) * 0.3, css('--neb-3', 'rgba(217,130,43,.06)')],
+      [w * 0.78 + ox, h * 0.18 - sy, Math.max(w, h) * 0.55, pal.n1],
+      [w * 0.12 + ox, h * 0.85 - sy, Math.max(w, h) * 0.45, pal.n2],
+      [w * 0.55 + ox, h * 0.62 - sy, Math.max(w, h) * 0.3, pal.n3],
     ];
     for (const [x, y, r, c] of blobs) {
       const g = ctx.createRadialGradient(x, y, 0, x, y, r);
@@ -248,13 +262,15 @@ export function starfield(canvas, opts = {}) {
     }
   }
 
-  const start = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(draw); };
-  build(); start();
-  addEventListener('resize', () => { build(); start(); });
-  if (reduce.matches || saveData) addEventListener('scroll', () => requestAnimationFrame(draw), { passive: true });
-  reduce.addEventListener('change', start);
-  document.addEventListener('visibilitychange', () => (document.hidden ? cancelAnimationFrame(raf) : start()));
-  return { redraw: start, update(next) { o = { ...o, ...next }; build(); start(); }, set(next) { o = { ...o, ...next }; start(); } };
+  // One scheduler: at most one frame is ever pending, so no second loop can start.
+  function schedule() { if (!raf && !document.hidden) raf = requestAnimationFrame(draw); }
+  build(); schedule();
+  addEventListener('resize', () => { build(); schedule(); });
+  // Still mode redraws on scroll so the rims track their sections; the moving sky loops itself.
+  addEventListener('scroll', () => { if (still()) schedule(); }, { passive: true });
+  reduce.addEventListener('change', schedule);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) { cancelAnimationFrame(raf); raf = 0; } else schedule(); });
+  return { redraw: schedule, update(next) { o = { ...o, ...next }; build(); schedule(); }, set(next) { o = { ...o, ...next }; schedule(); } };
 }
 
 function mulberry(a) {
