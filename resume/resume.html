@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>John Tristan R. Dolfo · Full-stack developer · Résumé</title>
+<!-- One-page US Letter résumé, printed to PDF by scripts/gen-resume.mjs (npm run resume). -->
+<style>
+  @font-face { font-family: 'Geist'; font-style: normal; font-weight: 100 900; font-display: block; src: url('../node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Geist Mono'; font-style: normal; font-weight: 100 900; font-display: block; src: url('../node_modules/@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'DM Serif Display'; font-style: italic; font-weight: 400; font-display: block; src: url('../node_modules/@fontsource/dm-serif-display/files/dm-serif-display-latin-400-italic.woff2') format('woff2'); }
+  @page { size: letter; margin: 0; }
+  :root {
+    --paper: #FFFFFF; --ink: #0B0C10; --soft: #454A57; --faint: #6B7180; --hair: #E3E6EC;
+    --amber: #D9822B; --amber-ink: #A35A12; --steel: #3C64A0; --steel-line: #7C9CCB; --chip: #F2F4F8;
+  }
+  * { box-sizing: border-box; }
+  html { background: #2a2c33; }
+  body { margin: 0; font: 400 8.7pt/1.34 'Geist', system-ui, sans-serif; color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { position: relative; width: 8.5in; height: 11in; margin: 0 auto; padding: .44in .56in .5in; background: var(--paper); overflow: hidden; }
+  @media screen { body { padding: 24px 0; } }
+  @media print { html { background: none; } body { padding: 0; } }
+
+  header { display: grid; grid-template-columns: 1fr auto; gap: 4px 24px; align-items: end; padding-bottom: 9pt; border-bottom: 1px solid var(--hair); }
+  h1 { margin: 0; font: 750 23pt/1 'Geist', sans-serif; letter-spacing: -.045em; }
+  .role { margin: 4pt 0 0; font: 650 12pt/1.1 'Geist', sans-serif; letter-spacing: -.02em; }
+  .role em { font: italic 400 14pt/1 'DM Serif Display', serif; color: var(--amber); letter-spacing: 0; }
+  .contact { margin: 0; text-align: right; font: 400 8pt/1.5 'Geist Mono', monospace; color: var(--soft); }
+  .contact a { color: inherit; text-decoration: none; }
+
+  section { margin-top: 9.5pt; }
+  h2 { display: flex; align-items: center; gap: 7pt; margin: 0 0 5pt; font: 600 7.4pt/1 'Geist Mono', monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--amber-ink); }
+  h2::before { content: ''; width: 5.5pt; height: 5.5pt; border-radius: 1px; rotate: 45deg; background: var(--amber); }
+  p { margin: 0; }
+  .profile { color: var(--soft); }
+
+  /* Experience: the approved process rail, turned vertical, in steel blue. */
+  .rail { list-style: none; margin: 0; padding: 0; }
+  .rail > li { position: relative; padding: 0 0 5pt 17pt; }
+  .rail > li::before { content: ''; position: absolute; left: 2.6pt; top: 4pt; width: 6pt; height: 6pt; rotate: 45deg; border-radius: 1px; background: var(--steel-line); box-shadow: 0 0 0 2pt var(--paper); }
+  .rail > li:not(:last-child)::after { content: ''; position: absolute; left: 5.1pt; top: 9pt; bottom: -3pt; width: 1.1pt; background: var(--steel-line); }
+  .jt { display: flex; justify-content: space-between; gap: 12pt; align-items: baseline; }
+  .jt strong { font: 650 9.6pt/1.25 'Geist', sans-serif; letter-spacing: -.01em; }
+  .when { flex: none; font: 400 7.6pt/1.25 'Geist Mono', monospace; color: var(--faint); }
+  .org { margin: .5pt 0 1pt; color: var(--soft); font-size: 8.2pt; }
+  ul.b { margin: 1pt 0 0; padding: 0 0 0 10pt; }
+  ul.b li { margin: .6pt 0; color: var(--soft); }
+  ul.b li::marker { color: var(--steel); }
+
+  .proj { padding: 2.6pt 0 3pt; border-top: 1px solid var(--hair); }
+  .proj:first-of-type { border-top: 0; padding-top: 0; }
+  .pt { display: flex; gap: 8pt; align-items: baseline; flex-wrap: wrap; }
+  .pt strong { font: 650 9.4pt/1.25 'Geist', sans-serif; letter-spacing: -.01em; }
+  .stack { font: 400 7.4pt/1.25 'Geist Mono', monospace; color: var(--steel); }
+
+  .two { display: grid; grid-template-columns: 1fr 1.9fr; gap: 0 22pt; }
+  .edu strong { font: 650 9.4pt/1.25 'Geist', sans-serif; }
+  .chips { display: flex; flex-wrap: wrap; gap: 3.2pt; }
+  .chips span { font: 500 7.6pt/1 'Geist', sans-serif; padding: 3pt 6pt; border-radius: 99px; background: var(--chip); color: var(--ink); }
+  footer { position: absolute; left: .58in; right: .58in; bottom: .3in; display: flex; justify-content: space-between; font: 400 7.2pt/1 'Geist Mono', monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>John Tristan R. Dolfo</h1>
+      <p class="role">Full-stack <em>developer</em></p>
+    </div>
+    <p class="contact">Quezon City, Philippines<br /><a href="mailto:tristandolfo@gmail.com">tristandolfo@gmail.com</a> · <a href="tel:+639998827004">+63 999 882 7004</a><br /><a href="https://tristandolfo.netlify.app">tristandolfo.netlify.app</a> · <a href="https://github.com/3StanTech">github.com/3StanTech</a></p>
+  </header>
+
+  <section>
+    <h2>Profile</h2>
+    <p class="profile">Full-stack developer building practical web applications with React, Next.js, TypeScript, and PostgreSQL. Experienced in translating workflows into responsive interfaces, data models, validation rules, and maintainable delivery paths. I focus on making software behavior understandable to the people who use and maintain it, and I am currently studying BS Information Technology with a specialization in Software Development.</p>
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+    <ol class="rail">
+      <li>
+        <div class="jt"><strong>Freelance Software Developer</strong><span class="when">June 2026 – Present</span></div>
+        <p class="org">Quezon City, Philippines</p>
+        <ul class="b">
+          <li>Built web applications from requirements through deployment and maintenance, translating day-to-day workflows into usable interfaces, data models, and practical administrative tools.</li>
+          <li>Built public demos on Firebase with fictional sample data and anonymous per-visitor sign-in, so reviewers can use each app without exposing private records or production content.</li>
+        </ul>
+      </li>
+      <li>
+        <div class="jt"><strong>IT Intern, Research and Standards Development Department</strong><span class="when">June 3 – July 16, 2026</span></div>
+        <p class="org">Metropolitan Waterworks and Sewerage System, Corporate Office (MWSS) · Quezon City</p>
+        <ul class="b">
+          <li>Supported daily IT operations by assisting with operational systems, installing Wi-Fi access points, configuring basic networks, and troubleshooting hardware.</li>
+          <li>Helped develop a document management system that turned a static spreadsheet into searchable records with structured categories and filters for staff.</li>
+        </ul>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Selected projects</h2>
+    <div class="proj"><div class="pt"><strong>Omni-Reviewer</strong><span class="stack">Next.js · TypeScript · PostgreSQL</span></div>
+      <ul class="b"><li>Built an invite-only study app for a paying client that turns lecture files into cited study guides, quizzes and spaced-repetition flashcards; a verifier and term check cut unsourced claims from 10.4% to 2.7% on one lecture.</li>
+      <li>Scoped every row to its owner, ran resumable AI generation jobs with leases on free models, and rehearsed Drizzle migrations on disposable Neon branches with CI on every push.</li></ul></div>
+    <div class="proj"><div class="pt"><strong>Café Order &amp; CRM Dashboard</strong><span class="stack">React · TypeScript · Supabase · Firebase</span></div>
+      <ul class="b"><li>Centralized customized-order pricing in a TypeScript engine using integer centavos; validated imported drafts and tested rejection of supplied prices to keep order totals consistent.</li>
+      <li>Ported the public demo to Firebase: each visitor's changes live in Firestore behind per-visitor security rules and App Check, and a Cloud Function re-prices saved orders with the same engine.</li></ul></div>
+    <div class="proj"><div class="pt"><strong>Fundsicles: Expense Tracker</strong><span class="stack">React · TypeScript · Supabase/PostgreSQL · Firebase</span></div>
+      <ul class="b"><li>Modeled money in integer centavos and separated transfers from spending; used database aggregate views for dashboard totals and tested money parsing and financial calculations.</li>
+      <li>Defined user-scoped access policies in the production app; ported the public demo to Firebase with per-visitor Firestore rules tested on the emulator in CI, App Check and a per-visitor write budget.</li></ul></div>
+    <div class="proj"><div class="pt"><strong>RK Config: Keyboard Configurator</strong><span class="stack">Astro · React · TypeScript · WebHID · Cloudflare Workers</span></div>
+      <ul class="b"><li>Extended an open-source (GPL-3.0) configurator to remap keys and paint per-key lighting on Royal Kludge keyboards from the browser over USB: two editable palettes, modifier chords on a single key, and separate Apply and Discard so nothing reaches the keyboard until confirmed.</li></ul></div>
+    <div class="proj"><div class="pt"><strong>Pearl Anniversary Celebration</strong><span class="stack">JavaScript · Vercel Functions · Vercel Blob</span></div>
+      <ul class="b"><li>Protected shared letter edits with ETag/If-Match checks and private Blob storage; tested stale-write and delete conflicts so outdated changes cannot silently overwrite newer content.</li></ul></div>
+    <div class="proj"><div class="pt"><strong>Personal Portfolio</strong><span class="stack">Astro · TypeScript · Netlify · Vercel</span></div>
+      <ul class="b"><li>Redesigned an Astro portfolio around a dark glass interface with an interactive canvas galaxy and a browsable inspector of nine builds; every effect respects reduced-motion and Save-Data preferences, and share images are generated at build time.</li></ul></div>
+  </section>
+
+  <section class="two">
+    <div class="edu">
+      <h2>Education</h2>
+      <strong>Mapua Malayan Digital College</strong>
+      <p class="org">BS Information Technology, specialization in Software Development</p>
+      <p class="when">In progress · expected graduation 2028</p>
+    </div>
+    <div>
+      <h2>Technical skills</h2>
+      <div class="chips">
+        <span>React</span><span>Next.js</span><span>TypeScript</span><span>JavaScript</span><span>HTML/CSS</span><span>Astro</span><span>PostgreSQL</span><span>Drizzle</span><span>Supabase</span><span>Firebase: Firestore, Auth, Hosting, Cloud Functions</span><span>Auth.js</span><span>Serverless functions</span><span>WebHID</span><span>Git</span><span>GitHub Actions</span><span>Vitest</span><span>Netlify</span><span>Vercel</span><span>Cloudflare Workers</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

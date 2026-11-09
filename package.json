@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "resume": "node scripts/gen-resume.mjs",
     "og-image": "node scripts/gen-og-image.mjs",
     "prebuild": "node scripts/gen-og-image.mjs",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
