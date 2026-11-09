@@ -3,7 +3,8 @@
 // Stack and Outcome tabs (arrow keys), the desktop/phone capture flip, #slug deep links and
 // a 5s tour. The tour holds while the pointer or focus is inside, while a Project details
 // dialog is open (so its trigger stays visible to take focus back), while the Inspector is
-// off screen and while the tab is hidden (WCAG 2.2.2); reduced motion starts it paused.
+// off screen and while the tab is hidden (WCAG 2.2.2); reduced motion and Save-Data (each
+// step fetches a capture) start it paused.
 import { adapt, adaptAll, mountLenses } from './site.js';
 
 const $ = (s, el = document) => el.querySelector(s);
@@ -88,7 +89,7 @@ for (const ins of $$('[data-ins]')) {
 
   // ---------- Tour ----------
   const tourBtn = $('.ins-tour', ins);
-  let touring = !reduce.matches, holdPointer = false, holdFocus = false, onScreen = true, timer = 0;
+  let touring = !reduce.matches && !document.documentElement.classList.contains('save-data'), holdPointer = false, holdFocus = false, onScreen = true, timer = 0;
   const dialogOpen = () => document.querySelector('dialog.pm[open]') !== null;
   const running = () => touring && !holdPointer && !holdFocus && !dialogOpen() && onScreen && document.visibilityState === 'visible';
   function restart() {

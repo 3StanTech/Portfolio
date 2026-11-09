@@ -10,6 +10,10 @@ import '../styles/fx.css';
 import Sprite from '../components/Sprite.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import { contact } from '../data/contact';
+// Preload the two faces the first screen paints (headline and accent word), so the
+// headline does not re-wrap when they land (layout shift).
+import geistUrl from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import accentUrl from '@fontsource/dm-serif-display/files/dm-serif-display-latin-400-italic.woff2?url';
 
 const {
   title = 'Tristan Dolfo | Full-Stack Developer from the Philippines',
@@ -41,6 +45,8 @@ const resumeHref = '/Tristan_Dolfo_Resume.pdf';
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#000000" />
+    <link rel="preload" href={geistUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={accentUrl} as="font" type="font/woff2" crossorigin />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="any" />

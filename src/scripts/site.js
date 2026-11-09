@@ -14,13 +14,29 @@ const saveData = root.classList.contains('save-data');
 const EMAIL = body.dataset.email || '';
 
 // ---------- Rim lens (Chromium only; elsewhere the CSS glass stays) ----------
-const lenses = new Map();
+// Each lens builds its refraction map in a pixel loop, so building them all at once is a
+// long task. Glass is queued as it comes on screen and one lens is mounted per idle slot.
+const lenses = new Map(), lensQueue = [], watched = new WeakSet();
+const idle = window.requestIdleCallback ?? ((cb) => setTimeout(cb, 60));
+let lensBusy = false;
+const lensStep = () => {
+  const el = lensQueue.shift();
+  if (el && !lenses.has(el) && el.offsetWidth) {
+    const small = el.offsetHeight < 60;
+    lenses.set(el, liquidGlass(el, small ? { rim: 16, edge: 1.1, power: 2.6, dispersion: .22 } : { rim: 40, edge: 1.1, power: 2.6, dispersion: .15 }));
+  }
+  if (lensQueue.length) idle(lensStep, { timeout: 800 });
+  else lensBusy = false;
+};
+const lensSeen = new IntersectionObserver((entries) => {
+  for (const e of entries) if (e.isIntersecting) { lensSeen.unobserve(e.target); lensQueue.push(e.target); }
+  if (lensQueue.length && !lensBusy) { lensBusy = true; idle(lensStep, { timeout: 800 }); }
+});
 export function mountLenses(scope = document) {
   if (!isLensSupported()) return;
   for (const el of $$('.glass', scope)) {
-    if (lenses.has(el) || el.offsetWidth === 0 || el.dataset.lens === 'none') continue;
-    const small = el.offsetHeight < 60;
-    lenses.set(el, liquidGlass(el, small ? { rim: 16, edge: 1.1, power: 2.6, dispersion: .22 } : { rim: 40, edge: 1.1, power: 2.6, dispersion: .15 }));
+    if (watched.has(el) || el.dataset.lens === 'none') continue;
+    watched.add(el); lensSeen.observe(el);
   }
 }
 
@@ -28,7 +44,9 @@ export function mountLenses(scope = document) {
 // 15 points behind a surface: over the night sky it stays clear; over a capture or
 // text it thickens so its own text keeps >= 4.5:1. Captures are read from their
 // pixels; text counts as busy.
-const ADAPT = { menu: [.14, .82], bar: [.14, .62], card: [.3, .64] };
+// card's dense end is .9 (the mock's .64 left the sheet's amber and secondary text near 2.5:1
+// over the bright captures; measured in the Phase 1 contrast sweep).
+const ADAPT = { menu: [.14, .82], bar: [.14, .62], card: [.3, .9] };
 const imgCache = new Map();
 function imgPixels(img) {
   const key = img.currentSrc || img.src;
@@ -138,8 +156,9 @@ if (isl) {
   addEventListener('resize', adaptAll);
   body.dataset.scrolled = String(scrollY > 40);
   measureFaces(); islandMode(true);
-  // Web fonts land after first paint: re-measure the faces whenever one finishes.
-  document.fonts?.ready.then(() => { measureFaces(); islandMode(true); });
+  // The first sizing (and the one when the fonts are in) snaps; only later changes animate,
+  // so loading the page causes no layout shift.
+  document.fonts?.ready.then(() => { measureFaces(); islandMode(true); requestAnimationFrame(() => isl.classList.add('is-sized')); });
   document.fonts?.addEventListener('loadingdone', () => { measureFaces(); islandMode(true); });
 }
 

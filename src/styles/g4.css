@@ -45,6 +45,11 @@ a.glass, button.glass { color: var(--ink); }
 .isl-wrap { position: relative; display: flex; align-items: center; gap: 8px; }
 .isl { --radius: 999; position: relative; height: var(--ih, 44px); width: var(--iw, 360px); overflow: hidden;
   transition: width 640ms var(--spring), height 640ms var(--spring); }
+/* Until site.js has measured the faces, the island takes the compact face's own width (no
+   default width to snap from, so loading causes no layout shift), and nothing animates. */
+.isl:not(.is-sized) { transition: none; }
+html.js .isl:not([style*='--iw']) { width: auto; }
+html.js .isl:not([style*='--iw']) .face-compact { position: relative; height: 100%; padding-right: 22px; }
 .isl::before { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 14px 36px -10px rgb(0 0 0 / .85); pointer-events: none; }
 .face { position: absolute; inset: 0; display: flex; align-items: center; gap: 10px; padding: 0 6px; white-space: nowrap; justify-content: space-between;
   opacity: 0; filter: blur(6px); scale: .94; pointer-events: none; transition: opacity 260ms var(--ease-out), filter 360ms var(--ease-out), scale 520ms var(--spring); }
@@ -219,13 +224,16 @@ html:not(.js) .paddles, html:not(.js) .rail-foot { display: none; }
 
 /* The Spotlight Inspector: a typographic index on the left, the capture as a big stage
    on the right, the details on a glass sheet over the capture. Without JavaScript
-   (no .is-ready) the index hides and every build shows stacked, complete. */
+   (html:not(.js)) the index hides and every build shows stacked, complete. With it, the
+   Spotlight layout holds from the first paint (first build only), so nothing shifts when
+   projects.js takes over. */
 .ins { position: relative; z-index: 1; }
 .ins-list { list-style: none; margin: 0; padding: 0; position: relative; }
 .ins-list li { margin: 0; }
-.ins.is-ready { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 32px; align-items: start; }
-.ins:not(.is-ready) .ins-side, .ins:not(.is-ready) .ins-top { display: none; }
-.ins:not(.is-ready) .ins-build + .ins-build { margin-top: 56px; }
+html.js .ins { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 32px; align-items: start; }
+html:not(.js) .ins-side, html:not(.js) .ins-top { display: none; }
+html:not(.js) .ins-build + .ins-build { margin-top: 56px; }
+html.js .ins:not(.is-ready) .ins-build:not(:first-of-type), html.js .ins:not(.is-ready) .ins-tabpanel + .ins-tabpanel { display: none; }
 .ins-side { position: sticky; top: 88px; }
 .ins-label { padding: 26px 0 10px 24px; font: 500 11.5px/1.2 var(--f-label); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); border-bottom: 1px solid var(--hair); }
 .ins-list > .ins-label:nth-child(2) { padding-top: 4px; }
@@ -263,7 +271,7 @@ html:not(.js) .paddles, html:not(.js) .rail-foot { display: none; }
    adaptive tint thickens it over bright captures so its text keeps AA. */
 .ins-body.glass { --d-blur: 16; --d-sat: 1.7; --d-bri: .7; --d-catch: 1.7; text-shadow: 0 1px 2px rgb(0 0 0 / .35); }
 .ins-tags { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0; font: 500 11.5px/1.4 var(--f-label); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
-.ins-tags .tag { color: var(--amber); }
+.ins-tags .tag { color: #FFC98F; }
 .ins-title { margin: 0; font: 700 30px/1.05 var(--f-display); letter-spacing: -.045em; }
 .ins-tabs { position: relative; display: inline-flex; gap: 2px; justify-self: start; padding: 4px; border-radius: 999px; background: rgb(255 255 255 / .06); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .07); }
 .ins-tabs [role='tab'] { position: relative; z-index: 1; border: 0; background: none; cursor: pointer; padding: 10px 16px; border-radius: 999px; font: 600 14.5px/1 var(--f-body); color: var(--ink-dim); transition: color 220ms; }
@@ -282,7 +290,7 @@ html:not(.js) .paddles, html:not(.js) .rail-foot { display: none; }
 /* Live-site links: amber text and outline, apart from the stack chips. */
 .ins-actions .btn.glass { color: var(--amber-soft); box-shadow: inset 0 0 0 1px rgb(217 130 43 / .7), 0 4px 14px rgb(0 0 0 / .25); }
 .ins-actions .btn.glass:hover { color: #FFC98F; box-shadow: inset 0 0 0 1px rgb(233 162 92 / .95), 0 0 18px -4px rgb(217 130 43 / .55); }
-.ins-actions .link { display: inline-flex; align-items: center; gap: 8px; font-weight: 650; text-decoration: none; color: var(--amber); font-size: 14.5px; }
+.ins-actions .link { display: inline-flex; align-items: center; gap: 8px; font-weight: 650; text-decoration: none; color: var(--amber-soft); font-size: 14.5px; }
 .ins-actions .link svg { width: 16px; height: 16px; transition: translate 420ms var(--spring); }
 .ins-actions .link:hover { color: #FFC98F; }
 .ins-actions .link:hover svg { translate: 3px 0; }
@@ -299,7 +307,7 @@ dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blu
 /* ------------------------------ Responsive ------------------------------ */
 @media (max-width: 960px) {
   .bento, .bento .wide { grid-template-columns: 1fr; }
-  .ins.is-ready { grid-template-columns: 1fr; }
+  html.js .ins { grid-template-columns: 1fr; }
   .ins-side { position: static; }
   .ins-body { position: static; width: auto; margin-top: 12px; }
 }
@@ -330,6 +338,8 @@ dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blu
   .prail .pline { left: 8px; top: calc(var(--name) / 2); width: 2px; height: calc(100% + var(--gap)); margin: 0 0 0 -1px; }
   .prail .pline::after { transform-origin: center top; scale: 1 var(--seg); }
 }
+/* Save-Data: the ambient motion stays off too (fx.css gates the effects the same way). */
+.save-data .pool, .save-data .hero-inner, .save-data .ins-swap { animation: none !important; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .face, .pop > *, .ins-swap { transition: none !important; animation: none !important; }
@@ -337,12 +347,17 @@ dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blu
   .prail .pnode::after, .prail .pline::after { transition: none; }
 }
 
+/* Text on the sheet over bright captures: the light amber tag, the lighter amber link and a
+   brighter inactive tab keep 4.5:1 (measured over all nine captures, Phase 1). */
+.ins-body .ins-tabs [role='tab'] { color: rgb(255 255 255 / .8); }
+.ins-body .ins-tabs [role='tab'][aria-selected='true'] { color: var(--ink); }
+
 /* Inspector states: the Spotlight sheet shows Stack and Outcome only (the overview lives in
    Project details); without JavaScript every build is stacked with its overview and both
    panels, and the sheet sits under its capture. */
-.ins.is-ready .ins-overview { display: none; }
+html.js .ins-overview { display: none; }
 .ins-overview .blurb { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
 .ins-overview .summary { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.55; }
-.ins:not(.is-ready) .ins-tabs { display: none; }
-.ins:not(.is-ready) .ins-body { position: static; width: auto; margin-top: 12px; }
+html:not(.js) .ins-tabs { display: none; }
+html:not(.js) .ins-body { position: static; width: auto; margin-top: 12px; }
 html:not(.js) .ins-actions .details { display: none; }

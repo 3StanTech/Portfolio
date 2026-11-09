@@ -3,6 +3,8 @@
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+// Save-Data: no autoplay (it would fetch every capture) and no scroll-drawn rail.
+const saveData = document.documentElement.classList.contains('save-data');
 
 // ---------- Selected work rail ----------
 const rail = $('[data-rail]'), works = $('.works');
@@ -21,9 +23,9 @@ if (rail && works) {
 
   // Tour: one tile every 5s, looping, with no visible timer. It holds while the pointer or
   // focus is on the work, while the rail is off screen and while the tab is hidden
-  // (WCAG 2.2.2); the glass button pauses or plays it; reduced motion starts it paused.
+  // (WCAG 2.2.2); the glass button pauses or plays it; reduced motion and Save-Data start it paused.
   const tourBtn = $('.rail-tour', works);
-  let playing = !reduce.matches, held = false, onScreen = false;
+  let playing = !reduce.matches && !saveData, held = false, onScreen = false;
   const setPlaying = (on) => {
     playing = on;
     tourBtn.setAttribute('aria-pressed', String(on));
@@ -46,9 +48,9 @@ if (rail && works) {
 
 // ---------- Process rail ----------
 // The line draws from Scope to Launch while the strip rises from 85% to 35% of the
-// viewport. Without this script or under reduced motion it stays fully drawn (--p: 1).
+// viewport. Without this script, under reduced motion or Save-Data it stays fully drawn (--p: 1).
 const prail = $('.prail');
-if (prail && !reduce.matches) {
+if (prail && !reduce.matches && !saveData) {
   let queued = false;
   const syncRail = () => {
     queued = false;
