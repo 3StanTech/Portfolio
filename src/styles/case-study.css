@@ -34,7 +34,6 @@
 .case-toc a[aria-current]::before { content: ''; position: absolute; left: 12px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; rotate: 45deg; border-radius: 1px; background: var(--amber); box-shadow: 0 0 10px color-mix(in srgb, var(--amber) 70%, transparent); }
 
 .case-main { display: grid; gap: 64px; max-width: 46rem; }
-.case-sec { scroll-margin-top: 96px; }
 .case-sec h2 { margin: 0 0 20px; font: 700 clamp(28px, 1rem + 1.4vw, 40px)/1.06 var(--f-display); letter-spacing: -.04em; }
 .case-sec p { color: var(--ink-soft); font-size: 1.06rem; text-wrap: pretty; }
 .case-sec p strong { color: var(--ink); }
