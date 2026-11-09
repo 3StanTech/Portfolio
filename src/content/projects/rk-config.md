@@ -5,7 +5,7 @@ kind: personal
 group: small
 displayOrder: 4
 clientType: Open-source keyboard tool (public)
-stack: [Astro, React, TypeScript, Tailwind CSS, WebHID, Bun, Cloudflare Workers]
+stack: [Astro, React, TypeScript, Tailwind CSS, WebHID, Bun, Cloudflare Pages]
 year: 2026
 summary: >-
   A fork of KludgeKnight (open source, GPL-3.0) for remapping keys and
@@ -19,7 +19,7 @@ summary: >-
   not affiliated with Royal Kludge.
 blurb: Remap keys and paint per-key lighting from the browser.
 outcome: Nothing reaches the keyboard until you press Apply and confirm.
-liveUrl: https://rk-config.tristandolfo.workers.dev
+liveUrl: https://rk-config.pages.dev
 demoNote: Desktop Chrome, Edge or Opera with a USB cable. Try the demo without a keyboard.
 repoUrl: https://github.com/3StanTech/RK-Config
 coverAlt: "RK Config home page: the headline Remap and relight your Royal Kludge keyboard above a keyboard drawn in code with the W, A, S and D keys lit purple"
