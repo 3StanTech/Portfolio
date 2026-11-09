@@ -1,0 +1,348 @@
+/* G4: the glass system (glass overhaul, Phase 1). Ported from the approved mocks
+ * (glass-overhaul-mocks/shared: site.css, dir-c.css, dir-d.css, dir-g4.css) with the
+ * review-only switches flattened to the chosen options: direction C "Pro Display",
+ * navy at "Hint", Projects link in amber text, black-hole horizons, Spotlight
+ * Inspector. Loads after global.css, so it wins over the legacy rules it shares
+ * names with (.container). Colours come from tokens.css. */
+
+::selection { background: color-mix(in srgb, var(--amber) 42%, transparent); color: var(--ink); }
+:is(.btn, .glass, .nav-links a, .pop > *, .ins-pick, .ins-cover, [role='tab'], .brand):focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+h1, h2, h3, h4 { text-wrap: balance; }
+.container { width: min(100% - var(--gutter) * 2, var(--maxw)); margin-inline: auto; }
+
+/* The galaxy canvas, behind everything. Colours for starfield.js. */
+.sky { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;
+  --star: #fff; --star-cool: #9DBBE6; --star-warm: #E7A35A; --neb-1: rgba(22,38,70,.5); --neb-2: rgba(74,111,165,.15); --neb-3: rgba(217,130,43,.05); }
+
+/* Skip link: visually hidden in place until focused. */
+.skip { position: fixed; z-index: 30; left: 16px; top: 16px; padding: 10px 16px; border-radius: 999px; background: var(--ink); color: #000; font-weight: 650; text-decoration: none; }
+.skip:not(:focus) { width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* The marked word: DM Serif Display Italic in amber, everywhere, no underline.
+ * line-height 0 keeps its taller ascent from opening a gap between heading lines.
+ * The Blueprint marks on the pages Phase 2 restyles take the same look. */
+.accent, .hero-mark, .closer-mark { line-height: 0; font-family: var(--f-accent); font-style: italic; font-weight: 400; font-stretch: 100%; letter-spacing: -.01em; color: var(--amber); padding-right: .05em; background: none; text-decoration: none; box-shadow: none; }
+.hero-mark::after, .closer-mark::after { content: none; }
+
+/* ------------------------------ Buttons ------------------------------ */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 48px; padding: 0 22px; border-radius: 999px; font: 650 16px/1 var(--f-body); letter-spacing: -.005em; white-space: nowrap; text-decoration: none; border: 0; cursor: pointer;
+  transition: transform var(--t-spring) var(--spring), background-color var(--t-fast) var(--ease-out); }
+.btn:active { transform: scale(.96); }
+.btn svg { width: 18px; height: 18px; flex: none; }
+.btn.glass { --radius: 999; }
+.btn.glass:hover { --density: .55; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.cta-row.center { justify-content: center; }
+.icon { width: 18px; height: 18px; flex: none; }
+a.glass, button.glass { color: var(--ink); }
+/* Every button turns its label and icon amber on hover; Email me is glass like the rest. */
+:is(.btn, a.glass[data-pill], button.glass[data-pill]):not(:disabled):is(:hover, :focus-visible) { color: var(--amber); }
+
+/* ------------------------------ Island header ------------------------------ */
+.hdr { position: fixed; inset: 0 0 auto 0; z-index: 20; pointer-events: none; display: flex; justify-content: center; padding-top: 14px; }
+.hdr > * { pointer-events: auto; }
+.logo { width: 32px; height: 32px; border-radius: 50%; flex: none; box-shadow: 0 0 0 1px rgb(255 255 255 / .14); }
+.isl-wrap { position: relative; display: flex; align-items: center; gap: 8px; }
+.isl { --radius: 999; position: relative; height: var(--ih, 44px); width: var(--iw, 360px); overflow: hidden;
+  transition: width 640ms var(--spring), height 640ms var(--spring); }
+.isl::before { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 14px 36px -10px rgb(0 0 0 / .85); pointer-events: none; }
+.face { position: absolute; inset: 0; display: flex; align-items: center; gap: 10px; padding: 0 6px; white-space: nowrap; justify-content: space-between;
+  opacity: 0; filter: blur(6px); scale: .94; pointer-events: none; transition: opacity 260ms var(--ease-out), filter 360ms var(--ease-out), scale 520ms var(--spring); }
+.isl[data-mode='compact'] .face-compact, .isl[data-mode='expanded'] .face-expanded, .isl[data-mode='mini'] .face-mini { opacity: 1; filter: none; scale: 1; pointer-events: auto; transition-delay: 120ms; }
+/* Without JavaScript the island shows its links (expanded face). */
+html:not(.js) .isl { width: auto; height: 52px; }
+html:not(.js) .face { display: none; }
+html:not(.js) .face-expanded { display: flex; position: static; opacity: 1; filter: none; scale: 1; pointer-events: auto; }
+.face-compact { justify-content: flex-start; padding-right: 16px; cursor: default; }
+.face-compact .status { font: 600 14px/1 var(--f-body); color: var(--ink); }
+.face-compact .status span { color: var(--ink-soft); font-weight: 500; }
+.face-mini { justify-content: center; padding: 0; }
+.face-expanded .brand { display: flex; border-radius: 50%; }
+.nav-links { display: flex; gap: 2px; }
+.nav-links a { padding: 10px 14px; border-radius: 999px; text-decoration: none; font: 600 15px/1 var(--f-body); color: var(--ink-dim); transition: color 220ms, background-color 220ms; }
+.nav-links a:hover, .nav-links a:focus-visible { color: var(--ink); background: rgb(255 255 255 / .08); }
+.nav-links a[aria-current='page'] { color: var(--ink); background: rgb(255 255 255 / .1); }
+/* Projects is the warm key link everywhere: amber text only, no pill, also when current. */
+.nav-links a[data-key] { position: relative; display: inline-flex; align-items: center; gap: 7px; color: var(--amber-soft); }
+.nav-links a[data-key][aria-current='page'] { color: #FFC98F; background: none; box-shadow: none; }
+.nav-links .count { display: none; }
+
+/* "check me out": a clear glass pill that opens the contact menu on hover
+ * (mouse and pen), on click, Enter or Space (keyboard and touch). */
+.contact { position: relative; display: flex; align-items: center; }
+.cta-more { --radius: 999; position: relative; height: 44px; padding: 0 18px 0 16px; display: inline-flex; align-items: center; gap: 9px; border: 0; cursor: pointer; font: 600 15px/1 var(--f-body); letter-spacing: -.005em; white-space: nowrap; }
+.cta-more .spark { width: 7px; height: 7px; border-radius: 1px; background: var(--amber); rotate: 45deg; box-shadow: 0 0 8px rgb(217 130 43 / .75); transition: rotate var(--t-spring) var(--spring), scale var(--t-spring) var(--spring); }
+.cta-more[aria-expanded='true'] .spark { rotate: 225deg; scale: 1.25; }
+.pop.glass[data-tier] { --d-blur: 7; }
+.pop { --radius: 24; position: absolute; top: calc(100% + 10px); right: 0; width: 300px; padding: 8px; display: grid; gap: 2px;
+  clip-path: inset(0 0 calc(100% - 42px) calc(100% - var(--bw, 130px)) round 21px); opacity: 0; visibility: hidden;
+  transition: clip-path var(--t-spring) var(--spring-soft), opacity 200ms var(--ease-out), visibility 0s linear var(--t-spring); }
+.pop.open { clip-path: inset(0 round 24px); opacity: 1; visibility: visible; transition: clip-path var(--t-spring) var(--spring-soft), opacity 160ms var(--ease-out), visibility 0s; }
+.pop > * { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 14px; border-radius: 16px; text-decoration: none; background: none; border: 0; cursor: pointer; text-align: left; font: 500 15px/1.2 var(--f-body); color: var(--ink);
+  opacity: 0; translate: 0 -4px; transition: opacity 240ms var(--ease-out), translate 420ms var(--spring-soft), background-color 150ms; }
+.pop.open > * { opacity: 1; translate: 0 0; }
+.pop.open > :nth-child(2) { transition-delay: 30ms; } .pop.open > :nth-child(3) { transition-delay: 60ms; } .pop.open > :nth-child(4) { transition-delay: 90ms; } .pop.open > :nth-child(5) { transition-delay: 120ms; }
+.pop .two { display: grid; gap: 3px; padding-block: 8px; }
+.pop .two small { font-size: 13px; color: rgb(255 255 255 / .74); }
+.pop > *:hover, .pop > *:focus-visible { background: rgb(255 255 255 / .09); color: var(--ink); }
+.pop svg { width: 17px; height: 17px; opacity: .8; }
+
+/* Scroll edge: content dims under the floating bar, so glass labels stay legible. */
+.edge-top { position: fixed; left: 0; right: 0; top: 0; z-index: 15; height: 128px; pointer-events: none; opacity: 0; transition: opacity 400ms var(--ease-out);
+  background: linear-gradient(rgb(0 0 0 / .72) 0%, rgb(0 0 0 / .6) 45%, transparent);
+  -webkit-mask-image: linear-gradient(#000 55%, transparent); mask-image: linear-gradient(#000 55%, transparent); }
+body[data-scrolled='true'] .edge-top { opacity: 1; }
+
+/* ------------------------------ Shared type ------------------------------ */
+.mono { margin: 0; font: 500 12.5px/1 var(--f-label); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
+.kicker { display: inline-flex; align-items: center; gap: 10px; }
+.kicker::before { content: ''; width: 7px; height: 7px; rotate: 45deg; border-radius: 1px; background: var(--amber); box-shadow: 0 0 10px rgb(217 130 43 / .7); }
+.nw { white-space: nowrap; }
+.h1 { margin: 0; max-width: none; font: 700 clamp(50px, 1.5rem + 5.6vw, 106px)/.98 var(--f-display); letter-spacing: -.055em; }
+.h2 { margin: 0 0 18px; font: 700 clamp(40px, 1.5rem + 3.6vw, 82px)/1 var(--f-display); letter-spacing: -.052em; }
+.lead { margin: 0; font-size: 21px; color: var(--ink-soft); }
+.pool { position: absolute; z-index: 0; width: var(--s, 560px); aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, var(--c), transparent); left: var(--x); top: var(--y); translate: -50% -50%;
+  animation: g4-drift var(--d, 26s) ease-in-out infinite alternate; }
+.pool.steel { --c: rgb(60 100 170 / .42); }
+.pool.amber { --c: rgb(217 130 43 / .24); }
+@keyframes g4-drift { from { transform: translate(-3%, 2%) scale(1); } to { transform: translate(4%, -3%) scale(1.08); } }
+/* Horizons mark where the black hole's rims sit (galaxy.js reads [data-horizon]); the
+   canvas draws them, so the CSS planet stays hidden. */
+.horizon { display: none; }
+
+/* ------------------------------ Home: hero ------------------------------ */
+.hero { position: relative; min-height: 100dvh; display: grid; place-items: center; padding: 112px 0 230px; text-align: center; overflow: clip; }
+.hero-inner { position: relative; z-index: 2; display: grid; justify-items: center; }
+.hero .kicker { margin-bottom: 28px; }
+.sub { margin: 26px 0 36px; font-size: clamp(19px, 1rem + .4vw, 23px); line-height: 1.45; color: var(--ink-soft); max-width: 36ch; text-wrap: balance; }
+.trust { margin: 26px 0 0; font-size: 14.5px; color: var(--ink-soft); }
+.trust b { color: var(--amber); font-weight: 700; }
+/* The hero settles back as the page moves on (Chromium, Safari 26). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-inner { animation: g4-hero-out linear both; animation-timeline: view(); animation-range: exit 0% exit 70%; }
+    @keyframes g4-hero-out { to { opacity: 0; scale: .93; translate: 0 -48px; filter: blur(6px); } }
+  }
+}
+
+/* ------------------------------ Home: selected work rail ------------------------------ */
+.works { position: relative; z-index: 3; margin-top: -170px; padding-bottom: 112px; }
+.works-head { display: flex; align-items: center; justify-content: flex-start; gap: 22px; margin-bottom: 20px; }
+.works-head h2 { margin: 0; font: 700 clamp(28px, 1rem + 1.4vw, 40px)/1 var(--f-display); letter-spacing: -.04em; }
+.works-head .paddles { margin-left: auto; }
+/* The Hiring panel sits left of the heading (visual order only; the heading stays first in the DOM). */
+.works-head .hire { order: -1; --radius: 18; display: inline-grid; grid-template-columns: 34px auto 16px; gap: 11px; align-items: center; padding: 8px 14px 8px 8px; text-decoration: none;
+  --d-thin: .1; --d-dense: .26; --d-blur: 4; --d-sat: 1.7; --d-bri: .88; --d-catch: 1.8; transition: translate 420ms var(--spring); }
+.works-head .hire:hover { translate: 0 -2px; color: var(--ink); }
+.works-head .hire-ico { width: 34px; height: 34px; border-radius: 11px; corner-shape: superellipse(1.5); display: grid; place-items: center; background: rgb(217 130 43 / .2); color: var(--amber); }
+.works-head .hire-ico svg { width: 17px; height: 17px; }
+.works-head .hire-t { display: grid; gap: 2px; line-height: 1.15; }
+.works-head .hire-t strong { font: 650 14.5px/1.15 var(--f-display); letter-spacing: -.02em; }
+.works-head .hire-t span { font-size: 13px; color: var(--ink-soft); }
+.works-head .hire-go { width: 16px; height: 16px; opacity: .7; transition: translate 420ms var(--spring); }
+.works-head .hire:hover .hire-go { translate: 3px 0; opacity: 1; }
+.paddles { display: flex; gap: 10px; }
+.paddle { --radius: 999; width: 44px; height: 44px; display: grid; place-items: center; border: 0; padding: 0; cursor: pointer; transition: opacity .2s; }
+.paddle:disabled { opacity: .35; cursor: default; }
+.paddle svg { width: 18px; height: 18px; }
+.rail { list-style: none; margin: 0; display: grid; grid-auto-flow: column; grid-auto-columns: 344px; gap: 18px; overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scroll-padding-inline: var(--rail-pad); padding: 14px var(--rail-pad) 28px; scrollbar-width: none; }
+.rail::-webkit-scrollbar { display: none; }
+.rail > li { scroll-snap-align: start; display: grid; margin: 0; }
+.tile { --radius: 30; display: grid; grid-template-rows: auto 1fr; padding: 10px; text-decoration: none; transition: translate 560ms var(--spring); }
+.tile:hover { translate: 0 -6px; color: var(--ink); }
+.tile img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-radius: 20px; corner-shape: superellipse(1.5); }
+.tile .cap { display: grid; gap: 6px; align-content: start; padding: 16px 10px 8px; }
+.tile .n { font: 500 12.5px/1 var(--f-label); color: var(--amber); letter-spacing: .04em; }
+.tile strong { font: 650 19px/1.2 var(--f-display); letter-spacing: -.025em; }
+.tile .c { font-size: 14px; color: var(--ink-soft); }
+/* The rail's pause/play sits under the work, aligned with the right arrow. */
+.rail-foot { display: flex; justify-content: flex-end; margin-top: -8px; }
+.rail-tour { --radius: 999; width: 44px; height: 44px; display: grid; place-items: center; border: 0; padding: 0; cursor: pointer; }
+.rail-tour svg { width: 16px; height: 16px; }
+.rail-tour .i-play, .rail-tour[aria-pressed='false'] .i-pause { display: none; }
+.rail-tour[aria-pressed='false'] .i-play { display: block; }
+html:not(.js) .paddles, html:not(.js) .rail-foot { display: none; }
+/* "Real glass" for small controls over captures and the night sky. */
+.ins-ctl button.glass, .ins-cover .flip-hint.glass, .paddle.glass, .rail-tour.glass {
+  --d-thin: .08; --d-dense: .22; --d-blur: 3; --d-sat: 1.8; --d-bri: .9; --d-catch: 1.9; }
+.ins-ctl button svg, .ins-cover .flip-hint svg, .paddle svg, .rail-tour svg { filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / .6)); }
+
+/* ------------------------------ Home: scope band ------------------------------ */
+.band { position: relative; padding: 96px 0 120px; overflow-x: clip; }
+.band-head { position: relative; z-index: 1; max-width: 920px; margin: 0 auto 64px; text-align: center; }
+.bento { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.bento .wide { --radius: 34; grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 24px 56px; align-items: center; padding: 44px; }
+.bento .wide h3 { margin: 0; font: 700 clamp(28px, 1rem + 1.4vw, 40px)/1.06 var(--f-display); letter-spacing: -.04em; }
+.bento .wide p { margin: 0 0 24px; color: var(--ink-soft); font-size: 17.5px; }
+/* The process rail: one glass strip, the step names on one line in amber, a steel-blue
+   line through three diamond nodes, their text below. --p (0 to 1, set by home.js on
+   scroll) draws the line; without script or under reduced motion it stays fully drawn. */
+.bento .prail { --ra: #5B86C4; --rb: #9DBBE6; --rg: 91 134 196;
+  --radius: 34; --gap: 56px; --name: 44px; --p: 1; grid-column: 1 / -1; padding: 40px 44px 44px; }
+.bento .prail ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gap); margin: 0; padding: 0; list-style: none; }
+.prail li { position: relative; margin: 0; display: grid; grid-template-rows: var(--name) 30px auto; row-gap: 14px; align-content: start;
+  --seg: clamp(0, calc(var(--p) * 2 - var(--i)), 1); --lit: clamp(0, calc((var(--p) * 2 - var(--i)) * 25 + 1), 1); }
+.prail h3 { margin: 0; font: 700 var(--name)/1 var(--f-display); letter-spacing: -.05em; color: var(--amber); }
+.prail p { margin: 0; color: var(--ink-soft); font-size: 16px; }
+.prail .pnode { position: relative; z-index: 1; align-self: center; width: 14px; height: 14px; margin-left: 1px; }
+.prail .pnode::before, .prail .pnode::after { content: ''; position: absolute; inset: 0; rotate: 45deg; border-radius: 2px; }
+.prail .pnode::before { background: #0B0C10; box-shadow: inset 0 0 0 1.5px rgb(var(--rg) / .55); }
+.prail .pnode::after { background: var(--ra); box-shadow: 0 0 14px 1px rgb(var(--rg) / .75); opacity: var(--lit); scale: calc(.6 + .55 * var(--lit)); transition: opacity 300ms ease, scale 520ms var(--spring); }
+.prail .pline { position: absolute; left: 8px; top: calc(var(--name) + 14px + 15px); width: calc(100% + var(--gap)); height: 2px; margin-top: -1px; border-radius: 2px; background: rgb(255 255 255 / .14); }
+.prail .pline::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(90deg, var(--ra), var(--rb)); box-shadow: 0 0 10px rgb(var(--rg) / .6); transform-origin: left center; scale: var(--seg) 1; transition: scale 220ms linear; }
+
+/* ------------------------------ Closer ------------------------------ */
+.closer { position: relative; padding: 200px 0 140px; text-align: center; overflow: clip; border: 0; background: none; }
+.closer .inner { position: relative; z-index: 1; display: grid; justify-items: center; }
+.closer .kick { margin: 0 0 20px; font: 600 17px/1 var(--f-body); color: var(--amber); }
+.closer .h2 { font-size: clamp(44px, 1.5rem + 4.8vw, 104px); max-width: 15ch; margin-bottom: 38px; }
+.closer .lead { margin: -14px auto 30px; max-width: 52ch; }
+.closer .note { margin: 26px auto 0; max-width: 52ch; color: var(--ink-soft); font-size: 17px; }
+
+/* ------------------------------ Footer ------------------------------ */
+.foot { padding: 52px 0 72px; display: grid; grid-template-columns: 1fr; gap: 28px 48px; color: var(--ink-soft); font-size: 14.5px; }
+.foot strong { display: block; margin-bottom: 18px; color: var(--ink); font: 650 19px/1.3 var(--f-display); letter-spacing: -.025em; }
+.pills { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.pills .glass:not(.social) { --radius: 999; display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; text-decoration: none; font-size: 14px; font-weight: 550; }
+.social { --radius: 999; width: 40px; height: 40px; display: inline-grid; place-items: center; }
+.social svg { width: 18px; height: 18px; }
+
+/* ------------------------------ Projects ------------------------------ */
+.p-head { position: relative; padding: clamp(120px, 16vh, 156px) 0 56px; text-align: center; overflow-x: clip; }
+.p-head .inner { position: relative; z-index: 1; display: grid; justify-items: center; }
+.p-head .kicker { margin-bottom: 26px; }
+.p-head .h1 { font-size: clamp(48px, 1.5rem + 5vw, 100px); max-width: 13ch; }
+.p-head .lead { margin-top: 22px; }
+.ins-wrap { position: relative; padding-bottom: 88px; overflow-x: clip; }
+
+/* The Spotlight Inspector: a typographic index on the left, the capture as a big stage
+   on the right, the details on a glass sheet over the capture. Without JavaScript
+   (no .is-ready) the index hides and every build shows stacked, complete. */
+.ins { position: relative; z-index: 1; }
+.ins-list { list-style: none; margin: 0; padding: 0; position: relative; }
+.ins-list li { margin: 0; }
+.ins.is-ready { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 32px; align-items: start; }
+.ins:not(.is-ready) .ins-side, .ins:not(.is-ready) .ins-top { display: none; }
+.ins:not(.is-ready) .ins-build + .ins-build { margin-top: 56px; }
+.ins-side { position: sticky; top: 88px; }
+.ins-label { padding: 26px 0 10px 24px; font: 500 11.5px/1.2 var(--f-label); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); border-bottom: 1px solid var(--hair); }
+.ins-list > .ins-label:nth-child(2) { padding-top: 4px; }
+.ins-pick { width: 100%; display: grid; grid-template-columns: 30px 1fr; gap: 8px; align-items: center; padding: 14px 4px 14px 24px; text-align: left; border: 0; border-bottom: 1px solid var(--hair); background: none; cursor: pointer; position: relative; z-index: 1; color: inherit; font: inherit; }
+.ins-pick .no { font: 500 12px/1 var(--f-label); color: var(--amber); font-variant-numeric: tabular-nums; }
+.ins-pick .t { font: 600 17px/1.25 var(--f-display); letter-spacing: -.02em; color: var(--ink-soft); transition: color .2s, translate 420ms var(--spring); }
+.ins-pick:hover .t, .ins-pick[aria-current='true'] .t { color: var(--ink); }
+.ins-pick[aria-current='true'] .t { translate: 4px 0; }
+.pick-lens { position: absolute; left: 4px; top: calc(var(--ly, 0px) + var(--lh, 50px) / 2 - 5px); width: 10px; height: 10px; rotate: 45deg; border-radius: 1.5px; pointer-events: none;
+  background: var(--amber); box-shadow: 0 0 12px rgb(217 130 43 / .8); transition: top 600ms var(--spring); }
+.ins-panel { position: relative; padding: 0; }
+.ins-build { position: relative; }
+.ins.is-ready .ins-build:not(.is-current) { display: none; }
+.ins-top { position: absolute; z-index: 3; top: 18px; right: 18px; }
+.ins-ctl { display: flex; align-items: center; gap: 8px; }
+.ins-ctl button { --radius: 999; width: 40px; height: 40px; display: grid; place-items: center; border: 0; padding: 0; cursor: pointer; position: relative; }
+.ins-ctl button svg { width: 18px; height: 18px; }
+.ins-tour [data-i='play'] { display: none; }
+.ins-tour[aria-pressed='false'] [data-i='play'] { display: block; }
+.ins-tour[aria-pressed='false'] [data-i='pause'] { display: none; }
+.ins-cover { position: relative; display: block; width: 100%; padding: 0; border: 0; background: #0b0c10; cursor: zoom-in; overflow: hidden;
+  border-radius: 34px; corner-shape: superellipse(1.5); box-shadow: 0 0 0 1px rgb(255 255 255 / .1), 0 40px 80px -40px rgb(0 0 0 / .9); }
+.ins-cover .desk { width: 100%; height: auto; aspect-ratio: 16 / 10.5; object-fit: cover; object-position: top; transition: filter 520ms var(--ease-out), scale 640ms var(--spring-soft), opacity 400ms; }
+.ins-cover .phone { position: absolute; left: 50%; top: 50%; height: 88%; width: auto; max-width: none; aspect-ratio: 390 / 844; object-fit: cover; object-position: top; border-radius: 26px; corner-shape: superellipse(1.5);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / .18), 0 30px 60px -20px rgb(0 0 0 / .9); translate: -50% -42%; opacity: 0; scale: .86; transition: opacity 320ms var(--ease-out), translate 640ms var(--spring), scale 640ms var(--spring); }
+.ins-cover[aria-pressed='true'] { cursor: zoom-out; }
+.ins-cover[aria-pressed='true'] .desk { filter: blur(14px) brightness(.45) saturate(1.2); scale: 1.06; }
+.ins-cover[aria-pressed='true'] .phone { opacity: 1; translate: -50% -50%; scale: 1; }
+.ins-cover .flip-hint { --radius: 999; position: absolute; right: 18px; bottom: 18px; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0; }
+.ins-cover .flip-hint svg { width: 18px; height: 18px; }
+.ins-cover .flip-hint .to-desk, .ins-cover[aria-pressed='true'] .flip-hint .to-phone { display: none; }
+.ins-cover[aria-pressed='true'] .flip-hint .to-desk { display: block; }
+.ins-body { --radius: 26; position: absolute; z-index: 2; left: 18px; bottom: 18px; width: min(510px, calc(100% - 36px)); padding: 22px 24px 20px; display: grid; gap: 12px; }
+/* The sheet as real glass: lighter tint, more blur and colour from the capture behind;
+   adaptive tint thickens it over bright captures so its text keeps AA. */
+.ins-body.glass { --d-blur: 16; --d-sat: 1.7; --d-bri: .7; --d-catch: 1.7; text-shadow: 0 1px 2px rgb(0 0 0 / .35); }
+.ins-tags { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0; font: 500 11.5px/1.4 var(--f-label); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
+.ins-tags .tag { color: var(--amber); }
+.ins-title { margin: 0; font: 700 30px/1.05 var(--f-display); letter-spacing: -.045em; }
+.ins-tabs { position: relative; display: inline-flex; gap: 2px; justify-self: start; padding: 4px; border-radius: 999px; background: rgb(255 255 255 / .06); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .07); }
+.ins-tabs [role='tab'] { position: relative; z-index: 1; border: 0; background: none; cursor: pointer; padding: 10px 16px; border-radius: 999px; font: 600 14.5px/1 var(--f-body); color: var(--ink-dim); transition: color 220ms; }
+.ins-tabs [role='tab'][aria-selected='true'] { color: var(--ink); }
+.tab-lens { position: absolute; z-index: 0; top: 4px; bottom: 4px; left: var(--tx, 4px); width: var(--tw, 80px); border-radius: 999px; pointer-events: none; opacity: 0;
+  background: rgb(255 255 255 / .13); box-shadow: inset 1px 1px .5px rgb(255 255 255 / .4), inset -1px -1px .5px rgb(255 255 255 / .1);
+  transition: left 560ms var(--spring), width 640ms var(--spring-soft); }
+.is-ready .tab-lens { opacity: 1; }
+.ins-tabpanel p { margin: 0 0 12px; }
+.ins-tabpanel .summary { color: var(--ink-soft); font-size: 14.5px; line-height: 1.55; }
+.ins-tabpanel .outcome strong { font: 650 18px/1.3 var(--f-display); letter-spacing: -.02em; }
+.ins-stack { display: flex; flex-wrap: wrap; gap: 8px; }
+.ins-stack span { --radius: 999; padding: 8px 14px; font: 550 14px/1 var(--f-body); }
+.ins-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+.ins-actions .btn { min-height: 40px; font-size: 14px; padding: 0 15px; }
+/* Live-site links: amber text and outline, apart from the stack chips. */
+.ins-actions .btn.glass { color: var(--amber-soft); box-shadow: inset 0 0 0 1px rgb(217 130 43 / .7), 0 4px 14px rgb(0 0 0 / .25); }
+.ins-actions .btn.glass:hover { color: #FFC98F; box-shadow: inset 0 0 0 1px rgb(233 162 92 / .95), 0 0 18px -4px rgb(217 130 43 / .55); }
+.ins-actions .link { display: inline-flex; align-items: center; gap: 8px; font-weight: 650; text-decoration: none; color: var(--amber); font-size: 14.5px; }
+.ins-actions .link svg { width: 16px; height: 16px; transition: translate 420ms var(--spring); }
+.ins-actions .link:hover { color: #FFC98F; }
+.ins-actions .link:hover svg { translate: 3px 0; }
+.ins-actions .details { border: 0; background: none; padding: 0; cursor: pointer; font: 600 14.5px/1.4 var(--f-body); color: var(--ink-soft); text-decoration: underline; text-decoration-color: var(--hair); text-underline-offset: .25em; }
+.ins-actions .details:hover { color: var(--ink); text-decoration-color: currentColor; }
+/* Panel content swaps with a short lift, not a cross-fade jump. */
+.ins-swap { animation: g4-swap 520ms var(--spring-soft); }
+@keyframes g4-swap { from { opacity: 0; translate: 0 10px; filter: blur(4px); } to { opacity: 1; translate: 0 0; filter: none; } }
+
+/* Project details dialog (ProjectModal.astro): glass-dark surface. */
+dialog.pm { border-radius: 30px; corner-shape: superellipse(1.5); border: 0; background: rgb(18 22 32 / .94); color: var(--ink); box-shadow: 0 0 0 1px rgb(255 255 255 / .12), 0 40px 90px -30px rgb(0 0 0 / .9); }
+dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+
+/* ------------------------------ Responsive ------------------------------ */
+@media (max-width: 960px) {
+  .bento, .bento .wide { grid-template-columns: 1fr; }
+  .ins.is-ready { grid-template-columns: 1fr; }
+  .ins-side { position: static; }
+  .ins-body { position: static; width: auto; margin-top: 12px; }
+}
+@media (max-width: 860px) {
+  :root { --gutter: 16px; }
+  .face-compact .status span { display: none; }
+}
+/* Phones: the open island and the contact pill must fit one row (the mock was reviewed on
+   desktop only). The nav tightens, Résumé stays in the contact menu and the footer, and
+   while the island is open the pill shrinks to its diamond (its name stays for screen
+   readers). */
+@media (max-width: 600px) {
+  .nav-links a { padding: 10px 7px; font-size: 14px; }
+  .nav-links .nav-resume { display: none; }
+  .isl-wrap:has(.isl[data-mode='expanded']) .cta-more { width: 44px; padding: 0; justify-content: center; }
+  .isl-wrap:has(.isl[data-mode='expanded']) .cta-more .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+@media (max-width: 760px) {
+  .works-head { flex-wrap: wrap; }
+  .works-head .hire { order: 3; }
+  /* The rail turns vertical: nodes down the left, each segment running to the next node. */
+  .bento .prail { --name: 34px; --gap: 30px; padding: 28px 24px; }
+  .bento .prail ol { grid-template-columns: 1fr; row-gap: var(--gap); }
+  .prail li { grid-template-columns: 16px 1fr; grid-template-rows: auto auto; column-gap: 18px; row-gap: 8px; }
+  .prail h3 { grid-column: 2; grid-row: 1; }
+  .prail p { grid-column: 2; grid-row: 2; }
+  .prail .pnode { grid-column: 1; grid-row: 1; }
+  .prail .pline { left: 8px; top: calc(var(--name) / 2); width: 2px; height: calc(100% + var(--gap)); margin: 0 0 0 -1px; }
+  .prail .pline::after { transform-origin: center top; scale: 1 var(--seg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .face, .pop > *, .ins-swap { transition: none !important; animation: none !important; }
+  .pool { animation: none; }
+  .prail .pnode::after, .prail .pline::after { transition: none; }
+}
+
+/* Inspector states: the Spotlight sheet shows Stack and Outcome only (the overview lives in
+   Project details); without JavaScript every build is stacked with its overview and both
+   panels, and the sheet sits under its capture. */
+.ins.is-ready .ins-overview { display: none; }
+.ins-overview .blurb { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
+.ins-overview .summary { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.55; }
+.ins:not(.is-ready) .ins-tabs { display: none; }
+.ins:not(.is-ready) .ins-body { position: static; width: auto; margin-top: 12px; }
+html:not(.js) .ins-actions .details { display: none; }

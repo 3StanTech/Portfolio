@@ -1,9 +1,15 @@
 ---
+// Stylesheet order: the Glasswork material, its dark tiers, the legacy Blueprint rules
+// (still used by the pages Phase 2 restyles; global.css imports tokens.css), then the
+// G4 system and the motion set, so G4 wins where names are shared.
+import '../vendor/glasswork/glass.css';
+import '../styles/material.css';
 import '../styles/global.css';
-import { Image } from 'astro:assets';
-import Icon from '../components/Icon.astro';
-import { contact, mailto } from '../data/contact';
-import logoHeader from '../assets/logo-header.png';
+import '../styles/g4.css';
+import '../styles/fx.css';
+import Sprite from '../components/Sprite.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { contact } from '../data/contact';
 
 const {
   title = 'Tristan Dolfo | Full-Stack Developer from the Philippines',
@@ -26,16 +32,6 @@ const canonicalUrl = new URL(canonical, siteUrl).toString();
 const ogUrl = new URL(ogImage, siteUrl).toString();
 const ogImageAlt = 'Tristan Dolfo, full-stack developer in the Philippines. Sites and systems for businesses worldwide.';
 const resumeHref = '/Tristan_Dolfo_Resume.pdf';
-
-// Active-nav "you are here": a nav item is current when the path matches it.
-const path = Astro.url.pathname;
-const isCurrent = (href: string) => path === href || path.startsWith(href);
-const navLinks = [
-  { href: '/projects/', label: 'Projects' },
-  { href: '/services/', label: 'Services' },
-  { href: '/about/', label: 'About' },
-  { href: resumeHref, label: 'Résumé', external: true }
-];
 ---
 <!doctype html>
 <html lang="en">
@@ -44,7 +40,7 @@ const navLinks = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#14304E" />
+    <meta name="theme-color" content="#000000" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -71,240 +67,44 @@ const navLinks = [
     <meta name="twitter:image:alt" content={ogImageAlt} />
     {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <script is:inline>
-      // Mark JS as available before first paint. Scroll-reveal hides content
-      // only under `html.js`, so no-JS visitors get everything visible.
+      // Mark JS as available before first paint (scroll reveal and the headline motion
+      // run only under html.js, so no-JS visitors get everything visible), and mark
+      // Save-Data so every effect stays off for metered visitors.
       document.documentElement.classList.add('js');
-      // Storage can throw (blocked cookies, some private modes); fall back to
-      // the system preference and ignore anything but a known theme value.
-      let savedTheme = null;
-      try { savedTheme = localStorage.getItem('theme'); } catch (e) {}
-      const validSaved = savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : null;
-      const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      document.documentElement.dataset.theme = validSaved || preferredTheme;
+      if (navigator.connection && navigator.connection.saveData) document.documentElement.classList.add('save-data');
     </script>
   </head>
-  <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header">
-      <div class="container header-inner">
-        <a class="brand" href="/" aria-label="Tristan Dolfo, Full-stack developer, home">
-          <Image
-            class="brand-mark"
-            src={logoHeader}
-            width={41}
-            height={41}
-            densities={[1, 2]}
-            alt=""
-            loading="eager"
-            decoding="async"
-          />
-          <span>Tristan Dolfo<small>Full-stack developer</small></span>
-        </a>
-        <button class="theme-toggle" type="button" aria-label="Switch to dark theme" data-theme-toggle>
-          <span data-icon="moon"><Icon name="moon" /></span>
-          <span data-icon="sun"><Icon name="sun" /></span>
-        </button>
-        <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav" data-nav-toggle>
-          <span data-icon="menu"><Icon name="menu" /></span>
-          <span data-icon="close"><Icon name="close" /></span>
-        </button>
-        <nav class="nav" id="nav" aria-label="Primary" data-nav>
-          {navLinks.map((link) => (
-            <a
-              href={link.href}
-              class:list={{ 'is-current': !link.external && isCurrent(link.href) }}
-              aria-current={!link.external && isCurrent(link.href) ? 'page' : undefined}
-              target={link.external ? '_blank' : undefined}
-              rel={link.external ? 'noopener' : undefined}
-              aria-label={link.external ? 'Résumé (PDF, opens in new tab)' : undefined}
-            >{link.label}</a>
-          ))}
-          <a class="nav-cta" href={mailto()}>Email me</a>
-        </nav>
-      </div>
-    </header>
+  <body data-email={contact.email}>
+    <Sprite />
+    <a class="skip" href="#main">Skip to content</a>
+    <canvas class="sky" aria-hidden="true"></canvas>
+    <div class="edge-top" aria-hidden="true"></div>
+    <SiteHeader />
     <main id="main">
       <slot />
     </main>
-    <footer class="site-footer">
-      <div class="container footer-inner">
-        <div class="footer-primary">
-          <p class="footer-signoff">Personally crafted creations, just like this site.</p>
-          <div class="footer-actions">
-            <a class="footer-contact" href={mailto()}>{contact.email}</a>
-            <a class="footer-contact" href={contact.phoneHref}>{contact.phoneDisplay}</a>
-            <a class="footer-contact" href={resumeHref} target="_blank" rel="noopener" aria-label="View Résumé (PDF, opens in new tab)">View Résumé</a>
-            <span class="footer-socials">
-              <a class="footer-social" href={contact.github} target="_blank" rel="noopener" aria-label="Tristan Dolfo on GitHub (opens in new tab)">
-                <Icon name="github" />
-              </a>
-              <a class="footer-social" href={contact.facebook} target="_blank" rel="noopener" aria-label="Tristan Dolfo on Facebook (opens in new tab)">
-                <Icon name="facebook" />
-              </a>
-            </span>
-          </div>
-        </div>
-        <div class="footer-secondary">
-          <nav class="footer-nav" aria-label="Footer">
-            {navLinks.map((link) => (
-              <a
-                href={link.href}
-                target={link.external ? '_blank' : undefined}
-                rel={link.external ? 'noopener' : undefined}
-                aria-label={link.external ? 'Résumé (PDF, opens in new tab)' : undefined}
-              >{link.label}</a>
-            ))}
-          </nav>
-          <p>Philippines · usually replies within a day</p>
+    <footer class="container foot">
+      <div>
+        <strong>Personally crafted creations, just like this site.</strong>
+        <div class="pills">
+          <a class="glass" data-kind="dark" data-tier="clear" data-pill href={resumeHref} target="_blank" rel="noopener" aria-label="View Résumé (PDF, opens in new tab)">View Résumé</a>
+          <a class="social glass" data-kind="dark" data-tier="clear" data-pill href={contact.github} target="_blank" rel="noopener" aria-label="Tristan Dolfo on GitHub (opens in new tab)"><svg aria-hidden="true"><use href="#i-gh" /></svg></a>
+          <a class="social glass" data-kind="dark" data-tier="clear" data-pill href={contact.facebook} target="_blank" rel="noopener" aria-label="Tristan Dolfo on Facebook (opens in new tab)"><svg aria-hidden="true"><use href="#i-fb" /></svg></a>
         </div>
       </div>
     </footer>
     <p class="visually-hidden" aria-live="polite" data-copy-status></p>
     <script>
       import { contact } from '../data/contact';
+      import '../scripts/site.js';
+      import '../scripts/fx.js';
 
       // A lil hello for the curious recruiters and devs who open the console.
       console.log(
         `%cTristan · full-stack developer%c\nLiked the build? Let’s make yours. → ${contact.email}`,
         'font: 650 15px/1.5 Georgia, serif; color: #D9822B',
-        'font: 400 13px/1.6 system-ui, sans-serif; color: #4A6FA5'
+        'font: 400 13px/1.6 system-ui, sans-serif; color: #9DBBE6'
       );
-
-      const nav = document.querySelector<HTMLElement>('[data-nav]');
-      const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
-      const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
-
-      const handleNavKeydown = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') closeNav(true);
-      };
-
-      const handleOutsideClick = (event: MouseEvent) => {
-        const target = event.target;
-        if (target instanceof Node && !nav?.contains(target) && !toggle?.contains(target)) {
-          closeNav(true);
-        }
-      };
-
-      const setNavOpen = (isOpen: boolean) => {
-        nav?.setAttribute('data-open', String(isOpen));
-        toggle?.setAttribute('aria-expanded', String(isOpen));
-        toggle?.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
-        if (isOpen) {
-          document.addEventListener('keydown', handleNavKeydown);
-          document.addEventListener('click', handleOutsideClick);
-        } else {
-          document.removeEventListener('keydown', handleNavKeydown);
-          document.removeEventListener('click', handleOutsideClick);
-        }
-      };
-
-      const closeNav = (returnFocus = false) => {
-        if (nav?.getAttribute('data-open') !== 'true') return;
-        setNavOpen(false);
-        if (returnFocus) toggle?.focus();
-      };
-
-      toggle?.addEventListener('click', () => {
-        setNavOpen(nav?.getAttribute('data-open') !== 'true');
-      });
-
-      nav?.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => closeNav());
-      });
-
-      const updateThemeLabel = () => {
-        const isDark = document.documentElement.dataset.theme === 'dark';
-        themeToggle?.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
-      };
-
-      updateThemeLabel();
-
-      themeToggle?.addEventListener('click', () => {
-        const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-        document.documentElement.dataset.theme = nextTheme;
-        updateThemeLabel();
-        try { localStorage.setItem('theme', nextTheme); } catch (e) {}
-      });
-
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!reduceMotion && 'IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.12 });
-        document.querySelectorAll('[data-reveal]').forEach((item) => observer.observe(item));
-      } else {
-        document.querySelectorAll('[data-reveal]').forEach((item) => item.classList.add('is-visible'));
-      }
-
-      // Every mailto link also copies the address: a click on a desktop with no
-      // mail handler otherwise does nothing. Never preventDefault, so phones and
-      // configured mail apps still open a draft with the subject.
-      const copyStatus = document.querySelector<HTMLElement>('[data-copy-status]');
-      const copyLabels = new WeakMap<HTMLAnchorElement, { node: Text; text: string }>();
-      const copyTimers = new WeakMap<HTMLAnchorElement, number>();
-
-      const lastTextNode = (link: HTMLAnchorElement) => {
-        const walker = document.createTreeWalker(link, NodeFilter.SHOW_TEXT);
-        let found: Text | null = null;
-        while (walker.nextNode()) {
-          const node = walker.currentNode as Text;
-          if (node.textContent?.trim()) found = node;
-        }
-        return found;
-      };
-
-      const onCopied = (link: HTMLAnchorElement) => {
-        // Store the original label once, so a repeat click never saves "Copied".
-        if (!copyLabels.has(link)) {
-          const node = lastTextNode(link);
-          if (!node) return;
-          link.style.minWidth = `${link.offsetWidth}px`;
-          copyLabels.set(link, { node, text: node.textContent ?? '' });
-        }
-        const label = copyLabels.get(link)!;
-        label.node.textContent = 'Copied';
-        link.classList.remove('is-copied');
-        void link.offsetWidth;
-        link.classList.add('is-copied');
-        if (copyStatus) copyStatus.textContent = `Email address copied: ${contact.email}`;
-
-        window.clearTimeout(copyTimers.get(link));
-        copyTimers.set(link, window.setTimeout(() => {
-          label.node.textContent = label.text;
-          link.classList.remove('is-copied');
-          link.style.minWidth = '';
-          copyLabels.delete(link);
-          if (copyStatus) copyStatus.textContent = '';
-        }, 1600));
-      };
-
-      document.addEventListener('click', (event) => {
-        const link = event.target instanceof Element
-          ? event.target.closest<HTMLAnchorElement>('a[href^="mailto:"]')
-          : null;
-        if (!link) return;
-        navigator.clipboard?.writeText(contact.email).then(() => onCopied(link)).catch(() => {});
-      });
-
-      let lastTrigger: HTMLElement | null = null;
-      document.querySelectorAll<HTMLElement>('[data-project-modal]').forEach((trigger) => {
-        trigger.addEventListener('click', () => {
-          const dialog = document.getElementById(`pm-${trigger.dataset.projectModal}`) as HTMLDialogElement | null;
-          if (!dialog) return;
-          lastTrigger = trigger;
-          dialog.showModal();
-        });
-      });
-      document.querySelectorAll<HTMLDialogElement>('dialog.pm').forEach((dialog) => {
-        dialog.querySelector<HTMLButtonElement>('[data-modal-close]')?.addEventListener('click', () => dialog.close());
-        dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
-        dialog.addEventListener('close', () => { lastTrigger?.focus(); lastTrigger = null; });
-      });
     </script>
   </body>
 </html>

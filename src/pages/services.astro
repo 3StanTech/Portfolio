@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import Closer from '../components/Closer.astro';
-import Constellation from '../components/Constellation.astro';
 import Icon from '../components/Icon.astro';
 import { mailto } from '../data/contact';
 
@@ -50,8 +49,7 @@ const tiers = [
 ---
 <Base title="Services | Tristan Dolfo" description="Website packages for small businesses worldwide, shown by outcome and scope without public pricing." canonical="/services/">
   <section class="section band-paper">
-    <div class="field-top" aria-hidden="true"><Constellation class="fade-edge" density={180} islandLimit={4} /></div>
-    <div class="container">
+        <div class="container">
       <header class="page-head" data-reveal>
         <p class="page-kicker"><span class="hero-dot" aria-hidden="true"></span>Website packages</p>
         <h1 class="page-title">Choose the <span class="hero-mark">shape</span> of the site.</h1>

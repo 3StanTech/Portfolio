@@ -1,8 +1,8 @@
 ---
-// Shared dark closer band: optional kicker, the title from the default slot
-// (marked words use <span class="closer-mark">), an optional `lead` slot shown
-// before the buttons, and an optional note after them. Styles live in global.css.
-import Constellation from './Constellation.astro';
+// Shared closer (every page but 404): an optional amber kicker, the title from the
+// default slot (the marked word uses <span class="accent">), an optional `lead` slot
+// before the buttons, glass Email me + Call, and an optional note. data-horizon="out"
+// puts the black hole's outgoing rim above it (galaxy.js). Styles live in g4.css.
 import CTA from './CTA.astro';
 
 interface Props {
@@ -12,13 +12,13 @@ interface Props {
 
 const { kicker, note } = Astro.props as Props;
 ---
-<section class="section band-dark closer">
-  <Constellation class="fade-edge" />
-  <div class="container closer-inner">
-    {kicker && <p class="closer-kicker">{kicker}</p>}
-    <h2 class="closer-title"><slot /></h2>
+<section class="closer" data-horizon="out" aria-labelledby="closer-title">
+  <span class="horizon" aria-hidden="true"></span>
+  <div class="container inner" data-reveal>
+    {kicker && <p class="kick">{kicker}</p>}
+    <h2 class="h2" id="closer-title"><slot /></h2>
     <slot name="lead" />
-    <CTA label="Email me" showPhone />
-    {note && <p class="closer-note">{note}</p>}
+    <CTA class="center" showPhone />
+    {note && <p class="note">{note}</p>}
   </div>
 </section>

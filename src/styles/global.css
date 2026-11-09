@@ -2,15 +2,17 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html {
-  color-scheme: light;
+  color-scheme: dark;
+  background: var(--page);
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--header-h) + 16px);
+  scroll-padding-top: 96px;
 }
+/* No body background: the galaxy canvas (z-index -1) would sit under it; the page colour lives on <html>. */
 body {
   margin: 0;
+  min-height: 100dvh;
   font-family: var(--font-body);
   color: var(--ink);
-  background: var(--paper);
   font-size: var(--step-0);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
@@ -56,117 +58,6 @@ li + li { margin-top: .35rem; }
   width: min(100% - 2rem, var(--maxw));
   margin-inline: auto;
 }
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  min-height: var(--header-h);
-  background: color-mix(in srgb, var(--paper) 93%, transparent);
-  border-bottom: 1px solid var(--divider);
-  backdrop-filter: blur(14px);
-}
-.header-inner {
-  min-height: var(--header-h);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-}
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: .72rem;
-  color: var(--ink);
-  text-decoration: none;
-  font-weight: 780;
-  line-height: 1;
-}
-.brand-mark {
-  display: block;
-  width: 2.55rem;
-  height: 2.55rem;
-  flex-shrink: 0;
-  border: 1px solid var(--button-bg);
-  border-radius: 50%;
-  background: var(--navy);
-  object-fit: cover;
-  object-position: center;
-}
-.brand small {
-  display: block;
-  margin-top: .22rem;
-  color: var(--ink-soft);
-  font-size: .74rem;
-  font-weight: 650;
-}
-.nav-toggle {
-  display: none;
-  order: 3;
-  width: 2.65rem;
-  height: 2.65rem;
-  border: 1px solid var(--line-strong);
-  border-radius: 3px;
-  background: var(--panel);
-  color: var(--ink);
-}
-.nav-toggle svg { width: 1.15rem; margin: auto; }
-.nav-toggle [data-icon='close'] { display: none; }
-.nav-toggle[aria-expanded='true'] [data-icon='menu'] { display: none; }
-.nav-toggle[aria-expanded='true'] [data-icon='close'] { display: block; }
-.nav {
-  order: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  gap: .35rem;
-  margin-left: auto;
-}
-.nav a {
-  color: var(--ink);
-  text-decoration: none;
-  font-weight: 720;
-  font-size: var(--text-nav);
-  padding: .65rem .78rem;
-  border-radius: 3px;
-}
-.nav a:hover { background: var(--mist); color: var(--brand-deep); }
-.nav .nav-cta {
-  padding: .45rem .9rem;
-  border: 1px solid var(--button-bg);
-  background: var(--button-bg);
-  color: var(--button-text);
-  line-height: 1;
-}
-.nav .nav-cta:hover {
-  border-color: var(--button-bg-hover);
-  background: var(--button-bg-hover);
-  color: var(--button-text);
-}
-.nav a.is-current {
-  text-decoration: underline;
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 6px;
-}
-.theme-toggle {
-  order: 2;
-  display: inline-grid;
-  place-items: center;
-  width: 2.45rem;
-  height: 2.45rem;
-  border: 1px solid var(--line-strong);
-  border-radius: 3px;
-  background: var(--panel);
-  color: var(--ink);
-  cursor: pointer;
-}
-.theme-toggle:hover { background: var(--mist); color: var(--link-hover); }
-.theme-toggle svg { width: 1.08rem; height: 1.08rem; }
-.theme-toggle [data-icon='sun'] { display: none; }
-:root[data-theme='dark'] .theme-toggle [data-icon='moon'] { display: none; }
-:root[data-theme='dark'] .theme-toggle [data-icon='sun'] { display: block; }
-
 .section {
   position: relative;
   padding: var(--space-7) 0;
@@ -175,58 +66,6 @@ li + li { margin-top: .35rem; }
 .band-paper { background: var(--paper); }
 .band-mist { background: var(--mist); }
 .band-sky { background: var(--sky); }
-/* --- Drafting grid ------------------------------------------------------ */
-/* A faded isometric lattice (56px triangles) under a section's content, for
-   .gf-section: the Projects section and the light bands on Home and About.
-   One masked layer coloured by a token, so it follows the theme and keeps the
-   band's own background colour. GridField.astro adds the Ripple. */
-:root { --gf-ink: color-mix(in srgb, var(--steel) 30%, transparent); }
-:root[data-theme='dark'] { --gf-ink: color-mix(in srgb, var(--steel) 36%, transparent); }
-.gf-section {
-  --gf-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'56'%20height%3D'97'%3E%3Cg%20fill-opacity%3D'.6'%3E%3Crect%20width%3D'56'%20height%3D'1'%2F%3E%3Crect%20y%3D'48.5'%20width%3D'56'%20height%3D'1'%2F%3E%3C%2Fg%3E%3Cpath%20d%3D'M0%200L56%2097M56%200L0%2097'%20stroke%3D'black'%20stroke-opacity%3D'.6'%20stroke-width%3D'1'%20fill%3D'none'%2F%3E%3C%2Fsvg%3E");
-  --gf-size: 56px 97px;
-  position: relative;
-}
-.gf-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: .5; /* faded: the lattice sits behind the work */
-  background-color: var(--gf-ink);
-  -webkit-mask: var(--gf-mask) 0 0 / var(--gf-size) repeat;
-          mask: var(--gf-mask) 0 0 / var(--gf-size) repeat;
-}
-/* Ripple (GridField.astro): a soft hole in the CSS grid at the pointer, where
-   the canvas redraws the lattice bent. Clear to 70% of the reach, then the grid
-   fades back in as the canvas lines fade out. */
-.gf-section.is-warping::before {
-  -webkit-mask:
-    var(--gf-mask) 0 0 / var(--gf-size) repeat,
-    radial-gradient(circle at var(--gx) var(--gy), transparent calc(var(--gr) * .7), black var(--gr)) 0 0 / 100% 100% no-repeat;
-  -webkit-mask-composite: source-in;
-  mask:
-    var(--gf-mask) 0 0 / var(--gf-size) repeat,
-    radial-gradient(circle at var(--gx) var(--gy), transparent calc(var(--gr) * .7), black var(--gr)) 0 0 / 100% 100% no-repeat;
-  mask-composite: intersect;
-}
-/* The effect canvas: viewport-sized, sticking while the section scrolls. */
-/* Clipped to its section, so a band shorter than the viewport keeps the effect
-   inside it (clip makes no scroll container, so the canvas still sticks). */
-.gf-fx { position: absolute; inset: 0; z-index: 0; overflow: clip; pointer-events: none; }
-.gf-fx canvas { position: sticky; top: 0; display: block; width: 100%; height: 100vh; }
-/* Starfield backdrop — the hero's gradient wash, reused by any section that
-   hosts a <Constellation />. Base is --paper, so it flips with the theme.
-   Declared after the band rules so it wins the shorthand on source order. */
-.hero,
-.starfield {
-  position: relative;
-  background:
-    radial-gradient(115% 85% at 88% 12%, color-mix(in srgb, var(--steel) 20%, transparent) 0%, transparent 58%),
-    radial-gradient(100% 75% at 6% 108%, color-mix(in srgb, var(--amber) 12%, transparent) 0%, transparent 55%),
-    var(--paper);
-}
 .band-dark {
   background: var(--band-deep-bg);
   color: var(--on-dark);
@@ -268,7 +107,7 @@ li + li { margin-top: .35rem; }
 .panel {
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-panel);
   box-shadow: none;
 }
 .panel-pad { padding: clamp(1.25rem, 1rem + 1.2vw, 2rem); }
@@ -316,54 +155,6 @@ li + li { margin-top: .35rem; }
 }
 .button svg { width: 1rem; height: 1rem; }
 
-/* Hero contact group: 2×2 hugging the labels — Email/Call, Resume/Github. */
-.hero-copy .button-row {
-  display: grid;
-  grid-template-columns: max-content max-content;
-  width: fit-content;
-  max-width: 100%;
-  gap: .75rem;
-  align-items: center;
-}
-.hero-copy .button-row .cta-resume,
-.hero-copy .button-row .cta-github {
-  color: var(--accent-ink);
-  border-color: color-mix(in srgb, var(--accent-ink) 45%, var(--line-strong));
-}
-.hero-copy .button-row .cta-resume:hover,
-.hero-copy .button-row .cta-github:hover {
-  background: color-mix(in srgb, var(--accent-ink) 12%, transparent);
-  color: var(--accent-ink);
-  border-color: var(--accent-ink);
-}
-
-.hero {
-  position: relative;
-  min-height: calc(100dvh - var(--header-h));
-  display: grid;
-  align-items: center;
-  padding: clamp(3.5rem, 2rem + 6vw, 7rem) 0 var(--space-6);
-}
-.hero-grid {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(17rem, .68fr);
-  gap: var(--space-5);
-  align-items: end;
-}
-.hero-copy {
-  display: grid;
-  gap: var(--space-4);
-}
-.hero-copy p {
-  max-width: 56ch;
-  color: var(--ink-soft);
-  font-size: var(--step-1);
-}
-/* `.hero-copy p` would otherwise inflate the kicker and trust line to lead size. */
-.hero-copy .hero-kicker { font-size: var(--text-kicker); }
-.hero-copy .hero-trust { font-size: var(--text-supporting); }
 .hero-actions,
 .button-row {
   display: flex;
@@ -402,162 +193,6 @@ li + li { margin-top: .35rem; }
   text-underline-offset: .1em;
   text-decoration-skip-ink: none;
 }
-.hero-sub {
-  max-width: 52ch;
-  color: var(--ink-soft);
-  font-size: var(--step-1);
-  text-wrap: pretty;
-}
-.hero-trust {
-  margin: 0;
-  color: var(--ink-soft);
-  font-size: var(--text-supporting);
-  letter-spacing: .01em;
-}
-.hero-trust-count {
-  color: var(--accent-ink);
-  font-weight: 820;
-}
-.works {
-  position: relative;
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  padding: 0;
-  /* The hero row is auto-sized, so the panel's own content would otherwise
-     drive the row taller with every project added and nothing would scroll.
-     height:0 keeps the panel out of that calculation, so the row is set by
-     .hero-copy alone; min-height:100% then fills it. Result: the panel size
-     is fixed by the copy column and the list scrolls inside it, whatever the
-     project count. Reset at <=860px, where the panel gets its own row. */
-  height: 0;
-  min-height: 100%;
-}
-.works-label {
-  padding: 1.15rem 1.25rem .5rem;
-  font-family: var(--font-display);
-  font-weight: 650;
-  font-size: 1.02rem;
-  color: var(--ink);
-}
-.works-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  min-height: 0;            /* REQUIRED — a flex child will not scroll without this */
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: thin;
-  scrollbar-color: var(--line-strong) transparent;
-  /* A foot fade says "more below"; index.astro clears it at the list's end. */
-  -webkit-mask-image: linear-gradient(#000 calc(100% - 3.25rem), transparent);
-          mask-image: linear-gradient(#000 calc(100% - 3.25rem), transparent);
-}
-.works-list.is-end {
-  -webkit-mask-image: none;
-          mask-image: none;
-}
-.works-list::-webkit-scrollbar {
-  width: 7px;
-}
-.works-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-.works-list::-webkit-scrollbar-thumb {
-  background: var(--line-strong);
-  border-radius: 999px;
-}
-.works-list li { margin: 0; }
-.work {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: .9rem;
-  padding: .95rem 1.25rem;
-  width: 100%;
-  font: inherit;
-  background: none;
-  border-left: 0;
-  border-right: 0;
-  border-bottom: 0;
-  border-top: 1px solid var(--divider);
-  text-align: left;
-  cursor: pointer;
-  color: inherit;
-  text-decoration: none;
-  transition: background .2s ease;
-}
-.work:hover { background: color-mix(in srgb, var(--mist) 55%, transparent); }
-.work-num {
-  font-family: var(--font-body);
-  font-weight: 800;
-  letter-spacing: .02em;
-  font-size: var(--text-work-number);
-  color: var(--accent-ink);
-}
-.work-text {
-  display: grid;
-  gap: .1rem;
-  min-width: 0;
-}
-.work-text strong {
-  font-family: var(--font-display);
-  font-weight: 720;
-  letter-spacing: -.02em;
-  font-size: var(--text-work-title);
-  color: var(--ink);
-}
-.work-text span {
-  color: var(--ink-soft);
-  font-size: var(--text-kicker);
-}
-.work svg { width: 1rem; height: 1rem; color: var(--steel); transition: transform .2s ease, color .2s ease; }
-.work:hover svg { color: var(--accent-ink); transform: translateX(3px); }
-/* Pinned hiring row: stays above the scrolling list on the mist band tone. */
-.work-hire {
-  flex: 0 0 auto;
-  display: grid;
-  grid-template-columns: 2rem 1fr auto;
-  align-items: center;
-  gap: .9rem;
-  padding: 1rem 1.25rem;
-  color: inherit;
-  text-decoration: none;
-  background: var(--mist);
-  border-bottom: 1px solid var(--divider);
-  transition: background .2s ease;
-}
-.work-hire:hover {
-  color: inherit;
-  text-decoration: none;
-  background: var(--sky);
-}
-.work-icon {
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  color: var(--accent-ink);
-}
-.work-icon svg { width: 1.7rem; height: 1.7rem; }
-.work-hire > svg { width: 1rem; height: 1rem; color: var(--accent-ink); transition: transform .2s ease; }
-.work-hire:hover > svg { transform: translateX(3px); }
-.work-hire + .works-label { padding-top: .95rem; }
-.works-foot {
-  position: relative;
-  z-index: 2;
-  margin-top: auto;
-  padding: .9rem 1.25rem;
-  border-top: 1px solid var(--divider);
-  background: var(--panel);
-  color: var(--ink-soft);
-  font-size: var(--text-supporting);
-}
-
 .grid {
   display: grid;
   gap: var(--space-4);
@@ -642,90 +277,6 @@ li + li { margin-top: .35rem; }
   gap: var(--space-4);
   align-items: center;
 }
-.site-footer {
-  padding: var(--space-5) 0;
-  background: var(--band-deep-bg);
-  color: var(--on-dark);
-}
-.footer-inner {
-  display: grid;
-}
-.footer-primary,
-.footer-secondary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-}
-.footer-primary { padding-bottom: var(--space-4); }
-.footer-secondary {
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--divider-on-dark);
-}
-.footer-signoff {
-  font-family: var(--font-display);
-  font-size: var(--step-1);
-  font-weight: 650;
-}
-.footer-actions,
-.footer-nav {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: .55rem;
-}
-.footer-contact {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2rem;
-  padding: .42rem .78rem;
-  border: 1px solid var(--line-on-dark);
-  border-radius: 3px;
-  color: var(--on-dark);
-  font-size: var(--text-utility);
-  font-weight: 760;
-  line-height: 1;
-  text-decoration: none;
-}
-.footer-contact:hover {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--on-dark) 10%, transparent);
-  color: var(--accent);
-  text-decoration: none;
-}
-.footer-social {
-  display: inline-grid;
-  place-items: center;
-  width: 1.9rem;
-  height: 1.9rem;
-  border: 1px solid var(--line-on-dark);
-  border-radius: 3px;
-  color: var(--on-dark-soft);
-}
-.footer-social:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-.footer-social svg { width: .95rem; height: .95rem; }
-/* Keeps the two discs together when the actions wrap. */
-.footer-socials {
-  display: inline-flex;
-  gap: .55rem;
-}
-.footer-nav { gap: 1rem; }
-.footer-nav a {
-  color: var(--on-dark);
-  font-size: var(--text-utility);
-  font-weight: 700;
-  text-decoration: none;
-}
-.footer-nav a:hover { color: var(--accent); }
-.footer-secondary p {
-  color: var(--on-dark-soft);
-  font-size: var(--text-supporting);
-}
-
 .case-hero {
   padding: var(--space-7) 0 var(--space-6);
   background: var(--paper-2);
@@ -866,7 +417,7 @@ li + li { margin-top: .35rem; }
   gap: var(--space-4);
   padding: clamp(1.25rem, 1rem + 1.2vw, 2rem);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-panel);
   background: var(--panel);
 }
 .svc-tier.is-recommended { border-color: color-mix(in srgb, var(--accent-ink) 58%, var(--line-strong)); }
@@ -1000,7 +551,7 @@ li + li { margin-top: .35rem; }
   place-items: center;
   overflow: hidden;
   border: 1px solid var(--line-strong);
-  border-radius: var(--radius);
+  border-radius: var(--radius-panel);
   background: var(--navy-2);
   color: var(--on-dark);
 }
@@ -1162,7 +713,7 @@ li + li { margin-top: .35rem; }
 .text-scrim {
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-panel);
   padding: clamp(1.25rem, 1rem + 1.2vw, 2rem);
 }
 /* Tech block: the first and last dividers ARE the box edges, so the vertical
@@ -1173,45 +724,6 @@ li + li { margin-top: .35rem; }
 }
 .text-scrim-flush .tech-list { border-top: 0; }
 .text-scrim-flush .tech-row:last-child { border-bottom: 0; }
-
-/* Closing CTA — a committed statement, not a two-column strip */
-.closer-inner {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-4);
-}
-.closer-kicker {
-  font-weight: 800;
-  font-size: var(--text-label);
-  color: var(--on-dark-gold);
-}
-.closer-title {
-  max-width: 20ch;
-  font-size: var(--text-closer-title);
-  font-weight: 800;
-  letter-spacing: -.04em;
-  text-wrap: balance;
-  color: var(--on-dark);
-}
-.closer-mark {
-  /* Baseline underline: it can never reach the next line's ascenders. */
-  text-decoration-line: underline;
-  text-decoration-color: var(--amber);
-  text-decoration-thickness: .085em;
-  text-underline-offset: .1em;
-  text-decoration-skip-ink: none;
-}
-.closer .button-row { margin-top: var(--space-2); }
-.closer-note {
-  max-width: 54ch;
-  margin: 0;
-  color: var(--on-dark-soft);
-  font-size: var(--step--1);
-  text-wrap: pretty;
-}
 
 /* A centered, compact destination for missing-page recovery. */
 .not-found {
@@ -1234,7 +746,7 @@ dialog.pm {
   max-height: 85vh;
   width: 100%;
   border: 1px solid var(--divider);
-  border-radius: var(--radius);
+  border-radius: var(--radius-panel);
   background: var(--panel);
   color: var(--ink);
   box-shadow: var(--shadow-float);
@@ -1437,23 +949,6 @@ dialog.pm::backdrop {
   color: var(--on-dark);
 }
 
-/* One orchestrated hero entrance — not a per-section reflex.
-   The H1 is the LCP element: it lifts (transform only, stays opaque) so it
-   paints immediately; supporting elements fade + rise around it. */
-@media (prefers-reduced-motion: no-preference) {
-  .hero-kicker { animation: heroRise .6s .04s cubic-bezier(.2, .7, .3, 1) backwards; }
-  .hero-title { animation: heroLift .6s .02s cubic-bezier(.2, .7, .3, 1) backwards; }
-  .hero-sub { animation: heroRise .6s .16s cubic-bezier(.2, .7, .3, 1) backwards; }
-  .hero-copy .button-row { animation: heroRise .6s .24s cubic-bezier(.2, .7, .3, 1) backwards; }
-  .works { animation: heroRise .7s .2s cubic-bezier(.2, .7, .3, 1) backwards; }
-}
-@keyframes heroRise {
-  from { opacity: 0; transform: translateY(14px); }
-}
-@keyframes heroLift {
-  from { transform: translateY(12px); }
-}
-
 /* Scroll reveal is gated on `html.js`: without JavaScript, content stays
    visible by default rather than shipping blank below the fold. */
 html.js [data-reveal] { opacity: 1; transform: none; }
@@ -1481,27 +976,6 @@ html.js [data-reveal] { opacity: 1; transform: none; }
 }
 
 @media (max-width: 860px) {
-  .nav-toggle { display: grid; }
-  .nav {
-    position: fixed;
-    inset: var(--header-h) 1rem auto;
-    display: none;
-    padding: .7rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--panel);
-    box-shadow: var(--shadow-float);
-    margin-left: 0;
-  }
-  .nav[data-open='true'] { display: grid; }
-  .nav a { padding: .85rem .9rem; }
-  .hero { min-height: auto; background-position: center; }
-  /* Single column here: the panel is alone in its row, so the desktop
-     height:0 trick would collapse it. Back to content-driven, capped list. */
-  .works { height: auto; min-height: 0; }
-  .works-list { max-height: 60vh; }
-  .closer-inner { gap: var(--space-3); }
-  .hero-grid,
   .grid.two,
   .grid.three,
   .home-supporting-grid,
@@ -1527,60 +1001,16 @@ html.js [data-reveal] { opacity: 1; transform: none; }
     padding: var(--space-5);
   }
   .svc-tiers { grid-template-columns: 1fr; }
-  .footer-primary,
-  .footer-secondary {
-    flex-direction: column;
-    text-align: center;
-  }
-  .footer-actions,
-  .footer-nav { justify-content: center; }
 }
 
 @media (min-width: 861px) and (max-width: 1020px) {
   .home-supporting-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-@media (max-width: 860px) and (prefers-reduced-motion: no-preference) {
-  .nav {
-    display: grid;
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(-4px);
-    pointer-events: none;
-    transition: opacity .15s ease, transform .15s ease, visibility 0s linear .15s;
-  }
-  .nav[data-open='true'] {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-    transition-delay: 0s;
-  }
-}
-
 @media (max-width: 520px) {
   .container { width: min(100% - 2rem, var(--maxw)); }
-  .brand small { display: none; }
-  .button, .hero-actions .button { width: 100%; }
-  /* Labels never wrap: each button is at least its label's width and the row
-     fills the width. Email + Call pair up down to 360px; the 35% basis keeps
-     the Résumé button from joining their row, so Résumé + GitHub stay paired. */
-  .hero-copy .button-row {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    gap: .6rem;
-  }
-  .hero-copy .button-row .button {
-    flex: 1 1 auto;
-    width: auto;
-    padding-inline: .85rem;
-    white-space: nowrap;
-  }
-  .hero-copy .button-row .button:not(.tertiary) { flex-basis: 35%; }
-  .hero-copy p, .section-lead { font-size: 1rem; }
-  .hero-copy .hero-kicker { font-size: var(--text-kicker); }
-  .hero-copy .hero-trust { font-size: var(--text-supporting); }
+  .button { width: 100%; }
+  .section-lead { font-size: 1rem; }
   .tech-row,
   .principle,
   .svc-includes {

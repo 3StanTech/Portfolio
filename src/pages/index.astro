@@ -3,14 +3,9 @@ import { getCollection } from 'astro:content';
 import { getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import { Image } from 'astro:assets';
 import CTA from '../components/CTA.astro';
 import Closer from '../components/Closer.astro';
-import Constellation from '../components/Constellation.astro';
-import GridField from '../components/GridField.astro';
-import SectionBand from '../components/SectionBand.astro';
-import ProcessSteps from '../components/ProcessSteps.astro';
-import ProjectModal from '../components/ProjectModal.astro';
-import Icon from '../components/Icon.astro';
 import { contact } from '../data/contact';
 import profilePhoto from '../assets/tristan-profile-centered.png';
 
@@ -61,79 +56,87 @@ const jsonLd = [
     image: logoUrl
   }
 ];
+
+// The headline's words, wrapped at build time for the blur-up (fx.css): each word is a
+// span with its index; the marked word keeps its accent span inside.
+const headline: { text: string; accent?: boolean }[] = [
+  { text: 'Sites' }, { text: 'and' }, { text: 'systems' }, { text: 'that' },
+  { text: 'work', accent: true }, { text: 'for' }, { text: 'your' }, { text: 'business.' },
+];
+const steps = [
+  { name: 'Scope', text: 'First, I learn what your business needs to succeed: your offer, your audience, your goals. This gives the build direction from day one.' },
+  { name: 'Build', text: 'I turn the scope into a secure, responsive site with SEO essentials, structured data, and direct contact routes.' },
+  { name: 'Launch', text: 'A focused first version goes live, then I refine it based on how real visitors use it.' },
+];
 ---
 <Base jsonLd={jsonLd}>
-  <section class="hero">
-    <Constellation class="fade-edge" />
-    <div class="container hero-grid">
-      <div class="hero-copy">
-        <p class="hero-kicker"><span class="hero-dot" aria-hidden="true"></span>Philippines · full-stack developer</p>
-        <h1 class="hero-title">Sites and systems that <span class="hero-mark">work</span> for your business.</h1>
-        <p class="hero-sub">I build websites for small businesses and full-stack apps that real people use.</p>
-        <CTA showPhone showResume showGithub />
-        <p class="hero-trust"><span class="hero-trust-count">{projectCount}</span> builds · replies within a day</p>
+  <section class="hero" data-horizon="in" aria-labelledby="hero-title">
+    <div class="container hero-inner" data-words-box>
+      <p class="mono kicker" style="--fx-d: 0ms">Philippines · full-stack developer</p>
+      <h1 class="h1" id="hero-title" data-words>{headline.map((word, i) => (
+        <><span class="w" style={`--i: ${i}`}>{word.accent ? <span class="accent">{word.text}</span> : word.text}</span>{i < headline.length - 1 && ' '}</>
+      ))}</h1>
+      <p class="sub" style="--fx-d: 260ms">I build websites for small businesses and <span class="nw">full-stack</span> apps</p>
+      <CTA class="center" showPhone showResume showGithub style="--fx-d: 350ms" />
+      <p class="trust" style="--fx-d: 440ms"><b>{projectCount}</b> builds · replies within a day</p>
+    </div>
+    <span class="horizon" aria-hidden="true"></span>
+  </section>
+
+  <section class="works" aria-labelledby="works-title">
+    <div class="container works-head">
+      <h2 id="works-title">selected work</h2>
+      <a class="hire glass" data-kind="dark" data-tier="clear" href="/projects/"><span class="hire-ico" aria-hidden="true"><svg><use href="#i-code" /></svg></span><span class="hire-t"><strong>Hiring a developer?</strong><span>here's what i could do</span></span><svg class="hire-go" aria-hidden="true"><use href="#i-arrow" /></svg></a>
+      <div class="paddles">
+        <button class="paddle glass" data-kind="dark" data-tier="clear" data-pill type="button" data-dir="-1" aria-label="Previous build" aria-controls="rail"><svg aria-hidden="true"><use href="#i-chev-l" /></svg></button>
+        <button class="paddle glass" data-kind="dark" data-tier="clear" data-pill type="button" data-dir="1" aria-label="Next build" aria-controls="rail"><svg aria-hidden="true"><use href="#i-chev-r" /></svg></button>
       </div>
-      <aside class="works panel" aria-label="Selected work">
-        <a class="work-hire" href="/projects/">
-          <span class="work-icon" aria-hidden="true"><Icon name="code" /></span>
-          <span class="work-text">
-            <strong>Hiring a developer?</strong>
-            <span>Case studies, live demos and my résumé</span>
-          </span>
-          <Icon name="arrow" />
-        </a>
-        <p class="works-label">Selected work</p>
-        <ol class="works-list">
-          {allWork.map((project, i) => (
-            <li>
-              <button
-                class="work"
-                type="button"
-                data-project-modal={project.data.slug}
-                aria-label={`${project.data.title}: view details`}
-              >
-                <span class="work-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <span class="work-text">
-                  <strong>{project.data.title}</strong>
-                  <span>{project.data.clientType}</span>
-                </span>
-                <Icon name="arrow" />
-              </button>
-            </li>
-          ))}
-        </ol>
-        <p class="works-foot">Each one designed around the business or story it serves.</p>
-      </aside>
+    </div>
+    <ul class="rail" id="rail" role="list" data-rail>
+      {allWork.map((project, i) => (
+        <li>
+          <a class="tile glass" data-kind="dark" data-tier="regular" href={`/projects/#${project.data.slug}`}>
+            <Image src={project.data.shots.desktop} alt="" widths={[344, 688]} sizes="324px" loading={i < 3 ? 'eager' : 'lazy'} />
+            <span class="cap"><span class="n">{String(i + 1).padStart(2, '0')}</span><strong>{project.data.title}</strong><span class="c">{project.data.clientType}</span></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="container rail-foot"><button class="rail-tour glass" data-kind="dark" data-tier="clear" data-pill type="button" aria-pressed="true" aria-label="Pause the project tour" aria-controls="rail"><svg class="i-pause" aria-hidden="true"><use href="#i-pause" /></svg><svg class="i-play" aria-hidden="true"><use href="#i-play" /></svg></button></div>
+  </section>
+
+  <section class="band" aria-labelledby="scope-title">
+    <span class="pool steel" style="--x: 22%; --y: 62%; --s: 820px" aria-hidden="true"></span>
+    <span class="pool amber" style="--x: 82%; --y: 72%; --s: 560px; --d: 22s" aria-hidden="true"></span>
+    <div class="container">
+      <header class="band-head" data-reveal><h2 class="h2" id="scope-title">From the right scope to a successful launch.</h2><p class="lead">I build with your goals in mind, and your vision in hand.</p></header>
+      <div class="bento">
+        <div class="wide glass" data-kind="dark" data-tier="regular" data-reveal>
+          <h3>One-page presence, full business site, or a focused custom build.</h3>
+          <div>
+            <p>Each package is shaped by your content, your timeline and the one action you want customers to take. Every build is made to stay reliable and easy to maintain.</p>
+            <a class="btn glass" data-kind="dark" data-tier="clear" data-pill href="/services/">See website packages<svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg></a>
+          </div>
+        </div>
+        <div class="prail glass" data-kind="dark" data-tier="regular" data-reveal>
+          <ol role="list">
+            {steps.map((step, i) => (
+              <li style={`--i: ${i}`}>
+                <h3>{step.name}</h3>
+                <span class="pnode" aria-hidden="true"></span>
+                {i < steps.length - 1 && <span class="pline" aria-hidden="true"></span>}
+                <p>{step.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
     </div>
   </section>
 
-  <SectionBand tone="sky" grid>
-    <header class="sec-head-bold">
-      <h2>From the right scope to a successful launch.</h2>
-      <p class="sec-lead">I build with your goals in mind, and your vision in hand.</p>
-    </header>
-    <div class="split scope-process">
-      <div class="scope-copy">
-        <h3>One-page presence, full business site, or a focused custom build.</h3>
-        <p>Each package is shaped by your content, your timeline and the one action you want customers to take. Every build is made to stay reliable and easy to maintain.</p>
-        <a class="button secondary" href="/services/">See website packages</a>
-      </div>
-      <ProcessSteps />
-    </div>
-  </SectionBand>
-
-  <Closer kicker="Ready when you are." note="No forms, no pressure. A plain email describing your business is enough. I reply within a day.">Tell me what you need for your online <span class="closer-mark">presence.</span></Closer>
-
-  {allWork.map((project) => <ProjectModal project={project} />)}
-  <GridField />
+  <Closer kicker="Ready when you are." note="No forms, no pressure. A plain email describing your business is enough. I reply within a day.">Tell me what you need for your online <span class="accent">presence.</span></Closer>
 </Base>
 
 <script>
-  // Selected work scroll cue: drop the foot fade once the list is scrolled to its end.
-  for (const list of document.querySelectorAll<HTMLElement>('.works-list')) {
-    const update = () => list.classList.toggle('is-end', list.scrollTop + list.clientHeight >= list.scrollHeight - 2);
-    list.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    update();
-  }
+  import '../scripts/home.js';
 </script>

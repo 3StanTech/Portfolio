@@ -1,7 +1,11 @@
 ---
+// Projects Inspector, Spotlight layout (glass overhaul): a typographic index of every
+// build on the left, the selected build's capture as a big stage on the right, and its
+// details on a glass sheet over the capture. Every build is rendered here; projects.js
+// shows one at a time. Without JavaScript the index hides and all builds show stacked,
+// complete (overview included). Styles live in g4.css.
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import Icon from './Icon.astro';
 
 type Project = CollectionEntry<'projects'>;
 type Group = Project['data']['group'];
@@ -11,113 +15,26 @@ interface Props {
 }
 
 const { groups } = Astro.props;
-// Short tag per group, shown first in each panel's meta row.
+// Short tag per group, shown first in each sheet's tag row.
 const tags: Record<Group, string> = { systems: 'App', websites: 'Website', small: 'Personal' };
+const ordered = groups.flatMap((g) => g.projects.map((project) => ({ project, group: g.group })));
 let number = 0;
 ---
-<div class="p3" data-reveal>
-  <button class="p3-auto" type="button" aria-label="Pause the project tour">
-    <svg class="p3-auto-pause" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1" /><rect x="14" y="5" width="4" height="14" rx="1" /></svg>
-    <svg class="p3-auto-play" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z" /></svg>
-  </button>
-  <div class="p3-side">
-    <ul class="p3-list">
-      {groups.map(({ group, title, projects }) => (
+<div class="ins" data-ins>
+  <div class="ins-side">
+    <ul class="ins-list">
+      <li class="pick-lens" aria-hidden="true"></li>
+      {groups.map(({ title, projects }) => (
         <>
-          <li class="p3-label" data-group={group} aria-hidden="true">{title}</li>
+          <li class="ins-label" aria-hidden="true">{title}</li>
           {projects.map((project) => {
-            number += 1;
-            const d = project.data;
-            const first = number === 1;
-            const liveLabel = d.liveLabel ?? 'View site';
+            const i = number++;
             return (
-              <li
-                class:list={['p3-item', { 'card-bubu': d.slug === 'bubu-workout', 'card-logo': d.slug === 'herminias' }]}
-                data-group={group}
-              >
-                <button class="p3-pick" type="button" aria-expanded="true" aria-controls={`p3-${d.slug}`}>
-                  <span class="p3-pick-no">{String(number).padStart(2, '0')}</span>
-                  <span class="p3-pick-thumb" aria-hidden="true">
-                    <Image src={d.shots.thumb ?? d.cover} alt="" widths={[96, 168]} sizes="4.2rem" />
-                  </span>
-                  <span>{d.title}</span>
-                  <Icon name="arrow" />
+              <li>
+                <button class="ins-pick" type="button" data-i={i} aria-controls="ins-panel" aria-current="false">
+                  <span class="no">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="t">{project.data.title}</span>
                 </button>
-                <div class="p3-panel" id={`p3-${d.slug}`}>
-                  <div class="p3-panel-head">
-                    <span class="p3-step">
-                      <button class="p3-prev" type="button" aria-label="Previous build"><Icon name="chevron-left" /></button>
-                      <button class="p3-next" type="button" aria-label="Next build"><Icon name="chevron-right" /></button>
-                    </span>
-                  </div>
-                  <div class="p3-cover">
-                    <button class="p3-flip" type="button" aria-pressed="false" aria-label={`${d.title}: show the phone view`}>
-                      <span class="p3-flip-inner">
-                        <span class="p3-face p3-face-front">
-                          <Image
-                            src={d.shots.desktop}
-                            alt={`${d.title} on a desktop screen`}
-                            widths={[640, 960, 1280, 1600]}
-                            sizes="(max-width: 860px) 86vw, 52rem"
-                            loading={first ? 'eager' : 'lazy'}
-                          />
-                        </span>
-                        <span class="p3-face p3-face-back">
-                          <Image src={d.shots.phone} alt={`${d.title} on a phone screen`} widths={[390, 780]} sizes="12rem" />
-                        </span>
-                      </span>
-                    </button>
-                  </div>
-                  <div class="p3-body">
-                    <p class="r2-tags">
-                      <span class="r2-tag">{tags[group]}</span>
-                      <span>{d.kind === 'commercial' ? 'Commercial' : 'Personal'}</span>
-                      <span>{d.year}</span>
-                    </p>
-                    <h2>{d.title}</h2>
-                    <div class="p3-tabbed">
-                      <div class="p3-ptabs" role="tablist" aria-label={`${d.title} details`}>
-                        <button type="button" role="tab" id={`${d.slug}-t1`} aria-selected="true" aria-controls={`${d.slug}-p1`}>Overview</button>
-                        <button type="button" role="tab" id={`${d.slug}-t2`} aria-selected="false" tabindex="-1" aria-controls={`${d.slug}-p2`}>Stack</button>
-                        <button type="button" role="tab" id={`${d.slug}-t3`} aria-selected="false" tabindex="-1" aria-controls={`${d.slug}-p3`}>Outcome</button>
-                      </div>
-                      <div role="tabpanel" id={`${d.slug}-p1`} aria-labelledby={`${d.slug}-t1`}>
-                        {d.blurb && <p>{d.blurb}</p>}
-                        <p class="p3-summary">{d.summary}</p>
-                      </div>
-                      <div role="tabpanel" id={`${d.slug}-p2`} aria-labelledby={`${d.slug}-t2`}>
-                        <div class="stack" role="list" aria-label="Stack">
-                          {d.stack.map((item: string) => <span class="pill" role="listitem">{item}</span>)}
-                        </div>
-                      </div>
-                      <div role="tabpanel" id={`${d.slug}-p3`} aria-labelledby={`${d.slug}-t3`}>
-                        {d.outcome && <p class="p3-outcome"><strong>{d.outcome}</strong></p>}
-                        {d.demoNote && <p class="p3-note">{d.demoNote}</p>}
-                      </div>
-                    </div>
-                    <div class="p3-actions">
-                      {d.liveUrl && (
-                        <a
-                          class="button secondary"
-                          href={d.liveUrl}
-                          target="_blank"
-                          rel="noopener"
-                          aria-label={`${liveLabel}: ${d.title} (opens in new tab)`}
-                        >
-                          {liveLabel}
-                          <Icon name="external" />
-                        </a>
-                      )}
-                      {d.liveUrl && d.caseStudy && (
-                        <a class="r2-link" href={`/projects/${d.slug}/`}>Read the case study <Icon name="arrow" /></a>
-                      )}
-                      {!d.liveUrl && d.caseStudy && (
-                        <a class="button secondary" href={`/projects/${d.slug}/`}>Read the case study <Icon name="arrow" /></a>
-                      )}
-                      <button class="p3-details" type="button" data-project-modal={d.slug}>Project details</button>
-                    </div>
-                  </div>
-                </div>
               </li>
             );
           })}
@@ -125,168 +42,69 @@ let number = 0;
       ))}
     </ul>
   </div>
+
+  <section class="ins-panel" id="ins-panel" aria-label="Selected build">
+    <div class="ins-top">
+      <div class="ins-ctl">
+        <button class="ins-tour glass" data-kind="dark" data-tier="regular" data-pill type="button" aria-pressed="true" aria-label="Pause the project tour"><svg data-i="pause" class="icon" aria-hidden="true"><use href="#i-pause" /></svg><svg data-i="play" class="icon" aria-hidden="true"><use href="#i-play" /></svg></button>
+        <button class="ins-prev glass" data-kind="dark" data-tier="regular" data-pill type="button" aria-label="Previous build"><svg class="icon" aria-hidden="true"><use href="#i-chev-l" /></svg></button>
+        <button class="ins-next glass" data-kind="dark" data-tier="regular" data-pill type="button" aria-label="Next build"><svg class="icon" aria-hidden="true"><use href="#i-chev-r" /></svg></button>
+      </div>
+    </div>
+
+    {ordered.map(({ project, group }, i) => {
+      const d = project.data;
+      const liveLabel = d.liveLabel ?? 'View site';
+      return (
+        <article class="ins-build" id={d.slug} data-slug={d.slug} aria-labelledby={`${d.slug}-title`}>
+          <div class="ins-cover-wrap">
+            <button class="ins-cover" type="button" aria-pressed="false" aria-label={`${d.title}: show the phone view`}>
+              <Image class="desk" src={d.shots.desktop} alt={`${d.title} on a desktop screen`} widths={[640, 960, 1280, 1600]} sizes="(max-width: 960px) 92vw, 52rem" loading={i === 0 ? 'eager' : 'lazy'} />
+              <Image class="phone" src={d.shots.phone} alt={`${d.title} on a phone screen`} widths={[390, 780]} sizes="14rem" loading="lazy" />
+              <span class="flip-hint glass" data-kind="dark" data-tier="regular" data-pill aria-hidden="true"><svg class="to-phone"><use href="#i-handset" /></svg><svg class="to-desk"><use href="#i-desk" /></svg></span>
+            </button>
+          </div>
+          <div class="ins-body glass" data-kind="dark" data-tier="thick" data-adapt="card">
+            <p class="ins-tags">
+              <span class="tag">{tags[group]}</span>
+              <span>{d.kind === 'commercial' ? 'Commercial' : 'Personal'}</span>
+              <span>{d.year}</span>
+            </p>
+            <h2 class="ins-title" id={`${d.slug}-title`}>{d.title}</h2>
+            <div class="ins-overview">
+              {d.blurb && <p class="blurb">{d.blurb}</p>}
+              <p class="summary">{d.summary}</p>
+            </div>
+            <div class="ins-tabs" role="tablist" aria-label={`${d.title} details`}>
+              <span class="tab-lens" aria-hidden="true"></span>
+              <button type="button" role="tab" id={`${d.slug}-t2`} aria-selected="true" aria-controls={`${d.slug}-p2`}>Stack</button>
+              <button type="button" role="tab" id={`${d.slug}-t3`} aria-selected="false" tabindex="-1" aria-controls={`${d.slug}-p3`}>Outcome</button>
+            </div>
+            <div class="ins-tabpanel" role="tabpanel" id={`${d.slug}-p2`} aria-labelledby={`${d.slug}-t2`}>
+              <div class="ins-stack" role="list" aria-label="Stack">
+                {d.stack.map((item: string) => <span class="glass" data-kind="dark" data-tier="clear" data-pill role="listitem">{item}</span>)}
+              </div>
+            </div>
+            <div class="ins-tabpanel" role="tabpanel" id={`${d.slug}-p3`} aria-labelledby={`${d.slug}-t3`}>
+              {d.outcome && <p class="outcome"><strong>{d.outcome}</strong></p>}
+              {d.demoNote && <p class="summary">{d.demoNote}</p>}
+            </div>
+            <div class="ins-actions">
+              {d.liveUrl && (
+                <a class="btn glass" data-kind="dark" data-tier="clear" data-pill href={d.liveUrl} target="_blank" rel="noopener" aria-label={`${liveLabel}: ${d.title} (opens in new tab)`}>{liveLabel}<svg class="icon" aria-hidden="true"><use href="#i-ext" /></svg></a>
+              )}
+              {d.caseStudy && (
+                <a class="link" href={`/projects/${d.slug}/`}>Read the case study<svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg></a>
+              )}
+              <button class="details" type="button" data-project-modal={d.slug}>Project details</button>
+            </div>
+          </div>
+        </article>
+      );
+    })}
+  </section>
 </div>
 
 <script>
-  // Projects Inspector. Without this script every panel and tab shows, stacked
-  // (projects.css styles .p3 without .is-ready). With it: one build is open at a
-  // time; wide screens show it beside the list (hover, click or arrow keys
-  // switch), narrow screens show the panels as a swipe carousel (CSS).
-  for (const inspector of document.querySelectorAll<HTMLElement>('.p3')) {
-    const items = [...inspector.querySelectorAll<HTMLElement>('.p3-item')];
-    if (!items.length) continue;
-    inspector.classList.add('is-ready');
-    const wide = matchMedia('(min-width: 861px)');
-    let current = items[0];
-    let afterSelect = () => {};
-
-    // On wide screens the open panel sits beside the list, out of flow, so the
-    // inspector grows to the open panel's height (tabs vary it).
-    let openPanel: HTMLElement | null = null;
-    const fit = () => {
-      inspector.style.minHeight = wide.matches && openPanel ? `${openPanel.offsetHeight}px` : '';
-    };
-    const watch = new ResizeObserver(fit);
-    wide.addEventListener('change', fit);
-
-    const select = (item: HTMLElement, focusSelector?: string) => {
-      for (const other of items) {
-        const on = other === item;
-        other.classList.toggle('is-active', on);
-        other.querySelector('.p3-pick')?.setAttribute('aria-expanded', String(on));
-        const panel = other.querySelector<HTMLElement>('.p3-panel');
-        if (panel) panel.hidden = !on;
-      }
-      current = item;
-      openPanel = item.querySelector<HTMLElement>('.p3-panel');
-      watch.disconnect();
-      if (openPanel) watch.observe(openPanel);
-      fit();
-      if (focusSelector) {
-        // Swapping panels changes the inspector's height, which cuts short the
-        // smooth scroll focus() starts; scroll once the new layout is in place.
-        const target = item.querySelector<HTMLElement>(focusSelector);
-        target?.focus({ preventScroll: true });
-        requestAnimationFrame(() => target?.scrollIntoView({ block: 'nearest' }));
-      }
-      afterSelect();
-    };
-    const step = (item: HTMLElement, by: number) => items[(items.indexOf(item) + by + items.length) % items.length];
-
-    // The carousel (narrow screens) shows every panel; the build scrolled into
-    // view becomes the current one, so crossing the breakpoint keeps it open.
-    const list = inspector.querySelector<HTMLElement>('.p3-list');
-    let scrollTimer = 0;
-    list?.addEventListener('scroll', () => {
-      if (wide.matches) return;
-      clearTimeout(scrollTimer);
-      scrollTimer = window.setTimeout(() => {
-        if (wide.matches) return;
-        const left = list.scrollLeft;
-        const nearest = items.reduce((best, item) =>
-          Math.abs(item.offsetLeft - list.offsetLeft - left) < Math.abs(best.offsetLeft - list.offsetLeft - left) ? item : best);
-        if (nearest !== current) select(nearest);
-      }, 120);
-    }, { passive: true });
-    wide.addEventListener('change', () => {
-      clearTimeout(scrollTimer);
-      // Keep the build that holds focus (or the current one) open on either side.
-      const focused = items.find((item) => item.contains(document.activeElement)) ?? current;
-      select(focused);
-      if (!wide.matches && list) list.scrollTo({ left: focused.offsetLeft - list.offsetLeft, behavior: 'instant' });
-    });
-
-    for (const item of items) {
-      const pick = item.querySelector<HTMLButtonElement>('.p3-pick');
-      pick?.addEventListener('click', () => select(item));
-      pick?.addEventListener('mouseenter', () => { if (wide.matches) select(item); });
-      pick?.addEventListener('keydown', (event) => {
-        if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
-        event.preventDefault();
-        select(step(item, event.key === 'ArrowDown' ? 1 : -1), '.p3-pick');
-      });
-      item.querySelector('.p3-prev')?.addEventListener('click', () => select(step(item, -1), '.p3-prev'));
-      item.querySelector('.p3-next')?.addEventListener('click', () => select(step(item, 1), '.p3-next'));
-
-      // Overview / Stack / Outcome: a tab list with arrow-key movement.
-      const tabs = [...item.querySelectorAll<HTMLButtonElement>('[role=tab]')];
-      const show = (tab: HTMLButtonElement, focus = false) => {
-        for (const t of tabs) {
-          const on = t === tab;
-          t.setAttribute('aria-selected', String(on));
-          t.tabIndex = on ? 0 : -1;
-          const panel = document.getElementById(t.getAttribute('aria-controls') ?? '');
-          if (panel) panel.hidden = !on;
-        }
-        if (focus) tab.focus();
-      };
-      tabs.forEach((tab, index) => {
-        tab.addEventListener('click', () => show(tab));
-        tab.addEventListener('keydown', (event) => {
-          if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
-          event.preventDefault();
-          show(tabs[(index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length], true);
-        });
-      });
-      if (tabs[0]) show(tabs[0]);
-
-      // Panel image: flips between the desktop view (front) and the phone view
-      // (back). aria-pressed and the label say which view a click shows.
-      const flip = item.querySelector<HTMLButtonElement>('.p3-flip');
-      if (flip) {
-        const label = flip.getAttribute('aria-label') ?? '';
-        const title = label.slice(0, label.lastIndexOf(':'));
-        flip.addEventListener('click', () => {
-          const phone = flip.getAttribute('aria-pressed') !== 'true';
-          flip.setAttribute('aria-pressed', String(phone));
-          flip.setAttribute('aria-label', `${title}: show the ${phone ? 'desktop' : 'phone'} view`);
-        });
-      }
-    }
-
-    // Project tour: the next build opens every 5s, looping. It runs only on wide
-    // screens, while the inspector is on screen and the tab is visible, and holds
-    // while the pointer is over the inspector, focus is inside it or a project
-    // dialog is open (WCAG 2.2.2).
-    // The icon-only button pauses and resumes it; reduced motion starts it paused.
-    const auto = inspector.querySelector<HTMLButtonElement>('.p3-auto');
-    if (auto) {
-      const INTERVAL = 5000;
-      const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-      let paused = reduce.matches;
-      let holdPointer = false;
-      let holdFocus = false;
-      let onScreen = true;
-      let timer = 0;
-      // An open project dialog also holds the tour, so the panel whose button
-      // opened it stays visible to take focus back when the dialog closes.
-      const dialogOpen = () => document.querySelector('dialog.pm[open]') !== null;
-      const running = () =>
-        !paused && !holdPointer && !holdFocus && !dialogOpen() && onScreen && wide.matches && document.visibilityState === 'visible';
-      const restart = () => {
-        clearTimeout(timer);
-        if (!running()) return;
-        timer = window.setTimeout(() => select(step(current, 1)), INTERVAL);
-      };
-      const label = () => {
-        auto.setAttribute('aria-label', `${paused ? 'Play' : 'Pause'} the project tour`);
-        auto.classList.toggle('is-paused', paused);
-      };
-      auto.addEventListener('click', () => { paused = !paused; label(); restart(); });
-      inspector.addEventListener('mouseenter', () => { holdPointer = true; restart(); });
-      inspector.addEventListener('mouseleave', () => { holdPointer = false; restart(); });
-      inspector.addEventListener('focusin', () => { holdFocus = true; restart(); });
-      inspector.addEventListener('focusout', (event) => {
-        if (!inspector.contains(event.relatedTarget as Node | null)) { holdFocus = false; restart(); }
-      });
-      new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; restart(); }).observe(inspector);
-      document.addEventListener('visibilitychange', restart);
-      document.querySelectorAll('dialog.pm').forEach((dialog) => dialog.addEventListener('close', restart));
-      wide.addEventListener('change', restart);
-      reduce.addEventListener('change', () => { if (reduce.matches) { paused = true; label(); } restart(); });
-      afterSelect = restart;
-      label();
-    }
-    select(items[0]);
-  }
+  import '../scripts/projects.js';
 </script>

@@ -3,8 +3,6 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import CTA from '../components/CTA.astro';
 import Closer from '../components/Closer.astro';
-import Constellation from '../components/Constellation.astro';
-import GridField from '../components/GridField.astro';
 import Icon from '../components/Icon.astro';
 import profilePhoto from '../assets/tristan-profile-centered.png';
 import { contact } from '../data/contact';
@@ -48,7 +46,7 @@ const values = [
 ];
 ---
 <Base title="About | Tristan Dolfo" description="About Tristan Dolfo, a full-stack developer building reliable websites and business systems for small teams worldwide." canonical="/about/">
-  <section class="section band-mist gf-section about-opening">
+  <section class="section band-mist about-opening">
     <div class="container about-masthead">
       <div class="about-monogram about-monogram-photo" data-reveal>
         <Image
@@ -108,7 +106,6 @@ const values = [
   </section>
 
   <section class="section starfield">
-    <Constellation density={95} islandLimit={2} />
     <div class="container">
       <header class="sec-head-bold" data-reveal>
         <h2>What I build with:</h2>
@@ -128,7 +125,7 @@ const values = [
     </div>
   </section>
 
-  <section class="section band-paper gf-section">
+  <section class="section band-paper">
     <div class="container">
       <header class="sec-head-bold" data-reveal>
         <h2>How I approach the work.</h2>
@@ -151,5 +148,4 @@ const values = [
     </div>
   </section>
   <Closer kicker="Like how I work?" note="A plain email describing your business is enough. I reply within a day.">Tell me what your business <span class="closer-mark">needs.</span></Closer>
-  <GridField />
 </Base>

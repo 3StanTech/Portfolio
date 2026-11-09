@@ -4,7 +4,6 @@ import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Closer from '../../components/Closer.astro';
-import Constellation from '../../components/Constellation.astro';
 import Icon from '../../components/Icon.astro';
 import OmniReviewerArchitecture from '../../components/diagrams/OmniReviewerArchitecture.astro';
 import CafeOmsArchitecture from '../../components/diagrams/CafeOmsArchitecture.astro';
@@ -47,7 +46,6 @@ const toc = [
 ---
 <Base title={`${d.title} case study | Tristan Dolfo`} description={cs.lede} canonical={`/projects/${d.slug}/`}>
   <section class="section starfield case-head">
-    <Constellation density={120} islandLimit={2} class="fade-edge" />
     <div class="container">
       <nav class="crumbs" aria-label="Breadcrumb">
         <a href="/projects/">Projects</a>

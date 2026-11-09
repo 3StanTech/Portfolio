@@ -1,9 +1,13 @@
-@import '@fontsource-variable/schibsted-grotesk';
-@import '@fontsource-variable/hanken-grotesk';
+/* G4 design tokens (glass overhaul). Dark only: the light theme and its toggle are gone.
+   Fonts are self-hosted through Fontsource (all OFL): Geist and Geist Mono variable, and
+   DM Serif Display italic for the one accent word per heading. */
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+@import '@fontsource/dm-serif-display/latin-400-italic.css';
 
 :root {
-  --font-display: 'Schibsted Grotesk Variable', system-ui, sans-serif;
-  --font-body: 'Hanken Grotesk Variable', system-ui, sans-serif;
+  --font-display: 'Geist Variable', system-ui, sans-serif;
+  --font-body: 'Geist Variable', system-ui, sans-serif;
 
   /* --- Brand hues (theme-independent) --- */
   --navy: #14304E;        /* primary brand: buttons, dark bands, heading marks */
@@ -56,7 +60,6 @@
   /* project-card cover fallback bg (replaces hardcoded hex) */
   --media-bubu: #f6b7b4;
 
-  --radius: 2px;      /* Blueprint: panels, cards, dialogs */
   --radius-sm: 2px;
   --maxw: 1120px;
   --header-h: 72px;
@@ -101,17 +104,33 @@
   --space-5: 2rem;
   --space-6: 3rem;
   --space-7: clamp(4.5rem, 3.2rem + 5.5vw, 8rem);
-}
 
-:root[data-theme='dark'] {
+  /* ---- G4 system (from the approved mock: site.css, dir-c.css, dir-d.css at navy "Hint") ---- */
   color-scheme: dark;
-  --paper: #0B1320;
-  --paper-2: #111C2B;
-  --mist: #16253A;
-  --sky: #182B42;
-  --panel: #111C2B;
-  --ink: #EAF1F8;
-  --ink-soft: #B8C5D4;
+  --page: #000;
+  --ink: #F5F5F7;
+  --ink-soft: color-mix(in srgb, var(--ink) 66%, transparent);
+  --ink-dim: color-mix(in srgb, var(--ink) 58%, transparent); /* AA floor over dimmed content under the bar */
+  --hair: color-mix(in srgb, var(--ink) 13%, transparent);
+  --amber-soft: #E9A25C;
+  --steel-light: #9DBBE6;
+  --gutter: 24px;
+  --f-display: 'Geist Variable', 'Geist', system-ui, sans-serif;
+  --f-body: 'Geist Variable', 'Geist', system-ui, sans-serif;
+  --f-label: 'Geist Mono Variable', 'Geist Mono', ui-monospace, monospace;
+  --f-accent: 'DM Serif Display', Georgia, serif;
+  --h-w: 700;
+  --rail-pad: max(var(--gutter), (100vw - var(--maxw)) / 2);
+  /* z-index scale: sky -1, page 0, edge fade 15, header 20, dialog 50 */
+
+  /* ---- Legacy bridge: the Blueprint names Services, About, the case studies and 404 still
+     use, set to dark values that pass AA on black. Phase 2 restyles those pages and removes
+     this bridge. Bands are transparent so the galaxy shows through. ---- */
+  --paper: transparent;
+  --paper-2: transparent;
+  --mist: transparent;
+  --sky: transparent;
+  --panel: rgb(20 24 34 / .86);
   --line: #26384F;
   --line-strong: #3B526F;
   --link: #9DBBE6;
@@ -134,4 +153,8 @@
   --line-on-dark: rgba(255, 255, 255, .12);
   --divider-on-dark: rgba(255, 255, 255, .22);
   --poly-divider: color-mix(in srgb, var(--steel) 46%, transparent);
+  --maxw: 1200px;
+  --header-h: 72px;
+  --radius-panel: 18px; /* legacy panels; Glasswork owns the unitless --radius on .glass */
+  --radius-sm: 12px;
 }

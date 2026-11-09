@@ -3,10 +3,8 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Closer from '../../components/Closer.astro';
-import GridField from '../../components/GridField.astro';
 import ProjectInspector from '../../components/ProjectInspector.astro';
 import ProjectModal from '../../components/ProjectModal.astro';
-import '../../styles/projects.css';
 
 type Project = CollectionEntry<'projects'>;
 type Group = Project['data']['group'];
@@ -23,21 +21,27 @@ const groupOrder: { group: Group; title: string }[] = [
 const groups = groupOrder
   .map((entry) => ({ ...entry, projects: projects.filter((project) => project.data.group === entry.group) }))
   .filter((entry) => entry.projects.length > 0);
+const headline = ['Built', 'for', 'the', 'people', 'who', 'use', 'them.'];
 ---
 <Base title="Projects | Tristan Dolfo" description="Projects by Tristan: full-stack apps and systems, business websites, and personal projects and commissions. Check them out, then try for yourself." canonical="/projects/">
-  <section class="section starfield gf-section">
-    <div class="container">
-      <header class="page-head" data-reveal>
-        <p class="page-kicker"><span class="hero-dot" aria-hidden="true"></span>{projects.length} builds</p>
-        <h1 class="page-title">Built for the people who use them.</h1>
-        <p class="page-lead">Check them out, then try for yourself.</p>
-      </header>
-      <ProjectInspector groups={groups} />
+  <section class="p-head" aria-labelledby="page-title">
+    <span class="pool steel" style="--x: 50%; --y: 70%; --s: 1100px; --d: 30s" aria-hidden="true"></span>
+    <div class="container inner" data-words-box>
+      <p class="mono kicker" style="--fx-d: 0ms">{projects.length} builds</p>
+      <h1 class="h1" id="page-title" data-words>{headline.map((word, i) => (
+        <><span class="w" style={`--i: ${i}`}>{word}</span>{i < headline.length - 1 && ' '}</>
+      ))}</h1>
+      <p class="lead" style="--fx-d: 260ms">Check them out, then try for yourself.</p>
     </div>
   </section>
-  <GridField />
 
-  <Closer kicker="Seen enough?">Tell me which one is <span class="closer-mark">closest</span> to your business.</Closer>
+  <section class="ins-wrap" aria-label="Builds">
+    <span class="pool amber" style="--x: 18%; --y: 70%; --s: 640px; --d: 24s" aria-hidden="true"></span>
+    <span class="pool steel" style="--x: 80%; --y: 40%; --s: 900px; --d: 28s" aria-hidden="true"></span>
+    <div class="container"><ProjectInspector groups={groups} /></div>
+  </section>
+
+  <Closer kicker="Seen enough?">Tell me which one is <span class="accent">closest</span> to your business.</Closer>
 
   {projects.map((project) => <ProjectModal project={project} />)}
 </Base>

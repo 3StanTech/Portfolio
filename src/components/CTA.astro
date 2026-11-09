@@ -1,5 +1,6 @@
 ---
-import Icon from './Icon.astro';
+// Contact buttons as glass pills (glass overhaul): Email me is glass like the rest and
+// every button turns amber on hover (g4.css). Icons come from the sprite (Sprite.astro).
 import { contact, mailto } from '../data/contact';
 
 const {
@@ -8,34 +9,22 @@ const {
   showPhone = false,
   showResume = false,
   showGithub = false,
-  class: className = ''
+  class: className = '',
+  style
 } = Astro.props;
 
 const resumeHref = '/Tristan_Dolfo_Resume.pdf';
-const githubHref = contact.github;
 ---
-<div class:list={['button-row', className]}>
-  <a class="button" href={mailto(subject)}>
-    <Icon name="mail" />
-    {label}
-  </a>
+<div class:list={['cta-row', className]} style={style}>
+  <a class="btn glass" data-kind="dark" data-tier="clear" data-pill href={mailto(subject)}><svg class="icon" aria-hidden="true"><use href="#i-mail" /></svg>{label}</a>
   {showPhone && (
-    <a class="button secondary" href={contact.phoneHref}>
-      <Icon name="phone" />
-      Call · {contact.phoneDisplay}
-    </a>
+    <a class="btn glass" data-kind="dark" data-tier="clear" data-pill href={contact.phoneHref}><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg>Call · {contact.phoneDisplay}</a>
   )}
   {showResume && (
-    <a class="button tertiary cta-resume" href={resumeHref} target="_blank" rel="noopener" aria-label="View Résumé (PDF, opens in new tab)">
-      <Icon name="document" />
-      View Résumé
-    </a>
+    <a class="btn glass" data-kind="dark" data-tier="clear" data-pill href={resumeHref} target="_blank" rel="noopener" aria-label="View Résumé (PDF, opens in new tab)"><svg class="icon" aria-hidden="true"><use href="#i-doc" /></svg>View Résumé</a>
   )}
   {showGithub && (
-    <a class="button tertiary cta-github" href={githubHref} target="_blank" rel="noopener" aria-label="View GitHub (opens in new tab)">
-      <Icon name="github" />
-      View GitHub
-    </a>
+    <a class="btn glass" data-kind="dark" data-tier="clear" data-pill href={contact.github} target="_blank" rel="noopener" aria-label="View GitHub (opens in new tab)"><svg class="icon" aria-hidden="true"><use href="#i-gh" /></svg>View GitHub</a>
   )}
   <slot />
 </div>

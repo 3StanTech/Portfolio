@@ -1,0 +1,53 @@
+---
+// The island header (glass overhaul): a glass capsule with three faces (compact
+// status, expanded nav, mini logo) that site.js switches on hover, focus and scroll,
+// and the "check me out" contact menu beside it. No header Email button: contact
+// lives in the menu. Without JavaScript the expanded face (the links) shows.
+import { Image } from 'astro:assets';
+import { contact, mailto } from '../data/contact';
+import logoHeader from '../assets/logo-header.png';
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(href);
+const onProjects = isCurrent('/projects/');
+const resumeHref = '/Tristan_Dolfo_Resume.pdf';
+const links = [
+  { href: '/services/', label: 'Services' },
+  { href: '/about/', label: 'About' },
+];
+---
+<header class="hdr">
+  <div class="isl-wrap">
+    <nav class="isl glass" data-kind="dark" data-tier="regular" data-pill data-adapt="bar" data-mode="expanded" aria-label="Primary">
+      <div class="face face-compact" aria-hidden="true">
+        <Image class="logo" src={logoHeader} width={32} height={32} densities={[1, 2]} alt="" loading="eager" />
+        <span class="status">Tristan Dolfo <span>· replies within a day</span></span>
+      </div>
+      <div class="face face-expanded">
+        <a class="brand" href="/" aria-label="Tristan Dolfo, home" aria-current={path === '/' ? 'page' : undefined}>
+          <Image class="logo" src={logoHeader} width={32} height={32} densities={[1, 2]} alt="" loading="eager" />
+        </a>
+        <span class="nav-links">
+          <a href="/projects/" data-key="projects" aria-current={onProjects ? 'page' : undefined}>Projects</a>
+          {links.map((link) => (
+            <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>{link.label}</a>
+          ))}
+          <a class="nav-resume" href={resumeHref} target="_blank" rel="noopener" aria-label="Résumé (PDF, opens in new tab)">Résumé</a>
+        </span>
+      </div>
+      <div class="face face-mini" aria-hidden="true">
+        <Image class="logo" src={logoHeader} width={32} height={32} densities={[1, 2]} alt="" loading="eager" />
+      </div>
+    </nav>
+    <div class="contact">
+      <button class="cta-more glass" data-kind="dark" data-tier="clear" data-pill type="button" aria-expanded="false" aria-controls="contact-menu"><span class="spark" aria-hidden="true"></span><span class="lbl">check me out</span></button>
+      <div class="pop glass" id="contact-menu" data-kind="dark" data-tier="regular" data-adapt="menu" role="group" aria-label="Contact">
+        <a href={mailto()}><svg class="icon" aria-hidden="true"><use href="#i-mail" /></svg><span class="two">Email me<small>{contact.email}</small></span></a>
+        <button type="button" data-copy><svg class="icon" aria-hidden="true"><use href="#i-copy" /></svg><span>Copy email address</span></button>
+        <a href={contact.phoneHref}><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg>Call · {contact.phoneDisplay}</a>
+        <a href={resumeHref} target="_blank" rel="noopener" aria-label="View Résumé (PDF, opens in new tab)"><svg class="icon" aria-hidden="true"><use href="#i-doc" /></svg>View Résumé</a>
+        <a href={contact.github} target="_blank" rel="noopener" aria-label="View GitHub (opens in new tab)"><svg class="icon" aria-hidden="true"><use href="#i-gh" /></svg>View GitHub</a>
+      </div>
+    </div>
+  </div>
+</header>
