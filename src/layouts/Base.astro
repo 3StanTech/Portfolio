@@ -1,7 +1,6 @@
 ---
-// Stylesheet order: the Glasswork material, its dark tiers, the legacy Blueprint rules
-// (still used by the pages Phase 2 restyles; global.css imports tokens.css), then the
-// G4 system and the motion set, so G4 wins where names are shared.
+// Stylesheet order: the Glasswork material, its dark tiers, the element base rules
+// (global.css imports tokens.css), then the G4 system and the motion set.
 import '../vendor/glasswork/glass.css';
 import '../styles/material.css';
 import '../styles/global.css';
@@ -20,7 +19,7 @@ const {
   description = 'Fast, polished sites and systems for businesses. Built by Tristan Dolfo. Philippines.',
   canonical = Astro.url.pathname,
   // Query version forces social crawlers to re-fetch after brand/copy changes.
-  ogImage = '/og-image.png?v=20261105-1',
+  ogImage = '/og-image.png?v=20261109-1',
   // Missing-page style surfaces: robots noindex and no canonical.
   noindex = false,
   jsonLd

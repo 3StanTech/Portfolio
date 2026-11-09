@@ -4,7 +4,6 @@ import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Closer from '../../components/Closer.astro';
-import Icon from '../../components/Icon.astro';
 import OmniReviewerArchitecture from '../../components/diagrams/OmniReviewerArchitecture.astro';
 import CafeOmsArchitecture from '../../components/diagrams/CafeOmsArchitecture.astro';
 import FundsiclesArchitecture from '../../components/diagrams/FundsiclesArchitecture.astro';
@@ -45,41 +44,41 @@ const toc = [
 ];
 ---
 <Base title={`${d.title} case study | Tristan Dolfo`} description={cs.lede} canonical={`/projects/${d.slug}/`}>
-  <section class="section starfield case-head">
+  <header class="case-head">
     <div class="container">
-      <nav class="crumbs" aria-label="Breadcrumb">
+      <nav class="crumbs mono" aria-label="Breadcrumb">
         <a href="/projects/">Projects</a>
         <span aria-hidden="true">/</span>
         <span aria-current="page">{d.title}</span>
       </nav>
-      <h1 class="page-title">{d.title}</h1>
-      <p class="page-lead case-lede">{cs.lede}</p>
-      <dl class="facts">
+      <h1 class="h1">{d.title}</h1>
+      <p class="lead case-lede">{cs.lede}</p>
+      <dl class="facts glass" data-kind="dark" data-tier="clear">
         {cs.facts.map((fact: { label: string; value: string }) => (
           <div><dt>{fact.label}</dt><dd>{fact.value}</dd></div>
         ))}
       </dl>
       <div class="case-actions">
         {d.liveUrl && (
-          <a class="button" href={d.liveUrl} target="_blank" rel="noopener" aria-label={`${liveLabel} (opens in new tab)`}>
-            <Icon name="external" />
+          <a class="btn glass" data-kind="dark" data-tier="clear" data-pill href={d.liveUrl} target="_blank" rel="noopener" aria-label={`${liveLabel} (opens in new tab)`}>
+            <svg class="icon" aria-hidden="true"><use href="#i-ext" /></svg>
             {liveLabel}
           </a>
         )}
         {d.repoUrl && (
-          <a class:list={['button', { secondary: Boolean(d.liveUrl) }]} href={d.repoUrl} target="_blank" rel="noopener" aria-label="View the code on GitHub (opens in new tab)">
-            <Icon name="github" />
+          <a class="btn glass" data-kind="dark" data-tier="clear" data-pill href={d.repoUrl} target="_blank" rel="noopener" aria-label="View the code on GitHub (opens in new tab)">
+            <svg class="icon" aria-hidden="true"><use href="#i-gh" /></svg>
             View the code
           </a>
         )}
         {d.liveUrl && demoNote && <span class="demo-note">{demoNote}</span>}
       </div>
-      <figure class="case-shot panel">
+      <figure class="case-shot glass" data-kind="dark" data-tier="clear" data-lens="none">
         <Image
           src={d.cover}
           alt={d.coverAlt ?? ''}
           widths={[640, 960, 1280, 1600]}
-          sizes="(max-width: 1152px) calc(100vw - 2rem), 1120px"
+          sizes="(max-width: 1248px) calc(100vw - 52px), 1180px"
           loading="eager"
           fetchpriority="high"
           decoding="async"
@@ -87,11 +86,11 @@ const toc = [
         {cs.coverCaption && <figcaption class="demo-note">{cs.coverCaption}</figcaption>}
       </figure>
     </div>
-  </section>
+  </header>
 
-  <section class="section">
+  <section class="case-wrap">
     <div class="container case-body">
-      <nav class="case-toc" aria-label="On this page" data-case-toc>
+      <nav class="case-toc glass" data-kind="dark" data-tier="regular" data-lens="none" aria-label="On this page" data-case-toc>
         {toc.map((item) => <a href={`#${item.id}`}>{item.label}</a>)}
       </nav>
       <div class="case-main">
@@ -109,7 +108,7 @@ const toc = [
 
         <section class="case-sec" id="architecture" aria-labelledby="architecture-title">
           <h2 id="architecture-title">How it fits together</h2>
-          <figure class="diagram panel">
+          <figure class="diagram glass" data-kind="dark" data-tier="regular" data-lens="none">
             <Diagram />
             <figcaption>{cs.diagramCaption}</figcaption>
           </figure>
@@ -131,7 +130,7 @@ const toc = [
           <h2 id="proof-title">Proof</h2>
           <ul class="proof-list">
             {cs.proof.map((item: { lead: string; body: string }) => (
-              <li><Icon name="check" /><span><strong>{item.lead}</strong> {item.body}</span></li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg><span><strong>{item.lead}</strong> {item.body}</span></li>
             ))}
           </ul>
         </section>

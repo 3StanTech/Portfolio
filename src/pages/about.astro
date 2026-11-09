@@ -3,7 +3,6 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import CTA from '../components/CTA.astro';
 import Closer from '../components/Closer.astro';
-import Icon from '../components/Icon.astro';
 import profilePhoto from '../assets/tristan-profile-centered.png';
 import { contact } from '../data/contact';
 
@@ -46,42 +45,37 @@ const values = [
 ];
 ---
 <Base title="About | Tristan Dolfo" description="About Tristan Dolfo, a full-stack developer building reliable websites and business systems for small teams worldwide." canonical="/about/">
-  <section class="section band-mist about-opening">
-    <div class="container about-masthead">
-      <div class="about-monogram about-monogram-photo" data-reveal>
+  <section class="about-top">
+    <div class="container about-mast">
+      <div class="about-portrait glass" data-kind="dark" data-tier="clear" data-lens="none">
         <Image
           src={profilePhoto}
           alt="Portrait of Tristan Dolfo, smiling, in a navy coat and grey scarf"
           width={1122}
           height={1402}
           widths={[280, 560, 840]}
-          sizes="(max-width: 860px) min(240px, calc(100vw - 1.25rem)), 280px"
+          sizes="(max-width: 860px) 260px, 300px"
           loading="eager"
           fetchpriority="high"
           decoding="async"
         />
       </div>
       <div class="about-intro" data-reveal>
-        <header class="page-head">
-          <p class="page-kicker"><span class="hero-dot" aria-hidden="true"></span>Metro Manila, Philippines</p>
-          <h1 class="page-title">A practical partner for <span class="hero-mark">your</span> business.</h1>
-        </header>
-        <div class="about-bio">
-          <p class="about-lede">I’m Tristan, a full-stack developer from the Philippines. I build polished, reliable websites and business systems for small teams worldwide.</p>
-          <CTA showPhone class="about-cta" />
-        </div>
+        <p class="mono kicker">Metro Manila, Philippines</p>
+        <h1 class="h1">A practical partner for <span class="accent">your</span> business.</h1>
+        <p class="lead">I’m Tristan, a full-stack developer from the Philippines. I build polished, reliable websites and business systems for small teams worldwide.</p>
+        <CTA showPhone />
       </div>
     </div>
-    <div class="container about-masthead-divider" aria-hidden="true"></div>
-    <div class="container about-profile-notes" data-reveal>
-      <blockquote>You run the business. I keep its site and systems working for it.</blockquote>
-      <dl class="about-facts">
+    <div class="container about-notes" data-reveal>
+      <blockquote class="aside">You run the business. I keep its site and systems working for it.</blockquote>
+      <dl class="rows facts-rows">
         <div><dt>Based in</dt><dd>Metro Manila, Philippines</dd></div>
         <div>
           <dt>GitHub</dt>
           <dd>
-            <a href={contact.github} target="_blank" rel="noopener" aria-label="3StanTech on GitHub (opens in new tab)">
-              <Icon name="github" />
+            <a class="link-go" href={contact.github} target="_blank" rel="noopener" aria-label="3StanTech on GitHub (opens in new tab)">
+              <svg aria-hidden="true"><use href="#i-gh" /></svg>
               3StanTech
             </a>
           </dd>
@@ -89,8 +83,8 @@ const values = [
         <div>
           <dt>Résumé</dt>
           <dd>
-            <a href="/Tristan_Dolfo_Resume.pdf" target="_blank" rel="noopener" aria-label="View Résumé (PDF, opens in new tab)">
-              <Icon name="document" />
+            <a class="link-go" href="/Tristan_Dolfo_Resume.pdf" target="_blank" rel="noopener" aria-label="View Résumé (PDF, opens in new tab)">
+              <svg aria-hidden="true"><use href="#i-doc" /></svg>
               View Résumé
             </a>
           </dd>
@@ -98,23 +92,21 @@ const values = [
       </dl>
     </div>
     <div class="container about-values" data-reveal>
-      <h2 class="about-values-label">My design principles</h2>
-      <ul class="about-values-list">
+      <h2 class="mono kicker">My design principles</h2>
+      <ul class="dia values">
         {values.map((value) => <li>{value}</li>)}
       </ul>
     </div>
   </section>
 
-  <section class="section starfield">
+  <section class="pg-sec">
     <div class="container">
-      <header class="sec-head-bold" data-reveal>
-        <h2>What I build with:</h2>
-      </header>
-      <div class="text-scrim text-scrim-flush" data-reveal>
-        <div class="tech-list">
+      <h2 class="sec-h" data-reveal>What I build with:</h2>
+      <div class="gpanel glass" data-kind="dark" data-tier="regular" data-reveal>
+        <div class="rows tech">
           {stackGroups.map((group) => (
-            <div class="tech-row">
-              <h3>{group.label}</h3>
+            <div class="row">
+              <h3 class="mono">{group.label}</h3>
               <ul class="stack" aria-label={`${group.label} tools`}>
                 {group.items.map((item) => <li class="pill">{item}</li>)}
               </ul>
@@ -125,20 +117,16 @@ const values = [
     </div>
   </section>
 
-  <section class="section band-paper">
+  <section class="pg-sec">
     <div class="container">
-      <header class="sec-head-bold" data-reveal>
-        <h2>How I approach the work.</h2>
-      </header>
-      <div class="principles-list">
+      <h2 class="sec-h" data-reveal>How I approach the work.</h2>
+      <div class="rows principles">
         {principles.map((principle) => (
-          <article class="principle" data-reveal>
-            <div class="principle-head">
-              <h3>{principle.title}</h3>
-            </div>
-            <div class="principle-detail">
+          <article class="row" data-reveal>
+            <h3>{principle.title}</h3>
+            <div>
               <p>{principle.body}</p>
-              <a class="principle-evidence" href={principle.evidenceHref} target="_blank" rel="noopener" aria-label={`See it in ${principle.projectName} (opens in new tab)`}>
+              <a class="link-go" href={principle.evidenceHref} target="_blank" rel="noopener" aria-label={`See it in ${principle.projectName} (opens in new tab)`}>
                 See it in → {principle.projectName}
               </a>
             </div>
@@ -147,5 +135,5 @@ const values = [
       </div>
     </div>
   </section>
-  <Closer kicker="Like how I work?" note="A plain email describing your business is enough. I reply within a day.">Tell me what your business <span class="closer-mark">needs.</span></Closer>
+  <Closer kicker="Like how I work?" note="A plain email describing your business is enough. I reply within a day.">Tell me what your business <span class="accent">needs.</span></Closer>
 </Base>

@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import Closer from '../components/Closer.astro';
-import Icon from '../components/Icon.astro';
 import { mailto } from '../data/contact';
 
 const tiers = [
@@ -48,50 +47,52 @@ const tiers = [
 
 ---
 <Base title="Services | Tristan Dolfo" description="Website packages for small businesses worldwide, shown by outcome and scope without public pricing." canonical="/services/">
-  <section class="section band-paper">
-        <div class="container">
-      <header class="page-head" data-reveal>
-        <p class="page-kicker"><span class="hero-dot" aria-hidden="true"></span>Website packages</p>
-        <h1 class="page-title">Choose the <span class="hero-mark">shape</span> of the site.</h1>
-        <p class="page-lead">Every build targets one clear customer action, ships fast, and comes with an optional care plan after launch. The right scope depends on your content and how much the site needs to do for you.</p>
-      </header>
+  <header class="p-head">
+    <div class="container inner" data-reveal>
+      <p class="mono kicker">Website packages</p>
+      <h1 class="h1">Choose the <span class="accent">shape</span> of the site.</h1>
+      <p class="lead">Every build targets one clear customer action, ships fast, and comes with an optional care plan after launch. The right scope depends on your content and how much the site needs to do for you.</p>
+    </div>
+  </header>
+
+  <section class="pg-sec" aria-label="Website tiers">
+    <div class="container">
       <div class="svc-tiers">
-        {tiers.map((tier) => (
-          <article class:list={['svc-tier', { 'is-recommended': tier.tag === 'Business' }]} data-reveal>
-            <div class="svc-head">
+        {tiers.map((tier) => {
+          const recommended = tier.tag === 'Business';
+          return (
+            <article class:list={['svc-tier glass', { 'is-recommended': recommended }]} data-kind="dark" data-tier={recommended ? 'thick' : 'regular'} data-reveal>
               <div class="svc-labels">
-                <span class="svc-tag">{tier.tag}</span>
-                {tier.tag === 'Business' && <span class="svc-recommendation">Most owners start here</span>}
+                <span class="mono svc-tag">{tier.tag}</span>
+                {recommended && <span class="badge">Most owners start here</span>}
               </div>
               <h2>{tier.title}</h2>
               <p class="svc-fit"><strong>Best for:</strong> {tier.bestFor}</p>
-            </div>
-            <div class="svc-detail">
-              <ul class="svc-list">
+              <ul class="dia">
                 {tier.points.map((point) => <li>{point}</li>)}
               </ul>
-              <a class:list={['button', { secondary: tier.tag !== 'Business' }]} href={mailto(tier.subject)}>
+              <a class="btn glass" data-kind="dark" data-tier="clear" data-pill href={mailto(tier.subject)}>
                 {tier.ctaLabel}
-                <Icon name="arrow" />
+                <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg>
               </a>
-            </div>
-          </article>
-        ))}
+            </article>
+          );
+        })}
       </div>
       <div class="svc-includes" data-reveal>
-        <p class="svc-includes-label">Every tier includes</p>
-        <ul aria-label="Included with every website tier">
+        <p class="mono">Every tier includes</p>
+        <ul class="stack" aria-label="Included with every website tier">
           <li class="pill">SEO basics</li>
           <li class="pill">Structured data</li>
           <li class="pill">Fast static deployment</li>
         </ul>
-        <p class="svc-includes-plus">+ Optional care and growth plans after launch</p>
+        <p class="svc-plus">+ Optional care and growth plans after launch</p>
       </div>
     </div>
   </section>
 
   <Closer kicker="After launch">
-    Keep your site <span class="closer-mark">maintained.</span>
-    <p class="section-lead" slot="lead">Optional care plans cover updates, small fixes, SEO improvements and growth work, scoped once the first version is live.</p>
+    Keep your site <span class="accent">maintained.</span>
+    <p class="lead" slot="lead">Optional care plans cover updates, small fixes, SEO improvements and growth work, scoped once the first version is live.</p>
   </Closer>
 </Base>
