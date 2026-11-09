@@ -1,5 +1,5 @@
-// Rasterize the social share card (public/og-image.svg) to a PNG, then
-// composite the approved Night Studio monogram into the logo plate.
+// Rasterize the social share card (public/og-image.svg, the black G4 card) to a PNG,
+// then composite the Night Studio monogram into the logo plate.
 //
 // Social platforms (Facebook, X, LinkedIn, iMessage, Slack, …) don't render
 // SVG og:images, so we ship a PNG. This runs automatically before every build
@@ -7,7 +7,8 @@
 // edit og-image.svg, and the PNG regenerates on the next build.
 //
 // Each <text> is drawn as outlines from the site's own fonts (static @fontsource
-// WOFF files, read with opentype.js) before rasterizing, so the card looks the same
+// WOFF files of Geist, Geist Mono and DM Serif Display, read with opentype.js; the
+// site's variable WOFF2 files cannot be read there) before rasterizing, so the card looks the same
 // on every build host instead of falling back to whatever system fonts it has.
 //
 // `sharp` is available because Astro depends on it for image optimization.
@@ -28,16 +29,22 @@ const LOGO_X = 868;
 const LOGO_Y = 92;
 const LOGO_SIZE = 248;
 const LOGO_PAD = 14;
+const LOGO_RADIUS = 40;
 // Text in the card's upper area must end this far left of the logo plate; all
 // text must end inside the card frame (x 48–1152) with the same margin.
 const TEXT_GAP = 24;
 const FRAME_RIGHT = 1152;
 
+// Matches the plate's fill in og-image.svg (rect#logo-slot), behind the logo's margins.
+const PLATE = { r: 0x22, g: 0x2a, b: 0x39, alpha: 1 };
+
 // font-family + font-weight in og-image.svg → static font file.
 const FONT_FILES = {
-  'Schibsted Grotesk 800': '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-800-normal.woff',
-  'Hanken Grotesk 700': '@fontsource/hanken-grotesk/files/hanken-grotesk-latin-700-normal.woff',
-  'Hanken Grotesk 400': '@fontsource/hanken-grotesk/files/hanken-grotesk-latin-400-normal.woff'
+  'Geist 700': '@fontsource/geist/files/geist-latin-700-normal.woff',
+  'Geist 600': '@fontsource/geist/files/geist-latin-600-normal.woff',
+  'Geist 400': '@fontsource/geist/files/geist-latin-400-normal.woff',
+  'Geist Mono 500': '@fontsource/geist-mono/files/geist-mono-latin-500-normal.woff',
+  'DM Serif Display 400': '@fontsource/dm-serif-display/files/dm-serif-display-latin-400-italic.woff'
 };
 const fonts = new Map();
 function loadFont(key) {
@@ -81,19 +88,35 @@ function layout(font, text, x, y, size, spacing) {
   return { d, right: cursor };
 }
 
-// Replace every <text> with a <path> of its glyph outlines (start-anchored, baseline y).
+// Replace every <text> with <path>s of its glyph outlines (start-anchored, baseline y).
+// A <text> may hold <tspan> runs (font-family, font-weight, fill, letter-spacing each
+// optional, inherited from the <text>); runs are laid out one after another on the line.
 function outlineText(svg) {
-  return svg.replace(/<text\b([^>]*)>([^<]*)<\/text>/g, (_, attrs, raw) => {
-    const text = decode(raw);
+  return svg.replace(/<text\b(\s[^>]*)>([\s\S]*?)<\/text>/g, (_, attrs, inner) => {
     const size = Number(attr(attrs, 'font-size'));
-    const key = `${attr(attrs, 'font-family')} ${attr(attrs, 'font-weight') ?? '400'}`;
     const x = Number(attr(attrs, 'x'));
     const y = Number(attr(attrs, 'y'));
-    const font = loadFont(key);
-    const { d, right } = layout(font, text, x, y, size, Number(attr(attrs, 'letter-spacing') ?? 0));
+    const runs = [];
+    inner.replace(/<tspan\b([^>]*)>([^<]*)<\/tspan>|([^<]+)/g, (__, tAttrs, tText, plain) => {
+      const raw = tText ?? plain;
+      if (raw && raw.length) runs.push({ attrs: tAttrs ? ' ' + tAttrs : '', text: decode(raw) });
+      return '';
+    });
+    const pick = (run, name, fallback) => attr(run.attrs, name) ?? attr(attrs, name) ?? fallback;
+    let cursor = x;
+    let out = '';
+    let label = '';
+    for (const run of runs) {
+      if (!run.text.trim() && run === runs.at(-1)) continue;
+      const key = `${pick(run, 'font-family')} ${pick(run, 'font-weight', '400')}`;
+      const { d, right } = layout(loadFont(key), run.text, cursor, y, size, Number(pick(run, 'letter-spacing', 0)));
+      out += `<path fill="${pick(run, 'fill')}" d="${d}"/>`;
+      cursor = right;
+      label += run.text;
+    }
     const limit = y < LOGO_Y + LOGO_SIZE + size ? LOGO_X - TEXT_GAP : FRAME_RIGHT - TEXT_GAP;
-    if (right > limit) throw new Error(`"${text}" ends at x=${Math.round(right)}, past ${limit}`);
-    return `<path fill="${attr(attrs, 'fill')}" d="${d}"/>`;
+    if (cursor > limit) throw new Error(`"${label.trim()}" ends at x=${Math.round(cursor)}, past ${limit}`);
+    return out;
   });
 }
 
@@ -108,12 +131,12 @@ try {
     .png()
     .toBuffer();
 
+  // The logo sits inside the plate with rounded corners (the plate's radius less the pad).
+  const inner = LOGO_SIZE - LOGO_PAD * 2;
+  const mask = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${inner}" height="${inner}"><rect width="${inner}" height="${inner}" rx="${LOGO_RADIUS - LOGO_PAD}" fill="#fff"/></svg>`);
   const logo = await sharp(logoSrc)
-    .resize(LOGO_SIZE - LOGO_PAD * 2, LOGO_SIZE - LOGO_PAD * 2, {
-      fit: 'contain',
-      background: { r: 0x0b, g: 0x1f, b: 0x35, alpha: 1 },
-      kernel: 'lanczos3'
-    })
+    .resize(inner, inner, { fit: 'contain', background: PLATE, kernel: 'lanczos3' })
+    .composite([{ input: mask, blend: 'dest-in' }])
     .png()
     .toBuffer();
 
@@ -128,7 +151,7 @@ try {
     .png()
     .toFile(out);
 
-  console.log(`[og-image] regenerated og-image.png (${info.width}x${info.height}) with Night Studio mark`);
+  console.log(`[og-image] regenerated og-image.png (${info.width}x${info.height}) as the black G4 card`);
 } catch (err) {
   console.error('[og-image] failed to regenerate PNG:', err.message);
   process.exit(1);
