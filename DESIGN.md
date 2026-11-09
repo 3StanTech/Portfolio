@@ -118,13 +118,17 @@ components:
     padding: "10px"
     hover: "lift 6px, glare"
   bento:
-    class: ".bento (.wide packages panel, .prail)"
+    class: ".bento (grid holding .wide and .prail)"
     columns: "3 (1 under 960px)"
     gap: "18px"
+  bento-wide:
+    class: ".bento .wide.glass (packages panel)"
     rounded: "34"
     padding: "44px"
   process-rail:
-    class: ".bento .prail"
+    class: ".bento .prail.glass"
+    rounded: "34"
+    padding: "40px 44px 44px (28px 24px under 760px)"
     line: "{colors.rail-a} to {colors.rail-b}, glow --rail-glow"
     stepName: "Geist 700 44px (34px under 760px), {colors.amber}"
     node: "14px diamond on {colors.stage}"
