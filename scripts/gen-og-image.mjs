@@ -72,51 +72,59 @@ function pathData(commands) {
 }
 
 // Glyph-by-glyph layout: advance + GPOS/kern pair kerning + letter-spacing. It skips
-// opentype.js's text shaping on purpose: that path runs Hanken Grotesk's ccmp
-// lookups, which opentype.js 2.0 does not support, and the card needs no shaping.
-function layout(font, text, x, y, size, spacing) {
-  const scale = size / font.unitsPerEm;
-  const glyphs = [...text].map((ch) => font.charToGlyph(ch));
+// opentype.js's text shaping on purpose (its ccmp support is incomplete in 2.0, and the
+// card needs no shaping). Glyphs are laid out as one line across <tspan> runs: each
+// glyph's letter-spacing applies before the next glyph, and kerning applies between
+// neighbours that share a font, so splitting a word into runs never changes its width.
+function layout(glyphs, x, y, size) {
   let cursor = x;
-  let d = '';
-  glyphs.forEach((glyph, i) => {
-    if (glyph.index === 0) throw new Error(`Font has no glyph for "${text[i]}" in "${text}"`);
-    d += pathData(glyph.getPath(cursor, y, size).commands);
-    cursor += glyph.advanceWidth * scale + (i < glyphs.length - 1 ? spacing + font.getKerningValue(glyph, glyphs[i + 1]) * scale : 0);
+  const paths = [];
+  glyphs.forEach((g, i) => {
+    const scale = size / g.font.unitsPerEm;
+    const glyph = g.font.charToGlyph(g.ch);
+    if (glyph.index === 0) throw new Error(`Font has no glyph for "${g.ch}"`);
+    const d = pathData(glyph.getPath(cursor, y, size).commands);
+    if (d.includes('NaN')) throw new Error(`Bad outline for "${g.ch}"`);
+    paths.push({ fill: g.fill, d });
+    const next = glyphs[i + 1];
+    cursor += glyph.advanceWidth * scale;
+    if (next) cursor += g.spacing + (next.font === g.font ? g.font.getKerningValue(glyph, next.font.charToGlyph(next.ch)) * scale : 0);
   });
-  if (d.includes('NaN')) throw new Error(`Bad outline for "${text}"`);
-  return { d, right: cursor };
+  return { paths, right: cursor };
 }
 
 // Replace every <text> with <path>s of its glyph outlines (start-anchored, baseline y).
 // A <text> may hold <tspan> runs (font-family, font-weight, fill, letter-spacing each
-// optional, inherited from the <text>); runs are laid out one after another on the line.
+// optional, inherited from the <text>). XML comments are dropped and whitespace is
+// collapsed as SVG renders it (runs of spaces and newlines become one space; leading
+// and trailing space is trimmed), so the source can be formatted freely.
 function outlineText(svg) {
   return svg.replace(/<text\b(\s[^>]*)>([\s\S]*?)<\/text>/g, (_, attrs, inner) => {
     const size = Number(attr(attrs, 'font-size'));
     const x = Number(attr(attrs, 'x'));
     const y = Number(attr(attrs, 'y'));
     const runs = [];
-    inner.replace(/<tspan\b([^>]*)>([^<]*)<\/tspan>|([^<]+)/g, (__, tAttrs, tText, plain) => {
-      const raw = tText ?? plain;
-      if (raw && raw.length) runs.push({ attrs: tAttrs ? ' ' + tAttrs : '', text: decode(raw) });
+    inner.replace(/<!--[\s\S]*?-->/g, '').replace(/<tspan\b([^>]*)>([^<]*)<\/tspan>|([^<]+)/g, (__, tAttrs, tText, plain) => {
+      runs.push({ attrs: tAttrs ? ' ' + tAttrs : '', text: decode(tText ?? plain) });
       return '';
     });
     const pick = (run, name, fallback) => attr(run.attrs, name) ?? attr(attrs, name) ?? fallback;
-    let cursor = x;
-    let out = '';
-    let label = '';
+    const glyphs = [];
     for (const run of runs) {
-      if (!run.text.trim() && run === runs.at(-1)) continue;
-      const key = `${pick(run, 'font-family')} ${pick(run, 'font-weight', '400')}`;
-      const { d, right } = layout(loadFont(key), run.text, cursor, y, size, Number(pick(run, 'letter-spacing', 0)));
-      out += `<path fill="${pick(run, 'fill')}" d="${d}"/>`;
-      cursor = right;
-      label += run.text;
+      const font = loadFont(`${pick(run, 'font-family')} ${pick(run, 'font-weight', '400')}`);
+      const spacing = Number(pick(run, 'letter-spacing', 0));
+      const fill = pick(run, 'fill');
+      for (const ch of run.text.replace(/\s+/g, ' ')) {
+        if (ch === ' ' && (!glyphs.length || glyphs.at(-1).ch === ' ')) continue;
+        glyphs.push({ ch, font, spacing, fill });
+      }
     }
+    while (glyphs.length && glyphs.at(-1).ch === ' ') glyphs.pop();
+    const label = glyphs.map((g) => g.ch).join('');
+    const { paths, right } = layout(glyphs, x, y, size);
     const limit = y < LOGO_Y + LOGO_SIZE + size ? LOGO_X - TEXT_GAP : FRAME_RIGHT - TEXT_GAP;
-    if (cursor > limit) throw new Error(`"${label.trim()}" ends at x=${Math.round(cursor)}, past ${limit}`);
-    return out;
+    if (right > limit) throw new Error(`"${label}" ends at x=${Math.round(right)}, past ${limit}`);
+    return paths.map((p) => `<path fill="${p.fill}" d="${p.d}"/>`).join('');
   });
 }
 

@@ -101,7 +101,7 @@ const toc = [
 
         <section class="case-sec" id="constraints" aria-labelledby="constraints-title">
           <h2 id="constraints-title">Constraints</h2>
-          <ul class="constraints">
+          <ul class="rows constraints">
             {cs.constraints.map((constraint: string) => <li>{constraint}</li>)}
           </ul>
         </section>
@@ -116,7 +116,7 @@ const toc = [
 
         <section class="case-sec" id="decisions" aria-labelledby="decisions-title">
           <h2 id="decisions-title">Decisions that mattered</h2>
-          <div class="decisions">
+          <div class="rows decisions">
             {cs.decisions.map((decision: { title: string; body: string }) => (
               <div class="decision">
                 <h3>{decision.title}</h3>

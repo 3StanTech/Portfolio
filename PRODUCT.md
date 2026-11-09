@@ -82,6 +82,6 @@ pricing, or live-client claims beyond what these sources support.
   including the amber and steel accents and every text on glass, on the dark theme.
 - Full keyboard operability with visible `:focus-visible` states, a skip link, and
   semantic landmarks.
-- `prefers-reduced-motion` is honored for every animation (reveal, hover, theme).
+- `prefers-reduced-motion` is honored for every animation (reveal, hover, the galaxy).
 - Mobile-first and fast on low-end devices over metered connections — phones are
   the primary device.

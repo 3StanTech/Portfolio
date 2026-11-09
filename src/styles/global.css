@@ -38,8 +38,6 @@ p { margin: 0; }
 ul { margin: 0; padding-left: 1.15rem; }
 li + li { margin-top: .35rem; }
 
-.container { position: relative; z-index: 1; }
-
 /* Screen-reader-only text, e.g. the "Email address copied" announcement. */
 .visually-hidden {
   position: absolute;
@@ -52,14 +50,6 @@ li + li { margin-top: .35rem; }
   white-space: nowrap;
   border: 0;
 }
-
-/* Scroll reveal is gated on `html.js`: without JavaScript, content stays
-   visible by default rather than shipping blank below the fold. */
-html.js [data-reveal] { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: no-preference) {
-  html.js [data-reveal].is-visible { animation: revealIn .55s cubic-bezier(.2, .7, .3, 1) both; }
-}
-@keyframes revealIn { from { transform: translateY(16px); } }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

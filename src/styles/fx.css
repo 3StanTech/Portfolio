@@ -65,3 +65,11 @@
 :root:not(.save-data) .sky.fx-in { animation: fx-skyin 2s var(--fx-expo) both; }
 @keyframes fx-skyin { from { opacity: 0; filter: blur(7px); scale: 1.05; } }
 }
+
+/* Scroll reveal is gated on `html.js`: without JavaScript, content stays
+   visible by default rather than shipping blank below the fold. */
+html.js [data-reveal] { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal].is-visible { animation: revealIn .55s cubic-bezier(.2, .7, .3, 1) both; }
+}
+@keyframes revealIn { from { transform: translateY(16px); } }

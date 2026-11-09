@@ -36,10 +36,10 @@ typography:
     letterSpacing: "-0.052em"
   section:
     fontFamily: "Geist Variable, Geist, system-ui, sans-serif"
-    fontSize: "clamp(30px, 1rem + 1.8vw, 48px)"
+    fontSize: "clamp(28px, 1rem + 1.4vw, 40px)"
     fontWeight: 700
-    lineHeight: 1.04
-    letterSpacing: "-0.045em"
+    lineHeight: 1.06
+    letterSpacing: "-0.04em"
   lead:
     fontFamily: "Geist Variable, Geist, system-ui, sans-serif"
     fontSize: "21px"
@@ -106,6 +106,42 @@ components:
     class: ".link-go"
     textColor: "{colors.steel-light}"
     hoverTextColor: "{colors.amber-light}"
+  page-head:
+    class: ".p-head > .container.inner (kicker, .h1, .lead)"
+    align: "center"
+    padding: "clamp(120px, 16vh, 156px) 0 56px"
+    titleSize: "clamp(48px, 1.5rem + 5vw, 100px)"
+  tile:
+    class: ".tile.glass[data-tier=regular] (Home rail)"
+    rounded: "30 (image 20px, superellipse)"
+    width: "344px"
+    padding: "10px"
+    hover: "lift 6px, glare"
+  bento:
+    class: ".bento (.wide packages panel, .prail)"
+    columns: "3 (1 under 960px)"
+    gap: "18px"
+    rounded: "34"
+    padding: "44px"
+  process-rail:
+    class: ".bento .prail"
+    line: "{colors.rail-a} to {colors.rail-b}, glow --rail-glow"
+    stepName: "Geist 700 44px (34px under 760px), {colors.amber}"
+    node: "14px diamond on {colors.stage}"
+  inspector:
+    class: ".ins (ProjectInspector.astro)"
+    columns: "300px index + stage (1 column under 960px)"
+    stage: "{colors.stage}, radius 34px, superellipse"
+    sheet: ".ins-body.glass, radius 26, adaptive tint"
+  closer:
+    class: ".closer (Closer.astro)"
+    padding: "200px 0 140px"
+    kicker: "Geist 600 17px, {colors.amber}"
+    titleSize: "clamp(44px, 1.5rem + 4.8vw, 104px)"
+  footer:
+    class: ".foot"
+    heading: "Geist 650 19px, {colors.ink}"
+    links: "glass pills 40px (Résumé) + 40px round icons (GitHub, Facebook)"
 ---
 
 # Design System: Tristan Portfolio
@@ -125,8 +161,8 @@ approved mock round). It is **dark only**: there is no light theme, no theme tog
 `prefers-color-scheme` path.
 
 **Key characteristics:**
-- Black page (`--page`) with a fixed galaxy canvas behind everything (`Galaxy.astro`,
-  `src/scripts/galaxy.js`); a black hole's rims mark the hero's exit and every closer's entry.
+- Black page (`--page`) with a fixed galaxy canvas behind everything (`<canvas class="sky">`
+  in `Base.astro`, started by `src/scripts/site.js` with the renderer in `src/scripts/galaxy.js`); a black hole's rims mark the hero's exit and every closer's entry.
 - Glass for controls and panels only: Glasswork (MIT, `src/vendor/glasswork/`) with the dark
   tiers in `src/styles/material.css`. Rim refraction is Chromium-only; elsewhere the blur,
   tint and rim catch stay.
@@ -166,7 +202,8 @@ becomes a named token first.
 ## 3. Typography
 
 - **Geist** (variable, self-hosted through Fontsource, OFL) for display and body.
-- **Geist Mono** for labels: kickers, tags, chips, fact labels (uppercase, tracked .06 to .07em).
+- **Geist Mono** for labels: kickers, tags and fact labels (uppercase, tracked .06 to .07em), and
+  the stack chips (mixed case, tracked .04em).
 - **DM Serif Display italic** (400) for the accent word only, in amber, with no underline.
   `line-height: 0` on `.accent` keeps its taller ascent from opening a gap between lines.
   The About page's quote is the one full serif line (in ink, not amber).
@@ -176,7 +213,7 @@ becomes a named token first.
 |---|---|---|
 | `.h1` | clamp(50px, 1.5rem + 5.6vw, 106px), 700, -.055em | Home hero; page heads scale it down (`.p-head .h1`, About, case studies) |
 | `.h2` | clamp(40px, 1.5rem + 3.6vw, 82px), 700 | scope band, closer (larger) |
-| `.sec-h` | clamp(30px, 1rem + 1.8vw, 48px), 700 | section headings on inner pages |
+| `.sec-h` | clamp(28px, 1rem + 1.4vw, 40px), 700, -.04em | section headings on inner pages (same scale as the selected-work heading and case-study sections) |
 | `.lead` | 21px, ink-soft | the paragraph under a page heading |
 | `.mono` | 12.5px Geist Mono 500, uppercase | labels; `.mono.kicker` adds the amber diamond |
 
@@ -202,7 +239,8 @@ one per idle slot, as glass comes on screen (`site.js`); `data-lens="none"` opts
 ## 5. Components
 
 ### Buttons (`.btn.glass`)
-Glass pills, 48px tall (44px in compact contexts), Geist 650 16px, an 18px sprite icon.
+Glass pills, 48px tall, Geist 650 16px, an 18px sprite icon. Compact contexts set their own
+height: 44px in the Project details actions, 40px on the Projects sheet.
 Every button is glass, including Email me (no amber fill). Hover and focus turn the label and
 icon amber, add the warm glare sweep and a 1.02 lift; press scales to .97. Focus ring:
 2px amber, 3px offset. `CTA.astro` renders the standard row (Email me, Call, Résumé, GitHub).
@@ -219,11 +257,15 @@ Centred: `.mono.kicker`, `.h1`, `.lead`, top padding clamp(120px, 16vh, 156px) t
 island. Projects, Services and 404 use it; About and the case studies use a left-aligned variant.
 
 ### Panels and rows
-- `.gpanel` / any `.glass[data-tier]`: the panel; padding clamp(22px, 1rem + 1.6vw, 40px).
+- `.gpanel`: a glass panel's layout helper, padding clamp(22px, 2vw + 12px, 44px), radius 30
+  (the About stack panel). Other panels set their own padding (Services tiers, case-study facts,
+  diagram, menu).
 - `.rows`: hairline list rows (`--hair` above the first and under each row, 18px padding),
-  used for facts, values, principles, the stack groups, constraints and decisions.
+  used for About's facts, stack groups and principles and the case studies' constraints and
+  decisions. About's six values use the same hairlines on a `.dia` list (`.values`).
 - `.dia`: bullet lists with a 7px amber diamond.
-- `.pill` chips: Geist Mono, ink-soft, hairline outline, pill radius.
+- `.pill` chips: Geist Mono 500 12.5px, mixed case, tracked .04em, ink-soft, hairline outline,
+  pill radius.
 - `.badge`: amber-light mono label with an amber outline ("Most owners start here").
 - `.link-go`: steel-light text link with an optional arrow that shifts on hover; amber-light on hover.
 
@@ -257,8 +299,9 @@ constraints and decisions as rows, the architecture SVG in a glass panel (nodes 
 with `--hair-strong` outlines, steel-light lines), proof with amber checks.
 
 ### Closer and footer
-Every page but 404 ends in the closer (`Closer.astro`): amber kicker, a large `.h2` with the
-accent word, Email me and Call, a note; the black hole's outgoing rim sits above it. The footer
+Every page but 404 ends in the closer (`Closer.astro`): an optional amber kicker, a large `.h2`
+(with an accent word where the page marks one), an optional lead, Email me and Call, an
+optional note; the black hole's outgoing rim sits above it. The footer
 is the heading plus Résumé, GitHub and Facebook pills only.
 
 ### Project details dialog (`ProjectModal.astro`)

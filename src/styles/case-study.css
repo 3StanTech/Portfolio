@@ -21,7 +21,7 @@
 .demo-note { color: var(--ink-soft); font-size: 14.5px; }
 
 .case-shot { --radius: 30; margin: 40px 0 0; padding: 10px; }
-.case-shot img { width: 100%; height: auto; border-radius: 22px; corner-shape: superellipse(1.5); background: var(--stage); }
+.case-shot img { width: 100%; height: auto; border-radius: 20px; corner-shape: superellipse(1.5); background: var(--stage); }
 .case-shot figcaption { margin: 12px 8px 4px; }
 
 /* --- Body: section menu + sections --- */
@@ -38,11 +38,11 @@
 .case-sec p { color: var(--ink-soft); font-size: 1.06rem; text-wrap: pretty; }
 .case-sec p strong { color: var(--ink); }
 
-.constraints { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--hair); }
-.constraints li { margin: 0; padding: 14px 0; border-bottom: 1px solid var(--hair); font-weight: 600; line-height: 1.45; }
+/* Constraints and decisions are .rows (g4.css): hairlines and 18px row padding. */
+.constraints { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
+.constraints li { font-weight: 600; line-height: 1.45; }
 
-.decisions { border-top: 1px solid var(--hair); }
-.decision { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: 12px 24px; padding: 22px 0; border-bottom: 1px solid var(--hair); }
+.decision { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: 12px 24px; }
 .decision h3 { font: 650 19px/1.25 var(--f-display); letter-spacing: -.02em; }
 .case-sec .decision p { font-size: 1rem; }
 
