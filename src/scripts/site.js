@@ -138,13 +138,34 @@ if (isl) {
     isl.style.setProperty('--ih', mode === 'expanded' ? '52px' : '44px');
     setTimeout(adaptAll, 650);
   };
-  isl.addEventListener('pointerenter', () => { islHover = true; islandMode(); });
+  isl.addEventListener('pointerenter', (e) => { if (e.pointerType === 'touch') return; islHover = true; islandMode(); });
   isl.addEventListener('pointerleave', (e) => { if (e.pointerType === 'touch') return; islHover = false; islandMode(); });
   isl.addEventListener('focusin', () => { islHover = true; islandMode(); });
   isl.addEventListener('focusout', (e) => { if (!isl.contains(e.relatedTarget)) { islHover = false; islandMode(); } });
-  // Touch: the first tap opens the island, the next one follows a link.
-  isl.addEventListener('click', (e) => { if (isl.dataset.mode !== 'expanded') { e.preventDefault(); islHover = true; islandMode(); } });
-  document.addEventListener('pointerdown', (e) => { if (e.pointerType === 'touch' && !isl.contains(e.target) && islHover) { islHover = false; islandMode(); } });
+  // Capture the closed state before touch focus can expand the island. Only that
+  // pointer's completed first tap is consumed; later taps and keyboard clicks navigate.
+  let touchActivation = null;
+  document.addEventListener('pointerdown', (e) => {
+    touchActivation = null;
+    if (e.pointerType !== 'touch') return;
+    if (isl.contains(e.target)) {
+      if (e.isPrimary) touchActivation = { id: e.pointerId, closed: isl.dataset.mode !== 'expanded', complete: false };
+    } else if (islHover) { islHover = false; islandMode(); }
+  }, true);
+  document.addEventListener('pointerup', (e) => {
+    const activation = touchActivation;
+    if (!activation || e.pointerId !== activation.id) return;
+    activation.complete = true;
+    // The activation click follows pointerup; a drag with no click leaves no state.
+    setTimeout(() => { if (touchActivation === activation) touchActivation = null; }, 0);
+  }, true);
+  document.addEventListener('pointercancel', () => { touchActivation = null; }, true);
+  document.addEventListener('keydown', () => { touchActivation = null; }, true);
+  isl.addEventListener('click', (e) => {
+    if (e.pointerType !== 'touch' || e.pointerId !== touchActivation?.id || !touchActivation.complete || !touchActivation.closed) return;
+    e.preventDefault(); islHover = true; islandMode();
+  });
+  document.addEventListener('click', () => { touchActivation = null; });
 
   let ticking = false;
   const syncScroll = () => {
@@ -288,9 +309,28 @@ document.addEventListener('click', (e) => {
   requestAnimationFrame(() => mountLenses(dialog));
 });
 for (const dialog of $$('dialog.pm')) {
+  let backdropGesture = null;
+  const outside = (e) => {
+    const r = dialog.getBoundingClientRect();
+    return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+  };
   $('[data-modal-close]', dialog)?.addEventListener('click', () => dialog.close());
-  dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
-  dialog.addEventListener('close', () => { lastTrigger?.focus(); lastTrigger = null; });
+  dialog.addEventListener('pointerdown', (e) => {
+    backdropGesture = e.isPrimary && e.button === 0 ? { id: e.pointerId, outside: outside(e), complete: false } : null;
+  });
+  dialog.addEventListener('pointerup', (e) => {
+    const gesture = backdropGesture;
+    if (!gesture || e.pointerId !== gesture.id) return;
+    gesture.complete = e.isPrimary && e.button === 0 && outside(e);
+    setTimeout(() => { if (backdropGesture === gesture) backdropGesture = null; }, 0);
+  });
+  dialog.addEventListener('pointercancel', () => { backdropGesture = null; });
+  dialog.addEventListener('click', (e) => {
+    const gesture = backdropGesture;
+    backdropGesture = null;
+    if (gesture?.complete && gesture.outside && e.pointerId === gesture.id) dialog.close();
+  });
+  dialog.addEventListener('close', () => { backdropGesture = null; lastTrigger?.focus(); lastTrigger = null; });
 }
 
 // ---------- Lenses and tint once the layout settles ----------

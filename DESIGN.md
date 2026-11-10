@@ -114,7 +114,7 @@ components:
   tile:
     class: ".tile.glass[data-tier=regular] (Home rail)"
     rounded: "30 (image 20px, superellipse)"
-    width: "344px"
+    width: "up to 344px; narrows with viewport to preserve the next-card peek"
     padding: "10px"
     hover: "lift 6px, glare"
   bento:
@@ -134,7 +134,7 @@ components:
     node: "14px diamond on {colors.stage}"
   inspector:
     class: ".ins (ProjectInspector.astro)"
-    columns: "300px index + stage (1 column under 960px)"
+    columns: "300px index + stage (1 column at 960px and below)"
     stage: "{colors.stage}, radius 34px, superellipse"
     sheet: ".ins-body.glass, radius 26, adaptive tint"
   closer:
@@ -244,7 +244,8 @@ one per idle slot, as glass comes on screen (`site.js`); `data-lens="none"` opts
 
 ### Buttons (`.btn.glass`)
 Glass pills, 48px tall, Geist 650 16px, an 18px sprite icon. Compact contexts set their own
-height: 44px in the Project details actions, 40px on the Projects sheet.
+height: 44px in the Project details actions and on the Projects sheet. The sheet's text
+actions and case-study breadcrumb links also have a minimum 44px hit height.
 Every button is glass, including Email me (no amber fill). Hover and focus turn the label and
 icon amber, add the warm glare sweep and a 1.02 lift; press scales to .97. Focus ring:
 2px amber, 3px offset. `CTA.astro` renders the standard row (Email me, Call, Résumé, GitHub).
@@ -253,8 +254,10 @@ icon amber, add the warm glare sweep and a 1.02 lift; press scales to .97. Focus
 A floating glass capsule: compact ("Tristan Dolfo · replies within a day"), expanded on hover
 or focus into the nav (Projects in amber text), mini while scrolling. "check me out" opens the
 glass contact menu (Email me, Copy email with a "Copied" check and live announcement, Call,
-Résumé, GitHub); Escape closes and returns focus. Under 600px the open island drops Résumé and
+Résumé, GitHub); Escape closes and returns focus. At 600px and below the open island drops Résumé and
 the pill shrinks to its diamond so both fit a 360px screen.
+On touch, the first completed tap on a compact or mini island only expands it; the next tap
+can follow a nav link. An outside touch collapses it. Mouse hover and keyboard focus still expand it.
 
 ### Page head (`.p-head`)
 Centred: `.mono.kicker`, `.h1`, `.lead`, top padding clamp(120px, 16vh, 156px) to clear the
@@ -279,11 +282,25 @@ work rail (nine glass tiles, 5s tour with pause/play, paddles, the Hiring panel 
 heading), the scope bento (packages panel, process rail with a steel-blue line and amber step
 names), the closer.
 
+The hero actions keep their full labels and DOM order: one row from 795px; two pairs at
+600–794px; at 599px and below, Email and Call each occupy a row above the Résumé/GitHub pair.
+The phone hero starts at 88px top padding so Email remains above the fold at 320×568,
+360×780 and 390×844. Rail tiles narrow below 344px when needed to retain
+the next-card peek and edge gutters; the last tile remains fully reachable.
+
 ### Projects (signature): the Spotlight Inspector
 A typographic index on the left, the capture as a large stage, the details on a glass sheet
 over the capture (Stack and Outcome tabs, live link, case study, Project details), a 5s tour
 ring, prev/next, a desktop/phone capture flip and `#slug` deep links. Without JavaScript every
 build is stacked and complete.
+
+The sheet overlays the capture from 1080px. At 1079px and below it follows the capture in
+normal flow. The index stays beside the stage at 961–1079px; only this range reserves the
+tallest sheet height across all nine builds and both tabs at the current stage width, using
+`--ins-sheet-min-height`. Measurement does not reveal inactive builds or load their captures.
+At 960px and below the index stacks above the stage. Explicit index picks (including the
+current pick), keyboard index changes and fresh or same-page `#slug` links land the stage's
+`.ins-panel` below the fixed header rather than leaving the visitor at the index.
 
 ### Services
 Three glass tier panels (Business is `thick` with a faint amber outline and the badge); each
@@ -298,9 +315,11 @@ of chips in one glass panel; the approach as rows with evidence links.
 ### Case studies
 Mono breadcrumb, left-aligned title and lede, a glass facts strip, glass action buttons, the
 cover in a glass frame. Body: a sticky glass "On this page" menu (the current section gets the
-amber diamond; it becomes a scrolling row under 860px), sections with `.sec-h`-scale headings,
+amber diamond; it becomes a scrolling row at 860px and below), sections with `.sec-h`-scale headings,
 constraints and decisions as rows, the architecture SVG in a glass panel (nodes on `--stage`
 with `--hair-strong` outlines, steel-light lines), proof with amber checks.
+The scrolling menu has end padding beyond its edge fade so its last label remains readable;
+keyboard focus removes the fade.
 
 ### Closer and footer
 Every page but 404 ends in the closer (`Closer.astro`): an optional amber kicker, a large `.h2`
@@ -311,6 +330,9 @@ is the heading plus Résumé, GitHub and Facebook pills only.
 ### Project details dialog (`ProjectModal.astro`)
 Native `<dialog>` on `--sheet` with a blurred backdrop: capture, mono meta, title, blurb,
 summary, outcome, chips, and glass actions.
+Backdrop dismissal requires the same primary pointer gesture to start and finish outside
+the dialog. A selection or drag that crosses its edge, or a cancelled gesture, keeps it open.
+Escape and Close dismiss it and return focus to its visible trigger.
 
 ## 6. Motion
 
@@ -324,6 +346,12 @@ the horizon crossing sweep with a softened ripple. Springs are `--spring` and `-
   fully drawn; the tours start paused.
 - **Save-Data:** the same, plus every transition and animation stops (`.save-data`).
 - The hero is never hidden while fonts load (no intro wait).
+- **Tours:** pointer and focus holds, an offscreen surface and a hidden browser tab temporarily
+  hold autoplay. An open Project details dialog also holds the Inspector tour; both dialog
+  state changes and the timer callback check that hold. Manual browsing pauses until Play:
+  Home rail touch/swipe, horizontal wheel or scrolling keys and paddles; Inspector picks,
+  paging, tabs, capture flips, action links and deep links. Programmatic rail scrolling is
+  not manual intent. Play starts a fresh 5s interval once temporary holds clear.
 
 ## 7. Do's and Don'ts
 

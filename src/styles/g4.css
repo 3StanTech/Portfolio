@@ -146,7 +146,7 @@ body[data-scrolled='true'] .edge-top { opacity: 1; }
 .paddle { --radius: 999; width: 44px; height: 44px; display: grid; place-items: center; border: 0; padding: 0; cursor: pointer; transition: opacity .2s; }
 .paddle:disabled { opacity: .35; cursor: default; }
 .paddle svg { width: 18px; height: 18px; }
-.rail { list-style: none; margin: 0; display: grid; grid-auto-flow: column; grid-auto-columns: 344px; gap: 18px; overflow-x: auto; overscroll-behavior-x: contain;
+.rail { list-style: none; margin: 0; display: grid; grid-auto-flow: column; grid-auto-columns: min(344px, calc(100vw - var(--rail-pad) * 2 - 34px)); gap: 18px; overflow-x: auto; overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory; scroll-padding-inline: var(--rail-pad); padding: 14px var(--rail-pad) 28px; scrollbar-width: none; }
 .rail::-webkit-scrollbar { display: none; }
 .rail > li { scroll-snap-align: start; display: grid; margin: 0; }
@@ -281,7 +281,8 @@ html.js .ins:not(.is-ready) .ins-build:not(:first-of-type), html.js .ins:not(.is
 .ins-stack { display: flex; flex-wrap: wrap; gap: 8px; }
 .ins-stack span { --radius: 999; padding: 8px 14px; font: 550 14px/1 var(--f-body); }
 .ins-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
-.ins-actions .btn { min-height: 40px; font-size: 14px; padding: 0 15px; }
+.ins-actions .btn { min-height: 44px; font-size: 14px; padding: 0 15px; }
+.ins-actions .link, .ins-actions .details { display: inline-flex; align-items: center; min-height: 44px; }
 /* Live-site links: amber text and outline, apart from the stack chips. */
 .ins-actions .btn.glass { color: var(--amber-soft); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--amber) 70%, transparent), 0 4px 14px rgb(0 0 0 / .25); }
 .ins-actions .btn.glass:hover { color: var(--amber-light); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--amber-soft) 95%, transparent), 0 0 18px -4px color-mix(in srgb, var(--amber) 55%, transparent); }
@@ -412,11 +413,18 @@ dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blu
 }
 
 /* ------------------------------ Responsive ------------------------------ */
+/* Below the safe overlay width the sheet follows its capture. The index keeps its
+   two-column layout until 960px; only that middle range reserves the tallest sheet. */
+@media (max-width: 1079px) {
+  .ins-body { position: static; width: auto; margin-top: 12px; }
+}
+@media (min-width: 961px) and (max-width: 1079px) {
+  html.js .ins-body { min-height: var(--ins-sheet-min-height, 0px); align-content: start; }
+}
 @media (max-width: 960px) {
   .bento, .bento .wide { grid-template-columns: 1fr; }
   html.js .ins { grid-template-columns: 1fr; }
   .ins-side { position: static; }
-  .ins-body { position: static; width: auto; margin-top: 12px; }
 }
 @media (max-width: 860px) {
   :root { --gutter: 16px; }
@@ -431,6 +439,21 @@ dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blu
   .nav-links .nav-resume { display: none; }
   .isl-wrap:has(.isl[data-mode='expanded']) .cta-more { width: 44px; padding: 0; justify-content: center; }
   .isl-wrap:has(.isl[data-mode='expanded']) .cta-more .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+/* Four complete labels fit from 795px. Below that, the hero uses deliberate pairs;
+   on phones Email and Call each span a row above the secondary pair. */
+@media (max-width: 794px) {
+  .hero .cta-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; width: min(100%, 560px); }
+  .hero .cta-row .btn { min-width: 0; justify-content: center; }
+}
+@media (max-width: 599px) {
+  .hero { padding-top: 88px; }
+  .hero .kicker { margin-bottom: 16px; }
+  .hero .sub { margin: 18px 0 22px; }
+  .hero .trust { margin-top: 20px; }
+  .hero .cta-row { width: 100%; max-width: 360px; }
+  .hero .cta-row .btn { padding-inline: 10px; gap: 7px; }
+  .hero .cta-row > :nth-child(-n+2) { grid-column: 1 / -1; }
 }
 @media (max-width: 760px) {
   .works-head { flex-wrap: wrap; }

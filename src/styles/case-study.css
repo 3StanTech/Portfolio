@@ -5,7 +5,7 @@
 /* --- Head: breadcrumb, title, facts, actions, cover --- */
 .case-head { padding: clamp(120px, 16vh, 156px) 0 24px; }
 .crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 26px; }
-.crumbs a { color: var(--ink-soft); text-decoration: none; transition: color var(--t-fast); }
+.crumbs a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink-soft); text-decoration: none; transition: color var(--t-fast); }
 .crumbs a:hover { color: var(--ink); }
 .crumbs [aria-current] { color: var(--ink); }
 .case-head .h1 { font-size: clamp(44px, 1.5rem + 4vw, 88px); max-width: 16ch; }
@@ -68,7 +68,10 @@
   .facts div:nth-child(odd) { border-left: 0; }
   .case-body { grid-template-columns: 1fr; gap: 32px; }
   /* The menu becomes a scrolling row of links above the content. */
-  .case-toc { position: static; display: flex; overflow-x: auto; scrollbar-width: none; padding: 6px; }
+  .case-toc { position: static; display: flex; overflow-x: auto; scrollbar-width: none; padding: 6px 22px; scroll-padding-inline: 22px;
+    -webkit-mask-image: linear-gradient(to right, transparent, var(--ink) 16px, var(--ink) calc(100% - 16px), transparent);
+    mask-image: linear-gradient(to right, transparent, var(--ink) 16px, var(--ink) calc(100% - 16px), transparent); }
+  .case-toc:focus-within { -webkit-mask-image: none; mask-image: none; }
   .case-toc a { flex: none; padding: 10px 14px 10px 26px; }
   .case-toc a[aria-current]::before { left: 11px; }
   .decision { grid-template-columns: 1fr; }

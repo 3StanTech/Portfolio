@@ -11,12 +11,15 @@ const rail = $('[data-rail]'), works = $('.works');
 if (rail && works) {
   const paddles = $$('.paddle', works);
   const step = () => (rail.querySelector('li')?.offsetWidth ?? 0) + 18;
-  const behavior = () => (reduce.matches ? 'auto' : 'smooth');
+  const behavior = () => (reduce.matches || saveData ? 'instant' : 'smooth');
   const sync = () => {
     paddles[0].disabled = rail.scrollLeft < 4;
     paddles[1].disabled = rail.scrollLeft > rail.scrollWidth - rail.clientWidth - 4;
   };
-  for (const b of paddles) b.addEventListener('click', () => rail.scrollBy({ left: step() * +b.dataset.dir, behavior: behavior() }));
+  for (const b of paddles) b.addEventListener('click', () => {
+    setPlaying(false);
+    rail.scrollBy({ left: step() * +b.dataset.dir, behavior: behavior() });
+  });
   rail.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
   addEventListener('resize', sync);
   sync();
@@ -25,26 +28,39 @@ if (rail && works) {
   // focus is on the work, while the rail is off screen and while the tab is hidden
   // (WCAG 2.2.2); the glass button pauses or plays it; reduced motion and Save-Data start it paused.
   const tourBtn = $('.rail-tour', works);
-  let playing = !reduce.matches && !saveData, holdPointer = false, holdFocus = false, onScreen = true;
+  let playing = !reduce.matches && !saveData, holdPointer = false, holdFocus = false, onScreen = true, timer = 0;
+  const running = () => playing && !holdPointer && !holdFocus && onScreen && !document.hidden;
+  const restart = () => {
+    clearTimeout(timer);
+    if (running()) timer = window.setTimeout(() => {
+      if (!running()) return;
+      const atEnd = rail.scrollLeft > rail.scrollWidth - rail.clientWidth - 8;
+      rail.scrollTo({ left: atEnd ? 0 : rail.scrollLeft + step(), behavior: behavior() });
+      restart();
+    }, 5000);
+  };
   const setPlaying = (on) => {
     playing = on;
     tourBtn.setAttribute('aria-pressed', String(on));
     tourBtn.setAttribute('aria-label', on ? 'Pause the project tour' : 'Play the project tour');
+    restart();
   };
   setPlaying(playing);
   tourBtn.addEventListener('click', () => setPlaying(!playing));
   // Pointer and focus hold separately: tabbing out while the pointer rests on the work keeps it held.
-  works.addEventListener('pointerenter', () => { holdPointer = true; });
-  works.addEventListener('pointerleave', () => { holdPointer = false; });
-  works.addEventListener('focusin', () => { holdFocus = true; });
-  works.addEventListener('focusout', (e) => { if (!works.contains(e.relatedTarget)) holdFocus = false; });
-  if ('IntersectionObserver' in window) new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; }).observe(rail);
+  works.addEventListener('pointerenter', () => { holdPointer = true; restart(); });
+  works.addEventListener('pointerleave', () => { holdPointer = false; restart(); });
+  works.addEventListener('focusin', () => { holdFocus = true; restart(); });
+  works.addEventListener('focusout', (e) => { if (!works.contains(e.relatedTarget)) { holdFocus = false; restart(); } });
+  if ('IntersectionObserver' in window) new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; restart(); }).observe(rail);
+  document.addEventListener('visibilitychange', restart);
+  // Intent events distinguish visitor browsing from scrolls caused by the tour itself.
+  rail.addEventListener('pointerdown', () => setPlaying(false), { passive: true });
+  rail.addEventListener('wheel', (e) => { if (e.deltaX || (e.shiftKey && e.deltaY)) setPlaying(false); }, { passive: true });
+  rail.addEventListener('keydown', (e) => {
+    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End', 'PageUp', 'PageDown', ' '].includes(e.key)) setPlaying(false);
+  });
   reduce.addEventListener('change', () => { if (reduce.matches) setPlaying(false); });
-  setInterval(() => {
-    if (!playing || holdPointer || holdFocus || !onScreen || document.hidden) return;
-    const atEnd = rail.scrollLeft > rail.scrollWidth - rail.clientWidth - 8;
-    rail.scrollTo({ left: atEnd ? 0 : rail.scrollLeft + step(), behavior: behavior() });
-  }, 5000);
 }
 
 // ---------- Process rail ----------
