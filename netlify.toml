@@ -15,9 +15,17 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Legacy /work URLs land on the trailing-slash /projects/ URL (mirrored in vercel.json).
+# Netlify matches with or without the slash in one hop; Vercel adds the slash first
+# (trailingSlash), so its rules match the slashed form and a slashless request takes two.
 [[redirects]]
-  from = "/work/*"
-  to = "/projects/:splat"
+  from = "/work"
+  to = "/projects/"
+  status = 301
+
+[[redirects]]
+  from = "/work/:slug"
+  to = "/projects/:slug/"
   status = 301
 
 [[redirects]]

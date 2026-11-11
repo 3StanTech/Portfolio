@@ -1,5 +1,5 @@
 // Rasterize the social share card (public/og-image.svg, the black G4 card) to a PNG,
-// then composite the Night Studio monogram into the logo plate.
+// then composite the site logo into the logo plate.
 //
 // Social platforms (Facebook, X, LinkedIn, iMessage, Slack, …) don't render
 // SVG og:images, so we ship a PNG. This runs automatically before every build
@@ -11,7 +11,7 @@
 // site's variable WOFF2 files cannot be read there) before rasterizing, so the card looks the same
 // on every build host instead of falling back to whatever system fonts it has.
 //
-// `sharp` is available because Astro depends on it for image optimization.
+// `sharp` is a declared dependency (Astro also uses it for image optimization).
 import sharp from 'sharp';
 import opentype from 'opentype.js';
 import { existsSync, readFileSync } from 'node:fs';
@@ -130,7 +130,7 @@ function outlineText(svg) {
 
 try {
   if (!existsSync(logoSrc)) {
-    throw new Error(`Missing Night Studio OG logo at ${logoSrc}`);
+    throw new Error(`Missing OG logo at ${logoSrc}`);
   }
 
   const svg = outlineText(readFileSync(src, 'utf8'));

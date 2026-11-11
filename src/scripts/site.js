@@ -65,7 +65,6 @@ const edgeAlpha = (y) => (y < 58 ? .72 - .12 * (y / 58) : Math.max(0, .6 * (1 - 
 function lumAt(px, py, self) {
   for (const el of document.elementsFromPoint(px, py)) {
     if (el.closest('.hdr, dialog') || (self && self.contains(el))) continue;
-    if (el.dataset.lum) return +el.dataset.lum;
     if (el.tagName === 'IMG' && el.complete && el.naturalWidth) {
       if (+getComputedStyle(el).opacity < .3) continue;
       const r = el.getBoundingClientRect(), c = imgPixels(el);
@@ -103,18 +102,18 @@ export { adapt };
 // Live richness (the owner's pick) with the D8 options: depth tilt, cursor lens, horizon
 // crossing sweep + softened ripple. Horizons: [data-horizon="in"] (the hero; you fall in
 // scrolling down) and [data-horizon="out"] (the closer; you leave into the footer).
-export const sky = (() => {
+(() => {
   const canvas = $('.sky');
-  if (!canvas) return null;
+  if (!canvas) return;
   const horizons = () => $$('[data-horizon]').map((el) => {
     const r = el.getBoundingClientRect();
     return el.dataset.horizon === 'in' ? { dir: 'in', apex: r.bottom - 150 } : { dir: 'out', apex: r.top + 150 };
   });
   const still = reduce || saveData;
   if (!still) canvas.classList.add('fx-in');
-  return starfield(canvas, {
+  starfield(canvas, {
     density: .00048, starBoost: 1, twinkle: .75, glints: .06, interactive: true, base: .27, sparse: .54, parallax: .34,
-    horizons, tilt: still ? 0 : 1, pull: still ? 0 : -1, crossing: still ? 'off' : 'both', chroma: false,
+    horizons, tilt: still ? 0 : 1, pull: still ? 0 : -1, crossing: still ? 'off' : 'both',
   });
 })();
 
@@ -126,7 +125,7 @@ if (isl) {
   const measureFaces = () => {
     for (const f of $$('.face', isl)) {
       const mode = f.className.match(/face-(\w+)/)[1];
-      const clone = f.cloneNode(true); Object.assign(clone.style, { position: 'absolute', visibility: 'hidden', width: 'auto', inset: 'auto' });
+      const clone = f.cloneNode(true); Object.assign(clone.style, { position: 'absolute', visibility: 'hidden', width: 'max-content', inset: 'auto' });
       isl.append(clone); faceSize[mode] = Math.ceil(clone.scrollWidth) + (mode === 'mini' ? 12 : 16); clone.remove();
     }
   };
@@ -142,8 +141,12 @@ if (isl) {
   isl.addEventListener('pointerleave', (e) => { if (e.pointerType === 'touch') return; islHover = false; islandMode(); });
   isl.addEventListener('focusin', () => { islHover = true; islandMode(); });
   isl.addEventListener('focusout', (e) => { if (!isl.contains(e.relatedTarget)) { islHover = false; islandMode(); } });
-  // Capture the closed state before touch focus can expand the island. Only that
-  // pointer's completed first tap is consumed; later taps and keyboard clicks navigate.
+  // Capture the closed state before touch focus can expand the island. Only a completed
+  // first tap is consumed; later taps and keyboard clicks navigate. The decision comes from
+  // the recorded press and release, never the click's own pointer fields: iOS reports the
+  // click after a touch as a mouse with another id. The record lasts until the next press,
+  // a cancel, a key or the click it belongs to (iOS can deliver that click a task later).
+  // A click with no press (detail 0: scripted or assistive) neither uses nor clears it.
   let touchActivation = null;
   document.addEventListener('pointerdown', (e) => {
     touchActivation = null;
@@ -153,19 +156,18 @@ if (isl) {
     } else if (islHover) { islHover = false; islandMode(); }
   }, true);
   document.addEventListener('pointerup', (e) => {
-    const activation = touchActivation;
-    if (!activation || e.pointerId !== activation.id) return;
-    activation.complete = true;
-    // The activation click follows pointerup; a drag with no click leaves no state.
-    setTimeout(() => { if (touchActivation === activation) touchActivation = null; }, 0);
+    if (touchActivation && e.pointerId === touchActivation.id) touchActivation.complete = true;
   }, true);
   document.addEventListener('pointercancel', () => { touchActivation = null; }, true);
   document.addEventListener('keydown', () => { touchActivation = null; }, true);
   isl.addEventListener('click', (e) => {
-    if (e.pointerType !== 'touch' || e.pointerId !== touchActivation?.id || !touchActivation.complete || !touchActivation.closed) return;
+    if (e.detail === 0) return;
+    const activation = touchActivation;
+    touchActivation = null;
+    if (!activation?.complete || !activation.closed) return;
     e.preventDefault(); islHover = true; islandMode();
   });
-  document.addEventListener('click', () => { touchActivation = null; });
+  document.addEventListener('click', (e) => { if (e.detail) touchActivation = null; });
 
   let ticking = false;
   const syncScroll = () => {
@@ -318,17 +320,19 @@ for (const dialog of $$('dialog.pm')) {
   dialog.addEventListener('pointerdown', (e) => {
     backdropGesture = e.isPrimary && e.button === 0 ? { id: e.pointerId, outside: outside(e), complete: false } : null;
   });
+  // The close decision uses the recorded press and release (a drag that starts inside and
+  // ends outside keeps it open), not the click's pointer fields, which iOS reports as a mouse.
+  // A click with no press (detail 0: scripted or assistive) leaves the record alone.
   dialog.addEventListener('pointerup', (e) => {
-    const gesture = backdropGesture;
-    if (!gesture || e.pointerId !== gesture.id) return;
-    gesture.complete = e.isPrimary && e.button === 0 && outside(e);
-    setTimeout(() => { if (backdropGesture === gesture) backdropGesture = null; }, 0);
+    if (backdropGesture && e.pointerId === backdropGesture.id) backdropGesture.complete = e.isPrimary && e.button === 0 && outside(e);
   });
   dialog.addEventListener('pointercancel', () => { backdropGesture = null; });
+  dialog.addEventListener('keydown', () => { backdropGesture = null; });
   dialog.addEventListener('click', (e) => {
+    if (e.detail === 0) return;
     const gesture = backdropGesture;
     backdropGesture = null;
-    if (gesture?.complete && gesture.outside && e.pointerId === gesture.id) dialog.close();
+    if (gesture?.complete && gesture.outside) dialog.close();
   });
   dialog.addEventListener('close', () => { backdropGesture = null; lastTrigger?.focus(); lastTrigger = null; });
 }

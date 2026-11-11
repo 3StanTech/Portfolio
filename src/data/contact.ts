@@ -7,6 +7,7 @@ export const contact = {
   defaultSubject: 'Portfolio inquiry',
   github: 'https://github.com/3StanTech',
   facebook: 'https://www.facebook.com/tristan.dolfo.7',
+  resumeHref: '/Tristan_Dolfo_Resume.pdf',
 } as const;
 
 export const mailto = (subject: string = contact.defaultSubject) =>

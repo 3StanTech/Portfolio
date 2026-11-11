@@ -13,7 +13,7 @@ const {
   style
 } = Astro.props;
 
-const resumeHref = '/Tristan_Dolfo_Resume.pdf';
+const { resumeHref } = contact;
 ---
 <div class:list={['cta-row', className]} style={style}>
   <a class="btn glass" data-kind="dark" data-tier="clear" data-pill href={mailto(subject)}><svg class="icon" aria-hidden="true"><use href="#i-mail" /></svg>{label}</a>

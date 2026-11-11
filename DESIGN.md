@@ -11,14 +11,11 @@ colors:
   glass-tint: "#222A39"
   stage: "#0B0C10"
   sheet: "rgb(18 22 32 / .94)"
-  navy: "#14304E"
-  navy-2: "#0B1F35"
   steel: "#4A6FA5"
   steel-light: "#9DBBE6"
   amber: "#D9822B"
   amber-soft: "#E9A25C"
   amber-light: "#FFC98F"
-  gold: "#C9A227"
   rail-a: "#5B86C4"
   rail-b: "#9DBBE6"
 typography:
@@ -178,7 +175,10 @@ approved mock round). It is **dark only**: there is no light theme, no theme tog
 ## 2. Colors
 
 All colours are tokens in `src/styles/tokens.css`. Rules never hold a hex value; a new colour
-becomes a named token first.
+becomes a named token first. One exception: neutral white and black alpha overlays (hover
+fills, shadows, the black hole's interior darkening) may be written inline as
+`rgb(255 255 255 / a)` or `rgb(0 0 0 / a)`; they carry no hue. Canvas colours with a hue
+(the galaxy's) are tokens too; channel tokens hold `R G B` so code can add its own alpha.
 
 | Role | Token | Use |
 |---|---|---|
@@ -193,7 +193,7 @@ becomes a named token first.
 | Amber | `--amber` `#D9822B`, `--amber-soft`, `--amber-light` | accent word, diamonds, hover / Projects link / current link, tags on glass |
 | Steel | `--steel` `#4A6FA5`, `--steel-light` `#9DBBE6` | glows / links on black |
 | Rail | `--rail-a`, `--rail-b`, `--rail-glow` | the process rail's line and nodes |
-| Galaxy | `--star*`, `--neb-*`, `--ember-hot` | read once by `galaxy.js` |
+| Galaxy | `--star*`, `--neb-*`, `--ember-hot`, `--rim-1`…`--rim-5`, `--rim-sweep`, `--rim-ripple*` | read once by `galaxy.js`; the `--rim-*` channel tokens are the black hole's rim layers (outer glow to core), the crossing sweep and the ripple |
 | Effects | `--glare`, `--spot`, `--spot-rim`, `--glow-hot`, `--sweep*` | the motion set's light |
 
 ### Named rules
@@ -258,6 +258,11 @@ Résumé, GitHub); Escape closes and returns focus. At 600px and below the open 
 the pill shrinks to its diamond so both fit a 360px screen.
 On touch, the first completed tap on a compact or mini island only expands it; the next tap
 can follow a nav link. An outside touch collapses it. Mouse hover and keyboard focus still expand it.
+The decision comes from the recorded touch press and release, never the click's pointer fields
+(iOS reports the click after a touch as a mouse); a click with no press (`detail` 0: scripted
+or assistive) never uses that record. The faces are measured at `max-content`
+width and the logo's link never shrinks, so every engine opens the island at full width with a
+32px logo.
 
 ### Page head (`.p-head`)
 Centred: `.mono.kicker`, `.h1`, `.lead`, top padding clamp(120px, 16vh, 156px) to clear the
@@ -297,7 +302,8 @@ build is stacked and complete.
 The sheet overlays the capture from 1080px. At 1079px and below it follows the capture in
 normal flow. The index stays beside the stage at 961–1079px; only this range reserves the
 tallest sheet height across all nine builds and both tabs at the current stage width, using
-`--ins-sheet-min-height`. Measurement does not reveal inactive builds or load their captures.
+`--ins-sheet-min-height`; measuring runs only while that range matches and again when it starts
+matching. Measurement does not reveal inactive builds or load their captures.
 At 960px and below the index stacks above the stage. Explicit index picks (including the
 current pick), keyboard index changes and fresh or same-page `#slug` links land the stage's
 `.ins-panel` below the fixed header rather than leaving the visitor at the index.
@@ -331,7 +337,8 @@ is the heading plus Résumé, GitHub and Facebook pills only.
 Native `<dialog>` on `--sheet` with a blurred backdrop: capture, mono meta, title, blurb,
 summary, outcome, chips, and glass actions.
 Backdrop dismissal requires the same primary pointer gesture to start and finish outside
-the dialog. A selection or drag that crosses its edge, or a cancelled gesture, keeps it open.
+the dialog, judged from the recorded press and release (not the click's pointer fields, which
+iOS reports as a mouse; a click with no press, `detail` 0, is ignored). A selection or drag that crosses its edge, or a cancelled gesture, keeps it open.
 Escape and Close dismiss it and return focus to its visible trigger.
 
 ## 6. Motion
@@ -343,15 +350,20 @@ the horizon crossing sweep with a softened ripple. Springs are `--spring` and `-
 (`material.css`).
 
 - **Reduced motion:** every effect stops; the galaxy is one still frame; the process rail is
-  fully drawn; the tours start paused.
+  fully drawn; the tours start paused. One-shot load effects (scroll reveal, the headline
+  sweep) read the setting at load; the tours and the galaxy follow a change made mid-visit.
+  The process rail follows a change only when reduced motion was off at load (on at load, it
+  stays fully drawn). Lens mounting does not read the setting: the refraction is static.
 - **Save-Data:** the same, plus every transition and animation stops (`.save-data`).
 - The hero is never hidden while fonts load (no intro wait).
 - **Tours:** pointer and focus holds, an offscreen surface and a hidden browser tab temporarily
   hold autoplay. An open Project details dialog also holds the Inspector tour; both dialog
   state changes and the timer callback check that hold. Manual browsing pauses until Play:
-  Home rail touch/swipe, horizontal wheel or scrolling keys and paddles; Inspector picks,
-  paging, tabs, capture flips, action links and deep links. Programmatic rail scrolling is
-  not manual intent. Play starts a fresh 5s interval once temporary holds clear.
+  Home rail touch/swipe, a mostly sideways wheel (or Shift with a vertical wheel), scrolling
+  keys and paddles; Inspector picks, paging, tabs, capture flips, action links and deep
+  links. A vertical wheel with a stray sideways pixel is not browsing. Hovering an Inspector
+  index name shows that build without pausing: the pointer hold keeps the tour still and it
+  resumes after the pointer leaves. Programmatic rail scrolling is not manual intent. Play starts a fresh 5s interval once temporary holds clear.
 
 ## 7. Do's and Don'ts
 

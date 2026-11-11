@@ -20,7 +20,7 @@ summary: >-
   account or any of the client's material.
 blurb: Study packs with cited notes, quizzes and flashcards.
 outcome: Study notes that point back to the slide behind every fact.
-repoUrl: https://github.com/3StanTech/Omni-Reviewer
+repoUrl: https://github.com/3StanTech/PublicDemo-Omni-Reviewer
 liveUrl: https://omni-reviewer-demo.web.app/
 liveLabel: Visit interactive demo version
 demoNote: Demo only. Sample OpenStax Microbiology packs; no sign-in needed.

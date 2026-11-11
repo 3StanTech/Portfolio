@@ -58,7 +58,7 @@ html:not(.js) .face-expanded { display: flex; position: static; opacity: 1; filt
 .face-compact .status { font: 600 14px/1 var(--f-body); color: var(--ink); }
 .face-compact .status span { color: var(--ink-soft); font-weight: 500; }
 .face-mini { justify-content: center; padding: 0; }
-.face-expanded .brand { display: flex; border-radius: 50%; }
+.face-expanded .brand { display: flex; flex: none; border-radius: 50%; }
 .nav-links { display: flex; gap: 2px; }
 .nav-links a { padding: 10px 14px; border-radius: 999px; text-decoration: none; font: 600 15px/1 var(--f-body); color: var(--ink-dim); transition: color 220ms, background-color 220ms; }
 .nav-links a:hover, .nav-links a:focus-visible { color: var(--ink); background: rgb(255 255 255 / .08); }

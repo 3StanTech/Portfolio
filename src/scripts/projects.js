@@ -65,7 +65,7 @@ for (const ins of $$('[data-ins]')) {
 
   const select = (i, { focus = false, swap = true } = {}) => {
     i = (i + picks.length) % picks.length;
-    if (i === cur) return;
+    if (i === cur) { if (focus) picks[i].focus({ preventScroll: true }); return; }
     cur = i;
     picks.forEach((b, k) => b.setAttribute('aria-current', String(k === i)));
     builds.forEach((b, k) => b.classList.toggle('is-current', k === i));
@@ -83,14 +83,15 @@ for (const ins of $$('[data-ins]')) {
   const pick = (i, { focus = false, scroll = false } = {}) => {
     setTour(false);
     select(i, { focus });
-    if (focus) picks[cur].focus({ preventScroll: true });
     if (scroll && stacked.matches) land();
   };
 
   picks.forEach((b, i) => {
     b.addEventListener('click', () => pick(i, { scroll: true }));
+    // Hover shows the project without stopping the tour: the Inspector's pointer hold keeps
+    // it still while the pointer is inside, and it resumes after the pointer leaves.
     let hoverT;
-    b.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'mouse') return; clearTimeout(hoverT); hoverT = setTimeout(() => pick(i), 160); });
+    b.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'mouse') return; clearTimeout(hoverT); hoverT = setTimeout(() => select(i), 160); });
     b.addEventListener('pointerleave', () => clearTimeout(hoverT));
     b.addEventListener('keydown', (e) => {
       const d = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
@@ -147,12 +148,14 @@ for (const ins of $$('[data-ins]')) {
   addEventListener('resize', () => { placeLens(); placeTab(builds[cur]); });
 
   // Measure only sheet content: inactive captures remain hidden and lazy. CSS consumes
-  // this reservation only in its mid-width below-capture mode; the clone has no minimum
-  // height, so the previous reservation can never feed back into the next measurement.
+  // this reservation only in its mid-width below-capture mode (g4.css, 961 to 1079px), so
+  // measuring runs only there; the clone has no minimum height, so the previous
+  // reservation can never feed back into the next measurement.
+  const midWidth = matchMedia('(min-width: 961px) and (max-width: 1079px)');
   let fontsReady = !document.fonts, measureQueued = false, measuredWidth = -1;
   const measureSheets = () => {
     measureQueued = false;
-    if (!fontsReady) return;
+    if (!fontsReady || !midWidth.matches) return;
     const width = panel.getBoundingClientRect().width;
     if (!width) return;
     let tallest = 0;
@@ -184,12 +187,12 @@ for (const ins of $$('[data-ins]')) {
     panel.style.setProperty('--ins-sheet-min-height', Math.ceil(tallest) + 'px');
   };
   const queueMeasure = () => {
-    if (!measureQueued) { measureQueued = true; requestAnimationFrame(measureSheets); }
+    if (midWidth.matches && !measureQueued) { measureQueued = true; requestAnimationFrame(measureSheets); }
   };
   if ('ResizeObserver' in window) new ResizeObserver(() => {
     if (panel.getBoundingClientRect().width !== measuredWidth) queueMeasure();
   }).observe(panel);
-  addEventListener('resize', queueMeasure);
+  midWidth.addEventListener('change', queueMeasure);
 
   const k = fromHash();
   if (k >= 0) { touring = false; select(k, { swap: false }); land(); }

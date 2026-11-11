@@ -56,7 +56,9 @@ if (rail && works) {
   document.addEventListener('visibilitychange', restart);
   // Intent events distinguish visitor browsing from scrolls caused by the tour itself.
   rail.addEventListener('pointerdown', () => setPlaying(false), { passive: true });
-  rail.addEventListener('wheel', (e) => { if (e.deltaX || (e.shiftKey && e.deltaY)) setPlaying(false); }, { passive: true });
+  // A wheel is browsing only when it is mostly sideways (or Shift turns it sideways): Chrome
+  // passes stray sideways pixels during an ordinary vertical trackpad scroll.
+  rail.addEventListener('wheel', (e) => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY) || (e.shiftKey && e.deltaY)) setPlaying(false); }, { passive: true });
   rail.addEventListener('keydown', (e) => {
     if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End', 'PageUp', 'PageDown', ' '].includes(e.key)) setPlaying(false);
   });

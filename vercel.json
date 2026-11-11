@@ -4,7 +4,8 @@
   "cleanUrls": true,
   "trailingSlash": true,
   "redirects": [
-    { "source": "/work/:path*", "destination": "/projects/:path*", "permanent": true }
+    { "source": "/work/", "destination": "/projects/", "permanent": true },
+    { "source": "/work/:slug/", "destination": "/projects/:slug/", "permanent": true }
   ],
   "headers": [
     {

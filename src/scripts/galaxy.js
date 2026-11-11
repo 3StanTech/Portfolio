@@ -6,12 +6,12 @@
 // scroll richness or cursor effects); the frame is redrawn only so the black-hole rims
 // follow their sections as the page scrolls, like any content. No loop;
 // paused while the tab is hidden; devicePixelRatio capped at 2. Colours come from CSS
-// custom properties on the canvas (--star, --star-cool, --star-warm, --neb-1..3).
+// custom properties on the canvas (--star, --star-cool, --star-warm, --neb-1..3, --rim-*).
 // Options: density, drift, parallax, nebula, starBoost, twinkle (0-1), glints,
 // interactive (+ base, sparse, radius), horizons(), holeDark, tilt (depth tilt),
-// pull (1 lean in, -1 lens), crossing ('off' | 'sweep' | 'ripple' | 'both'), chroma.
+// pull (-1 lens, 0 off), crossing ('off' | 'sweep' | 'ripple' | 'both').
 export function starfield(canvas, opts = {}) {
-  let o = { density: 0.00022, drift: 0.012, parallax: 0.18, nebula: true, starBoost: 1, twinkle: 0.28, glints: 0, interactive: false, base: 0.3, sparse: 0.54, radius: 300, horizons: null, holeDark: 0.72, tilt: 0, pull: 0, crossing: 'off', chroma: false, ...opts };
+  const o = { density: 0.00022, drift: 0.012, parallax: 0.18, nebula: true, starBoost: 1, twinkle: 0.28, glints: 0, interactive: false, base: 0.3, sparse: 0.54, radius: 300, horizons: null, holeDark: 0.72, tilt: 0, pull: 0, crossing: 'off', ...opts };
   const ctx = canvas.getContext('2d');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const saveData = navigator.connection?.saveData === true;
@@ -22,7 +22,11 @@ export function starfield(canvas, opts = {}) {
   let pal = {};
   const readPalette = () => {
     const cs = getComputedStyle(canvas), v = (n, f) => cs.getPropertyValue(n).trim() || f;
-    pal = { white: v('--star', '#fff'), cool: v('--star-cool', '#9DBBE6'), warm: v('--star-warm', '#E7A35A'), n1: v('--neb-1', 'rgb(22 38 70 / .5)'), n2: v('--neb-2', 'rgb(74 111 165 / .15)'), n3: v('--neb-3', 'rgb(217 130 43 / .05)'), emberHot: v('--ember-hot', '#FFE3BE'), ember: v('--amber-soft', '#E9A25C') };
+    // RGB-channel tokens ("194 65 12") become "194,65,12" for the rgba() strings below.
+    const rgb = (n, f) => v(n, f).split(/[\s,]+/).join(',');
+    pal = { white: v('--star', '#fff'), cool: v('--star-cool', '#9DBBE6'), warm: v('--star-warm', '#E7A35A'), n1: v('--neb-1', 'rgb(22 38 70 / .5)'), n2: v('--neb-2', 'rgb(74 111 165 / .15)'), n3: v('--neb-3', 'rgb(217 130 43 / .05)'), emberHot: v('--ember-hot', '#FFE3BE'), ember: v('--amber-soft', '#E9A25C'),
+      rim: [rgb('--rim-1', '194 65 12'), rgb('--rim-2', '217 110 30'), rgb('--rim-3', '233 162 92'), rgb('--rim-4', '255 214 160'), rgb('--rim-5', '255 246 234')],
+      sweep: rgb('--rim-sweep', '255 244 228'), ripple: rgb('--rim-ripple', '233 162 92'), rippleCore: rgb('--rim-ripple-core', '255 226 190') };
   };
   let rand = mulberry(7);
 
@@ -87,14 +91,14 @@ export function starfield(canvas, opts = {}) {
     for (const s of stars) {
       const y = ((s.y - sy * o.parallax * (0.3 + s.z) + t * o.drift * 60 * s.z) % (h * 1.6) + h * 1.6) % (h * 1.6) - h * 0.3;
       if (y < -40 || y > h + 40) continue;
-      // Depth tilt and the cursor's pull or lens move where the star is drawn, not where it lives.
+      // Depth tilt and the cursor's lens move where the star is drawn, not where it lives.
       let px = s.x - tl.x * 30 * s.z, py = y - tl.y * 18 * s.z, lensK = 0;
       if (o.pull && !frozen && ptr.on > 0.01) {
         const dx = px - ptr.x, dy = py - ptr.y, d = Math.hypot(dx, dy);
         if (d < 230 && d > 0.5) {
           const f = smooth(1 - d / 230) * ptr.on;
-          const a = o.pull > 0 ? -Math.min(d * 0.7, 30 * f * (0.45 + s.z)) : 36 * f * (0.45 + s.z);
-          px += dx / d * a; py += dy / d * a; if (o.pull < 0) lensK = f;
+          const a = 36 * f * (0.45 + s.z);
+          px += dx / d * a; py += dy / d * a; lensK = f;
         }
       }
       if (py < -4 || py > h + 4) continue;
@@ -199,20 +203,15 @@ export function starfield(canvas, opts = {}) {
     // Doppler-bright on one side, with a slow swirl travelling along the disk.
     const g = (a) => { const gr = ctx.createLinearGradient(0, 0, w, 0); for (let i = 0; i <= 8; i++) { const u = i / 8; const dop = 1.25 - 0.55 * u; const sw = still ? 1 : 0.72 + 0.28 * Math.sin(u * Math.PI * 3 - t * 0.9); gr.addColorStop(u, a(Math.max(0, dop * sw))); } return gr; };
     const layers = [
-      [70 + 120 * H, 0.025 + 0.05 * H, (k) => `rgba(194,65,12,${k})`],
-      [34 + 60 * H, 0.05 + 0.09 * H, (k) => `rgba(217,110,30,${k})`],
-      [14 + 22 * H, 0.10 + 0.16 * H, (k) => `rgba(233,162,92,${k})`],
-      [5 + 7 * H, 0.22 + 0.28 * H, (k) => `rgba(255,214,160,${k})`],
-      [1.6 + 1.2 * H, 0.75 + 0.25 * H, (k) => `rgba(255,246,234,${k})`],
+      [70 + 120 * H, 0.025 + 0.05 * H, (k) => `rgba(${pal.rim[0]},${k})`],
+      [34 + 60 * H, 0.05 + 0.09 * H, (k) => `rgba(${pal.rim[1]},${k})`],
+      [14 + 22 * H, 0.10 + 0.16 * H, (k) => `rgba(${pal.rim[2]},${k})`],
+      [5 + 7 * H, 0.22 + 0.28 * H, (k) => `rgba(${pal.rim[3]},${k})`],
+      [1.6 + 1.2 * H, 0.75 + 0.25 * H, (k) => `rgba(${pal.rim[4]},${k})`],
     ];
     ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
     ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
     for (const [lw, a, c] of layers) { ctx.lineWidth = lw; ctx.strokeStyle = g((k) => c(Math.min(1, a * k))); ctx.stroke(); }
-    if (o.chroma && !still) {
-      // Chromatic rim: the hot core line splits warm above and cool below, more as it blazes.
-      const off = 1.4 + 2.6 * H, a = 0.26 + 0.42 * H; ctx.lineWidth = 1.3 + 1.5 * H;
-      for (const [dy, c] of [[-off, `rgba(255,74,48,${a})`], [off, `rgba(96,164,255,${a})`]]) { line(pts, dy); ctx.strokeStyle = c; ctx.stroke(); }
-    }
     const e = ev[dir];
     if (e) {
       const age = t - e.t0;
@@ -229,8 +228,8 @@ export function starfield(canvas, opts = {}) {
     const D = 0.95; if (age > D) return;
     const k = age / D, e = k < 0.5 ? 4 * k ** 3 : 1 - (-2 * k + 2) ** 3 / 2;
     const uc = s > 0 ? -0.12 + 1.24 * e : 1.12 - 1.24 * e;
-    const band = (alpha) => { const gr = ctx.createLinearGradient(0, 0, w, 0); const add = (u, a) => { if (u >= 0 && u <= 1) gr.addColorStop(u, `rgba(255,244,228,${a})`); };
-      gr.addColorStop(0, 'rgba(255,244,228,0)'); add(uc - 0.1, 0); add(uc - 0.03, alpha * 0.6); add(uc, alpha); add(uc + 0.03, alpha * 0.6); add(uc + 0.1, 0); gr.addColorStop(1, 'rgba(255,244,228,0)'); return gr; };
+    const band = (alpha) => { const gr = ctx.createLinearGradient(0, 0, w, 0); const add = (u, a) => { if (u >= 0 && u <= 1) gr.addColorStop(u, `rgba(${pal.sweep},${a})`); };
+      gr.addColorStop(0, `rgba(${pal.sweep},0)`); add(uc - 0.1, 0); add(uc - 0.03, alpha * 0.6); add(uc, alpha); add(uc + 0.03, alpha * 0.6); add(uc + 0.1, 0); gr.addColorStop(1, `rgba(${pal.sweep},0)`); return gr; };
     line(pts);
     ctx.lineWidth = 26; ctx.strokeStyle = band(0.22); ctx.stroke();
     ctx.lineWidth = 7; ctx.strokeStyle = band(0.6); ctx.stroke();
@@ -243,8 +242,8 @@ export function starfield(canvas, opts = {}) {
       const b = (age - k) / 1.15; if (b <= 0 || b >= 1) continue;
       const off = (dir === 'in' ? -1 : 1) * (1 - (1 - b) ** 3) * 110, f = s * (1 - b) ** 1.8;
       line(pts, off);
-      ctx.lineWidth = 7 * f + 1; ctx.strokeStyle = `rgba(233,162,92,${0.05 * f})`; ctx.stroke();
-      ctx.lineWidth = 0.5 + 1.1 * f; ctx.strokeStyle = `rgba(255,226,190,${0.32 * f})`; ctx.stroke();
+      ctx.lineWidth = 7 * f + 1; ctx.strokeStyle = `rgba(${pal.ripple},${0.05 * f})`; ctx.stroke();
+      ctx.lineWidth = 0.5 + 1.1 * f; ctx.strokeStyle = `rgba(${pal.rippleCore},${0.32 * f})`; ctx.stroke();
     }
   }
 
@@ -270,7 +269,6 @@ export function starfield(canvas, opts = {}) {
   addEventListener('scroll', () => { if (still()) schedule(); }, { passive: true });
   reduce.addEventListener('change', schedule);
   document.addEventListener('visibilitychange', () => { if (document.hidden) { cancelAnimationFrame(raf); raf = 0; } else schedule(); });
-  return { redraw: schedule, update(next) { o = { ...o, ...next }; build(); schedule(); }, set(next) { o = { ...o, ...next }; schedule(); } };
 }
 
 function mulberry(a) {

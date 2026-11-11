@@ -82,7 +82,7 @@
     <circle cx="130" cy="17" r="1.3" fill="#9DBBE6" fill-opacity="0.49"/>
     <circle cx="114" cy="24" r="1.1" fill="#FFFFFF" fill-opacity="0.36"/>
   </g>
-  <!-- Night Studio monogram plate (rasterized/composited by scripts/gen-og-image.mjs) -->
+  <!-- Site logo plate (rasterized/composited by scripts/gen-og-image.mjs) -->
   <rect id="logo-slot" x="868" y="92" width="248" height="248" rx="40" fill="#222A39" stroke="#FFFFFF" stroke-opacity=".14" stroke-width="2"/>
   <!-- Text uses the site fonts by name; scripts/gen-og-image.mjs turns each <text> into
        outlines from the @fontsource packages, so every build host renders it the same. -->

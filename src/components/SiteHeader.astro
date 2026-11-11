@@ -10,7 +10,7 @@ import logoHeader from '../assets/logo-header.png';
 const path = Astro.url.pathname;
 const isCurrent = (href: string) => path === href || path.startsWith(href);
 const onProjects = isCurrent('/projects/');
-const resumeHref = '/Tristan_Dolfo_Resume.pdf';
+const { resumeHref } = contact;
 const links = [
   { href: '/services/', label: 'Services' },
   { href: '/about/', label: 'About' },
