@@ -127,7 +127,11 @@ body[data-scrolled='true'] .edge-top { opacity: 1; }
 }
 
 /* ------------------------------ Home: selected work rail ------------------------------ */
-.works { position: relative; z-index: 3; margin-top: -170px; padding-bottom: 112px; }
+/* The heading sits under the hero's horizon arc (galaxy.js draws it 150px above the hero's
+   foot); the bottom padding gives back what the top margin takes, plus the 18.5px line the
+   tile numbers used to fill, so the scope band below keeps its place. The arc runs lower
+   toward the edges, so the stacked head (760px and below, heading at the left edge) drops further. */
+.works { position: relative; z-index: 3; margin-top: -96px; padding-bottom: 56.5px; }
 .works-head { display: flex; align-items: center; justify-content: flex-start; gap: 22px; margin-bottom: 20px; }
 .works-head h2 { margin: 0; font: 700 clamp(28px, 1rem + 1.4vw, 40px)/1 var(--f-display); letter-spacing: -.04em; }
 .works-head .paddles { margin-left: auto; }
@@ -144,17 +148,42 @@ body[data-scrolled='true'] .edge-top { opacity: 1; }
 .works-head .hire:hover .hire-go { translate: 3px 0; opacity: 1; }
 .paddles { display: flex; gap: 10px; }
 .paddle { --radius: 999; width: 44px; height: 44px; display: grid; place-items: center; border: 0; padding: 0; cursor: pointer; transition: opacity .2s; }
-.paddle:disabled { opacity: .35; cursor: default; }
 .paddle svg { width: 18px; height: 18px; }
 .rail { list-style: none; margin: 0; display: grid; grid-auto-flow: column; grid-auto-columns: min(344px, calc(100vw - var(--rail-pad) * 2 - 34px)); gap: 18px; overflow-x: auto; overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory; scroll-padding-inline: var(--rail-pad); padding: 14px var(--rail-pad) 28px; scrollbar-width: none; }
 .rail::-webkit-scrollbar { display: none; }
 .rail > li { scroll-snap-align: start; display: grid; margin: 0; }
+/* With home.js the row is endless (copied tiles either side) and snaps to the centre, so the
+   full builds sit in the middle with equal slivers of their neighbours. Without it the nine
+   tiles stay a plain strip from the first one, with no paddles or tour button (below). */
+html.js .rail > li { scroll-snap-align: center; }
+/* The row's edges: a tile dims and settles back while it crosses either edge (scroll-linked),
+   over a wide eased fade (no straight-line start) that softens where the screen cuts it.
+   The fade is a mask on the row itself, so nothing is painted over the galaxy. */
+.rail { --fade: clamp(48px, 12vw, 180px);
+  --fade-mask: linear-gradient(90deg,
+    transparent 0, rgb(0 0 0 / .04) calc(var(--fade) * .12), rgb(0 0 0 / .14) calc(var(--fade) * .25),
+    rgb(0 0 0 / .3) calc(var(--fade) * .38), rgb(0 0 0 / .5) calc(var(--fade) * .5), rgb(0 0 0 / .7) calc(var(--fade) * .62),
+    rgb(0 0 0 / .86) calc(var(--fade) * .75), rgb(0 0 0 / .96) calc(var(--fade) * .88), black var(--fade),
+    black calc(100% - var(--fade)),
+    rgb(0 0 0 / .96) calc(100% - var(--fade) * .88), rgb(0 0 0 / .86) calc(100% - var(--fade) * .75), rgb(0 0 0 / .7) calc(100% - var(--fade) * .62),
+    rgb(0 0 0 / .5) calc(100% - var(--fade) * .5), rgb(0 0 0 / .3) calc(100% - var(--fade) * .38), rgb(0 0 0 / .14) calc(100% - var(--fade) * .25),
+    rgb(0 0 0 / .04) calc(100% - var(--fade) * .12), transparent 100%);
+  -webkit-mask-image: var(--fade-mask); mask-image: var(--fade-mask); }
+@supports (animation-timeline: view(inline)) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rail > li > .tile { animation: rail-dim linear both; animation-timeline: view(inline); }
+    @keyframes rail-dim {
+      entry 0% { opacity: .22; scale: .9; }
+      entry 100%, exit 0% { opacity: 1; scale: 1; }
+      exit 100% { opacity: .22; scale: .9; }
+    }
+  }
+}
 .tile { --radius: 30; display: grid; grid-template-rows: auto 1fr; padding: 10px; text-decoration: none; transition: translate 560ms var(--spring); }
 .tile:hover { translate: 0 -6px; color: var(--ink); }
 .tile img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-radius: 20px; corner-shape: superellipse(1.5); }
 .tile .cap { display: grid; gap: 6px; align-content: start; padding: 16px 10px 8px; }
-.tile .n { font: 500 12.5px/1 var(--f-label); color: var(--amber); letter-spacing: .04em; }
 .tile strong { font: 650 19px/1.2 var(--f-display); letter-spacing: -.025em; }
 .tile .c { font-size: 14px; color: var(--ink-soft); }
 /* The rail's pause/play sits under the work, aligned with the right arrow. */
@@ -232,8 +261,10 @@ html.js .ins:not(.is-ready) .ins-build:not(:first-of-type), html.js .ins:not(.is
 .ins-side { position: sticky; top: 88px; }
 .ins-label { padding: 26px 0 10px 24px; font: 500 11.5px/1.2 var(--f-label); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); border-bottom: 1px solid var(--hair); }
 .ins-list > .ins-label:nth-child(2) { padding-top: 4px; }
-.ins-pick { width: 100%; display: grid; grid-template-columns: 30px 1fr; gap: 8px; align-items: center; padding: 14px 4px 14px 24px; text-align: left; border: 0; border-bottom: 1px solid var(--hair); background: none; cursor: pointer; position: relative; z-index: 1; color: inherit; font: inherit; }
-.ins-pick .no { font: 500 12px/1 var(--f-label); color: var(--amber); font-variant-numeric: tabular-nums; }
+.ins-pick { width: 100%; display: grid; grid-template-columns: 1fr; align-items: center; padding: 14px 4px 14px 24px; text-align: left; border: 0; border-bottom: 1px solid var(--hair); background: none; cursor: pointer; position: relative; z-index: 1; color: inherit; font: inherit; }
+/* Each pick's hollow diamond sits exactly where the moving diamond (.pick-lens) rests, so
+   the moving one fills the hollow one for the build on show. */
+.ins-pick .mark { position: absolute; left: 4px; top: calc(50% - 5px); width: 10px; height: 10px; rotate: 45deg; border-radius: 1.5px; box-shadow: inset 0 0 0 1px var(--amber); pointer-events: none; }
 .ins-pick .t { font: 600 17px/1.25 var(--f-display); letter-spacing: -.02em; color: var(--ink-soft); transition: color .2s, translate 420ms var(--spring); }
 .ins-pick:hover .t, .ins-pick[aria-current='true'] .t { color: var(--ink); }
 .ins-pick[aria-current='true'] .t { translate: 4px 0; }
@@ -456,6 +487,7 @@ dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blu
   .hero .cta-row > :nth-child(-n+2) { grid-column: 1 / -1; }
 }
 @media (max-width: 760px) {
+  .works { margin-top: 10px; padding-bottom: 0; margin-bottom: -49.5px; }
   .works-head { flex-wrap: wrap; }
   .works-head .hire { order: 3; }
   /* The rail turns vertical: nodes down the left, each segment running to the next node. */

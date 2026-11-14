@@ -18,7 +18,6 @@ const { groups } = Astro.props;
 // Short tag per group, shown first in each sheet's tag row.
 const tags: Record<Group, string> = { systems: 'App', websites: 'Website', small: 'Personal' };
 const ordered = groups.flatMap((g) => g.projects.map((project) => ({ project, group: g.group })));
-let number = 0;
 ---
 <div class="ins" data-ins>
   <div class="ins-side">
@@ -27,17 +26,14 @@ let number = 0;
       {groups.map(({ title, projects }) => (
         <>
           <li class="ins-label" aria-hidden="true">{title}</li>
-          {projects.map((project) => {
-            const i = number++;
-            return (
-              <li>
-                <button class="ins-pick" type="button" data-i={i} aria-controls="ins-panel" aria-current="false">
-                  <span class="no">{String(i + 1).padStart(2, '0')}</span>
-                  <span class="t">{project.data.title}</span>
-                </button>
-              </li>
-            );
-          })}
+          {projects.map((project) => (
+            <li>
+              <button class="ins-pick" type="button" aria-controls="ins-panel" aria-current="false">
+                <span class="mark" aria-hidden="true"></span>
+                <span class="t">{project.data.title}</span>
+              </button>
+            </li>
+          ))}
         </>
       ))}
     </ul>

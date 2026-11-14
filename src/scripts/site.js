@@ -137,8 +137,22 @@ if (isl) {
     isl.style.setProperty('--ih', mode === 'expanded' ? '52px' : '44px');
     setTimeout(adaptAll, 650);
   };
-  isl.addEventListener('pointerenter', (e) => { if (e.pointerType === 'touch') return; islHover = true; islandMode(); });
-  isl.addEventListener('pointerleave', (e) => { if (e.pointerType === 'touch') return; islHover = false; islandMode(); });
+  // Opening can move the island sideways under a still pointer (at 600px and below the
+  // contact pill shrinks to its diamond, and the centred row shifts). Chromium then reports a
+  // leave although the pointer never moved, and the island would flip between faces every
+  // frame. A leave at the pointer's last position is that layout shift, not the visitor
+  // leaving: the hover holds until the pointer next moves, and ends then if it is off the island.
+  let lastX = null, lastY = null, shifted = false;
+  document.addEventListener('pointermove', (e) => {
+    lastX = e.clientX; lastY = e.clientY;
+    if (shifted) { shifted = false; if (!isl.contains(e.target)) { islHover = false; islandMode(); } }
+  }, { capture: true, passive: true });
+  isl.addEventListener('pointerenter', (e) => { if (e.pointerType === 'touch') return; shifted = false; islHover = true; islandMode(); });
+  isl.addEventListener('pointerleave', (e) => {
+    if (e.pointerType === 'touch') return;
+    if (islHover && e.clientX === lastX && e.clientY === lastY) { shifted = true; return; }
+    islHover = false; islandMode();
+  });
   isl.addEventListener('focusin', () => { islHover = true; islandMode(); });
   isl.addEventListener('focusout', (e) => { if (!isl.contains(e.relatedTarget)) { islHover = false; islandMode(); } });
   // Capture the closed state before touch focus can expand the island. Only a completed

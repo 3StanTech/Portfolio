@@ -111,9 +111,11 @@ components:
   tile:
     class: ".tile.glass[data-tier=regular] (Home rail)"
     rounded: "30 (image 20px, superellipse)"
-    width: "up to 344px; narrows with viewport to preserve the next-card peek"
+    width: "up to 344px; narrows with viewport to preserve the neighbours' slivers"
     padding: "10px"
     hover: "lift 6px, glare"
+    caption: "title and client type only (no number)"
+    edge: "dims to 0.22 and settles back to 0.9 scale while crossing either edge of the row"
   bento:
     class: ".bento (grid holding .wide and .prail)"
     columns: "3 (1 under 960px)"
@@ -132,6 +134,7 @@ components:
   inspector:
     class: ".ins (ProjectInspector.astro)"
     columns: "300px index + stage (1 column at 960px and below)"
+    index-marker: "hollow 10px amber-outline diamond per build; the moving amber diamond fills the one on show"
     stage: "{colors.stage}, radius 34px, superellipse"
     sheet: ".ins-body.glass, radius 26, adaptive tint"
   closer:
@@ -255,7 +258,9 @@ A floating glass capsule: compact ("Tristan Dolfo · replies within a day"), exp
 or focus into the nav (Projects in amber text), mini while scrolling. "check me out" opens the
 glass contact menu (Email me, Copy email with a "Copied" check and live announcement, Call,
 Résumé, GitHub); Escape closes and returns focus. At 600px and below the open island drops Résumé and
-the pill shrinks to its diamond so both fit a 360px screen.
+the pill shrinks to its diamond so both fit a 360px screen. That shrink moves the centred island
+sideways under a still pointer; a leave reported at the pointer's last position is treated as
+that shift, so the hover holds until the pointer next moves (and ends then if it is off the island).
 On touch, the first completed tap on a compact or mini island only expands it; the next tap
 can follow a nav link. An outside touch collapses it. Mouse hover and keyboard focus still expand it.
 The decision comes from the recorded touch press and release, never the click's pointer fields
@@ -283,21 +288,41 @@ island. Projects, Services and 404 use it; About and the case studies use a left
 
 ### Home
 Hero (blur-up words and one amber sweep; the H1 is painted in the first frame), the selected
-work rail (nine glass tiles, 5s tour with pause/play, paddles, the Hiring panel left of the
-heading), the scope bento (packages panel, process rail with a steel-blue line and amber step
+work rail (nine glass tiles without numbers, an endless row, 5s tour with pause/play, paddles,
+the Hiring panel left of the heading), the scope bento (packages panel, process rail with a steel-blue line and amber step
 names), the closer.
 
 The hero actions keep their full labels and DOM order: one row from 795px; two pairs at
 600–794px; at 599px and below, Email and Call each occupy a row above the Résumé/GitHub pair.
 The phone hero starts at 88px top padding so Email remains above the fold at 320×568,
-360×780 and 390×844. Rail tiles narrow below 344px when needed to retain
-the next-card peek and edge gutters; the last tile remains fully reachable.
+360×780 and 390×844. Rail tiles narrow below 344px when needed to retain the
+neighbours' slivers and edge gutters.
+
+The selected work section sits under the hero's horizon arc: "selected work" clears the arc
+at every width (lowered 74px on desktop and 180px at 760px and below, where the heading sits
+at the arc's lower left end); the bottom spacing gives the same amount back, plus the line
+the old tile numbers filled, so the scope band does not move. The Hiring panel may touch the arc.
+
+The row is endless. home.js copies the nine tiles into a set before and a set after them
+(copies are `aria-hidden` and their links take `tabindex="-1"`, so Tab and screen readers
+meet nine tiles once while a visible copy still opens its build on click; they
+are made in a windowless document so cloning starts no downloads, and a copy's capture loads
+only after its original has loaded or when the copy itself comes into view). Tiles snap to the
+centre: the full builds sit in the middle with equal slivers of their neighbours on both sides,
+and the first build is the leftmost full tile at load. Once the row has arrived and no finger
+is on it, a position outside the real set shifts by exactly one set (identical pixels).
+Paddles never disable; presses during a move add up. The edge effect ("dim-led depth"): a wide
+eased mask fades the row's own edges (nothing is painted over the galaxy), and a tile dims and
+settles back while it crosses either edge (scroll-linked; off under reduced motion and Save-Data).
+Without JavaScript the nine tiles stay a plain strip from the first one, with no paddles or tour button.
 
 ### Projects (signature): the Spotlight Inspector
 A typographic index on the left, the capture as a large stage, the details on a glass sheet
 over the capture (Stack and Outcome tabs, live link, case study, Project details), a 5s tour
 ring, prev/next, a desktop/phone capture flip and `#slug` deep links. Without JavaScript every
-build is stacked and complete.
+build is stacked and complete. The index has no numbers: each build has a hollow amber
+diamond where the moving diamond rests, and the moving one fills the hollow one for the build
+on show; titles line up with the group labels.
 
 The sheet overlays the capture from 1080px. At 1079px and below it follows the capture in
 normal flow. The index stays beside the stage at 961–1079px; only this range reserves the
@@ -364,6 +389,8 @@ the horizon crossing sweep with a softened ripple. Springs are `--spring` and `-
   links. A vertical wheel with a stray sideways pixel is not browsing. Hovering an Inspector
   index name shows that build without pausing: the pointer hold keeps the tour still and it
   resumes after the pointer leaves. Programmatic rail scrolling is not manual intent. Play starts a fresh 5s interval once temporary holds clear.
+  The Home tour only ever advances one build to the right; it never scrolls back to the start
+  (the row is endless), while visitors can still go left by swipe, wheel, keys or paddle.
 
 ## 7. Do's and Don'ts
 

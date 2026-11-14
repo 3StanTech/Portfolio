@@ -96,7 +96,7 @@ const steps = [
         <li>
           <a class="tile glass" data-kind="dark" data-tier="regular" href={`/projects/#${project.data.slug}`}>
             <Image src={project.data.shots.desktop} alt="" widths={[344, 688]} sizes="324px" loading={i < 3 ? 'eager' : 'lazy'} />
-            <span class="cap"><span class="n">{String(i + 1).padStart(2, '0')}</span><strong>{project.data.title}</strong><span class="c">{project.data.clientType}</span></span>
+            <span class="cap"><strong>{project.data.title}</strong><span class="c">{project.data.clientType}</span></span>
           </a>
         </li>
       ))}
