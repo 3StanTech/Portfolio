@@ -3,8 +3,10 @@
 // clipboard feedback, scroll reveal and the Project details dialogs. Ported from the
 // approved mock's engine (glass-overhaul-mocks/shared/site.js boot()) with the review
 // switches removed. Everything here degrades to plain, working HTML without it.
-import { liquidGlass, isLensSupported } from '../vendor/glasswork/lens.js';
+import { liquidGlass } from '../vendor/glasswork/lens.js';
 import { starfield } from './galaxy.js';
+import { startHole } from './hole.js';
+import { startWarp } from './warp.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -13,7 +15,7 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const saveData = root.classList.contains('save-data');
 const EMAIL = body.dataset.email || '';
 
-// ---------- Rim lens (Chromium only; elsewhere the CSS glass stays) ----------
+// ---------- Rim lens ----------
 // Each lens builds its refraction map in a pixel loop, so building them all at once is a
 // long task. Glass is queued as it comes on screen and one lens is mounted per idle slot.
 const lenses = new Map(), lensQueue = [], watched = new WeakSet();
@@ -23,7 +25,7 @@ const lensStep = () => {
   const el = lensQueue.shift();
   if (el && !lenses.has(el) && el.offsetWidth) {
     const small = el.offsetHeight < 60;
-    lenses.set(el, liquidGlass(el, small ? { rim: 16, edge: 1.1, power: 2.6, dispersion: .22 } : { rim: 40, edge: 1.1, power: 2.6, dispersion: .15 }));
+    lenses.set(el, liquidGlass(el, small ? { rim: 16, edge: 1.1, power: 2.6, dispersion: .22, force: true } : { rim: 40, edge: 1.1, power: 2.6, dispersion: .15, force: true }));
   }
   if (lensQueue.length) idle(lensStep, { timeout: 800 });
   else lensBusy = false;
@@ -33,8 +35,10 @@ const lensSeen = 'IntersectionObserver' in window ? new IntersectionObserver((en
   for (const e of entries) if (e.isIntersecting) { lensSeen.unobserve(e.target); lensQueue.push(e.target); }
   if (lensQueue.length && !lensBusy) { lensBusy = true; idle(lensStep, { timeout: 800 }); }
 }) : null;
+// Mounted in every browser (owner, 2026-11-16): where url() in backdrop-filter is not drawn the
+// glass renders exactly like the clear recipe, and a browser that adds it gets the refraction.
 export function mountLenses(scope = document) {
-  if (!lensSeen || !isLensSupported()) return;
+  if (!lensSeen) return;
   for (const el of $$('.glass', scope)) {
     if (watched.has(el) || el.dataset.lens === 'none') continue;
     watched.add(el); lensSeen.observe(el);
@@ -47,7 +51,7 @@ export function mountLenses(scope = document) {
 // pixels; text counts as busy.
 // card's dense end is .9 (the mock's .64 left the sheet's amber and secondary text near 2.5:1
 // over the bright captures; measured in the Phase 1 contrast sweep).
-const ADAPT = { menu: [.14, .82], bar: [.14, .62], card: [.3, .9] };
+const ADAPT = { card: [.3, .9] }; // the smoked header bar and menu use adaptSmoke instead
 const imgCache = new Map();
 function imgPixels(img) {
   const key = img.currentSrc || img.src;
@@ -78,8 +82,29 @@ function lumAt(px, py, self) {
   }
   return .02;
 }
+// Smoked glass (the header bar and the contact menu, data-glass="smoke") is clear only over open
+// sky, the black hole and its rims, and smoked as soon as any content sits behind it: text, a
+// capture, another glass surface (owner, 2026-11-16). The test is geometric, so even the edge
+// of a small label counts: each content box is checked against the surface's box (cheap while
+// scrolling, the layout is already clean), and for text only the lines it actually draws count.
+const CONTENT = 'main :is(h1, h2, h3, h4, h5, p, li, a, button, img, blockquote, figcaption, dt, dd, th, td, small, label, summary, .glass), .foot :is(strong, a)';
+let contentEls = null;
+const overlaps = (a, r) => a.width > 1 && a.height > 1 && a.right > r.left + 2 && a.left < r.right - 2 && a.bottom > r.top + 2 && a.top < r.bottom - 2;
+const shown = (el) => { const cs = getComputedStyle(el); return cs.visibility !== 'hidden' && +cs.opacity >= .3; };
+function contentBehind(r) {
+  contentEls ||= $$(CONTENT);
+  for (const el of contentEls) {
+    if (!overlaps(el.getBoundingClientRect(), r) || !shown(el)) continue;
+    if (el.tagName === 'IMG' || el.classList.contains('glass')) return true;
+    const range = document.createRange(); range.selectNodeContents(el);
+    for (const line of range.getClientRects()) if (overlaps(line, r)) return true;
+  }
+  return false;
+}
+function adaptSmoke(el, r) { el.style.setProperty('--density', contentBehind(r) ? '1' : '0'); }
 function adapt(el) {
   const r = el.getBoundingClientRect(); if (!r.width) return;
+  if (el.dataset.glass === 'smoke') return adaptSmoke(el, r);
   let sum = 0, max = 0;
   for (let i = 0; i < 5; i++) for (let j = 0; j < 3; j++) {
     const x = r.left + r.width * (i + .5) / 5, y = r.top + r.height * (j + .5) / 3;
@@ -98,23 +123,15 @@ export function adaptAll() {
 }
 export { adapt };
 
-// ---------- Galaxy ----------
-// Live richness (the owner's pick) with the D8 options: depth tilt, cursor lens, horizon
-// crossing sweep + softened ripple. Horizons: [data-horizon="in"] (the hero; you fall in
-// scrolling down) and [data-horizon="out"] (the closer; you leave into the footer).
+// ---------- Galaxy, black hole and page transition ----------
+// The black hole (hole.js) is locked to the page at its [data-horizon] markers; the sky
+// (galaxy.js) asks it where the rims and open sky are; the transition (warp.js) arrives over
+// the live page. Reduced motion and Save-Data are handled inside each module.
 (() => {
   const canvas = $('.sky');
-  if (!canvas) return;
-  const horizons = () => $$('[data-horizon]').map((el) => {
-    const r = el.getBoundingClientRect();
-    return el.dataset.horizon === 'in' ? { dir: 'in', apex: r.bottom - 150 } : { dir: 'out', apex: r.top + 150 };
-  });
-  const still = reduce || saveData;
-  if (!still) canvas.classList.add('fx-in');
-  starfield(canvas, {
-    density: .00048, starBoost: 1, twinkle: .75, glints: .06, interactive: true, base: .27, sparse: .54, parallax: .34,
-    horizons, tilt: still ? 0 : 1, pull: still ? 0 : -1, crossing: still ? 'off' : 'both',
-  });
+  const hole = startHole();
+  if (canvas) starfield(canvas, hole);
+  startWarp().arrive();
 })();
 
 // ---------- Island ----------
@@ -350,6 +367,48 @@ for (const dialog of $$('dialog.pm')) {
   });
   dialog.addEventListener('close', () => { backdropGesture = null; lastTrigger?.focus(); lastTrigger = null; });
 }
+
+// ---------- Folding panels (Home process rail, Services tiers) ----------
+// One owner for each panel's state, so what is shown and what the "+" announces never differ:
+// a panel is open while it is pinned (the "+"), hovered by a mouse or pen, or holds keyboard
+// focus; .is-open (all the CSS reacts to) and aria-expanded are written together from that.
+// Pressing the "+" on an open panel closes it whatever opened it (it stays closed until the
+// pointer or focus leaves and comes back); on a closed one it pins it open. On a hover device
+// a tap (a touchscreen laptop) toggles the pin, since the "+" is hidden there.
+const hoverDevice = matchMedia('(hover: hover)');
+for (const panel of $$('.rv')) {
+  const tog = $('.rv-tog', panel);
+  const st = { pinned: false, hovered: false, focused: false };
+  let lastPointer = 'mouse';
+  const render = () => {
+    const open = st.pinned || st.hovered || st.focused;
+    panel.classList.toggle('is-open', open);
+    tog?.setAttribute('aria-expanded', String(open));
+  };
+  const toggle = () => {
+    if (st.pinned || st.hovered || st.focused) st.pinned = st.hovered = st.focused = false;
+    else st.pinned = true;
+    render();
+  };
+  panel.addEventListener('pointerdown', (e) => { lastPointer = e.pointerType; }, { passive: true });
+  panel.addEventListener('pointerenter', (e) => { if (e.pointerType === 'touch' || !hoverDevice.matches) return; st.hovered = true; render(); });
+  panel.addEventListener('pointerleave', (e) => { if (e.pointerType === 'touch' || !st.hovered) return; st.hovered = false; render(); });
+  panel.addEventListener('focusin', (e) => { if (!st.focused && e.target.matches(':focus-visible')) { st.focused = true; render(); } });
+  panel.addEventListener('focusout', (e) => { if (st.focused && !panel.contains(e.relatedTarget)) { st.focused = false; render(); } });
+  tog?.addEventListener('click', toggle);
+  panel.addEventListener('click', (e) => {
+    if (hoverDevice.matches && lastPointer === 'touch' && !e.target.closest('a, button')) toggle();
+  });
+}
+// Reserve each folding panel's open height so nothing below it moves. The measuring runs
+// first from the inline script in Base.astro, right after the page content and before the
+// first paint (window.rvReserve); here it runs again once fonts and images have settled and
+// when the width changes.
+const reserve = () => window.rvReserve?.();
+document.fonts?.ready.then(reserve);
+addEventListener('load', reserve);
+let rvW = innerWidth;
+addEventListener('resize', () => { if (innerWidth !== rvW) { rvW = innerWidth; reserve(); } });
 
 // ---------- Lenses and tint once the layout settles ----------
 setTimeout(() => { mountLenses(); adaptAll(); }, 700);

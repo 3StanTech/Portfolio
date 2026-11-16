@@ -9,8 +9,17 @@
 h1, h2, h3, h4 { text-wrap: balance; }
 .container { position: relative; z-index: 1; width: min(100% - var(--gutter) * 2, var(--maxw)); margin-inline: auto; }
 
-/* The galaxy canvas (galaxy.js), behind everything. */
-.sky { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; } /* palette: --star*, --neb-* in tokens.css */
+/* The galaxy canvas (galaxy.js), behind everything. Sized to the large viewport so a phone
+   toolbar showing or hiding does not resize it. */
+.sky { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100lvh; z-index: -1; pointer-events: none; display: block; }
+/* The black hole (hole.js) scrolls with the document, so its rims never trail the content:
+   the layer is document-sized behind the content (overflow: clip adds no scroll length), the
+   interior is cut to the arcs by clip-path with a sticky viewport canvas inside, and each rim
+   is a canvas placed at its apex. */
+.bh-layer { position: absolute; top: 0; left: 0; width: 100%; z-index: -1; pointer-events: none; overflow: clip; }
+.bh-hole { position: absolute; left: 0; width: 100%; background: var(--page); }
+.bh-in { position: sticky; top: 0; display: block; width: 100%; height: 100vh; height: 100lvh; }
+.bh-rim { position: absolute; left: 0; width: 100%; display: block; }
 
 /* Skip link: visually hidden in place until focused. */
 .skip { position: fixed; z-index: 30; left: 16px; top: 16px; padding: 10px 16px; border-radius: 999px; background: var(--ink); color: var(--on-ink); font-weight: 650; text-decoration: none; }
@@ -73,7 +82,6 @@ html:not(.js) .face-expanded { display: flex; position: static; opacity: 1; filt
 .cta-more { --radius: 999; position: relative; height: 44px; padding: 0 18px 0 16px; display: inline-flex; align-items: center; gap: 9px; border: 0; cursor: pointer; font: 600 15px/1 var(--f-body); letter-spacing: -.005em; white-space: nowrap; }
 .cta-more .spark { width: 7px; height: 7px; border-radius: 1px; background: var(--amber); rotate: 45deg; box-shadow: 0 0 8px color-mix(in srgb, var(--amber) 75%, transparent); transition: rotate var(--t-spring) var(--spring), scale var(--t-spring) var(--spring); }
 .cta-more[aria-expanded='true'] .spark { rotate: 225deg; scale: 1.25; }
-.pop.glass[data-tier] { --d-blur: 7; }
 .pop { --radius: 24; position: absolute; top: calc(100% + 10px); right: 0; width: 300px; padding: 8px; display: grid; gap: 2px;
   clip-path: inset(0 0 calc(100% - 42px) calc(100% - var(--bw, 130px)) round 21px); opacity: 0; visibility: hidden;
   transition: clip-path var(--t-spring) var(--spring-soft), opacity 200ms var(--ease-out), visibility 0s linear var(--t-spring); }
@@ -84,7 +92,8 @@ html:not(.js) .face-expanded { display: flex; position: static; opacity: 1; filt
 .pop.open > :nth-child(2) { transition-delay: 30ms; } .pop.open > :nth-child(3) { transition-delay: 60ms; } .pop.open > :nth-child(4) { transition-delay: 90ms; } .pop.open > :nth-child(5) { transition-delay: 120ms; }
 .pop .two { display: grid; gap: 3px; padding-block: 8px; }
 .pop .two small { font-size: 13px; color: rgb(255 255 255 / .74); }
-.pop > *:hover, .pop > *:focus-visible { background: rgb(255 255 255 / .09); color: var(--ink); }
+.pop > *:hover, .pop > *:focus-visible { background-color: rgb(255 255 255 / .07); color: var(--amber); }
+.pop > *:is(:hover, :focus-visible) small { color: color-mix(in srgb, var(--amber-light) 85%, transparent); }
 .pop svg { width: 17px; height: 17px; opacity: .8; }
 
 /* Scroll edge: content dims under the floating bar, so glass labels stay legible. */
@@ -97,18 +106,11 @@ body[data-scrolled='true'] .edge-top { opacity: 1; }
 .mono { margin: 0; font: 500 12.5px/1 var(--f-label); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-soft); }
 .kicker { display: inline-flex; align-items: center; gap: 10px; }
 .kicker::before { content: ''; width: 7px; height: 7px; rotate: 45deg; border-radius: 1px; background: var(--amber); box-shadow: 0 0 10px color-mix(in srgb, var(--amber) 70%, transparent); }
-.nw { white-space: nowrap; }
 .h1 { margin: 0; max-width: none; font: 700 clamp(50px, 1.5rem + 5.6vw, 106px)/.98 var(--f-display); letter-spacing: -.055em; }
 .h2 { margin: 0 0 18px; font: 700 clamp(40px, 1.5rem + 3.6vw, 82px)/1 var(--f-display); letter-spacing: -.052em; }
 .lead { margin: 0; font-size: 21px; color: var(--ink-soft); }
-.pool { position: absolute; z-index: 0; width: var(--s, 560px); aspect-ratio: 1; border-radius: 50%; pointer-events: none;
-  background: radial-gradient(closest-side, var(--c), transparent); left: var(--x); top: var(--y); translate: -50% -50%;
-  animation: g4-drift var(--d, 26s) ease-in-out infinite alternate; }
-.pool.steel { --c: color-mix(in srgb, var(--steel) 62%, transparent); }
-.pool.amber { --c: color-mix(in srgb, var(--amber) 24%, transparent); }
-@keyframes g4-drift { from { transform: translate(-3%, 2%) scale(1); } to { transform: translate(4%, -3%) scale(1.08); } }
-/* Horizons mark where the black hole's rims sit (galaxy.js reads [data-horizon]); the
-   canvas draws them, so the CSS planet stays hidden. */
+/* Horizons mark where the black hole's rims sit (hole.js reads [data-horizon]); the
+   canvases draw them, so the CSS planet stays hidden. */
 .horizon { display: none; }
 
 /* ------------------------------ Home: hero ------------------------------ */
@@ -116,8 +118,6 @@ body[data-scrolled='true'] .edge-top { opacity: 1; }
 .hero-inner { position: relative; z-index: 2; display: grid; justify-items: center; }
 .hero .kicker { margin-bottom: 28px; }
 .sub { margin: 26px 0 36px; font-size: clamp(19px, 1rem + .4vw, 23px); line-height: 1.45; color: var(--ink-soft); max-width: 36ch; text-wrap: balance; }
-.trust { margin: 26px 0 0; font-size: 14.5px; color: var(--ink-soft); }
-.trust b { color: var(--amber); font-weight: 700; }
 /* The hero settles back as the page moves on (Chromium, Safari 26). */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
@@ -127,17 +127,17 @@ body[data-scrolled='true'] .edge-top { opacity: 1; }
 }
 
 /* ------------------------------ Home: selected work rail ------------------------------ */
-/* The heading sits under the hero's horizon arc (galaxy.js draws it 150px above the hero's
+/* The heading sits under the hero's horizon arc (hole.js draws it 150px above the hero's
    foot); the bottom padding gives back what the top margin takes, plus the 18.5px line the
    tile numbers used to fill, so the scope band below keeps its place. The arc runs lower
    toward the edges, so the stacked head (760px and below, heading at the left edge) drops further. */
-.works { position: relative; z-index: 3; margin-top: -96px; padding-bottom: 56.5px; }
+.works { position: relative; z-index: 3; margin-top: -8px; padding-bottom: 56.5px; } /* 88px below the old -96px, so the rim passes above "Hiring a developer?" */
 .works-head { display: flex; align-items: center; justify-content: flex-start; gap: 22px; margin-bottom: 20px; }
 .works-head h2 { margin: 0; font: 700 clamp(28px, 1rem + 1.4vw, 40px)/1 var(--f-display); letter-spacing: -.04em; }
 .works-head .paddles { margin-left: auto; }
 /* The Hiring panel sits left of the heading (visual order only; the heading stays first in the DOM). */
 .works-head .hire { order: -1; --radius: 18; display: inline-grid; grid-template-columns: 34px auto 16px; gap: 11px; align-items: center; padding: 8px 14px 8px 8px; text-decoration: none;
-  --d-thin: .1; --d-dense: .26; --d-blur: 4; --d-sat: 1.7; --d-bri: .88; --d-catch: 1.8; transition: translate 420ms var(--spring); }
+  --d-thin: .1; --d-dense: .26; transition: translate 420ms var(--spring); }
 .works-head .hire:hover { translate: 0 -2px; color: var(--ink); }
 .works-head .hire-ico { width: 34px; height: 34px; border-radius: 11px; corner-shape: superellipse(1.5); display: grid; place-items: center; background: color-mix(in srgb, var(--amber) 20%, transparent); color: var(--amber); }
 .works-head .hire-ico svg { width: 17px; height: 17px; }
@@ -195,16 +195,13 @@ html.js .rail > li { scroll-snap-align: center; }
 html:not(.js) .paddles, html:not(.js) .rail-foot { display: none; }
 /* "Real glass" for small controls over captures and the night sky. */
 .ins-ctl button.glass, .ins-cover .flip-hint.glass, .paddle.glass, .rail-tour.glass {
-  --d-thin: .08; --d-dense: .22; --d-blur: 3; --d-sat: 1.8; --d-bri: .9; --d-catch: 1.9; }
+  --d-thin: .08; --d-dense: .22; }
 .ins-ctl button svg, .ins-cover .flip-hint svg, .paddle svg, .rail-tour svg { filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / .6)); }
 
 /* ------------------------------ Home: scope band ------------------------------ */
 .band { position: relative; padding: 96px 0 120px; overflow-x: clip; }
 .band-head { position: relative; z-index: 1; max-width: 920px; margin: 0 auto 64px; text-align: center; }
 .bento { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-.bento .wide { --radius: 34; grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 24px 56px; align-items: center; padding: 44px; }
-.bento .wide h3 { margin: 0; font: 700 clamp(28px, 1rem + 1.4vw, 40px)/1.06 var(--f-display); letter-spacing: -.04em; }
-.bento .wide p { margin: 0 0 24px; color: var(--ink-soft); font-size: 17.5px; }
 /* The process rail: one glass strip, the step names on one line in amber, a steel-blue
    line through three diamond nodes, their text below. --p (0 to 1, set by home.js on
    scroll) draws the line; without script or under reduced motion it stays fully drawn. */
@@ -295,7 +292,7 @@ html.js .ins:not(.is-ready) .ins-build:not(:first-of-type), html.js .ins:not(.is
 .ins-body { --radius: 26; position: absolute; z-index: 2; left: 18px; bottom: 18px; width: min(510px, calc(100% - 36px)); padding: 22px 24px 20px; display: grid; gap: 12px; }
 /* The sheet as real glass: lighter tint, more blur and colour from the capture behind;
    adaptive tint thickens it over bright captures so its text keeps AA. */
-.ins-body.glass { --d-blur: 16; --d-sat: 1.7; --d-bri: .7; --d-catch: 1.7; text-shadow: 0 1px 2px rgb(0 0 0 / .35); }
+.ins-body.glass { text-shadow: 0 1px 2px rgb(0 0 0 / .35); }
 .ins-tags { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0; font: 500 11.5px/1.4 var(--f-label); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
 .ins-tags .tag { color: var(--amber-light); }
 .ins-title { margin: 0; font: 700 30px/1.05 var(--f-display); letter-spacing: -.045em; }
@@ -314,9 +311,9 @@ html.js .ins:not(.is-ready) .ins-build:not(:first-of-type), html.js .ins:not(.is
 .ins-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
 .ins-actions .btn { min-height: 44px; font-size: 14px; padding: 0 15px; }
 .ins-actions .link, .ins-actions .details { display: inline-flex; align-items: center; min-height: 44px; }
-/* Live-site links: amber text and outline, apart from the stack chips. */
-.ins-actions .btn.glass { color: var(--amber-soft); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--amber) 70%, transparent), 0 4px 14px rgb(0 0 0 / .25); }
-.ins-actions .btn.glass:hover { color: var(--amber-light); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--amber-soft) 95%, transparent), 0 0 18px -4px color-mix(in srgb, var(--amber) 55%, transparent); }
+/* Live-site links: amber text on the lens glass (material.css), apart from the stack chips. */
+.ins-actions .btn.glass { color: var(--amber-soft); }
+.ins-actions .btn.glass:hover { color: var(--amber-light); }
 .ins-actions .link { display: inline-flex; align-items: center; gap: 8px; font-weight: 650; text-decoration: none; color: var(--amber-soft); font-size: 14.5px; }
 .ins-actions .link svg { width: 16px; height: 16px; transition: translate 420ms var(--spring); }
 .ins-actions .link:hover { color: var(--amber-light); }
@@ -382,7 +379,7 @@ dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blu
 /* ------------------------------ Services ------------------------------ */
 .svc-tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: stretch; }
 .svc-tier { --radius: 30; display: flex; flex-direction: column; gap: 18px; min-width: 0; padding: clamp(24px, 1rem + 1.4vw, 36px); }
-.svc-tier.is-recommended { outline: 1px solid color-mix(in srgb, var(--amber) 42%, transparent); outline-offset: -1px; }
+.svc-tier.is-recommended { box-shadow: inset 0 1.2px 0 rgb(255 255 255 / .34), inset 0 0 0 1px color-mix(in srgb, var(--amber) 45%, transparent); }
 .svc-labels { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; min-height: 26px; }
 .svc-tier.is-recommended .svc-tag { color: var(--amber-soft); }
 .svc-tier h2 { font: 700 clamp(24px, 1rem + .9vw, 30px)/1.1 var(--f-display); letter-spacing: -.035em; }
@@ -417,6 +414,9 @@ dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blu
 .tech .row:first-child { padding-top: 0; }
 .tech .row:last-child { padding-bottom: 0; border-bottom: 0; }
 .gpanel .rows.tech { border-top: 0; }
+/* The tech pills: amber text on the site's neutral hairline, shimmering on hover (fx.css). */
+.tech .pill { color: var(--amber-light); transition: color 200ms ease; }
+.tech .pill:hover { color: var(--amber-soft); }
 .principles .row { display: grid; grid-template-columns: minmax(180px, .38fr) minmax(0, 1fr); gap: 12px 32px; padding-block: 28px; }
 .principles h3 { font: 650 clamp(21px, 1rem + .6vw, 26px)/1.15 var(--f-display); letter-spacing: -.03em; }
 .principles .row > div { display: grid; gap: 14px; }
@@ -453,7 +453,7 @@ dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blu
   html.js .ins-body { min-height: var(--ins-sheet-min-height, 0px); align-content: start; }
 }
 @media (max-width: 960px) {
-  .bento, .bento .wide { grid-template-columns: 1fr; }
+  .bento { grid-template-columns: 1fr; }
   html.js .ins { grid-template-columns: 1fr; }
   .ins-side { position: static; }
 }
@@ -481,7 +481,6 @@ dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blu
   .hero { padding-top: 88px; }
   .hero .kicker { margin-bottom: 16px; }
   .hero .sub { margin: 18px 0 22px; }
-  .hero .trust { margin-top: 20px; }
   .hero .cta-row { width: 100%; max-width: 360px; }
   .hero .cta-row .btn { padding-inline: 10px; gap: 7px; }
   .hero .cta-row > :nth-child(-n+2) { grid-column: 1 / -1; }
@@ -500,13 +499,73 @@ dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blu
   .prail .pline { left: 8px; top: calc(var(--name) / 2); width: 2px; height: calc(100% + var(--gap)); margin: 0 0 0 -1px; }
   .prail .pline::after { transform-origin: center top; scale: 1 var(--seg); }
 }
+
+/* ---------------- Folding panels (Home process rail, Services tiers) ----------------
+   Folded, the process rail shows its step names, nodes and line, and a tier its tag, title,
+   best-for and button. The rest opens on mouse hover, with keyboard focus inside, or with
+   the "+" button. site.js owns that state and writes it to .is-open and to the "+" button's
+   aria-expanded together, so what is shown and what is announced never differ; the CSS
+   reacts to .is-open only. Folded text is clipped, not removed, so screen readers still read
+   it. The "+" is shown where there is no hover; on hover devices the rail's appears only when
+   focused, and the tiers' is not needed (focus on their own button opens them). */
+.rv { position: relative; }
+.rv-tog { position: absolute; z-index: 2; top: 8px; right: 10px; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 999px;
+  background: none; color: var(--ink-soft); font: 400 22px/1 var(--f-body); cursor: pointer; }
+.rv-tog::before { content: '+'; transition: rotate 320ms var(--fx-expo); }
+.rv.is-open .rv-tog::before { rotate: 45deg; }
+@media (hover: hover) {
+  .rv-tog:not(:focus-visible) { width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .svc-tier .rv-tog { display: none; }
+}
+.prail.rv { padding-block: 30px 26px; transition: padding 480ms var(--fx-expo), margin-bottom 480ms var(--fx-expo); }
+.prail.rv li { grid-template-rows: var(--name) 30px 0fr; row-gap: 14px; transition: grid-template-rows 480ms var(--fx-expo); } /* the line's top assumes the 14px gap */
+.prail.rv li > p { min-height: 0; overflow: hidden; opacity: 0; translate: 0 -6px; transition: opacity 320ms ease, translate 480ms var(--fx-expo); }
+.prail.rv.is-open { padding-block: 40px 44px; }
+.prail.rv.is-open li { grid-template-rows: var(--name) 30px 1fr; }
+.prail.rv.is-open li > p { opacity: 1; translate: 0 0; transition-delay: 80ms; }
+.svc-tier.rv .dia { max-height: 0; overflow: hidden; opacity: 0; padding-top: 0; margin-block: -9px; border-top-color: transparent;
+  transition: max-height 480ms var(--fx-expo), opacity 320ms ease, padding-top 480ms var(--fx-expo), margin-block 480ms var(--fx-expo), border-color 320ms ease; }
+.svc-tier.rv.is-open .dia { max-height: 320px; opacity: 1; padding-top: 18px; margin-block: 0; border-top-color: var(--hair); }
+/* Phone: the steps stack (name beside its node, text below), so the fold is two rows. */
+@media (max-width: 760px) {
+  .bento .prail.rv { padding-block: 24px; }
+  .prail.rv li { grid-template-rows: auto 0fr; row-gap: 0; }
+  .bento .prail.rv.is-open { padding-block: 28px; }
+  .prail.rv.is-open li { grid-template-rows: auto 1fr; row-gap: 8px; }
+}
+/* Folding never moves what is below: site.js reserves each panel's open height (--rv-gap,
+   the difference, as a bottom margin while folded) and holds the group's height, so the
+   closer and its horizon sit where they would with the panels open. */
+.bento, .svc-tiers { align-items: start; align-content: start; }
+.rv { margin-bottom: var(--rv-gap, 0px); }
+.rv.is-open, html.rv-probe .rv { margin-bottom: 0; }
+html.rv-still .rv, html.rv-still .rv * { transition: none !important; } /* while measuring, so nothing animates */
+/* The open layout: while measuring (rv-probe), and until site.js has reserved the heights
+   (no html.rv-ready yet, or no script at all), so the first paint never folds and then moves
+   what is below it, and visitors without JavaScript see every descriptor. */
+:is(html.rv-probe, html:not(.rv-ready)) .bento .prail.rv { padding-block: 40px 44px; }
+:is(html.rv-probe, html:not(.rv-ready)) .prail.rv li { grid-template-rows: var(--name) 30px 1fr; row-gap: 14px; }
+:is(html.rv-probe, html:not(.rv-ready)) .svc-tier.rv .dia { max-height: 320px; padding-top: 18px; margin-block: 0; }
+html:not(.rv-ready) .rv { margin-bottom: 0; }
+html:not(.rv-ready) .prail.rv li > p, html:not(.rv-ready) .svc-tier.rv .dia { opacity: 1; translate: 0 0; border-top-color: var(--hair); }
+html:not(.rv-ready) .rv-tog { display: none; }
+@media (max-width: 760px) {
+  :is(html.rv-probe, html:not(.rv-ready)) .bento .prail.rv { padding-block: 28px; }
+  :is(html.rv-probe, html:not(.rv-ready)) .prail.rv li { grid-template-rows: auto 1fr; row-gap: 8px; }
+}
+/* Side by side, the three tiers share one height folded and open. */
+@media (min-width: 961px) {
+  .svc-tiers { align-items: stretch; }
+  .svc-tier.rv { margin-bottom: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .rv, .rv *, .rv .dia { transition: none !important; } }
+.works-head .hire-t strong .hire-dev { font: inherit; letter-spacing: inherit; color: var(--amber); } /* every .hire-t span is otherwise styled as the subtitle */
 /* Save-Data: every animation and transition stops, as under reduced motion (fx.css also
    skips its effects); states still change, just without the movement. */
 .save-data *, .save-data *::before, .save-data *::after, .save-data ::backdrop { animation: none !important; transition: none !important; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .face, .pop > *, .ins-swap { transition: none !important; animation: none !important; }
-  .pool { animation: none; }
   .prail .pnode::after, .prail .pline::after { transition: none; }
 }
 

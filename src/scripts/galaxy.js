@@ -1,60 +1,56 @@
-// The galaxy (glass overhaul): a pitch-black sky of drifting stars with parallax and a
-// faint nebula, rich around the cursor and on the side you scroll toward, with the
-// black hole's accretion-disk rims at the page's [data-horizon] markers. Ported from the
-// approved mock (glass-overhaul-mocks/shared/starfield.js); no constellation lines.
-// Under reduced motion or Save-Data the stars hold still (no drift, twinkle, parallax,
-// scroll richness or cursor effects); the frame is redrawn only so the black-hole rims
-// follow their sections as the page scrolls, like any content. No loop;
-// paused while the tab is hidden; devicePixelRatio capped at 2. Colours come from CSS
-// custom properties on the canvas (--star, --star-cool, --star-warm, --neb-1..3, --rim-*).
-// Options: density, drift, parallax, nebula, starBoost, twinkle (0-1), glints,
-// interactive (+ base, sparse, radius), horizons(), holeDark, tilt (depth tilt),
-// pull (-1 lens, 0 off), crossing ('off' | 'sweep' | 'ripple' | 'both').
-export function starfield(canvas, opts = {}) {
-  const o = { density: 0.00022, drift: 0.012, parallax: 0.18, nebula: true, starBoost: 1, twinkle: 0.28, glints: 0, interactive: false, base: 0.3, sparse: 0.54, radius: 300, horizons: null, holeDark: 0.72, tilt: 0, pull: 0, crossing: 'off', ...opts };
-  const ctx = canvas.getContext('2d');
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-  const saveData = navigator.connection?.saveData === true;
-  let w = 0, h = 0, dpr = 1, stars = [], raf = 0, t0 = performance.now();
+// The sky outside the black hole (black-hole FX, ported from the approved mock's galaxy.js):
+// a pitch-black sky of drifting, twinkling stars with parallax, rich around the cursor and on
+// the side you scroll toward, occasional shooting stars, and stars smeared toward the horizon
+// where they touch it. No nebula and no hole drawing: hole.js owns the interior and the rims,
+// locked to the page. Every ease is per unit of time, not per frame; stars are placed once per
+// width, so a phone toolbar showing or hiding never re-places them.
+// Under reduced motion or Save-Data the stars hold still (no drift, twinkle, parallax, cursor
+// effects or shooting stars); the frame is redrawn on scroll so the smear follows the rim.
+// Paused while the tab is hidden; devicePixelRatio capped at 2. Colours come from tokens.css.
+import { mulberry, approach, smooth, rgb, color, still } from './space.js';
 
-  const still = () => reduce.matches || saveData;
-  // The palette is read once per build (tokens.css), not every frame.
+const O = { density: 0.00048, drift: 0.012, parallax: 0.34, starBoost: 1, twinkle: 1, twinkleRate: 1.6, glints: 0.07, base: 0.27, sparse: 0.54, radius: 300, tilt: 1, pull: -1 };
+const METEOR_GAP = [6, 14]; // seconds between shooting stars
+const BEND_REACH = 120;     // px outside the rim where stars smear toward it
+
+// `hole` is hole.js's query API, or null on a page without a horizon (the 404 page).
+export function starfield(canvas, hole) {
+  const o = O;
+  const ctx = canvas.getContext('2d');
+  let w = 0, h = 0, fieldH = 0, dpr = 1, stars = [], raf = 0, last = performance.now(), t = 0;
   let pal = {};
   const readPalette = () => {
-    const cs = getComputedStyle(canvas), v = (n, f) => cs.getPropertyValue(n).trim() || f;
-    // RGB-channel tokens ("194 65 12") become "194,65,12" for the rgba() strings below.
-    const rgb = (n, f) => v(n, f).split(/[\s,]+/).join(',');
-    pal = { white: v('--star', '#fff'), cool: v('--star-cool', '#9DBBE6'), warm: v('--star-warm', '#E7A35A'), n1: v('--neb-1', 'rgb(22 38 70 / .5)'), n2: v('--neb-2', 'rgb(74 111 165 / .15)'), n3: v('--neb-3', 'rgb(217 130 43 / .05)'), emberHot: v('--ember-hot', '#FFE3BE'), ember: v('--amber-soft', '#E9A25C'),
-      rim: [rgb('--rim-1', '194 65 12'), rgb('--rim-2', '217 110 30'), rgb('--rim-3', '233 162 92'), rgb('--rim-4', '255 214 160'), rgb('--rim-5', '255 246 234')],
-      sweep: rgb('--rim-sweep', '255 244 228'), ripple: rgb('--rim-ripple', '233 162 92'), rippleCore: rgb('--rim-ripple-core', '255 226 190') };
+    pal = { white: color('--star', '#fff'), cool: color('--star-cool', '#9DBBE6'), warm: color('--star-warm', '#E7A35A'),
+      smear: { white: rgb('--smear', '255 250 240'), cool: rgb('--steel-light-rgb', '157 187 230'), warm: rgb('--star-warm-rgb', '231 163 90') },
+      meteor: rgb('--meteor', '255 250 242'), meteorWarm: rgb('--rim-4', '255 214 160'), head: rgb('--meteor-head', '255 252 246'), headEdge: rgb('--glare', '255 240 222') };
   };
-  let rand = mulberry(7);
 
-  function build() {
-    rand = mulberry(7);
-    readPalette();
+  let builtW = -1;
+  function size() {
     dpr = Math.min(2, devicePixelRatio || 1);
     w = canvas.clientWidth; h = canvas.clientHeight;
     canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const n = Math.round(w * h * o.density) + 60;
+    if (w !== builtW) build();
+  }
+  function build() {
+    builtW = w; readPalette();
+    const rand = mulberry(7);
+    fieldH = Math.max(h, screen.height || h, 700);
+    const n = Math.round(w * fieldH * o.density) + 60;
     stars = Array.from({ length: n }, () => {
-      const z = rand();               // depth: 0 far, 1 near
-      const tint = rand();
-      let x = rand() * w, y = rand() * h * 1.6;
-      const amp = o.twinkle * (0.35 + 0.65 * rand());
+      const z = rand(), tint = rand();
       return {
-        x, y, z,
-        r: 0.35 + z * z * 1.25,
-        a: 0.25 + z * 0.6,
-        tw: rand() * Math.PI * 2, ts: 0.5 + rand() * 2.3, amp,
+        x: rand() * w, y: rand() * fieldH * 1.6, z,
+        r: 0.35 + z * z * 1.25, a: 0.25 + z * 0.6,
+        tw: rand() * Math.PI * 2, ts: (0.5 + rand() * 2.3) * o.twinkleRate, amp: o.twinkle * (0.35 + 0.65 * rand()),
         glint: z > 0.45 && rand() < o.glints, q: rand(),
         c: tint > 0.93 ? 'warm' : tint > 0.78 ? 'cool' : 'white',
       };
     });
   }
 
-  // Pointer and scroll state for the interactive sky (eased, not per-event).
+  // Pointer and scroll state (eased per unit of time).
   const ptr = { x: -1e4, y: -1e4, tx: -1e4, ty: -1e4, on: 0, ton: 0 };
   let flow = 0, flowT = 0, lastSY = scrollY, lastMove = 0;
   const tl = { x: 0, y: 0 };
@@ -62,69 +58,145 @@ export function starfield(canvas, opts = {}) {
   document.addEventListener('pointerleave', () => { ptr.ton = 0; });
   addEventListener('blur', () => { ptr.ton = 0; });
   addEventListener('scroll', () => { const d = scrollY - lastSY; lastSY = scrollY; if (Math.abs(d) > 1) { flowT = Math.sign(d); lastMove = performance.now(); } }, { passive: true });
-  const smooth = (a) => (a <= 0 ? 0 : a >= 1 ? 1 : a * a * (3 - 2 * a));
   function richAt(x, y) {
     let L = o.base;
-    if (still()) return L;
     if (flow) { const f = flow > 0 ? y / h : 1 - y / h; L += (f - L) * Math.abs(flow); }
     if (ptr.on > 0.01) { const d = Math.hypot(x - ptr.x, y - ptr.y); L += (1 - L) * ptr.on * smooth(1 - d / o.radius); }
     return Math.max(0, Math.min(1, L));
   }
 
-  function draw(now) {
-    raf = 0;
-    const frozen = still();
-    const t = frozen ? 0 : (now - t0) / 1000;
-    if (o.interactive && !frozen) {
-      if (performance.now() - lastMove > 900) flowT = 0;
-      flow += (flowT - flow) * (flowT ? 0.08 : 0.03);
+  // ---------- Shooting stars ----------
+  // Occasional, and only where open sky is on screen. When the hole dominates the screen they
+  // curve into it and flare at the rim; when the screen is mostly sky they fly straight and
+  // tilt a little away from the hole.
+  let meteors = [], nextAt = 0;
+  const skyBands = () => (hole ? hole.skyBands(h) : [[0, h]]);
+  function spawnMeteor() {
+    const bands = skyBands().filter(([a, b]) => b - a > 120);
+    if (!bands.length) return;
+    const [ya, yb] = bands[Math.floor(Math.random() * bands.length)];
+    const left = Math.random() < 0.5;
+    let ang = (left ? 0.18 : Math.PI - 0.18) + (left ? 1 : -1) * Math.random() * 0.5; // shallow, falling
+    let straight = !hole;
+    const skyFrac = bands.reduce((a, [y0, y1]) => a + (y1 - y0), 0) / h;
+    if (hole && skyFrac > 0.6) {
+      straight = true;
+      const rim = hole.rimsOnScreen(h)[0];
+      const away = rim ? (rim.dir === 'in' ? -1 : 1) : (Math.random() < 0.5 ? -1 : 1); // -1 up (hole below), 1 down (hole above)
+      const tilt = 0.08 + 0.22 * Math.random();
+      ang = left ? away * tilt : Math.PI - away * tilt;
     }
-    if ((o.interactive || o.pull || o.tilt) && !frozen) { ptr.x += (ptr.tx - ptr.x) * 0.12; ptr.y += (ptr.ty - ptr.y) * 0.12; ptr.on += (ptr.ton - ptr.on) * 0.06; }
-    // Depth tilt: an eased cursor offset (-.5 to .5 of the screen); near stars move most.
-    const gx = o.tilt && !frozen && ptr.on > 0.01 ? (ptr.x / w - 0.5) * ptr.on : 0, gy = o.tilt && ptr.on > 0.01 ? (ptr.y / h - 0.5) * ptr.on : 0;
-    if (frozen) { tl.x = 0; tl.y = 0; ptr.on = 0; } // a live switch to still mode drops any eased tilt
-    else { tl.x += (gx - tl.x) * 0.06; tl.y += (gy - tl.y) * 0.06; }
-    const sy = frozen ? 0 : scrollY;
-    ctx.clearRect(0, 0, w, h);
-    if (o.nebula) nebula(-tl.x * 12, -tl.y * 8, frozen);
-    const col = pal;
-    for (const s of stars) {
-      const y = ((s.y - sy * o.parallax * (0.3 + s.z) + t * o.drift * 60 * s.z) % (h * 1.6) + h * 1.6) % (h * 1.6) - h * 0.3;
-      if (y < -40 || y > h + 40) continue;
-      // Depth tilt and the cursor's lens move where the star is drawn, not where it lives.
-      let px = s.x - tl.x * 30 * s.z, py = y - tl.y * 18 * s.z, lensK = 0;
-      if (o.pull && !frozen && ptr.on > 0.01) {
-        const dx = px - ptr.x, dy = py - ptr.y, d = Math.hypot(dx, dy);
-        if (d < 230 && d > 0.5) {
-          const f = smooth(1 - d / 230) * ptr.on;
-          const a = 36 * f * (0.45 + s.z);
-          px += dx / d * a; py += dy / d * a; lensK = f;
+    const sp = 620 + Math.random() * 520;
+    meteors.push({
+      x: w * (0.08 + Math.random() * 0.84), y: ya + (yb - ya) * Math.random() * 0.7,
+      vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp, life: 0, max: 0.75 + Math.random() * 0.55,
+      len: 130 + Math.random() * 130, trail: [], flared: false, warm: Math.random() < 0.25, straight,
+    });
+  }
+  function drawMeteors(dt) {
+    if (still()) { meteors = []; return; }
+    if (!nextAt) nextAt = t + 2 + Math.random() * 3;
+    if (t >= nextAt) { spawnMeteor(); nextAt = t + METEOR_GAP[0] + Math.random() * (METEOR_GAP[1] - METEOR_GAP[0]); }
+    if (!meteors.length) return;
+    ctx.save(); ctx.lineCap = 'round'; ctx.globalCompositeOperation = 'lighter';
+    meteors = meteors.filter((m) => (m.life += dt) < m.max);
+    for (const m of meteors) {
+      if (!m.straight) {
+        // The path bends toward the nearest point of the hole.
+        const tgt = hole.pullPoint(m.x, m.y, h);
+        if (tgt) {
+          const want = Math.atan2(tgt[1] - m.y, tgt[0] - m.x), cur = Math.atan2(m.vy, m.vx);
+          let d = want - cur; d = Math.atan2(Math.sin(d), Math.cos(d));
+          const sp = Math.hypot(m.vx, m.vy) * (1 + 0.5 * dt), turn = Math.max(-1, Math.min(1, d)) * 1.5 * dt;
+          m.vx = Math.cos(cur + turn) * sp; m.vy = Math.sin(cur + turn) * sp;
         }
       }
+      m.x += m.vx * dt; m.y += m.vy * dt;
+      m.trail.unshift([m.x, m.y]); if (m.trail.length > 18) m.trail.pop();
+      if (!m.straight && !m.flared && hole.inside(m.x, m.y)) { m.flared = true; hole.flare(m.x, m.y); m.max = m.life + 0.05; }
+      const k = m.life / m.max, fade = Math.min(1, k / 0.15) * Math.min(1, (1 - k) / 0.35);
+      const col = m.warm ? pal.meteorWarm : pal.meteor;
+      if (!m.straight && m.trail.length > 2) {
+        // A curved tail: the recent path, fading toward its end.
+        for (let i = 1; i < m.trail.length; i++) {
+          const f = 1 - i / m.trail.length;
+          ctx.strokeStyle = `rgba(${col},${0.95 * fade * f})`; ctx.lineWidth = 0.5 + 1.6 * f;
+          ctx.beginPath(); ctx.moveTo(m.trail[i - 1][0], m.trail[i - 1][1]); ctx.lineTo(m.trail[i][0], m.trail[i][1]); ctx.stroke();
+        }
+      } else {
+        const sp = Math.hypot(m.vx, m.vy), ux = m.vx / sp, uy = m.vy / sp, L = m.len * (0.6 + 0.4 * fade);
+        const g = ctx.createLinearGradient(m.x, m.y, m.x - ux * L, m.y - uy * L);
+        g.addColorStop(0, `rgba(${col},${fade})`); g.addColorStop(0.3, `rgba(${col},${0.55 * fade})`); g.addColorStop(1, `rgba(${col},0)`);
+        ctx.strokeStyle = g; ctx.lineWidth = 1.7;
+        ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(m.x - ux * L, m.y - uy * L); ctx.stroke();
+      }
+      const hg = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, 6); hg.addColorStop(0, `rgba(${pal.head},${fade})`); hg.addColorStop(1, `rgba(${pal.headEdge},0)`); ctx.fillStyle = hg; ctx.fillRect(m.x - 6, m.y - 6, 12, 12);
+    }
+    ctx.restore();
+  }
+
+  // Stars just outside the rim: a short luminous smear pointing into the horizon, brightest at
+  // the star and fading toward the rim.
+  function drawSmear(s, px, py, { f, m, r }) {
+    const n = Math.hypot(1, m), sgn = r.dir === 'in' ? 1 : -1, nx = -m * sgn / n, ny = sgn / n;
+    const len = s.r * (2 + 12 * f), c = pal.smear[s.c];
+    const x0 = px - nx * len * 0.25, y0 = py - ny * len * 0.25, x1 = px + nx * len, y1 = py + ny * len;
+    const g = ctx.createLinearGradient(x0, y0, x1, y1);
+    g.addColorStop(0, `rgba(${c},0)`); g.addColorStop(0.2, `rgba(${c},1)`); g.addColorStop(1, `rgba(${c},0)`);
+    ctx.strokeStyle = g; ctx.lineWidth = s.r * 1.7; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+  }
+
+  function draw(now) {
+    raf = 0;
+    const dt = Math.min(0.05, Math.max(0.001, (now - last) / 1000)); last = now;
+    const frozen = still();
+    if (!frozen) t += dt;
+    const T = frozen ? 0 : t;
+    if (!frozen) {
+      if (performance.now() - lastMove > 900) flowT = 0;
+      flow = approach(flow, flowT, flowT ? 0.2 : 0.55, dt);
+      ptr.x = approach(ptr.x, ptr.tx, 0.13, dt); ptr.y = approach(ptr.y, ptr.ty, 0.13, dt);
+      ptr.on = approach(ptr.on, ptr.ton, 0.27, dt);
+    }
+    const gx = o.tilt && !frozen && ptr.on > 0.01 ? (ptr.x / w - 0.5) * ptr.on : 0, gy = o.tilt && !frozen && ptr.on > 0.01 ? (ptr.y / h - 0.5) * ptr.on : 0;
+    if (frozen) { tl.x = 0; tl.y = 0; ptr.on = 0; flow = 0; }
+    else { tl.x = approach(tl.x, gx, 0.27, dt); tl.y = approach(tl.y, gy, 0.27, dt); }
+    const sy = frozen ? 0 : scrollY;
+    ctx.clearRect(0, 0, w, h);
+    const rims = hole ? hole.rimsOnScreen(h) : [];
+    for (const s of stars) {
+      const y = ((s.y - sy * o.parallax * (0.3 + s.z) + T * o.drift * 60 * s.z) % (fieldH * 1.6) + fieldH * 1.6) % (fieldH * 1.6) - fieldH * 0.3;
+      if (y < -40 || y > h + 40) continue;
+      let px = s.x - tl.x * 30 * s.z, py = y - tl.y * 18 * s.z, lensK = 0, bend = null;
+      if (o.pull && !frozen && ptr.on > 0.01) {
+        const dx = px - ptr.x, dy = py - ptr.y, d = Math.hypot(dx, dy);
+        if (d < 230 && d > 0.5) { const f = smooth(1 - d / 230) * ptr.on, a = 36 * f * (0.45 + s.z); px += dx / d * a; py += dy / d * a; lensK = f; }
+      }
+      // Stars just outside the rim are pushed out and smeared toward it.
+      for (const r of rims) {
+        const yr = r.yAt(px), d = r.dir === 'in' ? yr - py : py - yr;
+        if (d > 0 && d < BEND_REACH) { const f = (1 - d / BEND_REACH) ** 2; py += (r.dir === 'in' ? -1 : 1) * f * 9; bend = { f, m: r.slopeAt(px), r }; break; }
+      }
       if (py < -4 || py > h + 4) continue;
-      // Twinkle: each star breathes at its own pace and depth; glint stars
-      // spend most of the time dim and flare briefly (a sharpened sine).
       let k = 1;
-      if (!frozen) {
-        const wave = 0.5 + 0.5 * Math.sin(s.tw + t * s.ts);
-        k = s.glint ? wave ** 4 : wave;
-      }
-      let lit = s.glint ? 0.35 + 0.65 * k : 1 - s.amp + s.amp * k, vis = 1, L = 1, boost = o.starBoost;
-      if (o.interactive) {
-        L = richAt(px, py);
-        const share = o.sparse + (1 - o.sparse) * L;          // share of stars shown at this richness
-        vis = smooth((share - s.q) / 0.12 + 0.5);
-        if (vis <= 0.01) continue;
-        boost = o.starBoost * (0.75 + 1.0 * L);
-        if (!s.glint) lit = 1 - s.amp * (0.4 + 0.9 * L) * (1 - k);
-      }
+      if (!frozen) { const wave = 0.5 + 0.5 * Math.sin(s.tw + T * s.ts); k = s.glint ? wave ** 4 : wave; }
+      let lit = s.glint ? 0.35 + 0.65 * k : 1 - s.amp + s.amp * k;
+      const L = frozen ? o.base : richAt(px, py);
+      const vis = smooth((o.sparse + (1 - o.sparse) * L - s.q) / 0.12 + 0.5);
+      if (vis <= 0.01) continue;
+      let boost = o.starBoost * (0.75 + 1.0 * L);
+      if (!s.glint) lit = 1 - s.amp * (0.4 + 0.9 * L) * (1 - k);
       if (lensK) boost *= 1 + 0.7 * lensK;
       ctx.globalAlpha = Math.min(1, s.a * lit * boost * vis);
-      ctx.fillStyle = col[s.c];
+      if (bend) { drawSmear(s, px, py, bend); continue; }
+      ctx.fillStyle = pal[s.c];
       ctx.beginPath(); ctx.arc(px, py, s.r, 0, Math.PI * 2); ctx.fill();
-      if (s.glint && k > 0.3 && (!o.interactive || L > 0.45)) {
-        const g = (k - 0.3) / 0.7 * (o.interactive ? smooth((L - 0.45) / 0.35) : 1), len = s.r * (4 + 10 * g);
-        ctx.strokeStyle = col[s.c]; ctx.lineCap = 'round';
+      // Cross glints (owner, 2026-11-16): present across the whole sky at about a quarter strength, rising
+      // to 70% around the cursor and where you scroll; none in the still frame.
+      if (s.glint && !frozen && k > 0.3) {
+        const g = (k - 0.3) / 0.7 * (0.25 + 0.45 * smooth((L - o.base) / 0.45)), len = s.r * (4 + 10 * g);
+        ctx.strokeStyle = pal[s.c]; ctx.lineCap = 'round';
         ctx.lineWidth = 0.7; ctx.globalAlpha = 0.55 * g;
         ctx.beginPath(); ctx.moveTo(px - len, py); ctx.lineTo(px + len, py); ctx.moveTo(px, py - len); ctx.lineTo(px, py + len); ctx.stroke();
         ctx.lineWidth = 1.2; ctx.globalAlpha = 0.8 * g;
@@ -132,145 +204,16 @@ export function starfield(canvas, opts = {}) {
       }
     }
     ctx.globalAlpha = 1;
-    if (o.horizons) blackHole(t);
+    drawMeteors(dt);
     if (!frozen) schedule();
-  }
-
-  // ---------- Black hole (owner, G4) ----------
-  // o.horizons() returns the event horizons on screen: [{ apex, dir }] in
-  // viewport px. dir 'in' = the hero's horizon (the hole lies below it; you
-  // fall in by scrolling down); 'out' = the closer's (the hole lies above; you
-  // leave into the footer). The interior is darkened over the stars; each rim
-  // is an accretion disk that blazes up as you approach and cross it.
-  const heat = { in: 0.3, out: 0.3 }, lastP = { in: null, out: null }, ev = { in: null, out: null };
-  let embers = [], lastT = 0, speed = 0, lastHY = scrollY;
-  function arcPts(apex, dir) {
-    const Rx = w * 0.95, Ry = Math.max(720, h * 1.05), pts = [];
-    for (let i = 0; i <= 72; i++) {
-      const x = -60 + (w + 120) * i / 72, dx = (x - w / 2) / Rx;
-      pts.push([x, apex + (dir === 'in' ? 1 : -1) * Ry * (1 - Math.sqrt(Math.max(0, 1 - dx * dx)))]);
-    }
-    return pts;
-  }
-  function blackHole(t) {
-    const list = o.horizons() || [];
-    const still = reduce.matches || saveData;
-    if (still) { embers = []; heat.in = heat.out = 0.3; }
-    const dt = Math.min(0.05, Math.max(0.001, t - lastT)); lastT = t;
-    const dy = scrollY - lastHY; lastHY = scrollY;
-    speed += (Math.min(1, Math.abs(dy) / 28) - speed) * 0.12;
-    const hin = list.find((x) => x.dir === 'in'), hout = list.find((x) => x.dir === 'out');
-    const top = hin ? arcPts(hin.apex, 'in') : null, bot = hout ? arcPts(hout.apex, 'out') : null;
-    // Interior: between the 'in' rim (or above the screen) and the 'out' rim (or below it).
-    const yTop = top ? Math.min(...top.map((p) => p[1])) : -1e5, yBot = bot ? Math.max(...bot.map((p) => p[1])) : 1e5;
-    if (yTop < h + 40 && yBot > -40) {
-      ctx.save(); ctx.fillStyle = `rgba(0,0,0,${o.holeDark})`; ctx.beginPath();
-      if (top) top.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); else { ctx.moveTo(-60, -60); ctx.lineTo(w + 60, -60); }
-      if (bot) [...bot].reverse().forEach(([x, y]) => ctx.lineTo(x, y)); else { ctx.lineTo(w + 60, h + 60); ctx.lineTo(-60, h + 60); }
-      ctx.closePath(); ctx.fill(); ctx.restore();
-    }
-    for (const [hz, pts] of [[hin, top], [hout, bot]]) {
-      if (!hz) continue;
-      const p = hz.apex / h;
-      // Crossing: the rim passes the middle of the screen (falling in, or climbing back out).
-      const lp = lastP[hz.dir]; lastP[hz.dir] = p;
-      if (lp !== null && o.crossing !== 'off' && !still && (lp - 0.5) * (p - 0.5) < 0) ev[hz.dir] = { t0: t, s: p < lp ? 1 : -1 };
-      // Blaze: strongest as the rim passes the upper middle of the screen, and while you are moving.
-      const prox = Math.exp(-(((hz.dir === 'in' ? p - 0.32 : p - 0.62) / 0.34) ** 2));
-      const target = still ? 0.3 : Math.min(1, 0.22 + 0.5 * prox + 0.55 * speed * prox);
-      heat[hz.dir] += (target - heat[hz.dir]) * 0.08;
-      const H = heat[hz.dir];
-      if (Math.max(...pts.map((q) => q[1])) < -140 || Math.min(...pts.map((q) => q[1])) > h + 140) continue;
-      rim(pts, H, t, still, hz.dir);
-      if (!still && H > 0.35 && embers.length < 90 && Math.random() < H * 0.9) {
-        const k = Math.floor(Math.random() * pts.length), [x, y] = pts[k];
-        if (x > 0 && x < w) embers.push({ x, y, vx: (Math.random() - 0.5) * 40, vy: (hz.dir === 'in' ? -1 : 1) * (14 + Math.random() * 46) * H, life: 0, max: 0.8 + Math.random() * 1.2 });
-      }
-    }
-    if (embers.length) {
-      ctx.save(); ctx.globalCompositeOperation = 'lighter';
-      embers = embers.filter((e) => (e.life += dt) < e.max);
-      for (const e of embers) {
-        e.x += e.vx * dt; e.y += e.vy * dt; const f = 1 - e.life / e.max;
-        ctx.globalAlpha = 0.7 * f; ctx.fillStyle = f > 0.6 ? pal.emberHot : pal.ember;
-        ctx.beginPath(); ctx.arc(e.x, e.y, 0.6 + 1.1 * f, 0, Math.PI * 2); ctx.fill();
-      }
-      ctx.restore();
-    }
-  }
-  const line = (pts, dy = 0) => { ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y + dy) : ctx.moveTo(x, y + dy))); };
-  function rim(pts, H, t, still, dir) {
-    // Doppler-bright on one side, with a slow swirl travelling along the disk.
-    const g = (a) => { const gr = ctx.createLinearGradient(0, 0, w, 0); for (let i = 0; i <= 8; i++) { const u = i / 8; const dop = 1.25 - 0.55 * u; const sw = still ? 1 : 0.72 + 0.28 * Math.sin(u * Math.PI * 3 - t * 0.9); gr.addColorStop(u, a(Math.max(0, dop * sw))); } return gr; };
-    const layers = [
-      [70 + 120 * H, 0.025 + 0.05 * H, (k) => `rgba(${pal.rim[0]},${k})`],
-      [34 + 60 * H, 0.05 + 0.09 * H, (k) => `rgba(${pal.rim[1]},${k})`],
-      [14 + 22 * H, 0.10 + 0.16 * H, (k) => `rgba(${pal.rim[2]},${k})`],
-      [5 + 7 * H, 0.22 + 0.28 * H, (k) => `rgba(${pal.rim[3]},${k})`],
-      [1.6 + 1.2 * H, 0.75 + 0.25 * H, (k) => `rgba(${pal.rim[4]},${k})`],
-    ];
-    ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
-    for (const [lw, a, c] of layers) { ctx.lineWidth = lw; ctx.strokeStyle = g((k) => c(Math.min(1, a * k))); ctx.stroke(); }
-    const e = ev[dir];
-    if (e) {
-      const age = t - e.t0;
-      if (age > 1.6) ev[dir] = null;
-      else {
-        if (o.crossing === 'sweep' || o.crossing === 'both') sweep(pts, age, e.s);
-        if (o.crossing === 'ripple' || o.crossing === 'both') ripple(pts, age, dir);
-      }
-    }
-    ctx.restore();
-  }
-  // Sweep: one band of white-gold light runs the length of the disk, in the direction you scrolled.
-  function sweep(pts, age, s) {
-    const D = 0.95; if (age > D) return;
-    const k = age / D, e = k < 0.5 ? 4 * k ** 3 : 1 - (-2 * k + 2) ** 3 / 2;
-    const uc = s > 0 ? -0.12 + 1.24 * e : 1.12 - 1.24 * e;
-    const band = (alpha) => { const gr = ctx.createLinearGradient(0, 0, w, 0); const add = (u, a) => { if (u >= 0 && u <= 1) gr.addColorStop(u, `rgba(${pal.sweep},${a})`); };
-      gr.addColorStop(0, `rgba(${pal.sweep},0)`); add(uc - 0.1, 0); add(uc - 0.03, alpha * 0.6); add(uc, alpha); add(uc + 0.03, alpha * 0.6); add(uc + 0.1, 0); gr.addColorStop(1, `rgba(${pal.sweep},0)`); return gr; };
-    line(pts);
-    ctx.lineWidth = 26; ctx.strokeStyle = band(0.22); ctx.stroke();
-    ctx.lineWidth = 7; ctx.strokeStyle = band(0.6); ctx.stroke();
-    ctx.lineWidth = 2.2; ctx.strokeStyle = band(1); ctx.stroke();
-  }
-  // Ripple: two faint rings spread out from the rim, away from the hole, and fade. Softened
-  // (owner, G4 notes 3): about half the brightness and width, a shorter travel, the second ring fainter.
-  function ripple(pts, age, dir) {
-    for (const [k, s] of [[0, 1], [0.18, 0.55]]) {
-      const b = (age - k) / 1.15; if (b <= 0 || b >= 1) continue;
-      const off = (dir === 'in' ? -1 : 1) * (1 - (1 - b) ** 3) * 110, f = s * (1 - b) ** 1.8;
-      line(pts, off);
-      ctx.lineWidth = 7 * f + 1; ctx.strokeStyle = `rgba(${pal.ripple},${0.05 * f})`; ctx.stroke();
-      ctx.lineWidth = 0.5 + 1.1 * f; ctx.strokeStyle = `rgba(${pal.rippleCore},${0.32 * f})`; ctx.stroke();
-    }
-  }
-
-  function nebula(ox = 0, oy = 0, frozen = false) {
-    const sy = (frozen ? 0 : scrollY * 0.06) - oy;
-    const blobs = [
-      [w * 0.78 + ox, h * 0.18 - sy, Math.max(w, h) * 0.55, pal.n1],
-      [w * 0.12 + ox, h * 0.85 - sy, Math.max(w, h) * 0.45, pal.n2],
-      [w * 0.55 + ox, h * 0.62 - sy, Math.max(w, h) * 0.3, pal.n3],
-    ];
-    for (const [x, y, r, c] of blobs) {
-      const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-      g.addColorStop(0, c); g.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
-    }
   }
 
   // One scheduler: at most one frame is ever pending, so no second loop can start.
   function schedule() { if (!raf && !document.hidden) raf = requestAnimationFrame(draw); }
-  build(); schedule();
-  addEventListener('resize', () => { build(); schedule(); });
-  // Still mode redraws on scroll so the rims track their sections; the moving sky loops itself.
+  size(); schedule();
+  addEventListener('resize', () => { size(); schedule(); });
+  // Still mode redraws on scroll so the smear follows the rim; the moving sky loops itself.
   addEventListener('scroll', () => { if (still()) schedule(); }, { passive: true });
-  reduce.addEventListener('change', schedule);
-  document.addEventListener('visibilitychange', () => { if (document.hidden) { cancelAnimationFrame(raf); raf = 0; } else schedule(); });
-}
-
-function mulberry(a) {
-  return () => { a |= 0; a = (a + 0x6d2b79f5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', () => { last = performance.now(); schedule(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) { cancelAnimationFrame(raf); raf = 0; } else { last = performance.now(); schedule(); } });
 }

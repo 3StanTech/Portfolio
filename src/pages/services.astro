@@ -6,8 +6,8 @@ import { mailto } from '../data/contact';
 const tiers = [
   {
     tag: 'Starter',
-    title: 'A polished one-page presence',
-    bestFor: 'owners who mainly need customers to find them and choose them.',
+    title: 'A professional landing page',
+    bestFor: 'owners who mainly prioritize getting discovered and standing out.',
     subject: 'Starter website quote',
     ctaLabel: 'Get a Starter quote',
     points: [
@@ -51,7 +51,6 @@ const tiers = [
     <div class="container inner" data-reveal>
       <p class="mono kicker">Website packages</p>
       <h1 class="h1">Choose the <span class="accent">shape</span> of the site.</h1>
-      <p class="lead">Every build targets one clear customer action, ships fast, and comes with an optional care plan after launch. The right scope depends on your content and how much the site needs to do for you.</p>
     </div>
   </header>
 
@@ -61,14 +60,15 @@ const tiers = [
         {tiers.map((tier) => {
           const recommended = tier.tag === 'Business';
           return (
-            <article class:list={['svc-tier glass', { 'is-recommended': recommended }]} data-kind="dark" data-tier={recommended ? 'thick' : 'regular'} data-reveal>
+            <article class:list={['svc-tier glass rv', { 'is-recommended': recommended }]} data-kind="dark" data-tier={recommended ? 'thick' : 'regular'} data-reveal>
+              <button class="rv-tog" type="button" aria-expanded="false" aria-controls={`tier-${tier.tag.toLowerCase()}`} aria-label={`Show what the ${tier.tag} tier includes`}></button>
               <div class="svc-labels">
                 <span class="mono svc-tag">{tier.tag}</span>
                 {recommended && <span class="badge">Most owners start here</span>}
               </div>
               <h2>{tier.title}</h2>
               <p class="svc-fit"><strong>Best for:</strong> {tier.bestFor}</p>
-              <ul class="dia">
+              <ul class="dia" id={`tier-${tier.tag.toLowerCase()}`}>
                 {tier.points.map((point) => <li>{point}</li>)}
               </ul>
               <a class="btn glass" data-kind="dark" data-tier="clear" data-pill href={mailto(tier.subject)}>

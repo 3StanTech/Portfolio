@@ -43,6 +43,9 @@ export const LENS_DEFAULTS = {
   enabled: true,
   // The custom property the filter goes in.
   property: '--glass-lens',
+  // Portfolio patch (2026-11-16): mount even where isLensSupported() says no, so a browser
+  // that starts drawing url() in backdrop-filter shows the refraction without a code change.
+  force: false,
 };
 
 // A circular corner's exponent (CSS corner-shape: round).
@@ -298,7 +301,7 @@ function placeFilter(lens, width, height) {
  */
 export function liquidGlass(el, options = {}) {
   let opts = { ...LENS_DEFAULTS, ...options };
-  const supported = isLensSupported();
+  const supported = opts.force || isLensSupported();
   let current = null; // { key, lens, width, height }
   let token = 0;
   let frame = 0;

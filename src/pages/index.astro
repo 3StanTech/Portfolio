@@ -11,7 +11,6 @@ import profilePhoto from '../assets/tristan-profile-centered.png';
 type Project = CollectionEntry<'projects'>;
 
 const projects: Project[] = await getCollection('projects');
-const projectCount = projects.length;
 const allWork = projects
   .sort((a: Project, b: Project) => a.data.displayOrder - b.data.displayOrder);
 
@@ -63,9 +62,9 @@ const headline: { text: string; accent?: boolean }[] = [
   { text: 'work', accent: true }, { text: 'for' }, { text: 'your' }, { text: 'business.' },
 ];
 const steps = [
-  { name: 'Scope', text: 'First, I learn what your business needs to succeed: your offer, your audience, your goals. This gives the build direction from day one.' },
-  { name: 'Build', text: 'I turn the scope into a secure, responsive site with SEO essentials, structured data, and direct contact routes.' },
-  { name: 'Launch', text: 'A focused first version goes live, then I refine it based on how real visitors use it.' },
+  { name: 'Scope', text: 'Listening well is my first step. Then I restate your goals, the areas that will be worked on, and what the successful build looks like. With your confirmation, I get to start from a direction we both agree on.' },
+  { name: 'Build', text: 'I turn the agreed scope into a fast, secure site that works on every screen, with search essentials built in and direct ways for customers to reach you.' },
+  { name: 'Launch', text: 'A polished first version goes live, then I refine it based on how your real visitors see and use it.' },
 ];
 ---
 <Base jsonLd={jsonLd}>
@@ -75,9 +74,8 @@ const steps = [
       <h1 class="h1" id="hero-title" data-words>{headline.map((word, i) => (
         <><span class="w" style={`--i: ${i}`}>{word.accent ? <span class="accent">{word.text}</span> : word.text}</span>{i < headline.length - 1 && ' '}</>
       ))}</h1>
-      <p class="sub" style="--fx-d: 260ms">I build websites for small businesses and <span class="nw">full-stack</span> apps</p>
+      <p class="sub" style="--fx-d: 260ms">I like designing and building software</p>
       <CTA class="center" showPhone showResume showGithub style="--fx-d: 350ms" />
-      <p class="trust" style="--fx-d: 440ms"><b>{projectCount}</b> builds · replies within a day</p>
     </div>
     <span class="horizon" aria-hidden="true"></span>
   </section>
@@ -85,10 +83,10 @@ const steps = [
   <section class="works" aria-labelledby="works-title">
     <div class="container works-head">
       <h2 id="works-title">selected work</h2>
-      <a class="hire glass" data-kind="dark" data-tier="clear" href="/projects/"><span class="hire-ico" aria-hidden="true"><svg><use href="#i-code" /></svg></span><span class="hire-t"><strong>Hiring a developer?</strong><span>here's what i could do</span></span><svg class="hire-go" aria-hidden="true"><use href="#i-arrow" /></svg></a>
+      <a class="hire glass" data-kind="dark" data-tier="clear" href="/projects/"><span class="hire-ico" aria-hidden="true"><svg><use href="#i-code" /></svg></span><span class="hire-t"><strong>Hiring a <span class="hire-dev">developer</span>?</strong><span>here's what i could do</span></span><svg class="hire-go" aria-hidden="true"><use href="#i-arrow" /></svg></a>
       <div class="paddles">
-        <button class="paddle glass" data-kind="dark" data-tier="clear" data-pill type="button" data-dir="-1" aria-label="Previous build" aria-controls="rail"><svg aria-hidden="true"><use href="#i-chev-l" /></svg></button>
-        <button class="paddle glass" data-kind="dark" data-tier="clear" data-pill type="button" data-dir="1" aria-label="Next build" aria-controls="rail"><svg aria-hidden="true"><use href="#i-chev-r" /></svg></button>
+        <button class="paddle glass" data-glass="thin" data-kind="dark" data-tier="clear" data-pill type="button" data-dir="-1" aria-label="Previous build" aria-controls="rail"><svg aria-hidden="true"><use href="#i-chev-l" /></svg></button>
+        <button class="paddle glass" data-glass="thin" data-kind="dark" data-tier="clear" data-pill type="button" data-dir="1" aria-label="Next build" aria-controls="rail"><svg aria-hidden="true"><use href="#i-chev-r" /></svg></button>
       </div>
     </div>
     <ul class="rail" id="rail" role="list" data-rail>
@@ -101,24 +99,16 @@ const steps = [
         </li>
       ))}
     </ul>
-    <div class="container rail-foot"><button class="rail-tour glass" data-kind="dark" data-tier="clear" data-pill type="button" aria-pressed="true" aria-label="Pause the project tour" aria-controls="rail"><svg class="i-pause" aria-hidden="true"><use href="#i-pause" /></svg><svg class="i-play" aria-hidden="true"><use href="#i-play" /></svg></button></div>
+    <div class="container rail-foot"><button class="rail-tour glass" data-glass="thin" data-kind="dark" data-tier="clear" data-pill type="button" aria-pressed="true" aria-label="Pause the project tour" aria-controls="rail"><svg class="i-pause" aria-hidden="true"><use href="#i-pause" /></svg><svg class="i-play" aria-hidden="true"><use href="#i-play" /></svg></button></div>
   </section>
 
   <section class="band" aria-labelledby="scope-title">
-    <span class="pool steel" style="--x: 22%; --y: 62%; --s: 820px" aria-hidden="true"></span>
-    <span class="pool amber" style="--x: 82%; --y: 72%; --s: 560px; --d: 22s" aria-hidden="true"></span>
     <div class="container">
       <header class="band-head" data-reveal><h2 class="h2" id="scope-title">From the right scope to a successful launch.</h2><p class="lead">I build with your goals in mind, and your vision in hand.</p></header>
       <div class="bento">
-        <div class="wide glass" data-kind="dark" data-tier="regular" data-reveal>
-          <h3>One-page presence, full business site, or a focused custom build.</h3>
-          <div>
-            <p>Each package is shaped by your content, your timeline and the one action you want customers to take. Every build is made to stay reliable and easy to maintain.</p>
-            <a class="btn glass" data-kind="dark" data-tier="clear" data-pill href="/services/">See website packages<svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg></a>
-          </div>
-        </div>
-        <div class="prail glass" data-kind="dark" data-tier="regular" data-reveal>
-          <ol role="list">
+        <div class="prail glass rv" data-kind="dark" data-tier="regular" data-reveal>
+          <button class="rv-tog" type="button" aria-expanded="false" aria-controls="prail-steps" aria-label="Show how each step works"></button>
+          <ol role="list" id="prail-steps">
             {steps.map((step, i) => (
               <li style={`--i: ${i}`}>
                 <h3>{step.name}</h3>

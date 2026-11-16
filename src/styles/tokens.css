@@ -10,7 +10,6 @@
   color-scheme: dark;
 
   /* ---- Brand hues ---- */
-  --steel: #4A6FA5;
   --steel-light: #9DBBE6;   /* links on black, the cool stars, the rail's end */
   --amber: #D9822B;         /* the one warm accent */
   --amber-soft: #E9A25C;    /* Projects link, amber text on glass */
@@ -36,22 +35,25 @@
   --spot: 255 238 220;                  /* cursor spotlight sheen, RGB channels */
   --spot-rim: 255 210 160;              /* cursor spotlight rim, RGB channels */
   --glow-hot: 255 214 160;              /* accent word glow core, RGB channels */
-  --ember-hot: #FFE3BE;                 /* black-hole embers, hottest */
-  /* Galaxy canvas (galaxy.js reads these once). */
+  /* Galaxy canvas (galaxy.js, hole.js and warp.js read these). */
   --star: #fff;
   --star-cool: var(--steel-light);
   --star-warm: #E7A35A;
-  --neb-1: rgb(22 38 70 / .5);
-  --neb-2: rgb(74 111 165 / .15);
-  --neb-3: rgb(217 130 43 / .05);
+  --steel-light-rgb: 157 187 230;      /* --steel-light as RGB channels: interior and warp stars */
+  --meteor: 255 250 242;                /* shooting stars and warp streaks, RGB channels */
+  --meteor-head: 255 252 246;           /* shooting-star head glow, RGB channels */
+  --smear: 255 250 240;                 /* white stars smeared at the horizon, RGB channels */
+  --star-warm-rgb: 231 163 90;          /* --star-warm as RGB channels (smear) */
+  --ember-rgb: 233 162 92;              /* black-hole embers, cooler end, RGB channels */
+  --ember-hot-rgb: 255 227 190;         /* --ember-hot as RGB channels */
   --rim-1: 194 65 12;                   /* black-hole rim layers, outer glow to core, RGB channels */
   --rim-2: 217 110 30;
   --rim-3: 233 162 92;
   --rim-4: 255 214 160;
   --rim-5: 255 246 234;
   --rim-sweep: 255 244 228;             /* horizon crossing sweep band, RGB channels */
-  --rim-ripple: 233 162 92;             /* crossing ripple ring, RGB channels */
-  --rim-ripple-core: 255 226 190;       /* crossing ripple core line, RGB channels */
+  --smoke: 6 7 10;                      /* smoked glass (header bar, contact menu), RGB channels */
+  --frost: 18 22 32;                    /* frosted glass (About tech panel), RGB channels */
 
   /* ---- Type, layout ---- */
   --f-display: 'Geist Variable', 'Geist', system-ui, sans-serif;

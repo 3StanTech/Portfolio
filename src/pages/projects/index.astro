@@ -25,7 +25,6 @@ const headline = ['Built', 'for', 'the', 'people', 'who', 'use', 'them.'];
 ---
 <Base title="Projects | Tristan Dolfo" description="Projects by Tristan: full-stack apps and systems, business websites, and personal projects and commissions. Check them out, then try for yourself." canonical="/projects/">
   <section class="p-head" aria-labelledby="page-title">
-    <span class="pool steel" style="--x: 50%; --y: 70%; --s: 1100px; --d: 30s" aria-hidden="true"></span>
     <div class="container inner" data-words-box>
       <p class="mono kicker" style="--fx-d: 0ms">{projects.length} builds</p>
       <h1 class="h1" id="page-title" data-words>{headline.map((word, i) => (
@@ -36,8 +35,6 @@ const headline = ['Built', 'for', 'the', 'people', 'who', 'use', 'them.'];
   </section>
 
   <section class="ins-wrap" aria-label="Builds">
-    <span class="pool amber" style="--x: 18%; --y: 70%; --s: 640px; --d: 24s" aria-hidden="true"></span>
-    <span class="pool steel" style="--x: 80%; --y: 40%; --s: 900px; --d: 28s" aria-hidden="true"></span>
     <div class="container"><ProjectInspector groups={groups} /></div>
   </section>
 

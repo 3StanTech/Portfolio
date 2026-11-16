@@ -1,6 +1,6 @@
 ---
 name: Tristan Portfolio
-description: A dark glass-and-starlight portfolio for a Philippines full-stack developer. Black page, smoky navy-grey glass, Geist type with one amber DM Serif italic accent word, a live galaxy. Dark only.
+description: A dark glass-and-starlight portfolio for a Philippines full-stack developer. Black page, clear lens glass, Geist type with one amber DM Serif italic accent word, a live galaxy with a black hole. Dark only.
 colors:
   page: "#000000"
   ink: "#F5F5F7"
@@ -77,18 +77,21 @@ components:
     minHeight: "48px"
     padding: "0 22px"
   island:
-    class: ".isl.glass (SiteHeader.astro)"
+    class: ".isl.glass[data-glass=smoke] (SiteHeader.astro)"
     rounded: "{rounded.pill}"
+    glass: "clear over the sky, smoked over content"
   contact-menu:
-    class: ".pop.glass[data-tier=regular]"
+    class: ".pop.glass[data-glass=smoke][data-tier=regular]"
     rounded: "24px"
+    glass: "clear over the sky, smoked over content"
+    hoverTextColor: "{colors.amber}"
   kicker:
     class: ".mono.kicker"
     typography: "{typography.label}"
     marker: "7px amber diamond"
   glass-panel:
     class: ".glass[data-kind=dark][data-tier=regular|thick]"
-    backgroundColor: "{colors.glass-tint}"
+    backgroundColor: "transparent (lens glass; {colors.glass-tint} only as the adaptive tint over content)"
     rounded: "{rounded.panel}"
   rows:
     class: ".rows"
@@ -117,17 +120,14 @@ components:
     caption: "title and client type only (no number)"
     edge: "dims to 0.22 and settles back to 0.9 scale while crossing either edge of the row"
   bento:
-    class: ".bento (grid holding .wide and .prail)"
+    class: ".bento (grid holding .prail)"
     columns: "3 (1 under 960px)"
     gap: "18px"
-  bento-wide:
-    class: ".bento .wide.glass (packages panel)"
-    rounded: "34"
-    padding: "44px"
   process-rail:
-    class: ".bento .prail.glass"
+    class: ".bento .prail.glass.rv"
     rounded: "34"
-    padding: "40px 44px 44px (28px 24px under 760px)"
+    padding: "30px 44px 26px folded, 40px 44px 44px open (24px / 28px under 760px)"
+    fold: "descriptors fold until hover, keyboard focus or the touch \"+\" button; readable by screen readers while folded"
     line: "{colors.rail-a} to {colors.rail-b}, glow --rail-glow"
     stepName: "Geist 700 44px (34px under 760px), {colors.amber}"
     node: "14px diamond on {colors.stage}"
@@ -155,7 +155,7 @@ components:
 **Creative North Star: "Glass and starlight"**
 
 The site is a dark product page for one developer: a pitch-black sky with a live galaxy,
-smoky glass controls and panels that catch the light at their rims, large tight Geist
+clear lens-glass controls and panels that catch the light at their rims, large tight Geist
 headlines, and one warm amber word per heading set in DM Serif Display italic. It should
 feel like an Apple product page and still read instantly for a café owner on a phone.
 
@@ -166,10 +166,14 @@ approved mock round). It is **dark only**: there is no light theme, no theme tog
 
 **Key characteristics:**
 - Black page (`--page`) with a fixed galaxy canvas behind everything (`<canvas class="sky">`
-  in `Base.astro`, started by `src/scripts/site.js` with the renderer in `src/scripts/galaxy.js`); a black hole's rims mark the hero's exit and every closer's entry.
-- Glass for controls and panels only: Glasswork (MIT, `src/vendor/glasswork/`) with the dark
-  tiers in `src/styles/material.css`. Rim refraction is Chromium-only; elsewhere the blur,
-  tint and rim catch stay.
+  in `Base.astro`, started by `src/scripts/site.js` with the renderer in `src/scripts/galaxy.js`):
+  stars on pure black, no nebula and no glow pools. A black hole (`src/scripts/hole.js`) lies
+  between the hero's horizon and every closer's: its interior and soft rims live in the
+  document, so they scroll with the content and never trail it. Pages change through a
+  fall-in transition (`src/scripts/warp.js`).
+- Glass for controls and panels only: lens glass on Glasswork (MIT, `src/vendor/glasswork/`),
+  set in `src/styles/material.css`. The lens is mounted in every browser; Chromium draws the
+  rim refraction, elsewhere the same clear glass and light edge show without it.
 - Geist for everything, Geist Mono for labels, DM Serif Display italic amber for one accent word.
 - Amber is the one warm colour: accent words, kicker diamonds, hover, focus. Steel blue is
   the cool hint: links, the process rail, the galaxy's cool stars.
@@ -190,13 +194,14 @@ fills, shadows, the black hole's interior darkening) may be written inline as
 | Ink soft | `--ink-soft` (66%) | leads, supporting text, labels |
 | Ink dim | `--ink-dim` (58%) | inactive nav and tabs; the AA floor over dimmed content |
 | Hairline | `--hair` (13%) / `--hair-strong` (28%) | row dividers, chip outlines / diagram node outlines |
-| Glass tint | `--glass-tint` `#222A39` | the smoky navy-grey of every dark glass surface |
+| Glass tint | `--glass-tint` `#222A39` | the navy-grey tint the adaptive glass (Inspector card) and the reduced-transparency fallback use; lens glass itself is clear |
 | Stage | `--stage` `#0B0C10` | behind captures and diagrams |
 | Sheet | `--sheet` | the Project details dialog |
 | Amber | `--amber` `#D9822B`, `--amber-soft`, `--amber-light` | accent word, diamonds, hover / Projects link / current link, tags on glass |
-| Steel | `--steel` `#4A6FA5`, `--steel-light` `#9DBBE6` | glows / links on black |
+| Steel | `--steel-light` `#9DBBE6` | links on black, the cool stars, the rail's end |
 | Rail | `--rail-a`, `--rail-b`, `--rail-glow` | the process rail's line and nodes |
-| Galaxy | `--star*`, `--neb-*`, `--ember-hot`, `--rim-1`…`--rim-5`, `--rim-sweep`, `--rim-ripple*` | read once by `galaxy.js`; the `--rim-*` channel tokens are the black hole's rim layers (outer glow to core), the crossing sweep and the ripple |
+| Galaxy | `--star*`, `--steel-light-rgb`, `--star-warm-rgb`, `--meteor*`, `--smear`, `--ember-rgb`, `--ember-hot-rgb`, `--rim-1`…`--rim-5`, `--rim-sweep` | read by `galaxy.js`, `hole.js` and `warp.js`; the `--rim-*` channel tokens are the black hole's rim layers (outer glow to core) and the crossing sweep (the ripple reuses the rim's own layers); `--meteor*` the shooting stars and warp streaks |
+| Glass variants | `--smoke`, `--frost` | the smoked header and contact menu, the frosted About stack panel |
 | Effects | `--glare`, `--spot`, `--spot-rim`, `--glow-hot`, `--sweep*` | the motion set's light |
 
 ### Named rules
@@ -229,8 +234,20 @@ or stay as written (the other pages). Styling may only move an already marked wo
 
 ## 4. Elevation: glass tiers
 
-Shadows are not the elevation system; glass is. `material.css` sets three dark tiers on
-Glasswork's material (`data-kind="dark"` plus `data-tier`):
+Shadows are not the elevation system; glass is. Every dark glass surface (`data-kind="dark"`)
+is **lens glass**: no tint and no sheen, only the refraction and a light edge (brighter on
+hover and focus for buttons). The approved exceptions are chosen in markup with `data-glass`:
+
+| `data-glass` | Where | Look |
+|---|---|---|
+| `smoke` | the island header bar and the contact menu | clear only over open sky, the hole and its rim; near-black smoked glass as soon as any text line, image or glass panel is behind it (geometric test in `site.js`) |
+| `thin` | the screenshot arrows and pause/play (Home rail, Projects Inspector) | thin clear glass with a hairline |
+| `frosted` | the About stack panel | frosted, blurred glass |
+| (`[data-adapt]`) | the Inspector card | lens glass with a constant 16px blur and dimming, whose tint rises over a bright capture |
+
+"Email me" (`.btn[href^="mailto:"]`) is ringed: an amber hairline and amber text. The
+recommended Services tier adds an amber inset hairline. The tiers below still set the
+adaptive tint's dense end and the lens size:
 
 | Tier | Use |
 |---|---|
@@ -246,11 +263,12 @@ one per idle slot, as glass comes on screen (`site.js`); `data-lens="none"` opts
 ## 5. Components
 
 ### Buttons (`.btn.glass`)
-Glass pills, 48px tall, Geist 650 16px, an 18px sprite icon. Compact contexts set their own
+Lens-glass pills, 48px tall, Geist 650 16px, an 18px sprite icon. Compact contexts set their own
 height: 44px in the Project details actions and on the Projects sheet. The sheet's text
 actions and case-study breadcrumb links also have a minimum 44px hit height.
-Every button is glass, including Email me (no amber fill). Hover and focus turn the label and
-icon amber, add the warm glare sweep and a 1.02 lift; press scales to .97. Focus ring:
+Every button is glass, including Email me (an amber ring and amber text, never an amber
+fill). Hover and focus brighten the edge, add the warm glare sweep (the shimmer) and a 1.02
+lift; press scales to .97. Focus ring:
 2px amber, 3px offset. `CTA.astro` renders the standard row (Email me, Call, Résumé, GitHub).
 
 ### Island header and contact menu (`SiteHeader.astro`)
@@ -289,8 +307,11 @@ island. Projects, Services and 404 use it; About and the case studies use a left
 ### Home
 Hero (blur-up words and one amber sweep; the H1 is painted in the first frame), the selected
 work rail (nine glass tiles without numbers, an endless row, 5s tour with pause/play, paddles,
-the Hiring panel left of the heading), the scope bento (packages panel, process rail with a steel-blue line and amber step
-names), the closer.
+the Hiring panel left of the heading, "developer" in amber), the scope band (the process rail
+alone: a steel-blue line and amber step names; its descriptors fold until hover, keyboard
+focus or the "+" button on touch, and stay readable to screen readers while folded), the closer.
+Folding panels reserve their open height (`site.js` `reserve()`), so the closer and its
+horizon never move when one opens.
 
 The hero actions keep their full labels and DOM order: one row from 795px; two pairs at
 600–794px; at 599px and below, Email and Call each occupy a row above the Résumé/GitHub pair.
@@ -299,8 +320,9 @@ The phone hero starts at 88px top padding so Email remains above the fold at 320
 neighbours' slivers and edge gutters.
 
 The selected work section sits under the hero's horizon arc: "selected work" clears the arc
-at every width (lowered 74px on desktop and 180px at 760px and below, where the heading sits
-at the arc's lower left end); the bottom spacing gives the same amount back, plus the line
+at every width (lowered 162px on desktop, 88px more than before so the rim passes above
+"Hiring a developer?", and 180px at 760px and below, where the heading sits at the arc's
+lower left end); the bottom spacing gives the same amount back, plus the line
 the old tile numbers filled, so the scope band does not move. The Hiring panel may touch the arc.
 
 The row is endless. home.js copies the nine tiles into a set before and a set after them
@@ -334,14 +356,15 @@ current pick), keyboard index changes and fresh or same-page `#slug` links land 
 `.ins-panel` below the fixed header rather than leaving the visitor at the index.
 
 ### Services
-Three glass tier panels (Business is `thick` with a faint amber outline and the badge); each
+Three glass tier panels (Business is `thick` with an amber inset hairline and the badge); each
 has a mono tag, title, "Best for", a diamond list and a glass quote button aligned to the
-panel's foot. "Every tier includes" chips sit centred below.
+panel's foot. The diamond list folds like the process rail (hover, focus inside the tier, or
+the "+" on touch); side by side the three tiers share one height, folded and open. "Every tier includes" chips sit centred below.
 
 ### About
 Portrait in a clear glass frame beside the heading, lede and contact buttons; the serif aside
 with the facts as rows; the six principles as two columns of diamond rows; the stack as rows
-of chips in one glass panel; the approach as rows with evidence links.
+of chips (amber text, shimmer on hover) in one frosted glass panel; the approach as rows with evidence links.
 
 ### Case studies
 Mono breadcrumb, left-aligned title and lede, a glass facts strip, glass action buttons, the
@@ -368,19 +391,33 @@ Escape and Close dismiss it and return focus to its visible trigger.
 
 ## 6. Motion
 
-The set is fixed (owner's saved settings): glare and amber hover on every button and clickable
-panel; the play/pause morph; the Copied check; press feel; the cursor spotlight on glass panels;
-blur-up headline words with one amber sweep; stars focusing in; depth tilt; the cursor lens;
-the horizon crossing sweep with a softened ripple. Springs are `--spring` and `--spring-soft`
+The set is fixed (owner's saved settings, extended by the black-hole FX round, 2026-11-16):
+the glare (shimmer) on every clickable glass button and panel, the tech pills and the contact
+menu's items; amber hover; the play/pause morph; the Copied check; press feel; the cursor
+spotlight on glass panels; blur-up headline words with one amber sweep; depth tilt; the cursor
+lens; stars twinkling (amplitude 1, rate ×1.6) with cross glints on 7% of near stars, at about a quarter strength across the sky and up to 70% around the cursor and scroll; occasional shooting stars (curving
+into the hole and flaring at the rim when it fills the screen, straight and tilted away when the
+screen is mostly sky); stars just outside a rim smeared toward it; the black hole's soft rim
+with embers, a 26 s swirl, and the crossing sweep and ripple once per pass; the interior's calm
+points falling to the centre and a dust spiral; the page transition; folding panels.
+
+- **Page transition** (`warp.js`, cover script in `Base.astro`): the first page of a visit
+  plays the full fall-in (about 2 s); links to Projects, Services, About and a case study dim
+  the page (340 ms) and the next page emerges from the centre (620 ms). Other links are a
+  plain cut. It plays over a page that is already live: it takes no pointer events, and any
+  click, key, wheel or touch finishes it. If the script never runs, the cover lifts after 3 s.
+- Every ease in the sky and the hole is per unit of time, the same at 60 and 120Hz. Springs are `--spring` and `--spring-soft`
 (`material.css`).
 
-- **Reduced motion:** every effect stops; the galaxy is one still frame; the process rail is
+- **Reduced motion:** every effect stops; the galaxy and the hole's interior are one still
+  frame (no shooting stars, embers, sweep or ripple), and there is no transition cover; the process rail is
   fully drawn; the tours start paused. One-shot load effects (scroll reveal, the headline
   sweep) read the setting at load; the tours and the galaxy follow a change made mid-visit.
   The process rail follows a change only when reduced motion was off at load (on at load, it
   stays fully drawn). Lens mounting does not read the setting: the refraction is static.
 - **Save-Data:** the same, plus every transition and animation stops (`.save-data`).
-- The hero is never hidden while fonts load (no intro wait).
+- The hero is never hidden while fonts load (no intro wait). The transition's cover is the one
+  allowed cover: it never blocks input and lifts within about 2 s (3 s failsafe).
 - **Tours:** pointer and focus holds, an offscreen surface and a hidden browser tab temporarily
   hold autoplay. An open Project details dialog also holds the Inspector tour; both dialog
   state changes and the timer callback check that hold. Manual browsing pauses until Play:
@@ -400,10 +437,17 @@ the horizon crossing sweep with a softened ripple. Springs are `--spring` and `-
 - Measure text-on-glass contrast over the brightest backdrop it can sit on.
 - Keep one obvious contact action per page (the island's "check me out" and the closer).
 - Reuse `.p-head`, `.gpanel`, `.rows`, `.dia`, `.pill`, `.link-go` before writing new rules.
+- Keep content that folds or reveals on hover (`.rv` panels and any future disclosure) in the
+  accessibility tree while hidden: clip it (grid `0fr` or `max-height: 0` with `overflow: hidden`,
+  `opacity: 0`), never `display: none` or `visibility: hidden`. The control that opens it is a
+  real `<button>` whose `aria-expanded` always equals what is shown. Why: screen-reader visitors
+  must get the same text sighted visitors can reveal (owner, 2026-11-16).
 
 ### Don't
 - No amber-filled buttons, no underlined accent words, no second warm colour.
 - No glass text below 4.5:1, no text on a bare canvas region without enough contrast.
 - No light theme, no `data-theme`, no `prefers-color-scheme` branches.
-- No new effects outside the motion set; nothing that hides the hero for a reveal.
-- No gradient blobs, identical icon-cards or hero-metric templates (PRODUCT.md anti-references).
+- No new effects outside the motion set; nothing that hides the hero for a reveal (the page
+  transition in section 6 is the one cover, and it never blocks input).
+- No gradient blobs or glow pools, no nebula wash, no identical icon-cards or hero-metric
+  templates (PRODUCT.md anti-references).

@@ -53,7 +53,7 @@ function morph(b) {
 }
 
 // ---------- Cursor spotlight on glass panels ----------
-const SPOT = '.tile, .prail, .bento .wide, .works-head .hire, .ins-body.glass';
+const SPOT = '.tile, .prail, .works-head .hire, .ins-body.glass';
 function spot(el) {
   if (el._fxSpot) return; el._fxSpot = true;
   if (getComputedStyle(el).position === 'static') el.classList.add('fx-rel');
