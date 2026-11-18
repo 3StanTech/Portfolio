@@ -533,9 +533,10 @@ dialog.pm::backdrop { background: rgb(0 0 0 / .55); -webkit-backdrop-filter: blu
   .bento .prail.rv.is-open { padding-block: 28px; }
   .prail.rv.is-open li { grid-template-rows: auto 1fr; row-gap: 8px; }
 }
-/* Folding never moves what is below: site.js reserves each panel's open height (--rv-gap,
-   the difference, as a bottom margin while folded) and holds the group's height, so the
-   closer and its horizon sit where they would with the panels open. */
+/* On hover devices folding never moves what is below: rvReserve reserves each panel's open
+   height (--rv-gap, the difference, as a bottom margin while folded) and holds the group's
+   height, so the closer and its horizon sit where they would with the panels open. Without
+   hover nothing is reserved: a tap on "+" opens a panel and the page grows. */
 .bento, .svc-tiers { align-items: start; align-content: start; }
 .rv { margin-bottom: var(--rv-gap, 0px); }
 .rv.is-open, html.rv-probe .rv { margin-bottom: 0; }
@@ -553,10 +554,12 @@ html:not(.rv-ready) .rv-tog { display: none; }
   :is(html.rv-probe, html:not(.rv-ready)) .bento .prail.rv { padding-block: 28px; }
   :is(html.rv-probe, html:not(.rv-ready)) .prail.rv li { grid-template-rows: auto 1fr; row-gap: 8px; }
 }
-/* Side by side, the three tiers share one height folded and open. */
+/* Side by side, the folded tiers share the tallest folded height (--tier-fold, set by
+   rvReserve) and only the open one grows; on hover devices the group's held height keeps
+   the closer still, on touch the row grows. */
 @media (min-width: 961px) {
-  .svc-tiers { align-items: stretch; }
-  .svc-tier.rv { margin-bottom: 0; }
+  .svc-tiers { align-items: start; }
+  .svc-tier.rv { margin-bottom: 0; min-height: var(--tier-fold, auto); }
 }
 @media (prefers-reduced-motion: reduce) { .rv, .rv *, .rv .dia { transition: none !important; } }
 .works-head .hire-t strong .hire-dev { font: inherit; letter-spacing: inherit; color: var(--amber); } /* every .hire-t span is otherwise styled as the subtitle */

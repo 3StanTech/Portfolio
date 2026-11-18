@@ -400,13 +400,15 @@ for (const panel of $$('.rv')) {
     if (hoverDevice.matches && lastPointer === 'touch' && !e.target.closest('a, button')) toggle();
   });
 }
-// Reserve each folding panel's open height so nothing below it moves. The measuring runs
-// first from the inline script in Base.astro, right after the page content and before the
-// first paint (window.rvReserve); here it runs again once fonts and images have settled and
-// when the width changes.
+// Reserve each folding panel's open height on hover devices so nothing below it moves (on
+// touch nothing is reserved). The measuring runs first from the inline script in Base.astro,
+// right after the page content and before the first paint (window.rvReserve); here it runs
+// again once fonts and images have settled, when the width changes and when hover support
+// changes (a tablet docked to a mouse, say).
 const reserve = () => window.rvReserve?.();
 document.fonts?.ready.then(reserve);
 addEventListener('load', reserve);
+matchMedia('(hover: none)').addEventListener('change', reserve);
 let rvW = innerWidth;
 addEventListener('resize', () => { if (innerWidth !== rvW) { rvW = innerWidth; reserve(); } });
 

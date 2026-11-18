@@ -1,9 +1,11 @@
 // The black hole, locked to the page (black-hole FX, ported from the approved mock's hole.js).
 // The interior and the rims live in the document and scroll with it on the browser's own
-// scrolling thread, so they never trail the content; only brightness is computed per frame:
+// scrolling thread, so they never trail the content. Nothing is measured per frame: the rims
+// are re-composited for brightness and the interior canvas is redrawn, from cached geometry:
 //   .bh-layer  absolute, document-sized, behind the content (after the sky canvas)
 //     .bh-hole the interior: black, its arc-shaped edges cut by clip-path; inside it a sticky
-//              viewport-sized canvas draws calm points falling to the centre and a dust spiral
+//              viewport-sized canvas draws calm points falling to the hole's middle (fixed in
+//              the page) and a dust spiral
 //     .bh-rim  one canvas per horizon, placed at its apex; the glow is pre-rendered as a true
 //              soft falloff (blurred shadows, never stacked hard strokes) and re-composited per
 //              frame for heat, a slow swirl, the crossing sweep and ripple, embers and flares.
@@ -37,7 +39,7 @@ export function startHole() {
   });
   const rIn = rims.find((r) => r.dir === 'in'), rOut = rims.find((r) => r.dir === 'out');
 
-  let w = 0, vh = 0, lastW = -1, dpr = 1, geom = null, maxSag = 0, G = 140, kk = 1, docH = 0, boxTop = 0, boxH = 0;
+  let w = 0, vh = 0, lastW = -1, dpr = 1, geom = null, maxSag = 0, G = 140, kk = 1, docH = 0, boxTop = 0, boxH = 0, holeMid = 0, inH = 0;
   const pal = {};
   const readPal = () => Object.assign(pal, {
     r1: rgb('--rim-1', '194 65 12'), r2: rgb('--rim-2', '217 110 30'), r3: rgb('--rim-3', '233 162 92'), r4: rgb('--rim-4', '255 214 160'), r5: rgb('--rim-5', '255 246 234'),
@@ -72,11 +74,13 @@ export function startHole() {
     const bottom = rOut ? rOut.apex : docH;
     boxH = Math.max(0, bottom - boxTop);
     box.style.top = boxTop + 'px'; box.style.height = boxH + 'px';
+    holeMid = boxTop + boxH / 2; // the interior's centre: fixed in the page, it scrolls with the content
     const pts = [], N = 96;
     for (let i = 0; i <= N; i++) { const x = w * i / N; pts.push(`${x.toFixed(1)} ${(rIn ? sagAt(x, w, geom) : 0).toFixed(1)}`); }
     for (let i = N; i >= 0; i--) { const x = w * i / N; pts.push(`${x.toFixed(1)} ${(boxH - (rOut ? sagAt(x, w, geom) : 0)).toFixed(1)}`); }
     box.style.clipPath = `path('M ${pts.join(' L ')} Z')`;
-    interior.size();
+    inH = inCv.clientHeight; // the sticky canvas's height (100lvh), read here, not per frame
+    interior.size(w, boxH);
     schedule();
   }
   // Local y of the arc in a rim canvas, in CSS px.
@@ -110,11 +114,11 @@ export function startHole() {
     return out;
   }
 
-  const interior = well(inCtx, inCv, pal);
+  const interior = well(inCtx, inCv, pal, schedule);
 
   // ---------- Per-frame ----------
   let raf = 0, last = performance.now(), t = 0, speed = 0, lastSY = scrollY;
-  const visible = (r) => { const top = r.top - scrollY; return top < vh + 40 && top + r.h > -40; };
+  const visible = (r) => { const top = r.top - scrollY; return top < innerHeight + 40 && top + r.h > -40; };
 
   // A soft band of one pre-rendered layer, centred at u (0..1 across the width).
   function band(r, src, uc, half, alpha, colour) {
@@ -204,12 +208,15 @@ export function startHole() {
     if (!frozen) schedule();
   }
   // The visible part of the interior, in viewport px.
+  // vh is width-keyed (it shapes the arc); what is on screen uses the current innerHeight. The
+  // sticky canvas's offset is worked out from the hole's box (it sticks at 0 between the box's
+  // top and the point where its bottom reaches the box's bottom), so no layout is read per frame.
   function view() {
-    const top = rIn ? rIn.apex - scrollY : -1e5, bot = rOut ? rOut.apex - scrollY : docH - scrollY;
-    if (top > vh || bot < 0) return null;
-    const rect = inCv.getBoundingClientRect();
-    const y0 = Math.max(0, top), y1 = Math.min(vh, bot);
-    return { y0, y1, cx: w / 2, cy: (y0 + y1) / 2, offset: rect.top };
+    const H = innerHeight, sy = scrollY;
+    const top = rIn ? rIn.apex - sy : -1e5, bot = rOut ? rOut.apex - sy : docH - sy;
+    if (top > H || bot < 0) return null;
+    const y0 = Math.max(0, top), y1 = Math.min(H, bot);
+    return { y0, y1, cx: w / 2, cy: holeMid - sy, offset: Math.max(boxTop - sy, Math.min(0, boxTop + boxH - inH - sy)) };
   }
   function schedule() { if (!raf && !document.hidden) raf = requestAnimationFrame(frame); }
 
@@ -260,24 +267,79 @@ export function startHole() {
 
 // ---------- The interior: the gravity well ----------
 // Draws into the sticky interior canvas in viewport coordinates (the canvas's own offset from
-// the top of the screen is undone), so its motion stays put while the page scrolls past it;
-// the clip-path on .bh-hole keeps it inside the rims. Calm points fall straight at the centre,
-// gentle far out and quickening near it, each with a faint tail; slow dust spirals in.
-function well(ctx, cv, pal) {
-  let stars = [], dust = [], bw = -1, Rm = 600;
+// the top of the screen is undone); the clip-path on .bh-hole keeps it inside the rims. The
+// centre is the hole's middle in the page (halfway between its two edges), so it scrolls with
+// the content like a real object, and points spawn across the whole hole, not one screen.
+// Calm points fall straight at the centre, gentle far out and quickening near it, each with a
+// faint tail; slow dust spirals in. The count keeps the on-screen density as the hole grows.
+function well(ctx, cv, pal, onChange) {
+  let stars = [], dust = [], bw = -1, bh = -1, bcw = -1, bch = -1, Rm = 600, recountT = 0;
   const rand = mulberry(53);
-  const spawn = (s, outer) => { s.r = Rm * (outer ? 0.75 + 0.3 * rand() : 0.08 + 0.95 * rand()); s.th = rand() * 6.283; s.age = outer ? 0 : 5; return s; };
+  // Points fall inward at a speed set by pull(r) and respawn evenly between 0.75 and 1.05 of
+  // the field radius; at radius r a point spends dr / pull(r), weighted by the share of respawns
+  // that start beyond r, so in the steady state that is where points are found. steady()
+  // integrates that from the inner cutoff to the outer respawn edge once per resize (fixed grid,
+  // the same on every visit) and returns the share of the time a point spends on one cw x ch
+  // screen around the centre, and a sampler that places new points in the same proportion, so
+  // the field starts as it will look a minute later.
+  const starPull = (r, R) => 1.4 * (0.6 + 1.6 * (1 - r / R) ** 2);
+  const dustPull = (r, R) => 0.5 + r / R;
+  const steady = (R, pull, rMin, cw, ch) => {
+    const NS = 160, NA = 72, rMax = 1.05 * R, dr = (rMax - rMin) / NS, cdf = new Float64Array(NS);
+    let tot = 0, tin = 0;
+    for (let i = 0; i < NS; i++) {
+      const r = rMin + (i + 0.5) * dr, t = dr / pull(r, R) * Math.min(1, (rMax - r) / (0.3 * R));
+      let k = 0;
+      for (let j = 0; j < NA; j++) { const th = (j + 0.5) / NA * 6.283; if (Math.abs(r * Math.cos(th)) < cw / 2 && Math.abs(r * Math.sin(th) * 0.82) < ch / 2) k++; }
+      tot += t; tin += t * k / NA; cdf[i] = tot;
+    }
+    const sample = () => { const u = rand() * tot; let lo = 0, hi = NS - 1; while (lo < hi) { const m = (lo + hi) >> 1; if (cdf[m] < u) lo = m + 1; else hi = m; } return rMin + (lo + rand()) * dr; };
+    return { share: Math.max(tin / tot, 1e-4), sample };
+  };
+  // outer: a respawn at the rim of the field; otherwise a point placed by sample(). A star keeps
+  // its direction until it respawns, so it is stored once.
+  const spawn = (s, outer, sample) => {
+    s.r = outer ? Rm * (0.75 + 0.3 * rand()) : sample(); s.th = rand() * 6.283; s.age = outer ? 0 : 5;
+    if ('c' in s) { s.ux = Math.cos(s.th); s.uy = Math.sin(s.th) * 0.82; }
+    return s;
+  };
   const fit = () => {
     const dpr = Math.min(2, devicePixelRatio || 1), W = Math.round(cv.clientWidth * dpr), H = Math.round(cv.clientHeight * dpr);
     if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
   };
+  // The counts are set so one screen around the centre shows a quarter more points than the
+  // earlier one-screen field did (owner, 2026-11-18): that field's count times its on-screen
+  // share, over this field's share; capped for the longest pages. rebuild: a new width makes a
+  // new field; otherwise the points in flight are kept and some are added or dropped, so
+  // nothing jumps (added ones fade in, or appear at once when the interior is still).
+  const recount = (rebuild) => {
+    recountT = 0;
+    const cw = bcw, ch = bch, RmView = Math.hypot(cw, ch) / 2 + 40, was = clamp(Math.round(cw * ch * 0.00012), 60, 200);
+    const sv = steady(RmView, starPull, 12, cw, ch), sf = steady(Rm, starPull, 12, cw, ch);
+    const dv = steady(RmView, dustPull, 10, cw, ch), df = steady(Rm, dustPull, 10, cw, ch);
+    const n = clamp(Math.round(1.25 * was * sv.share / sf.share), 75, 1000);
+    const nd = clamp(Math.round(1.25 * was * 1.8 * dv.share / df.share), 135, 1800);
+    const star = () => spawn({ z: rand(), v: 4 + 10 * rand(), c: rand() > 0.82 ? 'steelLight' : rand() > 0.9 ? 'r3' : 'white' }, false, sf.sample);
+    const mote = () => spawn({ z: rand(), v: 2 + 3 * rand(), s: 0.7 + rand() * 1.3, a: 0.08 + 0.16 * rand() }, false, df.sample);
+    const age = still() ? 5 : 0;
+    const resize = (arr, len, make) => (rebuild ? Array.from({ length: len }, make) : arr.length > len ? arr.slice(0, len) : arr.concat(Array.from({ length: len - arr.length }, () => Object.assign(make(), { age }))));
+    stars = resize(stars, n, star);
+    dust = resize(dust, nd, mote);
+  };
   return {
-    size() {
-      fit(); const w = cv.clientWidth, h = cv.clientHeight; if (w === bw) return; bw = w;
-      Rm = Math.hypot(w, h) / 2 + 40;
-      const n = clamp(Math.round(w * h * 0.00012), 60, 200);
-      stars = Array.from({ length: n }, () => spawn({ z: rand(), v: 4 + 10 * rand(), c: rand() > 0.82 ? 'steelLight' : rand() > 0.9 ? 'r3' : 'white' }, false));
-      dust = Array.from({ length: Math.round(n * 1.8) }, () => spawn({ z: rand(), v: 2 + 3 * rand(), s: 0.7 + rand() * 1.3, a: 0.08 + 0.16 * rand() }, false));
+    // hw x hh: the hole's size in the page. The radius reaches its far corners (y is drawn
+    // squashed by 0.82) and follows every layout change at once; the counts are worked out
+    // again only once the size has held for 250ms (a panel folding resizes the hole on every
+    // frame of its transition), and that recount asks for a frame. A zero size (no layout yet)
+    // is skipped and cancels a pending recount.
+    size(hw, hh) {
+      fit(); const cw = cv.clientWidth, ch = cv.clientHeight;
+      if (!(hw > 0 && hh > 0 && cw > 0 && ch > 0)) { if (recountT) { clearTimeout(recountT); recountT = 0; bh = -1; } return; } // a cancelled recount rearms on the next valid size
+      if (hw === bw && hh === bh && cw === bcw && ch === bch) return;
+      const rebuild = hw !== bw; bw = hw; bh = hh; bcw = cw; bch = ch;
+      Rm = Math.hypot(hw / 2, hh / 2 / 0.82) + 40;
+      clearTimeout(recountT);
+      if (rebuild) recount(true); else recountT = setTimeout(() => { recount(false); onChange(); }, 250);
     },
     draw(info, dt, frozen, speed) {
       const dpr = Math.min(2, devicePixelRatio || 1);
@@ -288,7 +350,7 @@ function well(ctx, cv, pal) {
       for (const d of dust) {
         if (!frozen) { d.th += dt * 0.05 * (Rm / (d.r + 90)) ** 0.8; d.r -= dt * d.v * (0.5 + d.r / Rm) * (1 + 2 * speed); d.age += dt; if (d.r < 10) spawn(d, true); }
         const x = cx + Math.cos(d.th) * d.r, y = cy + Math.sin(d.th) * d.r * 0.82;
-        if (y < info.y0 - 4 || y > info.y1 + 4) continue;
+        if (y < info.y0 - 4 || y > info.y1 + 4 || x < -4 || x > 2 * cx + 4) continue;
         ctx.globalAlpha = d.a * smooth(d.r / 90) * smooth(d.age / 2); ctx.fillStyle = `rgb(${pal.r3})`;
         ctx.fillRect(x, y, d.s, d.s);
       }
@@ -298,8 +360,8 @@ function well(ctx, cv, pal) {
           s.r -= dt * s.v * pull * (1 + 5 * speed); s.age += dt;
           if (s.r < 12) spawn(s, true);
         }
-        const ux = Math.cos(s.th), uy = Math.sin(s.th) * 0.82, x = cx + ux * s.r, y = cy + uy * s.r;
-        if (y < info.y0 - 80 || y > info.y1 + 80) continue;
+        const ux = s.ux, uy = s.uy, x = cx + ux * s.r, y = cy + uy * s.r;
+        if (y < info.y0 - 80 || y > info.y1 + 80 || x < -80 || x > 2 * cx + 80) continue;
         const A = (0.14 + 0.4 * s.z) * smooth(s.r / 70) * smooth(s.age / 1.5), c = pal[s.c];
         // A point with a faint tail behind it, so its direction reads; the tail stretches on scroll.
         const nearC = 1 - clamp(s.r / Rm, 0, 1), len = 3 + 9 * nearC * s.z + 120 * speed * s.z * (s.r / Rm);

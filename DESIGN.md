@@ -169,7 +169,8 @@ approved mock round). It is **dark only**: there is no light theme, no theme tog
   in `Base.astro`, started by `src/scripts/site.js` with the renderer in `src/scripts/galaxy.js`):
   stars on pure black, no nebula and no glow pools. A black hole (`src/scripts/hole.js`) lies
   between the hero's horizon and every closer's: its interior and soft rims live in the
-  document, so they scroll with the content and never trail it. Pages change through a
+  document, so they scroll with the content and never trail it; the interior's points fall
+  toward the hole's middle, which is fixed in the page. Pages change through a
   fall-in transition (`src/scripts/warp.js`).
 - Glass for controls and panels only: lens glass on Glasswork (MIT, `src/vendor/glasswork/`),
   set in `src/styles/material.css`. The lens is mounted in every browser; Chromium draws the
@@ -310,8 +311,9 @@ work rail (nine glass tiles without numbers, an endless row, 5s tour with pause/
 the Hiring panel left of the heading, "developer" in amber), the scope band (the process rail
 alone: a steel-blue line and amber step names; its descriptors fold until hover, keyboard
 focus or the "+" button on touch, and stay readable to screen readers while folded), the closer.
-Folding panels reserve their open height (`site.js` `reserve()`), so the closer and its
-horizon never move when one opens.
+On mouse and pen devices folding panels reserve their open height (`site.js` `reserve()`), so
+the closer and its horizon never move when one opens. On touch (`hover: none`) nothing is
+reserved: a tap on "+" opens a panel and the page grows, and a second tap folds it.
 
 The hero actions keep their full labels and DOM order: one row from 795px; two pairs at
 600–794px; at 599px and below, Email and Call each occupy a row above the Résumé/GitHub pair.
@@ -359,7 +361,7 @@ current pick), keyboard index changes and fresh or same-page `#slug` links land 
 Three glass tier panels (Business is `thick` with an amber inset hairline and the badge); each
 has a mono tag, title, "Best for", a diamond list and a glass quote button aligned to the
 panel's foot. The diamond list folds like the process rail (hover, focus inside the tier, or
-the "+" on touch); side by side the three tiers share one height, folded and open. "Every tier includes" chips sit centred below.
+the "+" on touch); side by side the folded tiers share one height, and only the open tier grows. "Every tier includes" chips sit centred below.
 
 ### About
 Portrait in a clear glass frame beside the heading, lede and contact buttons; the serif aside
